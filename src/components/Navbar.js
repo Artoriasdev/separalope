@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { AvatarSVG, LogoSVG } from "../assets/images/svg";
+import Login from "./Login";
 
 const Navbar = () => {
   return (
@@ -23,7 +25,8 @@ const Navbar = () => {
                 Iniciar Sesión
               </button>
               <ul>
-                <li>soy un usuario</li>
+                <li><Link path="/login" component={Login}>Soy usuario</Link></li>
+                <li>sou un proveedor</li>
               </ul>
             </li>
             <li>

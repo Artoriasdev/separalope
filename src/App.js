@@ -15,6 +15,7 @@ import FullPageLoader from "./components/FullPageLoader";
 import { StyledGlobal } from "./helpers/styled";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import Login from "./components/Login";
 // import HomePage from "./pages/Home";
 
 const MavenProRegular = {
@@ -123,6 +124,7 @@ function App() {
           <Navbar />
           <Switch>
             <StyledMain f="1 0 auto" mt={"5.9rem"} bg={"#fff"}>
+            <Route exact path="/login" component={Login}/>
               {/* <Route path="/" exact component={HomePage} /> */}
               <Redirect from="*" to="/" />
             </StyledMain>
