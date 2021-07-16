@@ -1,64 +1,43 @@
 import React from "react";
 import { ArrowCircleSVG } from "../assets/images/svg";
-import { StyledButton, StyledFigure } from "../helpers/styled";
-import '../sass/login.scss';
+import "../sass/login.scss";
 
+const Login = () => {
+  return (
+    <div>
+      <button className="arrow__button">
+        <figure>
+          <ArrowCircleSVG />
+        </figure>
+      </button>
 
-const Login = () =>{
-    return(
-        <>
+      <div className="auth__main">
+        <div className="auth__box-container">
+          <h1>Inicia sesión</h1>
 
-            <StyledButton>
-                <StyledFigure>
-                    <figure className="arrow">
-                    
-                        <ArrowCircleSVG/>
+          <form>
+            <input
+              type="text"
+              placeholder="Email"
+              name="email"
+              className="auth__input"
+              autoComplete="off"
+            />
 
-                    </figure>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              className="auth__input"
+            />
 
-                 </StyledFigure>
-            </StyledButton>
-
-        <div className="auth__main">
-
-
-            <div className="auth__box-container">
-            
-                <h1>Inicia sesión</h1>
-                
-                <form>
-                    <input 
-                        type="text"
-                        placeholder="Email"
-                        name="email"
-                        className="auth__input"
-                        autoComplete="off"
-                    />
-
-                    <input 
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                        className="auth__input"
-                    />
-
-
-                    <button
-                        type="submit"
-                        className="btn btn-primary btn-block"
-                    >
-                        Iniciar sesión
-                    </button>
-                
-                </form>
-            
-
-            </div>
-            
-
+            <button type="submit" className="btn btn-primary btn-block">
+              Iniciar sesión
+            </button>
+          </form>
         </div>
-        </>
-
-    );
+      </div>
+    </div>
+  );
 };
 export default Login;

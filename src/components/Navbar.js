@@ -24,12 +24,24 @@ const Navbar = () => {
                 Iniciar Sesión
               </button>
               <ul>
-                <li><Link to="/login">Soy usuario</Link></li>
-                <li><Link to="/login">Soy proovedor</Link></li>
+                <li>
+                  <Link to="/login">Soy usuario</Link>
+                </li>
+                <li>
+                  <Link to="/login">Doy Servicio</Link>
+                </li>
               </ul>
             </li>
             <li>
               <button className="buttonNav normal">Regístrate</button>
+              <ul>
+                <li>
+                  <Link to="/register/client">Soy usuario</Link>
+                </li>
+                <li>
+                  <Link to="/register/provider">Doy servicio</Link>
+                </li>
+              </ul>
             </li>
             <li />
           </ul>
