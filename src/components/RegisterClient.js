@@ -12,6 +12,7 @@ class RegisterClient extends Component {
       typeDocs: [],
       typeCategorys: [],
     };
+    console.log("asdas");
   }
 
   componentDidMount() {
@@ -48,7 +49,8 @@ class RegisterClient extends Component {
     });
   };
 
-  handleInfoSubmit = () => {
+  handleInfoSubmit = (CustomerModel) => {
+    console.log("entra");
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -58,12 +60,14 @@ class RegisterClient extends Component {
     let linkDocumentsApi =
       "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/registerCustomer";
 
-    const rspApi = Axios.post(linkDocumentsApi, {
+    const rspApi = Axios.post(linkDocumentsApi, CustomerModel, {
       headers: headers,
     }).then((response) => {
       console.log(response);
       return response;
     });
+
+    return rspApi;
   };
 
   render() {
@@ -82,7 +86,29 @@ class RegisterClient extends Component {
           <div className="auth__box-container">
             <h3 className="register__subtitle">Soy un usuario</h3>
             <h1>Registra tu cuenta</h1>
-            <Formik onSubmit={this.handleInfoSubmit()}>
+            <Formik
+              ref={(ref) => (this.form = ref)}
+              initialValues={{}}
+              validate={{}}
+              onSubmit={(values, { setSubmitting }) => {
+                setSubmitting(false);
+                const CustomerModel = {
+                  confirmPassword: "",
+                  documentNumber: "",
+                  documentType: "",
+                  email: "",
+                  id: 0,
+                  lastName: "",
+                  mobile: "",
+                  name: "",
+                  password: "",
+                };
+
+                //ejemplo:
+                // CustomerModel.password = variablequeTieneElPassword
+                this.handleInfoSubmit(CustomerModel);
+              }}
+            >
               {({
                 values,
                 handleBlur,
