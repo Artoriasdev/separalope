@@ -6,6 +6,7 @@ import Axios from "axios";
 class RegisterProvider extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       typeDocs: [],
       typeCategorys: [],
@@ -76,7 +77,10 @@ class RegisterProvider extends Component {
   render() {
     return (
       <>
-        <button className="arrow__button">
+        <button
+          className="arrow__button"
+          onClick={() => this.props.history.goBack()}
+        >
           <figure>
             <ArrowCircleSVG />
           </figure>
