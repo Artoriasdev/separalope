@@ -53,10 +53,10 @@ class RegisterClient extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
+    let linkRegisterApi =
       "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/registerCustomer";
 
-    const rspApi = Axios.post(linkDocumentsApi, CustomerModel, {
+    const rspApi = Axios.post(linkRegisterApi, CustomerModel, {
       headers: headers,
     }).then((response) => {
       console.log(response);

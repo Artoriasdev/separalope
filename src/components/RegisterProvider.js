@@ -77,10 +77,10 @@ class RegisterProvider extends Component {
       Authorization: "",
     };
     //cambiar link de api
-    let linkDocumentsApi =
+    let linkRegisterApi =
       "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/registerCustomer";
 
-    const rspApi = Axios.post(linkDocumentsApi, ProviderModel, {
+    const rspApi = Axios.post(linkRegisterApi, ProviderModel, {
       headers: headers,
     }).then((response) => {
       console.log(response);
