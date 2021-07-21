@@ -11,15 +11,13 @@ class Login extends Component {
   }
 
   handleLogin = (LoginModel) => {
-    console.log("entra");
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: "",
     };
-    //cambiar link de api
     let linkLoginApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/registerCustomer";
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/user/authenticate";
 
     const rspApi = Axios.post(linkLoginApi, LoginModel, {
       headers: headers,
@@ -56,14 +54,16 @@ class Login extends Component {
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 const LoginModel = {
-                  email: "",
+                  username: "",
                   password: "",
+                  workflow: "",
                 };
 
-                LoginModel.email = values.correo;
+                LoginModel.username = values.correo;
                 LoginModel.password = values.contraseña;
+                LoginModel.workflow = this.props.match.params.value;
 
-                // this.handleLogin(LoginModel)
+                this.handleLogin(LoginModel);
               }}
             >
               {({

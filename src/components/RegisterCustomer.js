@@ -59,7 +59,6 @@ class RegisterClient extends Component {
     const rspApi = Axios.post(linkRegisterApi, CustomerModel, {
       headers: headers,
     }).then((response) => {
-      console.log(response);
       return response;
     });
 
@@ -102,18 +101,12 @@ class RegisterClient extends Component {
                   documentNumber: "",
                   documentType: "",
                   email: "",
-                  id: 0,
                   lastName: "",
                   mobile: "",
                   name: "",
                   password: "",
                 };
 
-                //ver los values con un console.log(values)
-                //colocar las variables a los initialValues que iran a los input, que luego estos se igualaran a los valores de CustomerModel,fijarse ejemplo en la otra fuente
-
-                //ejemplo:
-                // CustomerModel.password = variablequeTieneElPassword
                 CustomerModel.name = values.nombre;
                 CustomerModel.lastName = values.apellido;
                 CustomerModel.email = values.correo;
@@ -124,8 +117,6 @@ class RegisterClient extends Component {
                 CustomerModel.confirmPassword = values.repContraseña;
 
                 this.handleInfoSubmit(CustomerModel);
-                // console.log(CustomerModel);
-                // console.log(values);
               }}
             >
               {({

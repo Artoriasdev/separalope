@@ -16,8 +16,8 @@ import { StyledGlobal } from "./helpers/styled";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Login from "./components/Login";
-import RegisterClient from "./components/RegisterClient";
-import RegisterProvider from "./components/RegisterProvider";
+import RegisterCustomer from "./components/RegisterCustomer";
+import RegisterBusiness from "./components/RegisterBusiness";
 // import HomePage from "./pages/Home";
 
 const MavenProRegular = {
@@ -126,9 +126,17 @@ function App() {
           <Navbar />
           <Switch>
             <StyledMain f="1 0 auto" mt={"5.9rem"} bg={"#fff"}>
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register/client" component={RegisterClient} />
-              <Route exact path="/register/provider" component={RegisterProvider} />
+              <Route exact path="/login/:value" component={Login} />
+              <Route
+                exact
+                path="/register/customer"
+                component={RegisterCustomer}
+              />
+              <Route
+                exact
+                path="/register/business"
+                component={RegisterBusiness}
+              />
               {/* <Route path="/" exact component={HomePage} /> */}
               <Redirect from="*" to="/" />
             </StyledMain>

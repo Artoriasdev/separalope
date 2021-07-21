@@ -25,10 +25,10 @@ const Navbar = () => {
               </button>
               <ul>
                 <li>
-                  <Link to="/login">Soy usuario</Link>
+                  <Link to="/login/C">Soy cliente</Link>
                 </li>
                 <li>
-                  <Link to="/login">Doy Servicio</Link>
+                  <Link to="/login/B">Doy servicio</Link>
                 </li>
               </ul>
             </li>
@@ -36,10 +36,10 @@ const Navbar = () => {
               <button className="buttonNav normal">Regístrate</button>
               <ul>
                 <li>
-                  <Link to="/register/client">Soy usuario</Link>
+                  <Link to="/register/customer">Soy cliente</Link>
                 </li>
                 <li>
-                  <Link to="/register/provider">Doy servicio</Link>
+                  <Link to="/register/business">Doy servicio</Link>
                 </li>
               </ul>
             </li>

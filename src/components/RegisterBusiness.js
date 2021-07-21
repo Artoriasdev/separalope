@@ -69,24 +69,20 @@ class RegisterProvider extends Component {
     });
   };
 
-  handleInfoSubmit = (ProviderModel) => {
-    console.log("entra");
+  handleInfoSubmit = (BusinessModel) => {
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: "",
     };
-    //cambiar link de api
     let linkRegisterApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/registerCustomer";
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/registerBusiness";
 
-    const rspApi = Axios.post(linkRegisterApi, ProviderModel, {
+    const rspApi = Axios.post(linkRegisterApi, BusinessModel, {
       headers: headers,
     }).then((response) => {
-      console.log(response);
       return response;
     });
-
     return rspApi;
   };
 
@@ -121,32 +117,28 @@ class RegisterProvider extends Component {
               validate={{}}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                const ProviderModel = {
+                const BusinessModel = {
                   confirmPassword: "",
                   documentNumber: "",
-                  documentType: "",
                   email: "",
                   id: 0,
-                  name: "",
+                  tradeName: "",
                   mobile: "",
                   businessName: "",
                   password: "",
-                  category: "",
+                  idCategory: "",
                 };
 
-                ProviderModel.businessName = values.razon;
-                ProviderModel.name = values.nombre;
-                ProviderModel.email = values.correo;
-                ProviderModel.mobile = values.celular;
-                ProviderModel.documentType = values.documentos;
-                ProviderModel.documentNumber = values.nroDocumento;
-                ProviderModel.password = values.contraseña;
-                ProviderModel.confirmPassword = values.repContraseña;
-                ProviderModel.category = values.categoria;
+                BusinessModel.businessName = values.razon;
+                BusinessModel.tradeName = values.nombre;
+                BusinessModel.email = values.correo;
+                BusinessModel.mobile = values.celular;
+                BusinessModel.documentNumber = values.nroDocumento;
+                BusinessModel.password = values.contraseña;
+                BusinessModel.confirmPassword = values.repContraseña;
+                BusinessModel.idCategory = values.categoria;
 
-                // this.handleInfoSubmit(ProviderModel);
-                // console.log(values);
-                // console.log(ProviderModel);
+                this.handleInfoSubmit(BusinessModel);
               }}
             >
               {({
