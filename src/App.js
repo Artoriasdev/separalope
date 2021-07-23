@@ -18,6 +18,10 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Login from "./components/Login";
 import RegisterCustomer from "./components/RegisterCustomer";
 import RegisterBusiness from "./components/RegisterBusiness";
+import BusinessMenu from "./components/BusinessMenu";
+import BusinessCategory from "./components/BusinessCategory";
+import BusinessServices from "./components/BusinessServices";
+import { Private } from "./components/Private";
 // import HomePage from "./pages/Home";
 
 const MavenProRegular = {
@@ -126,6 +130,12 @@ function App() {
           <Navbar />
           <Switch>
             <StyledMain f="1 0 auto" mt={"5.9rem"} bg={"#fff"}>
+              {/* <Private
+                path="/"
+                component={BusinessMenu}
+                isAuthenticated={false}
+              /> */}
+
               <Route exact path="/login/:value" component={Login} />
               <Route
                 exact
@@ -138,7 +148,7 @@ function App() {
                 component={RegisterBusiness}
               />
               {/* <Route path="/" exact component={HomePage} /> */}
-              <Redirect from="*" to="/" />
+              {/* <Redirect from="*" to="/" /> */}
             </StyledMain>
           </Switch>
           {/* <Footer /> */}

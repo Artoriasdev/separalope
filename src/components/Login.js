@@ -21,13 +21,24 @@ class Login extends Component {
 
     const rspApi = Axios.post(linkLoginApi, LoginModel, {
       headers: headers,
-    }).then((response) => {
-      console.log(response);
-      return response;
-    });
+    })
+      .then((response) => {
+        if (response.data.response === "true") {
+          if (LoginModel.workflow === "B") {
+            this.props.history.push("/bus");
+          }
 
-    return rspApi;
+          if (LoginModel.workflow === "C") {
+            this.props.history.push("/");
+          }
+        }
+        return response;
+      })
+      .catch(({ response }) => {
+        console.log(response.data.message);
+      });
   };
+
   render() {
     return (
       <div>
@@ -42,7 +53,7 @@ class Login extends Component {
 
         <div className="auth__main">
           <div className="auth__box-container">
-            <h1>Inicia sesión</h1>
+            <h1 className="login_tittle">Inicia sesión</h1>
 
             <Formik
               ref={(ref) => (this.form = ref)}
