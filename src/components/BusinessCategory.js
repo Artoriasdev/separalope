@@ -1,6 +1,5 @@
 import React from "react";
 import { Component } from "react";
-import "../sass/card.scss";
 
 class BusinessMenu extends Component {
   render() {

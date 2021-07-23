@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 // import './App.css';
 //importar sass
-import "./sass/index.scss";
+import "./sass/styles.scss";
 import FONT_MAVEN_REGULAR from "./assets/fonts/MavenPro-Regular.ttf";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {

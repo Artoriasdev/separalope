@@ -3,7 +3,6 @@ import { Formik } from "formik";
 import React from "react";
 import { Component } from "react";
 import { ArrowCircleSVG } from "../assets/images/svg";
-import "../sass/login.scss";
 
 class Login extends Component {
   constructor(props) {

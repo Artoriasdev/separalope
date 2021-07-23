@@ -304,3 +304,259 @@ button {
   right: -140px;
   top: 0¿px;
 }
+
+.login_tittle {
+  margin-bottom: 20px;
+}
+
+.arrow__button {
+  margin: 10px;
+  border-radius: 50%;
+  border: 0px;
+  overflow: hidden;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  height: 4rem;
+  cursor: pointer;
+  figure {
+    margin: 0;
+    height: 3rem;
+  }
+  svg {
+    width: 100%;
+    height: 3rem;
+    min-width: 3rem;
+    max-width: 3rem;
+  }
+}
+
+.auth__main {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  height: 30vw;
+  width: 80vw;
+}
+
+.auth__box-container {
+  padding: 20px;
+  width: 500px;
+}
+
+.auth__input {
+  font-family: VarelaRound-Regular, MavenPro-Regular, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #363636;
+  border: 0px;
+  border-bottom: 1px solid #d8d8d8;
+  font-size: 16px;
+  margin-bottom: 20px;
+  height: 20px;
+  width: 100%;
+
+  transition: border-bottom 0.3s ease;
+
+  &:focus {
+    border-bottom: 1px solid #ffdd00;
+    outline: none;
+  }
+}
+
+.auth__alert-error {
+  background-color: red;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.btn {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: transparent;
+  border: none;
+  color: #232323;
+  cursor: pointer;
+  font-size: 16px;
+
+  transition: color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #ffdd00;
+  border-radius: 4px;
+  padding: 0.8rem 1.5rem;
+
+  &:disabled {
+    background-color: lighten($color: #ffdd00, $amount: 15);
+  }
+
+  &:hover {
+    background-color: darken($color: #ffdd00, $amount: 5);
+  }
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.register__subtitle {
+  color: lighten($color: black, $amount: 50);
+}
+
+.dropdown {
+  font-family: VarelaRound-Regular, MavenPro-Regular, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #363636;
+
+  border-color: #fff transparent transparent transparent;
+  border-bottom: 1px solid #d8d8d8;
+  font-size: 16px;
+  margin-right: 10px;
+  height: 20px;
+  width: 48%;
+  transition: border-bottom 0.3s ease;
+
+  &:focus {
+    border-bottom: 1px solid #ffdd00;
+    outline: none;
+  }
+}
+
+.register__input {
+  font-family: VarelaRound-Regular, MavenPro-Regular, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #363636;
+  border: 0px;
+  border-bottom: 1px solid #d8d8d8;
+  font-size: 16px;
+  margin-bottom: 20px;
+  margin-right: 11px;
+  height: 20px;
+  width: 47%;
+
+  transition: border-bottom 0.3s ease;
+
+  &:focus {
+    border-bottom: 1px solid #ffdd00;
+    outline: none;
+  }
+}
+.mdal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 990;
+}
+
+.mdal .overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 995;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.mdal .mdal_content {
+  z-index: 999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 90%;
+  overflow: auto;
+  background: #fff;
+  box-sizing: border-box;
+  // padding: 50px;
+  padding: 25px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  // width: auto;
+  display: flex;
+  flex-direction: column;
+  // width: 70%;
+  width: 20%;
+  text-align: center;
+
+  /* This just a default width */
+  @include mobile {
+    padding: 30px;
+    width: 80%;
+  }
+}
+
+.mdal .mdal_content > div {
+  margin: 20px 0 20px;
+  text-align: center;
+  display: inline-block;
+
+  color: rgba(0, 0, 0, 0.65);
+
+  strong {
+    font-size: 24px;
+  }
+
+  u {
+    font-size: 24px;
+    color: $red;
+    font-weight: bold;
+  }
+
+  @include mobile {
+    font-size: 18px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
+  li {
+    font-size: 18px;
+  }
+}
+
+.mdal .mdal_content .buttons_wrapper {
+  padding: 20px;
+}
+
+.mdal .close_modal {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  opacity: 0.5;
+  background: none;
+  border: none;
+  transition: opacity 0.2s ease;
+}
+
+.mdal .close_modal:hover {
+  opacity: 0.9;
+}
+
+.btn__aceptar {
+  background-color: #ee3124;
+  color: white;
+  font-size: 14px;
+  border-radius: 4px;
+  height: 50px;
+  width: 200px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.files {
+  display: flex;
+}
