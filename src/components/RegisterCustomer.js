@@ -3,13 +3,19 @@ import { Formik } from "formik";
 import React from "react";
 import { Component } from "react";
 import { ArrowCircleSVG } from "../assets/images/svg";
+import { handleRegexDisable } from "../utils/utilitaries";
+import ModalSucess from "./ModalSucess";
+import { TextField, MenuItem } from "@material-ui/core";
+import Select from "@material-ui/core/Select";
 
-class RegisterClient extends Component {
+class RegisterCustomer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       typeDocs: [],
       typeCategorys: [],
+      showModalSucesss: false,
+      disclaimerModal: "",
     };
   }
 
@@ -64,9 +70,26 @@ class RegisterClient extends Component {
     return rspApi;
   };
 
+  toggleModalSuccess = () => {
+    this.setState({
+      showModalSucesss: false,
+    });
+    this.props.history.push("/login/C");
+  };
+
   render() {
     return (
       <>
+        <ModalSucess
+          show={this.state.showModalSucesss}
+          closeCallback={this.toggleModalSuccess}
+        >
+          <React.Fragment>
+            <div
+              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
+            />
+          </React.Fragment>
+        </ModalSucess>
         <button
           className="arrow__button"
           onClick={() => this.props.history.goBack()}
@@ -115,7 +138,20 @@ class RegisterClient extends Component {
                 CustomerModel.password = values.contraseña;
                 CustomerModel.confirmPassword = values.repContraseña;
 
-                this.handleInfoSubmit(CustomerModel);
+                (async () => {
+                  const responseSubmit = await this.handleInfoSubmit(
+                    CustomerModel
+                  );
+
+                  const { response } = responseSubmit.data;
+
+                  if (response === "true") {
+                    this.setState({
+                      showModalSucesss: true,
+                      disclaimerModal: "¡Registro grabado satisfactoriamente!",
+                    });
+                  }
+                })();
               }}
             >
               {({
@@ -128,7 +164,7 @@ class RegisterClient extends Component {
                 touched,
               }) => (
                 <form name="formRegister" onSubmit={handleSubmit}>
-                  <input
+                  {/* <input
                     type="text"
                     placeholder="Nombres"
                     name="nombre"
@@ -136,18 +172,61 @@ class RegisterClient extends Component {
                     autoComplete="off"
                     value={values.nombre}
                     onChange={handleChange}
-                  />
+                  /> */}
 
-                  <input
-                    type="text"
-                    placeholder="Apellidos"
-                    name="apellido"
-                    className="register__input"
-                    value={values.apellido}
-                    onChange={handleChange}
-                  />
+                  <div className="files">
+                    <TextField
+                      name="nombre"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Nombres"
+                      fullWidth
+                      value={values.nombre}
+                      error={errors.nombre && touched.razon}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginRight: "5px",
+                        marginBottom: "5px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
 
-                  <select
+                    <TextField
+                      name="apellido"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Apellidos"
+                      fullWidth
+                      value={values.apellido}
+                      error={errors.apellido && touched.nombre}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginLeft: "5px",
+                        marginBottom: "5px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+
+                    {/* <input
+                        type="text"
+                        placeholder="Apellidos"
+                        name="apellido"
+                        className="register__input"
+                        value={values.apellido}
+                        onChange={handleChange}
+                      /> */}
+                  </div>
+
+                  <div className="files">
+                    {/* <select
                     name="documentos"
                     className="dropdown"
                     value={values.documentos}
@@ -160,18 +239,68 @@ class RegisterClient extends Component {
                           {descriptionLarge}
                         </option>
                       ))}
-                  </select>
+                  </select> */}
 
-                  <input
+                    <Select
+                      style={{
+                        width: "100%",
+                        backgroundColor: "white",
+                        marginRight: "5px",
+                        marginTop: "5px",
+                        marginBottom: "5px",
+                      }}
+                      variant="outlined"
+                      value={values.documentos}
+                      error={errors.documentos && touched.documentos}
+                      name="documentos"
+                      displayEmpty
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <MenuItem disabled value={""}>
+                        <span className="empty--option">Tipo de documento</span>
+                      </MenuItem>
+                      {this.state.typeDocs &&
+                        this.state.typeDocs.map(({ id, descriptionLarge }) => (
+                          <MenuItem key={id} value={id}>
+                            {descriptionLarge}
+                          </MenuItem>
+                        ))}
+                    </Select>
+
+                    {/* <input
                     type="text"
                     placeholder="Número documento"
                     name="nroDocumento"
                     className="register__input"
                     value={values.nroDocumento}
                     onChange={handleChange}
-                  />
+                  /> */}
 
-                  <input
+                    <TextField
+                      name="nroDocumento"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Número de documento"
+                      fullWidth
+                      value={values.nroDocumento}
+                      error={errors.nroDocumento && touched.nroDocumento}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginLeft: "5px",
+                        marginTop: "5px",
+                        marginBottom: "5px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
+
+                  <div className="files">
+                    {/* <input
                     type="text"
                     placeholder="Celular"
                     name="celular"
@@ -179,18 +308,62 @@ class RegisterClient extends Component {
                     autoComplete="off"
                     value={values.celular}
                     onChange={handleChange}
-                  />
+                    /> */}
 
-                  <input
+                    <TextField
+                      name="celular"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Número de celular"
+                      fullWidth
+                      value={values.celular}
+                      error={errors.celular && touched.celular}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginRight: "5px",
+                        marginTop: "5px",
+                        marginBottom: "5px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+
+                    {/* <input
                     type="text"
                     placeholder="Correo electronico"
                     name="correo"
                     className="register__input"
                     value={values.correo}
                     onChange={handleChange}
-                  />
+                    /> */}
 
-                  <input
+                    <TextField
+                      name="correo"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Correo electrónico"
+                      fullWidth
+                      value={values.correo}
+                      error={errors.correo && touched.correo}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginLeft: "5px",
+                        marginTop: "5px",
+                        marginBottom: "5px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
+
+                  <div className="files">
+                    {/* <input
                     type="password"
                     placeholder="Contraseña"
                     name="contraseña"
@@ -198,20 +371,65 @@ class RegisterClient extends Component {
                     autoComplete="off"
                     value={values.contraseña}
                     onChange={handleChange}
-                  />
+                  /> */}
 
-                  <input
+                    <TextField
+                      name="contraseña"
+                      type="password"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Contraseña"
+                      fullWidth
+                      value={values.contraseña}
+                      error={errors.contraseña && touched.contraseña}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginRight: "5px",
+                        marginTop: "5px",
+                        marginBottom: "5px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+
+                    {/* <input
                     type="password"
                     placeholder="Repetir contraseña"
                     name="repContraseña"
                     className="register__input"
                     value={values.repContraseña}
                     onChange={handleChange}
-                  />
+                  /> */}
+                    <TextField
+                      name="repContraseña"
+                      type="password"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Repetir contraseña"
+                      fullWidth
+                      value={values.repContraseña}
+                      error={errors.repContraseña && touched.repContraseña}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginLeft: "5px",
+                        marginTop: "5px",
+                        marginBottom: "5px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
 
                   <button
                     type="submit"
                     className="btn btn-primary btn-block"
+                    style={{ marginTop: "20px" }}
                     disabled={isSubmitting}
                   >
                     Registrar
@@ -226,4 +444,4 @@ class RegisterClient extends Component {
   }
 }
 
-export default RegisterClient;
+export default RegisterCustomer;

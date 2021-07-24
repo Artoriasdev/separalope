@@ -560,3 +560,79 @@ button {
 .files {
   display: flex;
 }
+
+.card {
+  display: flex;
+  width: 272px;
+  height: 272px;
+  margin-left: 10px;
+  margin-right: 15px;
+  margin-top: 5px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  &:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    transform: scale(1.1);
+  }
+}
+
+.order-list {
+  width: 70%;
+  margin: 20px;
+  &_header {
+    background-color: #f3f3f3;
+    border: solid 1px #d9d9d9;
+    min-height: 36px;
+    color: #010101;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 2px;
+    margin-bottom: 5px !important;
+    border-radius: 3px !important;
+    border: 0px !important;
+  }
+}
+
+.servicio {
+  display: inline-block;
+  min-height: 36px;
+  vertical-align: middle;
+  line-height: 33px;
+
+  width: 40% !important;
+  padding-left: 11px !important;
+}
+.descripcion {
+  display: inline-block;
+  min-height: 36px;
+  vertical-align: middle;
+  line-height: 33px;
+
+  width: 20%;
+  padding-left: 23px !important;
+}
+.duracion {
+  display: inline-block;
+  min-height: 36px;
+  vertical-align: middle;
+  line-height: 33px;
+
+  width: 10% !important;
+}
+.precio {
+  display: inline-block;
+  min-height: 36px;
+  vertical-align: middle;
+  line-height: 33px;
+
+  width: 10%;
+}
+.citas {
+  display: inline-block;
+  min-height: 36px;
+  vertical-align: middle;
+  line-height: 33px;
+
+  width: 10% !important;
+  padding-left: 47px !important;
+}

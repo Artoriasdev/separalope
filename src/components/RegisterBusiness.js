@@ -10,7 +10,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { EMAIL_REGEXP } from "../utils/regexp";
 import { handleRegexDisable } from "../utils/utilitaries";
 
-class RegisterProvider extends Component {
+class RegisterBusiness extends Component {
   constructor(props) {
     super(props);
 
@@ -481,4 +481,4 @@ class RegisterProvider extends Component {
   }
 }
 
-export default RegisterProvider;
+export default RegisterBusiness;

@@ -11,17 +11,23 @@ import {
   StyledFigure,
   StyledTitle,
 } from "./helpers/styled";
-import FullPageLoader from "./components/FullPageLoader";
+// import FullPageLoader from "./components/FullPageLoader";
 import { StyledGlobal } from "./helpers/styled";
 import Navbar from "./components/Navbar";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+  Redirect,
+  Router,
+} from "react-router-dom";
 import Login from "./components/Login";
 import RegisterCustomer from "./components/RegisterCustomer";
 import RegisterBusiness from "./components/RegisterBusiness";
 import BusinessMenu from "./components/BusinessMenu";
 import BusinessCategory from "./components/BusinessCategory";
 import BusinessServices from "./components/BusinessServices";
-import { Private } from "./components/Private";
+// import { Private } from "./components/Private";
 // import HomePage from "./pages/Home";
 
 const MavenProRegular = {
@@ -130,11 +136,23 @@ function App() {
           <Navbar />
           <Switch>
             <StyledMain f="1 0 auto" mt={"5.9rem"} bg={"#fff"}>
+              {/* <Route exact path="/bus" component={BusinessMenu} /> */}
               {/* <Private
                 path="/"
                 component={BusinessMenu}
                 isAuthenticated={false}
               /> */}
+              <Route exact path="/business/menu" component={BusinessMenu} />
+              <Route
+                exact
+                path="/business/category"
+                component={BusinessCategory}
+              />
+              <Route
+                exact
+                path="/business/services"
+                component={BusinessServices}
+              />
 
               <Route exact path="/login/:value" component={Login} />
               <Route
