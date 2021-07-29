@@ -24,7 +24,7 @@ class Login extends Component {
       .then((response) => {
         if (response.data.response === "true") {
           if (LoginModel.workflow === "B") {
-            this.props.history.push("/bus");
+            this.props.history.push("/business/category");
           }
 
           if (LoginModel.workflow === "C") {

@@ -6,8 +6,6 @@ import { Formik } from "formik";
 import ModalSucess from "./ModalSucess";
 import { TextField, MenuItem } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { EMAIL_REGEXP } from "../utils/regexp";
 import { handleRegexDisable } from "../utils/utilitaries";
 
 class RegisterBusiness extends Component {

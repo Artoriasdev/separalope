@@ -1,13 +1,18 @@
 import React from "react";
 import { Component } from "react";
 import Axios from "axios";
+import Container from "../Modal/Container/Container";
 
 class BusinessMenu extends Component {
+
+  
+
   constructor(props) {
     super(props);
 
     this.state = {
       typeCategorys: [],
+      triggerText:"Agregar categoria"
     };
   }
 
@@ -33,7 +38,6 @@ class BusinessMenu extends Component {
       headers: headers,
     }).then((response) => {
       const { data } = response.data;
-      console.log(data);
       this.setState({
         typeCategorys: data,
       });
@@ -42,9 +46,14 @@ class BusinessMenu extends Component {
     });
   };
 
+
+
+
   render() {
     return (
+      
       <div>
+        
         <div style={{ marginLeft: "20px" }}>
           <h3>Inicio &gt; Categorias </h3>
         </div>
@@ -64,11 +73,14 @@ class BusinessMenu extends Component {
           <button
             type="submit"
             className="btn btn-primary btn-block"
-            style={{ width: 100 }}
+            style={{ width: "100px" }}
           >
             Search
           </button>
         </form>
+        
+        {/* aqui va el container */}
+        <Container triggerText={this.state.triggerText} />
 
         <ul>
           {this.state.typeCategorys &&
@@ -77,40 +89,49 @@ class BusinessMenu extends Component {
                 key={id}
                 style={{ display: "inline-block", position: "relative" }}
               >
-                <div
+                <a
                   style={{
                     backgroundImage: `url(${image})`,
+                    textDecoration: "none",
                   }}
                   className="card"
+                  href="#"
                 >
-                  <span
+                  <div
                     style={{
-                      height: "57px",
-                      width: "76px",
+                      width: "100%",
                       display: "block",
-                      margin: "0 auto",
-                      position: "relative",
-                      top: "35%",
-                      borderRadius: "40px",
                       textAlign: "center",
-                      backgroundColor: "#ffdd00",
-                      paddingTop: "20px",
+                      background: "rgba(0, 0, 0, 0.3)",
+                      paddingTop: "80px",
                     }}
                   >
-                    <img src={logo} alt={name} title={name} />
-                    <p
+                    <span
                       style={{
-                        color: "#232323",
-                        textAlign: "center",
-                        marginTop: "15px",
-                        padding: "0px",
-                        fontSize: "16px",
+                        borderRadius: "50%",
+                        backgroundColor: "#ffdd00",
+                        paddingTop: "35px",
+                        paddingLeft: "8px",
+                        paddingRight: "8px",
+                        paddingBottom: "5px",
                       }}
                     >
-                      {name}
-                    </p>
-                  </span>
-                </div>
+                      <img src={logo} alt={name} title={name} />
+                    </span>
+                    <span>
+                      <p
+                        style={{
+                          color: "#ffff",
+                          marginTop: "15px",
+                          padding: "0px",
+                          fontSize: "18px",
+                        }}
+                      >
+                        {name}
+                      </p>
+                    </span>
+                  </div>
+                </a>
               </li>
             ))}
         </ul>
