@@ -2,17 +2,15 @@ import React from "react";
 import { Component } from "react";
 import Axios from "axios";
 import Container from "../Modal/Container/Container";
+import { Button, TextField } from "@material-ui/core";
 
 class BusinessMenu extends Component {
-
-  
-
   constructor(props) {
     super(props);
 
     this.state = {
       typeCategorys: [],
-      triggerText:"Agregar categoria"
+      triggerText: "Agregar categoria",
     };
   }
 
@@ -46,14 +44,9 @@ class BusinessMenu extends Component {
     });
   };
 
-
-
-
   render() {
     return (
-      
       <div>
-        
         <div style={{ marginLeft: "20px" }}>
           <h3>Inicio &gt; Categorias </h3>
         </div>
@@ -63,22 +56,27 @@ class BusinessMenu extends Component {
         </div>
 
         <form style={{ marginLeft: "20px" }}>
-          <input
-            type="text"
-            placeholder="¿Qué estás buscando?"
-            className="register__input"
+          <TextField
+            className="TxtField"
             name="searchText"
+            placeholder="¿Qué estás buscando?"
+            variant="standard"
+            label="Buscador"
+            style={{ margin: "0 20px 20px 0", width: "80vh" }}
           />
 
-          <button
+          <Button
+            size="large"
+            color="primary"
+            variant="contained"
+            className="btn-primary"
+            style={{ margin: "5px 0" }}
             type="submit"
-            className="btn btn-primary btn-block"
-            style={{ width: "100px" }}
           >
-            Search
-          </button>
+            Buscar
+          </Button>
         </form>
-        
+
         {/* aqui va el container */}
         <Container triggerText={this.state.triggerText} />
 

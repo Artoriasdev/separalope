@@ -7,6 +7,7 @@ import { handleRegexDisable } from "../utils/utilitaries";
 import ModalSucess from "./ModalSucess";
 import { TextField, MenuItem } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
+import { Button } from "@material-ui/core";
 
 class RegisterCustomer extends Component {
   constructor(props) {
@@ -182,7 +183,7 @@ class RegisterCustomer extends Component {
                       placeholder="Nombres"
                       fullWidth
                       value={values.nombre}
-                      error={errors.nombre && touched.razon}
+                      error={errors.nombre && touched.nombre}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       style={{
@@ -202,7 +203,7 @@ class RegisterCustomer extends Component {
                       placeholder="Apellidos"
                       fullWidth
                       value={values.apellido}
-                      error={errors.apellido && touched.nombre}
+                      error={errors.apellido && touched.apellido}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       style={{
@@ -426,14 +427,19 @@ class RegisterCustomer extends Component {
                     />
                   </div>
 
-                  <button
+                  <Button
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                    className="btn-primary"
+                    style={{
+                      margin: "10px 0",
+                    }}
                     type="submit"
-                    className="btn btn-primary btn-block"
-                    style={{ marginTop: "20px" }}
-                    disabled={isSubmitting}
+                    fullWidth
                   >
                     Registrar
-                  </button>
+                  </Button>
                 </form>
               )}
             </Formik>

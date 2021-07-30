@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core";
 import Axios from "axios";
 import { Formik } from "formik";
 import React from "react";
@@ -105,13 +106,19 @@ class Login extends Component {
                     onChange={handleChange}
                   />
 
-                  <button
+                  <Button
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                    className="btn-primary"
+                    style={{
+                      margin: "10px 0",
+                    }}
                     type="submit"
-                    className="btn btn-primary btn-block"
-                    disabled={isSubmitting}
+                    fullWidth
                   >
-                    Iniciar sesión
-                  </button>
+                    Iniciar sesion
+                  </Button>
                 </form>
               )}
             </Formik>

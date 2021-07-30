@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Button, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../../utils/utilitaries";
 
-export class Form extends Component {
+export class FormService extends Component {
   handleSubmitting = (formModel) => {
     console.log(formModel);
   };
@@ -13,17 +13,17 @@ export class Form extends Component {
       <Formik
         ref={(ref) => (this.form = ref)}
         initialValues={{
-          categoria: "",
+          servicio: "",
           descripcion: "",
         }}
         onSubmit={(values, { setSubmitting }) => {
           setSubmitting(false);
           const formModel = {
-            category: "",
+            service: "",
             description: "",
           };
 
-          formModel.category = values.categoria;
+          formModel.service = values.servicio;
           formModel.description = values.descripcion;
 
           this.handleSubmitting(formModel);
@@ -39,17 +39,17 @@ export class Form extends Component {
           touched,
         }) => (
           <form name="formSubmit" onSubmit={handleSubmit}>
-            <h1>Crear nueva categoria</h1>
+            <h1>Crear nuevo Servicio</h1>
             <hr />
             <div>
               <TextField
-                name="categoria"
+                name="servicio"
                 className="TxtField"
                 variant="outlined"
-                label="Categoria"
+                label="Servicio"
                 fullWidth
-                value={values.categoria}
-                error={errors.categoria && touched.categoria}
+                value={values.servicio}
+                error={errors.servicio && touched.servicio}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 onInput={handleRegexDisable("")}

@@ -375,33 +375,16 @@ button {
   padding: 5px;
 }
 
-.btn {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: transparent;
-  border: none;
-  color: #232323;
-  cursor: pointer;
-  font-size: 16px;
-
-  transition: color 0.3s ease;
-}
-
 .btn-primary {
-  background-color: #ffdd00;
-  border-radius: 4px;
-  padding: 0.8rem 1.5rem;
+  background-color: #232323 !important;
 
   &:disabled {
-    background-color: lighten($color: #ffdd00, $amount: 15);
+    background-color: lighten($color: #232323, $amount: 15) !important;
   }
 
   &:hover {
-    background-color: darken($color: #ffdd00, $amount: 5);
+    background-color: darken($color: #232323, $amount: 5) !important;
   }
-}
-
-.btn-block {
-  width: 100%;
 }
 
 .register__subtitle {
@@ -656,28 +639,6 @@ button {
   background: rgba(0, 0, 0, 0.85);
 }
 .mini .mini_content {
-  // z-index: 999;
-  // position: absolute;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
-  // max-height: 90%;
-  // overflow: auto;
-  // background: #fff;
-  // box-sizing: border-box;
-  // padding: 20px;
-  // box-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
-  // border-radius: 4px;
-  // width: auto;
-  // display: flex;
-  // flex-direction: column;
-
-  // /* This just a default width */
-  // @include mobile {
-  //   padding: 30px;
-  //   width: auto;
-  // }
-
   z-index: 999;
   position: absolute;
   top: 50%;
@@ -691,7 +652,7 @@ button {
   padding: 25px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
   border-radius: 4px;
-  width: 50%;
+  width: 70vh;
   display: flex;
   flex-direction: column;
   // width: 70%;
@@ -735,23 +696,13 @@ button {
   stroke-linecap: round;
   stroke-width: 2;
 }
-
-.nav_back {
-  background: black;
-}
-
 .row {
-  width: 80%px;
-  max-width: 85%;
-  margin: 0;
-  padding: 0 30px;
+  display: flex;
+  width: 80%;
 
-  span {
-    position: relative;
-    display: inline-block;
-    margin: 30px 10px;
-  }
+  margin: 0;
 }
+
 .basic-slide {
   display: inline-block;
   width: 500px;

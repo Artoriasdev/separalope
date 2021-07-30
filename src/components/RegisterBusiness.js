@@ -4,7 +4,7 @@ import { ArrowCircleSVG } from "../assets/images/svg";
 import Axios from "axios";
 import { Formik } from "formik";
 import ModalSucess from "./ModalSucess";
-import { TextField, MenuItem } from "@material-ui/core";
+import { TextField, MenuItem, Button } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { handleRegexDisable } from "../utils/utilitaries";
 
@@ -89,6 +89,7 @@ class RegisterBusiness extends Component {
     }).then((response) => {
       return response;
     });
+
     return rspApi;
   };
 
@@ -461,14 +462,19 @@ class RegisterBusiness extends Component {
                     </Select>
                   </div>
 
-                  <button
+                  <Button
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                    className="btn-primary"
+                    style={{
+                      margin: "10px 0",
+                    }}
                     type="submit"
-                    className="btn btn-primary btn-block"
-                    style={{ marginTop: "20px" }}
-                    disabled={isSubmitting}
+                    fullWidth
                   >
                     Registrar
-                  </button>
+                  </Button>
                 </form>
               )}
             </Formik>

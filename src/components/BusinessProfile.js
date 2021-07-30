@@ -1,6 +1,8 @@
 import React from "react";
 import { Component } from "react";
 import { Formik } from "formik";
+import { TextField } from "@material-ui/core";
+import { handleRegexDisable } from "../utils/utilitaries";
 
 class BusinessProfile extends Component {
   constructor(props) {
@@ -112,139 +114,252 @@ class BusinessProfile extends Component {
                 touched,
               }) => (
                 <form>
-                  <div class="row">
-                    <span>
-                      <input
-                        class="basic-slide"
-                        id="name"
-                        name="nombreCompañia"
-                        type="text"
-                        placeholder="Nombre de la compañia"
-                        value={values.nombreCompañia}
-                        onChange={handleChange}
-                      />
-                      <label for="name">Nombre comañia</label>
-                    </span>
-                    <span>
-                      <input
-                        class="basic-slide"
-                        id="name"
-                        name="nombreComercial"
-                        type="text"
-                        placeholder="Nombre comercial de la compañia"
-                        value={values.nombreComercial}
-                        onChange={handleChange}
-                      />
-                      <label for="name">Nombre comercial</label>
-                    </span>
-                    <span>
-                      <input
-                        class="basic-slide"
-                        id="number"
-                        name="numeroDocumento"
-                        type="text"
-                        placeholder="Numero de documento"
-                        value={values.numeroDocumento}
-                        onChange={handleChange}
-                      />
-                      <label for="number">Numero documento</label>
-                    </span>
-                    <span>
-                      <input
-                        class="basic-slide"
-                        id="email"
-                        name="correo"
-                        type="email"
-                        placeholder="Correo de la empresa"
-                        value={values.correo}
-                        onChange={handleChange}
-                      />
-                      <label for="email">Correo</label>
-                    </span>
-                    <span>
-                      <input
-                        class="basic-slide"
-                        id="name"
-                        name="banco"
-                        type="text"
-                        placeholder="Nombre del banco"
-                        value={values.banco}
-                        onChange={handleChange}
-                      />
-                      <label for="name">Banco</label>
-                    </span>
-                    <span>
-                      <input
-                        class="basic-slide"
-                        id="number"
-                        name="numeroCuenta"
-                        type="text"
-                        placeholder="Numero de cuenta"
-                        value={values.numeroCuenta}
-                        onChange={handleChange}
-                      />
-                      <label for="number">Numero cuenta</label>
-                    </span>
-                    <span>
-                      <input
-                        class="basic-slide"
-                        id="number"
-                        name="numeroInterbancario"
-                        type="text"
-                        placeholder="Numero de cuenta interbancario"
-                        value={values.numeroInterbancario}
-                        onChange={handleChange}
-                      />
-                      <label for="number">Numero interbancario</label>
-                    </span>
-                    <span>
-                      <input
-                        class="basic-slide"
-                        id="email"
-                        name="correoBancario"
-                        type="email"
-                        placeholder="Correo bancario"
-                        value={values.correoBancario}
-                        onChange={handleChange}
-                      />
-                      <label for="email">Correo bancario</label>
-                    </span>
-                    <span>
-                      <input
-                        class="basic-slide"
-                        id="password"
-                        name="contraseña"
-                        type="password"
-                        placeholder="Contraseña actual"
-                        value={values.contraseña}
-                        onChange={handleChange}
-                      />
-                      <label for="password">Contraseña actual</label>
-                    </span>
-                    <span>
-                      <input
-                        class="basic-slide"
-                        id="password"
-                        name="cambiarContraseña"
-                        type="password"
-                        placeholder="Cambio de contraseña"
-                        value={values.cambiarContraseña}
-                        onChange={handleChange}
-                      />
-                      <label for="password">Cambiar contraseña</label>
-                    </span>
-                    <span>
-                      <input
-                        class="basic-slide"
-                        id="password"
-                        name="repetirContraseña"
-                        type="password"
-                        placeholder="Repetir la contraseña"
-                        value={values.repetirContraseña}
-                        onChange={handleChange}
-                      />
-                      <label for="password">Repetir contraseña</label>
-                    </span>
+                  <h2>Datos de la empresa</h2>
+                  <div className="row">
+                    <TextField
+                      name="nombreCompañia"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Nombre de la compañia"
+                      fullWidth
+                      value={values.nombreCompañia}
+                      error={errors.nombreCompañia && touched.nombreCompañia}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginTop: "10px",
+                        marginRight: "5px",
+                        marginBottom: "15px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+
+                    <TextField
+                      name="nombreComercial"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Nombre comercial de la compañia"
+                      fullWidth
+                      value={values.nombreComercial}
+                      error={errors.nombreComercial && touched.nombreComercial}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginTop: "10px",
+                        marginLeft: "5px",
+                        marginBottom: "15px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
+                  <div className="row">
+                    <TextField
+                      name="numeroDocumento"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Numero de documento"
+                      fullWidth
+                      value={values.numeroDocumento}
+                      error={errors.numeroDocumento && touched.numeroDocumento}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginRight: "5px",
+                        marginBottom: "10px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+
+                    <TextField
+                      name="correo"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Correo de la empresa"
+                      fullWidth
+                      value={values.correo}
+                      error={errors.correo && touched.correo}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginLeft: "5px",
+                        marginBottom: "10px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
+
+                  <h2 style={{ marginTop: "17.43px" }}>Datos bancarios</h2>
+
+                  <div className="row">
+                    <TextField
+                      name="banco"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Nombre del banco"
+                      fullWidth
+                      value={values.banco}
+                      error={errors.banco && touched.banco}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginTop: "10px",
+                        marginRight: "5px",
+                        marginBottom: "15px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+
+                    <TextField
+                      name="numeroCuenta"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Numero de cuenta"
+                      fullWidth
+                      value={values.numeroCuenta}
+                      error={errors.numeroCuenta && touched.numeroCuenta}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginTop: "10px",
+                        marginLeft: "5px",
+                        marginBottom: "15px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
+                  <div className="row">
+                    <TextField
+                      name="numeroInterbancario"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Numero de cuenta interbancario"
+                      fullWidth
+                      value={values.numeroInterbancario}
+                      error={
+                        errors.numeroInterbancario &&
+                        touched.numeroInterbancario
+                      }
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginRight: "5px",
+                        marginBottom: "10px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+
+                    <TextField
+                      name="correoBancario"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Correo bancario"
+                      fullWidth
+                      value={values.correoBancario}
+                      error={errors.correoBancario && touched.correoBancario}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      style={{
+                        marginLeft: "5px",
+                        marginBottom: "10px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
+                  <h2 style={{ marginTop: "17.43px" }}>Contraseñas</h2>
+                  <div className="row">
+                    <TextField
+                      name="contraseña"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Contraseña actual"
+                      fullWidth
+                      value={values.contraseña}
+                      error={errors.contraseña && touched.contraseña}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      type="password"
+                      style={{
+                        marginTop: "10px",
+                        marginRight: "5px",
+                        marginBottom: "15px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+
+                    <TextField
+                      name="cambiarContraseña"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Cambio de contraseña"
+                      fullWidth
+                      value={values.cambiarContraseña}
+                      error={
+                        errors.cambiarContraseña && touched.cambiarContraseña
+                      }
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      type="password"
+                      style={{
+                        marginTop: "10px",
+                        marginLeft: "5px",
+                        marginBottom: "15px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
+                  <div className="row">
+                    <TextField
+                      name="repetirContraseña"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Repetir la contraseña"
+                      value={values.repetirContraseña}
+                      error={
+                        errors.repetirContraseña && touched.repetirContraseña
+                      }
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      type="password"
+                      style={{
+                        paddingRight: "5px",
+                        marginBottom: "20px",
+                        width: "49.44444%",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
                   </div>
                 </form>
               )}

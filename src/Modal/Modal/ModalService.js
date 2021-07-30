@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Form } from "../Form/Form";
 import FocusTrap from "focus-trap-react";
-export const Modal = ({
+import { FormService } from "../Form/FormService";
+export const ModalService = ({
   onClickOutside,
   onKeyDown,
   modalRef,
@@ -34,7 +34,7 @@ export const Modal = ({
                 <path d="M 10,10 L 30,30 M 30,10 L 10,30" />
               </svg>
             </button>
-            <Form />
+            <FormService />
           </div>
         </div>
       </aside>
@@ -43,4 +43,4 @@ export const Modal = ({
   );
 };
 
-export default Modal;
+export default ModalService;
