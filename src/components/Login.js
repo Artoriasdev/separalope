@@ -10,7 +10,7 @@ class Login extends Component {
     super(props);
   }
 
-  handleLogin = (LoginModel) => {
+  handleLogin = async (LoginModel) => {
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -37,6 +37,7 @@ class Login extends Component {
       .catch(({ response }) => {
         console.log(response.data.message);
       });
+    return rspApi;
   };
 
   render() {
@@ -74,7 +75,9 @@ class Login extends Component {
                 LoginModel.password = values.contraseña;
                 LoginModel.workflow = this.props.match.params.value;
 
-                this.handleLogin(LoginModel);
+                (async () => {
+                  await this.handleLogin(LoginModel);
+                })();
               }}
             >
               {({

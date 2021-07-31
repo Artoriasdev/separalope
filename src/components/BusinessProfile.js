@@ -17,41 +17,42 @@ class BusinessProfile extends Component {
 
   componentDidMount() {
     try {
-      this.handleGetData();
+      (async () => {
+        await this.handleGetData();
+      })();
     } catch (error) {
       console.log(error);
     }
   }
 
-  handleGetData = () => {
+  handleGetData = async () => {
     try {
       var headers = {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbm1pY2FzYSIsIndvcmtmbG93IjoiQiIsImV4cCI6MTYyNzcxMjAyNiwidXNlcklkIjoiMzkiLCJpYXQiOjE2Mjc2OTQwMjZ9.lcG_zD-OQMjsG2jR-8pq_iHFpYf1reYhQ7kyqwcnN7z3niC2sGaXNQXsLItgXenCjv9oTQEvPYNhr1WaqqSXQQ",
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbm1pY2FzYSIsIndvcmtmbG93IjoiQiIsImV4cCI6MTYyNzc3MTg3MSwidXNlcklkIjoiMzciLCJpYXQiOjE2Mjc3NTM4NzF9.CZrl0Jm8MFef00nljj3-0NzKkpcv2qsFS6x_2S2IWxnksCt1IhDqWmU88t6EdpEaK_XtAnUbuG0B9nMq4crz6A",
       };
-      (async () => {
-        let linkDocumentsApi =
-          "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusiness";
 
-        const rspApi = await axios
-          .get(linkDocumentsApi, {
-            headers: headers,
-          })
-          .then((response) => {
-            const { data } = response.data;
-            this.setState({
-              typeData: data,
-            });
-            console.log(response);
-            return response;
-          })
-          .catch((error) => {
-            console.log(error);
+      let linkDocumentsApi =
+        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusiness";
+
+      const rspApi = await axios
+        .get(linkDocumentsApi, {
+          headers: headers,
+        })
+        .then((response) => {
+          const { data } = response.data;
+          this.setState({
+            typeData: data,
           });
-        return rspApi;
-      })();
+          console.log(response);
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      return rspApi;
     } catch (error) {
       console.log(error);
     }
