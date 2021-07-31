@@ -27,6 +27,8 @@ import RegisterBusiness from "./components/RegisterBusiness";
 import BusinessCategory from "./components/BusinessCategory";
 import BusinessServices from "./components/BusinessServices";
 import BusinessProfile from "./components/BusinessProfile";
+import BussinesProfileBank from "./components/BusinessProfileBank";
+import BussinesProfilePassword from "./components/BusinessProfilePassword";
 // import { Private } from "./components/Private";
 // import HomePage from "./pages/Home";
 
@@ -133,7 +135,7 @@ function App() {
         <ThemeProvider theme={theme}></ThemeProvider>
         <StyledGlobal />
         <BrowserRouter>
-          <Navbar /> 
+          <Navbar />
           <Switch>
             <StyledMain f="1 0 auto" mt={"5.9rem"} bg={"#fff"}>
               {/* <Route exact path="/bus" component={BusinessMenu} /> */}
@@ -143,11 +145,20 @@ function App() {
                 isAuthenticated={false}
               /> */}
 
-              
               <Route
                 exact
                 path="/business/profile"
                 component={BusinessProfile}
+              />
+              <Route
+                exact
+                path="/business/profile/bank"
+                component={BussinesProfileBank}
+              />
+              <Route
+                exact
+                path="/business/profile/password"
+                component={BussinesProfilePassword}
               />
               <Route
                 exact

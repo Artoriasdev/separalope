@@ -1,63 +1,18 @@
 import React from "react";
 import { Component } from "react";
 import { Formik } from "formik";
-import { Button, TextField } from "@material-ui/core";
+import { Button, IconButton, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
-import axios from "axios";
 
-class BusinessProfile extends Component {
+class BusinessProfileBank extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      testData: [],
-      typeData: [],
+      formModel: [],
     };
   }
 
-  componentDidMount() {
-    try {
-      this.handleGetData();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  handleGetData = () => {
-    try {
-      var headers = {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbm1pY2FzYSIsIndvcmtmbG93IjoiQiIsImV4cCI6MTYyNzcxMjAyNiwidXNlcklkIjoiMzkiLCJpYXQiOjE2Mjc2OTQwMjZ9.lcG_zD-OQMjsG2jR-8pq_iHFpYf1reYhQ7kyqwcnN7z3niC2sGaXNQXsLItgXenCjv9oTQEvPYNhr1WaqqSXQQ",
-      };
-      (async () => {
-        let linkDocumentsApi =
-          "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusiness";
-
-        const rspApi = await axios
-          .get(linkDocumentsApi, {
-            headers: headers,
-          })
-          .then((response) => {
-            const { data } = response.data;
-            this.setState({
-              typeData: data,
-            });
-            console.log(response);
-            return response;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        return rspApi;
-      })();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //componentDidMount ,handlers
   handleRedirect = () => {
     this.props.history.push("/business/profile");
   };
@@ -67,6 +22,8 @@ class BusinessProfile extends Component {
   handleRedirectPassword = () => {
     this.props.history.push("/business/profile/password");
   };
+
+  //componentDidMount ,handlers
 
   render() {
     return (
@@ -98,7 +55,7 @@ class BusinessProfile extends Component {
               {/* cambiar por el nombre obtenido del back */}
             </div>
             <div style={{ textAlign: "left" }}>
-              <div>
+              <div style={{}}>
                 <button
                   onClick={this.handleRedirect}
                   className="button_ref"
@@ -131,7 +88,7 @@ class BusinessProfile extends Component {
           <div
             className="text_form"
             style={{
-              marginTop: "-400px",
+              marginTop: "-300px",
               marginLeft: "50vh",
               boxSizing: "border-box",
               overflowX: "hidden",
@@ -150,7 +107,16 @@ class BusinessProfile extends Component {
               Editar datos
             </Button>
             <hr style={{ maxWidth: "80%", margin: "0", padding: "0" }} />
+          </div>
 
+          <div
+            className="text_form"
+            style={{
+              marginLeft: "50vh",
+              boxSizing: "border-box",
+              overflowX: "hidden",
+            }}
+          >
             <Formik
               ref={(ref) => (this.form = ref)}
               initialValues={{
@@ -208,16 +174,17 @@ class BusinessProfile extends Component {
                 touched,
               }) => (
                 <form>
-                  <h2>Datos de la empresa</h2>
+                  <h2 style={{ marginTop: "17.43px" }}>Datos bancarios</h2>
+
                   <div className="row">
                     <TextField
-                      name="nombreCompañia"
+                      name="banco"
                       className="TxtField"
                       variant="outlined"
-                      label="Nombre de la compañia"
+                      label="Nombre del banco"
                       fullWidth
-                      value={values.nombreCompañia}
-                      error={errors.nombreCompañia && touched.nombreCompañia}
+                      value={values.banco}
+                      error={errors.banco && touched.banco}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       style={{
@@ -232,13 +199,13 @@ class BusinessProfile extends Component {
                     />
 
                     <TextField
-                      name="nombreComercial"
+                      name="numeroCuenta"
                       className="TxtField"
                       variant="outlined"
-                      label="Nombre comercial de la compañia"
+                      label="Numero de cuenta"
                       fullWidth
-                      value={values.nombreComercial}
-                      error={errors.nombreComercial && touched.nombreComercial}
+                      value={values.numeroCuenta}
+                      error={errors.numeroCuenta && touched.numeroCuenta}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       style={{
@@ -254,13 +221,16 @@ class BusinessProfile extends Component {
                   </div>
                   <div className="row">
                     <TextField
-                      name="numeroDocumento"
+                      name="numeroInterbancario"
                       className="TxtField"
                       variant="outlined"
-                      label="Numero de documento"
+                      label="Numero de cuenta interbancario"
                       fullWidth
-                      value={values.numeroDocumento}
-                      error={errors.numeroDocumento && touched.numeroDocumento}
+                      value={values.numeroInterbancario}
+                      error={
+                        errors.numeroInterbancario &&
+                        touched.numeroInterbancario
+                      }
                       onBlur={handleBlur}
                       onChange={handleChange}
                       style={{
@@ -274,13 +244,13 @@ class BusinessProfile extends Component {
                     />
 
                     <TextField
-                      name="correo"
+                      name="correoBancario"
                       className="TxtField"
                       variant="outlined"
-                      label="Correo de la empresa"
+                      label="Correo bancario"
                       fullWidth
-                      value={values.correo}
-                      error={errors.correo && touched.correo}
+                      value={values.correoBancario}
+                      error={errors.correoBancario && touched.correoBancario}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       style={{
@@ -303,4 +273,4 @@ class BusinessProfile extends Component {
   }
 }
 
-export default BusinessProfile;
+export default BusinessProfileBank;
