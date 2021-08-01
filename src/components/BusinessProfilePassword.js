@@ -1,17 +1,31 @@
 import React from "react";
 import { Component } from "react";
 import { Formik } from "formik";
-import { Button, IconButton, TextField } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
+import { PowerSettingsNew, Save, Visibility } from "@material-ui/icons";
 
 class BusinessProfilePassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
       formModel: [],
+      editButton: false,
+      viewPassword: false,
     };
   }
+
+  handleViewPassword = () => {
+    this.setState({ viewPassword: true });
+  };
+  handleHidePassword = () => {
+    this.setState({ viewPassword: false });
+  };
+
+  handleEdit = () => {
+    this.setState({ editButton: true });
+  };
 
   handleRedirect = () => {
     this.props.history.push("/business/profile");
@@ -38,6 +52,7 @@ class BusinessProfilePassword extends Component {
           >
             <img
               src="https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"
+              alt="test"
               style={{
                 borderRadius: "50%",
                 maxWidth: "150px",
@@ -82,13 +97,23 @@ class BusinessProfilePassword extends Component {
                   Contraseña
                 </button>
               </div>
+              <div style={{ marginTop: "100px" }}>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  startIcon={<PowerSettingsNew />}
+                  style={{ width: "150px", margin: "0", padding: "5px 0" }}
+                >
+                  Cerrar sesion
+                </Button>
+              </div>
             </div>
           </div>
 
           <div
             className="text_form"
             style={{
-              marginTop: "-300px",
+              marginTop: "-550px",
               marginLeft: "50vh",
               boxSizing: "border-box",
               overflowX: "hidden",
@@ -103,6 +128,7 @@ class BusinessProfilePassword extends Component {
               className="btn-primary"
               startIcon={<Edit />}
               style={{ marginTop: "-14px" }}
+              onClick={this.handleEdit}
             >
               Editar datos
             </Button>
@@ -110,46 +136,20 @@ class BusinessProfilePassword extends Component {
             <Formik
               ref={(ref) => (this.form = ref)}
               initialValues={{
-                nombreCompañia: "",
-                nombreComercial: "",
-                numeroDocumento: "",
-                correo: "",
-                banco: "",
-                numeroCuenta: "",
-                numeroInterbancario: "",
                 contraseña: "",
                 cambiarContraseña: "",
                 repetirContraseña: "",
-                correoBancario: "",
               }}
               validate={{}}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 const dataModel = {
-                  businessName: "",
-                  tradeName: "",
-                  documentNumber: "",
-                  email: "",
                   password: "",
                   confirmPassword: "",
                 };
-                const bankModel = {
-                  bankName: "",
-                  accountNumber: "",
-                  interbankAccountNumber: "",
-                  email: "",
-                };
 
-                dataModel.businessName = values.nombreCompañia;
-                dataModel.tradeName = values.nombreComercial;
-                dataModel.documentNumber = values.numeroDocumento;
-                dataModel.email = values.correo;
                 dataModel.password = values.contraseña;
                 dataModel.confirmPassword = values.repetirContraseña;
-                bankModel.bankName = values.banco;
-                bankModel.accountNumber = values.numeroCuenta;
-                bankModel.interbankAccountNumber = values.numeroInterbancario;
-                bankModel.email = values.correoBancario;
 
                 // aqui los getter y handler
               }}
@@ -163,31 +163,67 @@ class BusinessProfilePassword extends Component {
                 errors,
                 touched,
               }) => (
-                <form>
-                  <h2 style={{ marginTop: "17.43px" }}>Contraseñas</h2>
+                <form name="formPassword" style={{ marginTop: "10px" }}>
+                  <h2
+                    style={{
+                      marginTop: "17.43px",
+                      marginRight: "20px",
+                      display: "inline-block",
+                    }}
+                  >
+                    Contraseñas
+                  </h2>
+
+                  {this.state.viewPassword && this.state.editButton ? (
+                    <Button
+                      variant="contained"
+                      startIcon={<Visibility />}
+                      color="primary"
+                      className="btn-primary"
+                      style={{ marginTop: "-14px" }}
+                      onClick={this.handleHidePassword}
+                      disabled={!this.state.editButton}
+                    >
+                      Ocultar contraseña
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      startIcon={<Visibility />}
+                      color="primary"
+                      className="btn-primary"
+                      style={{ marginTop: "-14px" }}
+                      onClick={this.handleViewPassword}
+                      disabled={!this.state.editButton}
+                    >
+                      Ver contraseñas
+                    </Button>
+                  )}
+
                   <div className="row">
                     <TextField
                       name="contraseña"
                       className="TxtField"
                       variant="outlined"
                       label="Contraseña actual"
-                      fullWidth
                       value={values.contraseña}
                       error={errors.contraseña && touched.contraseña}
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      type="password"
+                      type={this.state.viewPassword ? "text" : "password"}
+                      disabled={!this.state.editButton}
                       style={{
                         marginTop: "10px",
-                        marginRight: "5px",
-                        marginBottom: "15px",
+                        marginBottom: "10px",
+                        width: "49.4444444%",
                       }}
                       // inputProps={{
                       //   maxLength: 9,
                       // }}
                       onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
-
+                  </div>
+                  <div className="row">
                     <TextField
                       name="cambiarContraseña"
                       className="TxtField"
@@ -200,10 +236,11 @@ class BusinessProfilePassword extends Component {
                       }
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      type="password"
+                      type={this.state.viewPassword ? "text" : "password"}
+                      disabled={!this.state.editButton}
                       style={{
                         marginTop: "10px",
-                        marginLeft: "5px",
+                        marginRight: "5px",
                         marginBottom: "15px",
                       }}
                       // inputProps={{
@@ -211,24 +248,25 @@ class BusinessProfilePassword extends Component {
                       // }}
                       onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
-                  </div>
-                  <div className="row">
                     <TextField
                       name="repetirContraseña"
                       className="TxtField"
                       variant="outlined"
                       label="Repetir la contraseña"
                       value={values.repetirContraseña}
+                      fullWidth
                       error={
                         errors.repetirContraseña && touched.repetirContraseña
                       }
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      type="password"
+                      type={this.state.viewPassword ? "text" : "password"}
+                      disabled={!this.state.editButton}
                       style={{
-                        paddingRight: "5px",
+                        marginTop: "10px",
+
+                        marginLeft: "5px",
                         marginBottom: "20px",
-                        width: "49.44444%",
                       }}
                       // inputProps={{
                       //   maxLength: 9,
@@ -236,6 +274,20 @@ class BusinessProfilePassword extends Component {
                       onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
                   </div>
+                  {this.state.editButton ? (
+                    <div className="row">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        type="submit"
+                        className="btn-primary"
+                        startIcon={<Save />}
+                        style={{ marginTop: "10px" }}
+                      >
+                        Guardar contraseña
+                      </Button>
+                    </div>
+                  ) : null}
                 </form>
               )}
             </Formik>

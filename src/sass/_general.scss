@@ -576,50 +576,6 @@ button {
   }
 }
 
-.servicio {
-  display: inline-block;
-  min-height: 36px;
-  vertical-align: middle;
-  line-height: 33px;
-
-  width: 40% !important;
-  padding-left: 11px !important;
-}
-.descripcion {
-  display: inline-block;
-  min-height: 36px;
-  vertical-align: middle;
-  line-height: 33px;
-
-  width: 20%;
-  padding-left: 23px !important;
-}
-.duracion {
-  display: inline-block;
-  min-height: 36px;
-  vertical-align: middle;
-  line-height: 33px;
-
-  width: 10% !important;
-}
-.precio {
-  display: inline-block;
-  min-height: 36px;
-  vertical-align: middle;
-  line-height: 33px;
-
-  width: 10%;
-}
-.citas {
-  display: inline-block;
-  min-height: 36px;
-  vertical-align: middle;
-  line-height: 33px;
-
-  width: 10% !important;
-  padding-left: 47px !important;
-}
-
 .mini {
   position: fixed;
   left: 0;
@@ -769,8 +725,23 @@ button {
   font-family: VarelaRound-Regular, MavenPro-Regular, -apple-system,
     BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  width: 150px;
 }
 
 .button_ref:hover {
   background-color: white;
+}
+
+.font {
+  font-family: VarelaRound-Regular, MavenPro-Regular, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+  font-size: 14px !important;
+}
+.font-tittle {
+  font-family: VarelaRound-Regular, MavenPro-Regular, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+  font-weight: bold !important;
+  font-size: 15px !important;
 }

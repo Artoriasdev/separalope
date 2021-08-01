@@ -6,10 +6,6 @@ import { Component } from "react";
 import { ArrowCircleSVG } from "../assets/images/svg";
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleLogin = async (LoginModel) => {
     var headers = {
       "Content-Type": "application/json",

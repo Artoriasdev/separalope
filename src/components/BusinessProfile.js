@@ -5,6 +5,7 @@ import { Button, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import axios from "axios";
+import { PowerSettingsNew, Save } from "@material-ui/icons";
 
 class BusinessProfile extends Component {
   constructor(props) {
@@ -12,8 +13,13 @@ class BusinessProfile extends Component {
     this.state = {
       testData: [],
       typeData: [],
+      edit: false,
     };
   }
+  handleEdit = () => {
+    this.setState({ edit: true });
+    console.log(this.state.edit);
+  };
 
   componentDidMount() {
     try {
@@ -82,6 +88,7 @@ class BusinessProfile extends Component {
           >
             <img
               src="https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"
+              alt="test"
               style={{
                 borderRadius: "50%",
                 maxWidth: "150px",
@@ -126,13 +133,23 @@ class BusinessProfile extends Component {
                   Contraseña
                 </button>
               </div>
+              <div style={{ marginTop: "100px" }}>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  startIcon={<PowerSettingsNew />}
+                  style={{ width: "150px", margin: "0", padding: "5px 0" }}
+                >
+                  Cerrar sesion
+                </Button>
+              </div>
             </div>
           </div>
 
           <div
             className="text_form"
             style={{
-              marginTop: "-400px",
+              marginTop: "-550px",
               marginLeft: "50vh",
               boxSizing: "border-box",
               overflowX: "hidden",
@@ -147,6 +164,7 @@ class BusinessProfile extends Component {
               className="btn-primary"
               startIcon={<Edit />}
               style={{ marginTop: "-14px" }}
+              onClick={this.handleEdit}
             >
               Editar datos
             </Button>
@@ -159,13 +177,6 @@ class BusinessProfile extends Component {
                 nombreComercial: "",
                 numeroDocumento: "",
                 correo: "",
-                banco: "",
-                numeroCuenta: "",
-                numeroInterbancario: "",
-                contraseña: "",
-                cambiarContraseña: "",
-                repetirContraseña: "",
-                correoBancario: "",
               }}
               validate={{}}
               onSubmit={(values, { setSubmitting }) => {
@@ -175,26 +186,12 @@ class BusinessProfile extends Component {
                   tradeName: "",
                   documentNumber: "",
                   email: "",
-                  password: "",
-                  confirmPassword: "",
-                };
-                const bankModel = {
-                  bankName: "",
-                  accountNumber: "",
-                  interbankAccountNumber: "",
-                  email: "",
                 };
 
                 dataModel.businessName = values.nombreCompañia;
                 dataModel.tradeName = values.nombreComercial;
                 dataModel.documentNumber = values.numeroDocumento;
                 dataModel.email = values.correo;
-                dataModel.password = values.contraseña;
-                dataModel.confirmPassword = values.repetirContraseña;
-                bankModel.bankName = values.banco;
-                bankModel.accountNumber = values.numeroCuenta;
-                bankModel.interbankAccountNumber = values.numeroInterbancario;
-                bankModel.email = values.correoBancario;
 
                 // aqui los getter y handler
               }}
@@ -208,7 +205,7 @@ class BusinessProfile extends Component {
                 errors,
                 touched,
               }) => (
-                <form>
+                <form name="formData">
                   <h2>Datos de la empresa</h2>
                   <div className="row">
                     <TextField
@@ -221,6 +218,7 @@ class BusinessProfile extends Component {
                       error={errors.nombreCompañia && touched.nombreCompañia}
                       onBlur={handleBlur}
                       onChange={handleChange}
+                      disabled={!this.state.edit}
                       style={{
                         marginTop: "10px",
                         marginRight: "5px",
@@ -250,6 +248,7 @@ class BusinessProfile extends Component {
                       // inputProps={{
                       //   maxLength: 9,
                       // }}
+                      disabled={!this.state.edit}
                       onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
                   </div>
@@ -264,6 +263,7 @@ class BusinessProfile extends Component {
                       error={errors.numeroDocumento && touched.numeroDocumento}
                       onBlur={handleBlur}
                       onChange={handleChange}
+                      disabled={!this.state.edit}
                       style={{
                         marginRight: "5px",
                         marginBottom: "10px",
@@ -284,6 +284,7 @@ class BusinessProfile extends Component {
                       error={errors.correo && touched.correo}
                       onBlur={handleBlur}
                       onChange={handleChange}
+                      disabled={!this.state.edit}
                       style={{
                         marginLeft: "5px",
                         marginBottom: "10px",
@@ -294,6 +295,20 @@ class BusinessProfile extends Component {
                       onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
                   </div>
+                  {this.state.edit ? (
+                    <div className="row">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        type="submit"
+                        className="btn-primary"
+                        startIcon={<Save />}
+                        style={{ marginTop: "10px" }}
+                      >
+                        Guardar datos
+                      </Button>
+                    </div>
+                  ) : null}
                 </form>
               )}
             </Formik>

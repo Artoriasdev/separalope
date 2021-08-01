@@ -1,17 +1,23 @@
 import React from "react";
 import { Component } from "react";
 import { Formik } from "formik";
-import { Button, IconButton, TextField } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
+import { PowerSettingsNew, Save } from "@material-ui/icons";
 
 class BusinessProfileBank extends Component {
   constructor(props) {
     super(props);
     this.state = {
       formModel: [],
+      editButton: false,
     };
   }
+
+  handleEdit = () => {
+    this.setState({ editButton: true });
+  };
 
   handleRedirect = () => {
     this.props.history.push("/business/profile");
@@ -38,6 +44,7 @@ class BusinessProfileBank extends Component {
           >
             <img
               src="https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"
+              alt="test"
               style={{
                 borderRadius: "50%",
                 maxWidth: "150px",
@@ -82,13 +89,23 @@ class BusinessProfileBank extends Component {
                   Contraseña
                 </button>
               </div>
+              <div style={{ marginTop: "100px" }}>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  startIcon={<PowerSettingsNew />}
+                  style={{ width: "150px", margin: "0", padding: "5px 0" }}
+                >
+                  Cerrar sesion
+                </Button>
+              </div>
             </div>
           </div>
 
           <div
             className="text_form"
             style={{
-              marginTop: "-300px",
+              marginTop: "-550px",
               marginLeft: "50vh",
               boxSizing: "border-box",
               overflowX: "hidden",
@@ -103,6 +120,7 @@ class BusinessProfileBank extends Component {
               className="btn-primary"
               startIcon={<Edit />}
               style={{ marginTop: "-14px" }}
+              onClick={this.handleEdit}
             >
               Editar datos
             </Button>
@@ -120,29 +138,14 @@ class BusinessProfileBank extends Component {
             <Formik
               ref={(ref) => (this.form = ref)}
               initialValues={{
-                nombreCompañia: "",
-                nombreComercial: "",
-                numeroDocumento: "",
-                correo: "",
                 banco: "",
                 numeroCuenta: "",
                 numeroInterbancario: "",
-                contraseña: "",
-                cambiarContraseña: "",
-                repetirContraseña: "",
                 correoBancario: "",
               }}
               validate={{}}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                const dataModel = {
-                  businessName: "",
-                  tradeName: "",
-                  documentNumber: "",
-                  email: "",
-                  password: "",
-                  confirmPassword: "",
-                };
                 const bankModel = {
                   bankName: "",
                   accountNumber: "",
@@ -150,12 +153,6 @@ class BusinessProfileBank extends Component {
                   email: "",
                 };
 
-                dataModel.businessName = values.nombreCompañia;
-                dataModel.tradeName = values.nombreComercial;
-                dataModel.documentNumber = values.numeroDocumento;
-                dataModel.email = values.correo;
-                dataModel.password = values.contraseña;
-                dataModel.confirmPassword = values.repetirContraseña;
                 bankModel.bankName = values.banco;
                 bankModel.accountNumber = values.numeroCuenta;
                 bankModel.interbankAccountNumber = values.numeroInterbancario;
@@ -173,7 +170,7 @@ class BusinessProfileBank extends Component {
                 errors,
                 touched,
               }) => (
-                <form>
+                <form name="formBank">
                   <h2 style={{ marginTop: "17.43px" }}>Datos bancarios</h2>
 
                   <div className="row">
@@ -187,6 +184,7 @@ class BusinessProfileBank extends Component {
                       error={errors.banco && touched.banco}
                       onBlur={handleBlur}
                       onChange={handleChange}
+                      disabled={!this.state.editButton}
                       style={{
                         marginTop: "10px",
                         marginRight: "5px",
@@ -208,6 +206,7 @@ class BusinessProfileBank extends Component {
                       error={errors.numeroCuenta && touched.numeroCuenta}
                       onBlur={handleBlur}
                       onChange={handleChange}
+                      disabled={!this.state.editButton}
                       style={{
                         marginTop: "10px",
                         marginLeft: "5px",
@@ -233,6 +232,7 @@ class BusinessProfileBank extends Component {
                       }
                       onBlur={handleBlur}
                       onChange={handleChange}
+                      disabled={!this.state.editButton}
                       style={{
                         marginRight: "5px",
                         marginBottom: "10px",
@@ -253,6 +253,7 @@ class BusinessProfileBank extends Component {
                       error={errors.correoBancario && touched.correoBancario}
                       onBlur={handleBlur}
                       onChange={handleChange}
+                      disabled={!this.state.editButton}
                       style={{
                         marginLeft: "5px",
                         marginBottom: "10px",
@@ -263,6 +264,20 @@ class BusinessProfileBank extends Component {
                       onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
                   </div>
+                  {this.state.editButton ? (
+                    <div className="row">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        type="submit"
+                        className="btn-primary"
+                        startIcon={<Save />}
+                        style={{ marginTop: "10px" }}
+                      >
+                        Guardar datos bancarios
+                      </Button>
+                    </div>
+                  ) : null}
                 </form>
               )}
             </Formik>
