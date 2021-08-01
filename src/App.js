@@ -29,7 +29,9 @@ import BusinessServices from "./components/BusinessServices";
 import BusinessProfile from "./components/BusinessProfile";
 import BussinesProfileBank from "./components/BusinessProfileBank";
 import BussinesProfilePassword from "./components/BusinessProfilePassword";
-// import { Private } from "./components/Private";
+import RegisterDataBank from "./components/RegisterDataBank";
+
+import { Private } from "./components/Private";
 // import HomePage from "./pages/Home";
 
 const MavenProRegular = {
@@ -138,17 +140,21 @@ function App() {
           <Navbar />
           <Switch>
             <StyledMain f="1 0 auto" mt={"5.9rem"} bg={"#fff"}>
-              {/* <Route exact path="/bus" component={BusinessMenu} /> */}
               {/* <Private
                 path="/"
-                component={BusinessMenu}
-                isAuthenticated={false}
+                component={Iria algo creo}
+                isAuthenticated={sessionStorage.getItem("logged")}
               /> */}
 
               <Route
                 exact
                 path="/business/profile"
                 component={BusinessProfile}
+              />
+              <Route
+                exact
+                path="/business/profile/register-data-bank"
+                component={RegisterDataBank}
               />
               <Route
                 exact

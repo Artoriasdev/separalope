@@ -87,6 +87,7 @@ class RegisterBusiness extends Component {
     const rspApi = Axios.post(linkRegisterApi, BusinessModel, {
       headers: headers,
     }).then((response) => {
+      console.log(response);
       return response;
     });
 
@@ -121,74 +122,74 @@ class RegisterBusiness extends Component {
             <ArrowCircleSVG />
           </figure>
         </button>
-        <div className="auth__main">
-          <div className="auth__box-container">
-            <h3 className="register__subtitle">Doy un servicio</h3>
-            <h1>Registra tu cuenta</h1>
-            <Formik
-              ref={(ref) => (this.form = ref)}
-              initialValues={{
-                razon: "",
-                nombre: "",
-                correo: "",
-                celular: "",
-                contraseña: "",
-                repContraseña: "",
-                documentos: "",
-                nroDocumento: "",
-                categoria: "",
-              }}
-              validate={{}}
-              onSubmit={(values, { setSubmitting }) => {
-                setSubmitting(false);
-                const BusinessModel = {
-                  confirmPassword: "",
-                  documentNumber: "",
-                  email: "",
-                  id: 0,
-                  tradeName: "",
-                  mobile: "",
-                  businessName: "",
-                  password: "",
-                  idCategory: "",
-                };
 
-                BusinessModel.businessName = values.razon;
-                BusinessModel.tradeName = values.nombre;
-                BusinessModel.email = values.correo;
-                BusinessModel.mobile = values.celular;
-                BusinessModel.documentNumber = values.nroDocumento;
-                BusinessModel.password = values.contraseña;
-                BusinessModel.confirmPassword = values.repContraseña;
-                BusinessModel.idCategory = values.categoria;
+        <div style={{ padding: "20px", width: "500px", margin: "50px auto" }}>
+          <h3 className="register__subtitle">Doy un servicio</h3>
+          <h1>Registra tu cuenta</h1>
+          <Formik
+            ref={(ref) => (this.form = ref)}
+            initialValues={{
+              razon: "",
+              nombre: "",
+              correo: "",
+              celular: "",
+              contraseña: "",
+              repContraseña: "",
+              documentos: "",
+              nroDocumento: "",
+              categoria: "",
+            }}
+            validate={{}}
+            onSubmit={(values, { setSubmitting }) => {
+              setSubmitting(false);
+              const BusinessModel = {
+                confirmPassword: "",
+                documentNumber: "",
+                email: "",
+                id: 0,
+                tradeName: "",
+                mobile: "",
+                businessName: "",
+                password: "",
+                idCategory: "",
+              };
 
-                (async () => {
-                  const responseSubmit = await this.handleInfoSubmit(
-                    BusinessModel
-                  );
+              BusinessModel.businessName = values.razon;
+              BusinessModel.tradeName = values.nombre;
+              BusinessModel.email = values.correo;
+              BusinessModel.mobile = values.celular;
+              BusinessModel.documentNumber = values.nroDocumento;
+              BusinessModel.password = values.contraseña;
+              BusinessModel.confirmPassword = values.repContraseña;
+              BusinessModel.idCategory = values.categoria;
 
-                  const { response } = responseSubmit.data;
+              (async () => {
+                const responseSubmit = await this.handleInfoSubmit(
+                  BusinessModel
+                );
 
-                  if (response === "true") {
-                    this.setState({
-                      showModalSucesss: true,
-                      disclaimerModal: "¡Registro grabado satisfactoriamente!",
-                    });
-                  }
-                })();
-              }}
-            >
-              {({
-                values,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-                errors,
-                touched,
-              }) => (
-                <form name="formRegister" onSubmit={handleSubmit}>
-                  {/* <input
+                const { response } = responseSubmit.data;
+
+                if (response === "true") {
+                  this.setState({
+                    showModalSucesss: true,
+                    disclaimerModal: "¡Registro grabado satisfactoriamente!",
+                  });
+                }
+              })();
+            }}
+          >
+            {({
+              values,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              isSubmitting,
+              errors,
+              touched,
+            }) => (
+              <form name="formRegister" onSubmit={handleSubmit}>
+                {/* <input
                     type="text"
                     placeholder="Razon social"
                     name="razon"
@@ -198,28 +199,28 @@ class RegisterBusiness extends Component {
                     onChange={handleChange}
                   /> */}
 
-                  <div className="files">
-                    <TextField
-                      name="razon"
-                      className="TxtField"
-                      variant="outlined"
-                      placeholder="Razón social"
-                      fullWidth
-                      value={values.razon}
-                      error={errors.razon && touched.razon}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      style={{
-                        marginRight: "5px",
-                        marginBottom: "5px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
+                <div className="files">
+                  <TextField
+                    name="razon"
+                    className="TxtField"
+                    variant="outlined"
+                    placeholder="Razón social"
+                    fullWidth
+                    value={values.razon}
+                    error={errors.razon && touched.razon}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginRight: "5px",
+                      marginBottom: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
 
-                    {/* <input
+                  {/* <input
                     type="text"
                     placeholder="Nombre comercial"
                     name="nombre"
@@ -228,29 +229,29 @@ class RegisterBusiness extends Component {
                     onChange={handleChange}
                   /> */}
 
-                    <TextField
-                      name="nombre"
-                      className="TxtField"
-                      variant="outlined"
-                      placeholder="Nombre comercial"
-                      fullWidth
-                      value={values.nombre}
-                      error={errors.nombre && touched.nombre}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      style={{
-                        marginLeft: "5px",
-                        marginBottom: "5px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                  </div>
+                  <TextField
+                    name="nombre"
+                    className="TxtField"
+                    variant="outlined"
+                    placeholder="Nombre comercial"
+                    fullWidth
+                    value={values.nombre}
+                    error={errors.nombre && touched.nombre}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginLeft: "5px",
+                      marginBottom: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
 
-                  <div className="files">
-                    {/* <select
+                <div className="files">
+                  {/* <select
                       name="documentos"
                       className="dropdown"
                       value={values.documentos}
@@ -265,34 +266,34 @@ class RegisterBusiness extends Component {
                         ))}
                     </select> */}
 
-                    <Select
-                      style={{
-                        width: "100%",
-                        backgroundColor: "white",
-                        marginRight: "5px",
-                        marginTop: "5px",
-                        marginBottom: "5px",
-                      }}
-                      variant="outlined"
-                      value={values.documentos}
-                      error={errors.documentos && touched.documentos}
-                      name="documentos"
-                      displayEmpty
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    >
-                      <MenuItem disabled value={""}>
-                        <span className="empty--option">Tipo de documento</span>
-                      </MenuItem>
-                      {this.state.typeDocs &&
-                        this.state.typeDocs.map(({ id, descriptionLarge }) => (
-                          <MenuItem key={id} value={id}>
-                            {descriptionLarge}
-                          </MenuItem>
-                        ))}
-                    </Select>
+                  <Select
+                    style={{
+                      width: "100%",
+                      backgroundColor: "white",
+                      marginRight: "5px",
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                    }}
+                    variant="outlined"
+                    value={values.documentos}
+                    error={errors.documentos && touched.documentos}
+                    name="documentos"
+                    displayEmpty
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    <MenuItem disabled value={""}>
+                      <span className="empty--option">Tipo de documento</span>
+                    </MenuItem>
+                    {this.state.typeDocs &&
+                      this.state.typeDocs.map(({ id, descriptionLarge }) => (
+                        <MenuItem key={id} value={id}>
+                          {descriptionLarge}
+                        </MenuItem>
+                      ))}
+                  </Select>
 
-                    {/* <input
+                  {/* <input
                       type="text"
                       placeholder="Número documento"
                       name="nroDocumento"
@@ -301,30 +302,30 @@ class RegisterBusiness extends Component {
                       onChange={handleChange}
                     /> */}
 
-                    <TextField
-                      name="nroDocumento"
-                      className="TxtField"
-                      variant="outlined"
-                      placeholder="Número de documento"
-                      fullWidth
-                      value={values.nroDocumento}
-                      error={errors.nroDocumento && touched.nroDocumento}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      style={{
-                        marginLeft: "5px",
-                        marginTop: "5px",
-                        marginBottom: "5px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                  </div>
+                  <TextField
+                    name="nroDocumento"
+                    className="TxtField"
+                    variant="outlined"
+                    placeholder="Número de documento"
+                    fullWidth
+                    value={values.nroDocumento}
+                    error={errors.nroDocumento && touched.nroDocumento}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginLeft: "5px",
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
 
-                  <div className="files">
-                    {/* <input
+                <div className="files">
+                  {/* <input
                     type="text"
                     placeholder="Correo electrónico"
                     name="correo"
@@ -333,28 +334,28 @@ class RegisterBusiness extends Component {
                     onChange={handleChange}
                   /> */}
 
-                    <TextField
-                      name="correo"
-                      className="TxtField"
-                      variant="outlined"
-                      placeholder="Correo electrónico"
-                      fullWidth
-                      value={values.correo}
-                      error={errors.correo && touched.correo}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      style={{
-                        marginRight: "5px",
-                        marginTop: "5px",
-                        marginBottom: "5px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
+                  <TextField
+                    name="correo"
+                    className="TxtField"
+                    variant="outlined"
+                    placeholder="Correo electrónico"
+                    fullWidth
+                    value={values.correo}
+                    error={errors.correo && touched.correo}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginRight: "5px",
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
 
-                    {/* <input
+                  {/* <input
                     type="password"
                     placeholder="Contraseña"
                     name="contraseña"
@@ -364,31 +365,31 @@ class RegisterBusiness extends Component {
                     onChange={handleChange}
                   /> */}
 
-                    <TextField
-                      name="contraseña"
-                      type="password"
-                      className="TxtField"
-                      variant="outlined"
-                      placeholder="Contraseña"
-                      fullWidth
-                      value={values.contraseña}
-                      error={errors.contraseña && touched.contraseña}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      style={{
-                        marginLeft: "5px",
-                        marginTop: "5px",
-                        marginBottom: "5px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                  </div>
+                  <TextField
+                    name="contraseña"
+                    type="password"
+                    className="TxtField"
+                    variant="outlined"
+                    placeholder="Contraseña"
+                    fullWidth
+                    value={values.contraseña}
+                    error={errors.contraseña && touched.contraseña}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginLeft: "5px",
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
 
-                  <div className="files">
-                    {/* <input
+                <div className="files">
+                  {/* <input
                       type="password"
                       placeholder="Repetir contraseña"
                       name="repContraseña"
@@ -397,29 +398,29 @@ class RegisterBusiness extends Component {
                       onChange={handleChange}
                     /> */}
 
-                    <TextField
-                      name="repContraseña"
-                      type="password"
-                      className="TxtField"
-                      variant="outlined"
-                      placeholder="Repetir contraseña"
-                      fullWidth
-                      value={values.repContraseña}
-                      error={errors.repContraseña && touched.repContraseña}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      style={{
-                        marginRight: "5px",
-                        marginTop: "5px",
-                        marginBottom: "5px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
+                  <TextField
+                    name="repContraseña"
+                    type="password"
+                    className="TxtField"
+                    variant="outlined"
+                    placeholder="Repetir contraseña"
+                    fullWidth
+                    value={values.repContraseña}
+                    error={errors.repContraseña && touched.repContraseña}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginRight: "5px",
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
 
-                    {/* <select
+                  {/* <select
                       name="categoria"
                       className="dropdown"
                       value={values.categoria}
@@ -434,51 +435,50 @@ class RegisterBusiness extends Component {
                         ))}
                     </select> */}
 
-                    <Select
-                      style={{
-                        width: "100%",
-                        backgroundColor: "white",
-                        marginLeft: "5px",
-                        marginTop: "5px",
-                        marginBottom: "5px",
-                      }}
-                      variant="outlined"
-                      value={values.categoria}
-                      error={errors.categoria && touched.categoria}
-                      name="categoria"
-                      displayEmpty
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    >
-                      <MenuItem disabled value={""}>
-                        <span className="empty--option">Categoria</span>
-                      </MenuItem>
-                      {this.state.typeCategorys &&
-                        this.state.typeCategorys.map(({ id, name }) => (
-                          <MenuItem key={id} value={id}>
-                            {name}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                  </div>
-
-                  <Button
-                    size="large"
-                    color="primary"
-                    variant="contained"
-                    className="btn-primary"
+                  <Select
                     style={{
-                      margin: "10px 0",
+                      width: "100%",
+                      backgroundColor: "white",
+                      marginLeft: "5px",
+                      marginTop: "5px",
+                      marginBottom: "5px",
                     }}
-                    type="submit"
-                    fullWidth
+                    variant="outlined"
+                    value={values.categoria}
+                    error={errors.categoria && touched.categoria}
+                    name="categoria"
+                    displayEmpty
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   >
-                    Registrar
-                  </Button>
-                </form>
-              )}
-            </Formik>
-          </div>
+                    <MenuItem disabled value={""}>
+                      <span className="empty--option">Categoria</span>
+                    </MenuItem>
+                    {this.state.typeCategorys &&
+                      this.state.typeCategorys.map(({ id, name }) => (
+                        <MenuItem key={id} value={id}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </div>
+
+                <Button
+                  size="large"
+                  color="primary"
+                  variant="contained"
+                  className="btn-primary"
+                  style={{
+                    margin: "10px 0",
+                  }}
+                  type="submit"
+                  fullWidth
+                >
+                  Registrar
+                </Button>
+              </form>
+            )}
+          </Formik>
         </div>
       </>
     );

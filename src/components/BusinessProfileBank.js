@@ -5,6 +5,7 @@ import { Button, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import { PowerSettingsNew, Save } from "@material-ui/icons";
+import axios from "axios";
 
 class BusinessProfileBank extends Component {
   constructor(props) {
@@ -14,6 +15,82 @@ class BusinessProfileBank extends Component {
       editButton: false,
     };
   }
+
+  componentDidMount() {
+    try {
+      (async () => {
+        await this.handleGetData();
+      })();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  handleGetData = async () => {
+    try {
+      const tk = sessionStorage.getItem("tk");
+      var headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tk}`,
+      };
+
+      let linkDocumentsApi =
+        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusinessBankData";
+
+      const rspApi = await axios
+        .get(linkDocumentsApi, {
+          headers: headers,
+        })
+        .then((response) => {
+          const { data } = response.data;
+          this.setState({
+            formModel: data,
+          });
+
+          const Formik = this.form;
+          Formik.setFieldValue("banco", this.state.formModel[0].bankName);
+          Formik.setFieldValue(
+            "numeroCuenta",
+            this.state.formModel[0].accountNumber
+          );
+          Formik.setFieldValue(
+            "numeroInterbancario",
+            this.state.formModel[0].interbankAccountNumber
+          );
+          Formik.setFieldValue("correoBancario", this.state.formModel[0].email);
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      return rspApi;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  handleEditData = async (bankModel) => {
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+    let linkEditApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/updateBusinessBankData";
+
+    const rspApi = axios
+      .put(linkEditApi, bankModel, {
+        headers: headers,
+      })
+      .then((response) => {
+        console.log(response);
+        return response;
+      });
+
+    return rspApi;
+  };
 
   handleEdit = () => {
     this.setState({ editButton: true });
@@ -29,7 +106,15 @@ class BusinessProfileBank extends Component {
     this.props.history.push("/business/profile/password");
   };
 
-  //componentDidMount ,handlers
+  handleRedirectRegister = () => {
+    this.props.history.push("/business/profile/register-data-bank");
+  };
+
+  handleLogout = () => {
+    sessionStorage.setItem("tk", "");
+    sessionStorage.setItem("logged", false);
+    this.props.history.push("/");
+  };
 
   render() {
     return (
@@ -95,6 +180,7 @@ class BusinessProfileBank extends Component {
                   color="secondary"
                   startIcon={<PowerSettingsNew />}
                   style={{ width: "150px", margin: "0", padding: "5px 0" }}
+                  onClick={this.handleLogout}
                 >
                   Cerrar sesion
                 </Button>
@@ -121,6 +207,7 @@ class BusinessProfileBank extends Component {
               startIcon={<Edit />}
               style={{ marginTop: "-14px" }}
               onClick={this.handleEdit}
+              disabled={this.state.formModel === undefined}
             >
               Editar datos
             </Button>
@@ -158,6 +245,10 @@ class BusinessProfileBank extends Component {
                 bankModel.interbankAccountNumber = values.numeroInterbancario;
                 bankModel.email = values.correoBancario;
 
+                (async () => {
+                  await this.handleEditData(bankModel);
+                })();
+
                 // aqui los getter y handler
               }}
             >
@@ -170,8 +261,24 @@ class BusinessProfileBank extends Component {
                 errors,
                 touched,
               }) => (
-                <form name="formBank">
+                <form name="formBank" onSubmit={handleSubmit}>
                   <h2 style={{ marginTop: "17.43px" }}>Datos bancarios</h2>
+
+                  {this.state.formModel === undefined ? (
+                    <div>
+                      Usted no cuenta con ningún dato bancario, favor de
+                      registrar sus datos{" "}
+                      <button
+                        onClick={this.handleRedirectRegister}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        aquí
+                      </button>
+                    </div>
+                  ) : null}
 
                   <div className="row">
                     <TextField

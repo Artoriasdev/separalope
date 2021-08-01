@@ -1,9 +1,10 @@
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import Axios from "axios";
 import { Formik } from "formik";
 import React from "react";
 import { Component } from "react";
 import { ArrowCircleSVG } from "../assets/images/svg";
+import { handleRegexDisable } from "../utils/utilitaries";
 
 class Login extends Component {
   handleLogin = async (LoginModel) => {
@@ -20,6 +21,8 @@ class Login extends Component {
     })
       .then((response) => {
         if (response.data.response === "true") {
+          sessionStorage.setItem("tk", response.data.data.token);
+          sessionStorage.setItem("logged", response.data.response);
           if (LoginModel.workflow === "B") {
             this.props.history.push("/business/category");
           }
@@ -28,6 +31,7 @@ class Login extends Component {
             this.props.history.push("/");
           }
         }
+        console.log(response);
         return response;
       })
       .catch(({ response }) => {
@@ -48,45 +52,44 @@ class Login extends Component {
           </figure>
         </button>
 
-        <div className="auth__main">
-          <div className="auth__box-container">
-            <h1 className="login_tittle">Inicia sesión</h1>
+        <div style={{ padding: "20px", width: "500px", margin: "50px auto" }}>
+          <h1>Inicia sesión</h1>
 
-            <Formik
-              ref={(ref) => (this.form = ref)}
-              initialValues={{
-                correo: "",
-                contraseña: "",
-              }}
-              validate={{}}
-              onSubmit={(values, { setSubmitting }) => {
-                setSubmitting(false);
-                const LoginModel = {
-                  username: "",
-                  password: "",
-                  workflow: "",
-                };
+          <Formik
+            ref={(ref) => (this.form = ref)}
+            initialValues={{
+              correo: "",
+              contraseña: "",
+            }}
+            validate={{}}
+            onSubmit={(values, { setSubmitting }) => {
+              setSubmitting(false);
+              const LoginModel = {
+                username: "",
+                password: "",
+                workflow: "",
+              };
 
-                LoginModel.username = values.correo;
-                LoginModel.password = values.contraseña;
-                LoginModel.workflow = this.props.match.params.value;
+              LoginModel.username = values.correo;
+              LoginModel.password = values.contraseña;
+              LoginModel.workflow = this.props.match.params.value;
 
-                (async () => {
-                  await this.handleLogin(LoginModel);
-                })();
-              }}
-            >
-              {({
-                values,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-                errors,
-                touched,
-              }) => (
-                <form name="formLogin" onSubmit={handleSubmit}>
-                  <input
+              (async () => {
+                await this.handleLogin(LoginModel);
+              })();
+            }}
+          >
+            {({
+              values,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              isSubmitting,
+              errors,
+              touched,
+            }) => (
+              <form name="formLogin" onSubmit={handleSubmit}>
+                {/* <input
                     type="text"
                     placeholder="Email"
                     name="correo"
@@ -94,34 +97,79 @@ class Login extends Component {
                     autoComplete="off"
                     value={values.correo}
                     onChange={handleChange}
-                  />
+                  /> */}
 
-                  <input
+                <div className="files">
+                  <TextField
+                    name="correo"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Correo"
+                    value={values.correo}
+                    error={errors.correo && touched.correo}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    fullWidth
+                    style={{
+                      marginTop: "10px",
+                      marginBottom: "10px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+
+                {/* <input
                     type="password"
                     placeholder="Password"
                     name="contraseña"
                     className="auth__input"
                     value={values.contraseña}
                     onChange={handleChange}
-                  />
+                  /> */}
 
-                  <Button
-                    size="large"
-                    color="primary"
-                    variant="contained"
-                    className="btn-primary"
-                    style={{
-                      margin: "10px 0",
-                    }}
-                    type="submit"
+                <div className="files">
+                  <TextField
+                    name="contraseña"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Contraseña"
+                    type="password"
+                    value={values.contraseña}
+                    error={errors.contraseña && touched.contraseña}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
                     fullWidth
-                  >
-                    Iniciar sesion
-                  </Button>
-                </form>
-              )}
-            </Formik>
-          </div>
+                    style={{
+                      marginTop: "10px",
+                      marginBottom: "10px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+
+                <Button
+                  size="large"
+                  color="primary"
+                  variant="contained"
+                  className="btn-primary"
+                  disabled={isSubmitting}
+                  style={{
+                    margin: "10px 0",
+                  }}
+                  type="submit"
+                  fullWidth
+                >
+                  Iniciar sesion
+                </Button>
+              </form>
+            )}
+          </Formik>
         </div>
       </div>
     );

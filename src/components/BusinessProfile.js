@@ -33,11 +33,11 @@ class BusinessProfile extends Component {
 
   handleGetData = async () => {
     try {
+      const tk = sessionStorage.getItem("tk");
       var headers = {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbm1pY2FzYSIsIndvcmtmbG93IjoiQiIsImV4cCI6MTYyNzc3MTg3MSwidXNlcklkIjoiMzciLCJpYXQiOjE2Mjc3NTM4NzF9.CZrl0Jm8MFef00nljj3-0NzKkpcv2qsFS6x_2S2IWxnksCt1IhDqWmU88t6EdpEaK_XtAnUbuG0B9nMq4crz6A",
+        Authorization: `Bearer ${tk}`,
       };
 
       let linkDocumentsApi =
@@ -52,7 +52,18 @@ class BusinessProfile extends Component {
           this.setState({
             typeData: data,
           });
-          console.log(response);
+
+          const Formik = this.form;
+          Formik.setFieldValue("nombreCompañia", this.state.typeData[0].name);
+          Formik.setFieldValue(
+            "nombreComercial",
+            this.state.typeData[0].tradename
+          );
+          Formik.setFieldValue(
+            "numeroDocumento",
+            this.state.typeData[0].documentNumber
+          );
+          Formik.setFieldValue("correo", this.state.typeData[0].email);
           return response;
         })
         .catch((error) => {
@@ -62,6 +73,27 @@ class BusinessProfile extends Component {
     } catch (error) {
       console.log(error);
     }
+  };
+  handleEditData = async (dataModel) => {
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+    let linkEditApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/updateBusiness";
+
+    const rspApi = axios
+      .put(linkEditApi, dataModel, {
+        headers: headers,
+      })
+      .then((response) => {
+        console.log(response);
+        return response;
+      });
+
+    return rspApi;
   };
 
   //componentDidMount ,handlers
@@ -73,6 +105,12 @@ class BusinessProfile extends Component {
   };
   handleRedirectPassword = () => {
     this.props.history.push("/business/profile/password");
+  };
+
+  handleLogout = () => {
+    sessionStorage.setItem("tk", "");
+    sessionStorage.setItem("logged", false);
+    this.props.history.push("/");
   };
 
   render() {
@@ -105,7 +143,7 @@ class BusinessProfile extends Component {
               <p>Rosanaa Maria del Gracia</p>{" "}
               {/* cambiar por el nombre obtenido del back */}
             </div>
-            <div style={{ textAlign: "left" }}>
+            <div>
               <div>
                 <button
                   onClick={this.handleRedirect}
@@ -139,6 +177,7 @@ class BusinessProfile extends Component {
                   color="secondary"
                   startIcon={<PowerSettingsNew />}
                   style={{ width: "150px", margin: "0", padding: "5px 0" }}
+                  onClick={this.handleLogout}
                 >
                   Cerrar sesion
                 </Button>
@@ -193,6 +232,10 @@ class BusinessProfile extends Component {
                 dataModel.documentNumber = values.numeroDocumento;
                 dataModel.email = values.correo;
 
+                (async () => {
+                  await this.handleEditData(dataModel);
+                })();
+
                 // aqui los getter y handler
               }}
             >
@@ -205,7 +248,7 @@ class BusinessProfile extends Component {
                 errors,
                 touched,
               }) => (
-                <form name="formData">
+                <form name="formData" onSubmit={handleSubmit}>
                   <h2>Datos de la empresa</h2>
                   <div className="row">
                     <TextField

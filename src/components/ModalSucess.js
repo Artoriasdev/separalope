@@ -8,8 +8,8 @@ const Modal = ({ children, show, closeCallback }) => (
       <div style={{ color: "#EE3224", fontWeight: "bold", fontSize: "24px" }}>
         Separalo pe!
       </div>
-      {/* {children} */}
-      Registro grabado satisfactoriamente
+      {children}
+      {/* Registro grabado satisfactoriamente */}
       <button title="Cerrar" className="close_modal" onClick={closeCallback}>
         X
       </button>

@@ -37,7 +37,11 @@ class BusinessProfilePassword extends Component {
     this.props.history.push("/business/profile/password");
   };
 
-  //componentDidMount ,handlers
+  handleLogout = () => {
+    sessionStorage.setItem("tk", "");
+    sessionStorage.setItem("logged", false);
+    this.props.history.push("/");
+  };
 
   render() {
     return (
@@ -103,6 +107,7 @@ class BusinessProfilePassword extends Component {
                   color="secondary"
                   startIcon={<PowerSettingsNew />}
                   style={{ width: "150px", margin: "0", padding: "5px 0" }}
+                  onClick={this.handleLogout}
                 >
                   Cerrar sesion
                 </Button>
