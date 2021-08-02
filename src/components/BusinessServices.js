@@ -1,5 +1,4 @@
 import {
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -7,17 +6,67 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
+import Axios from "axios";
 import React from "react";
 import { Component } from "react";
 import Container from "../Modal/Container/ContainerService";
+import ModalError from "./ModalError";
 
 class BusinessServices extends Component {
   constructor(props) {
     super(props);
     this.state = {
       triggerText: "Agregar servicio",
+      disclaimerModal: "",
+      showModalError: false,
     };
   }
+
+  componentDidMount() {
+    try {
+      const tk = sessionStorage.getItem("tk");
+      var headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tk}`,
+      };
+
+      let linkDocumentsApi =
+        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusiness";
+
+      const rspApi = Axios.get(linkDocumentsApi, {
+        headers: headers,
+      })
+        .then((response) => {
+          console.log(response);
+
+          return response;
+        })
+        .catch((error) => {
+          const { status } = error.response;
+          if (status === 401) {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Sesion expirada, porfavor vuelva a iniciar sesion",
+            });
+            setTimeout(() => {
+              this.props.history.push("/login/B");
+            }, 3000);
+          }
+        });
+      return rspApi;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  toggleModalError = () => {
+    this.setState({
+      showModalError: false,
+    });
+    this.props.history.push("/login/B");
+  };
 
   createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
@@ -57,6 +106,17 @@ class BusinessServices extends Component {
   render() {
     return (
       <>
+        <ModalError
+          show={this.state.showModalError}
+          closeCallback={this.toggleModalError}
+        >
+          <React.Fragment>
+            <div
+              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
+            />
+          </React.Fragment>
+        </ModalError>
+
         <div>
           <h4>Inicio &gt; Mis servicios</h4>
           <h1>Mis servicios</h1>

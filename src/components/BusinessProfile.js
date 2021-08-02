@@ -6,14 +6,16 @@ import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import axios from "axios";
 import { PowerSettingsNew, Save } from "@material-ui/icons";
+import ModalError from "./ModalError";
 
 class BusinessProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      testData: [],
       typeData: [],
       edit: false,
+      showModalError: false,
+      disclaimerModal: "",
     };
   }
   handleEdit = () => {
@@ -52,6 +54,7 @@ class BusinessProfile extends Component {
           this.setState({
             typeData: data,
           });
+          console.log(response);
 
           const Formik = this.form;
           Formik.setFieldValue("nombreCompañia", this.state.typeData[0].name);
@@ -67,7 +70,17 @@ class BusinessProfile extends Component {
           return response;
         })
         .catch((error) => {
-          console.log(error);
+          const { status } = error.response;
+          if (status === 401) {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Sesion expirada, porfavor vuelva a iniciar sesion",
+            });
+            setTimeout(() => {
+              this.props.history.push("/login/B");
+            }, 3000);
+          }
         });
       return rspApi;
     } catch (error) {
@@ -96,6 +109,13 @@ class BusinessProfile extends Component {
     return rspApi;
   };
 
+  toggleModalError = () => {
+    this.setState({
+      showModalError: false,
+    });
+    this.props.history.push("/login/B");
+  };
+
   //componentDidMount ,handlers
   handleRedirect = () => {
     this.props.history.push("/business/profile");
@@ -109,13 +129,23 @@ class BusinessProfile extends Component {
 
   handleLogout = () => {
     sessionStorage.setItem("tk", "");
-    sessionStorage.setItem("logged", false);
+
     this.props.history.push("/");
   };
 
   render() {
     return (
       <>
+        <ModalError
+          show={this.state.showModalError}
+          closeCallback={this.toggleModalError}
+        >
+          <React.Fragment>
+            <div
+              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
+            />
+          </React.Fragment>
+        </ModalError>
         <div style={{ marginTop: "50px", marginLeft: "50px" }}>
           <div
             className="header_container"

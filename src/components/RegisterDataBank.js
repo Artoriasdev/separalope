@@ -6,6 +6,8 @@ import ModalSucess from "./ModalSucess";
 import { TextField, Button } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import { Save } from "@material-ui/icons";
+import axios from "axios";
+import ModalError from "./ModalError";
 
 class RegisterDataBank extends Component {
   constructor(props) {
@@ -15,7 +17,60 @@ class RegisterDataBank extends Component {
       typeData: [],
       showModalSucesss: false,
       disclaimerModal: "",
+      showModalError: false,
+      disableButton: false,
     };
+  }
+
+  componentDidMount() {
+    try {
+      const tk = sessionStorage.getItem("tk");
+      var headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tk}`,
+      };
+
+      let linkDocumentsApi =
+        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusinessBankData";
+
+      const rspApi = axios
+        .get(linkDocumentsApi, {
+          headers: headers,
+        })
+        .then((response) => {
+          if (response.data.response === "true") {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Usted ya cuenta con datos bancarios <br>Redirecionandolo...",
+              disableButton: true,
+            });
+            setTimeout(() => {
+              this.props.history.push("/business/profile");
+            }, 3000);
+          } else {
+            this.handleInfoSubmit();
+          }
+          return response;
+        })
+        .catch((error) => {
+          const { status } = error.response;
+          if (status === 401) {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Sesion expirada, porfavor vuelva a iniciar sesion",
+            });
+            setTimeout(() => {
+              this.props.history.push("/login/B");
+            }, 3000);
+          }
+        });
+      return rspApi;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   handleInfoSubmit = async (BankModel) => {
@@ -45,9 +100,27 @@ class RegisterDataBank extends Component {
     this.props.history.push("/business/profile");
   };
 
+  toggleModalError = () => {
+    this.setState({
+      showModalError: false,
+    });
+    this.props.history.push("/login/B");
+  };
+
   render() {
     return (
       <>
+        <ModalError
+          show={this.state.showModalError}
+          closeCallback={this.toggleModalError}
+          disabled={this.state.disableButton}
+        >
+          <React.Fragment>
+            <div
+              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
+            />
+          </React.Fragment>
+        </ModalError>
         <ModalSucess
           show={this.state.showModalSucesss}
           closeCallback={this.toggleModalSuccess}

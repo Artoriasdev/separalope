@@ -6,6 +6,7 @@ import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import { PowerSettingsNew, Save } from "@material-ui/icons";
 import axios from "axios";
+import ModalError from "./ModalError";
 
 class BusinessProfileBank extends Component {
   constructor(props) {
@@ -62,7 +63,17 @@ class BusinessProfileBank extends Component {
           return response;
         })
         .catch((error) => {
-          console.log(error);
+          const { status } = error.response;
+          if (status === 401) {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Sesion expirada, porfavor vuelva a iniciar sesion",
+            });
+            setTimeout(() => {
+              this.props.history.push("/login/B");
+            }, 3000);
+          }
         });
       return rspApi;
     } catch (error) {
@@ -112,13 +123,29 @@ class BusinessProfileBank extends Component {
 
   handleLogout = () => {
     sessionStorage.setItem("tk", "");
-    sessionStorage.setItem("logged", false);
     this.props.history.push("/");
+  };
+
+  toggleModalError = () => {
+    this.setState({
+      showModalError: false,
+    });
+    this.props.history.push("/login/B");
   };
 
   render() {
     return (
       <>
+        <ModalError
+          show={this.state.showModalError}
+          closeCallback={this.toggleModalError}
+        >
+          <React.Fragment>
+            <div
+              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
+            />
+          </React.Fragment>
+        </ModalError>
         <div style={{ marginTop: "50px", marginLeft: "50px" }}>
           <div
             className="header_container"

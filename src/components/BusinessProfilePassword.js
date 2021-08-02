@@ -5,6 +5,7 @@ import { Button, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import { PowerSettingsNew, Save, Visibility } from "@material-ui/icons";
+import ModalError from "./ModalError";
 
 class BusinessProfilePassword extends Component {
   constructor(props) {
@@ -39,13 +40,30 @@ class BusinessProfilePassword extends Component {
 
   handleLogout = () => {
     sessionStorage.setItem("tk", "");
-    sessionStorage.setItem("logged", false);
+
     this.props.history.push("/");
+  };
+
+  toggleModalError = () => {
+    this.setState({
+      showModalError: false,
+    });
+    this.props.history.push("/login/B");
   };
 
   render() {
     return (
       <>
+        <ModalError
+          show={this.state.showModalError}
+          closeCallback={this.toggleModalError}
+        >
+          <React.Fragment>
+            <div
+              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
+            />
+          </React.Fragment>
+        </ModalError>
         <div style={{ marginTop: "50px", marginLeft: "50px" }}>
           <div
             className="header_container"
