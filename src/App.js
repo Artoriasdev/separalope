@@ -30,6 +30,7 @@ import BusinessProfile from "./components/BusinessProfile";
 import BussinesProfileBank from "./components/BusinessProfileBank";
 import BussinesProfilePassword from "./components/BusinessProfilePassword";
 import RegisterDataBank from "./components/RegisterDataBank";
+import ServiceDetail from "./components/ServiceDetail";
 
 // import HomePage from "./pages/Home";
 
@@ -139,6 +140,12 @@ function App() {
           <Navbar />
           <Switch>
             <StyledMain f="1 0 auto" mt={"5.9rem"} bg={"#fff"}>
+              <Route
+                exact
+                path="/business/services/details"
+                component={ServiceDetail}
+              />
+
               <Route
                 exact
                 path="/business/profile"

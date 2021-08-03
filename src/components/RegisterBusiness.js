@@ -189,7 +189,8 @@ class RegisterBusiness extends Component {
               touched,
             }) => (
               <form name="formRegister" onSubmit={handleSubmit}>
-                {/* <input
+                <div className="files">
+                  {/* <input
                     type="text"
                     placeholder="Razon social"
                     name="razon"
@@ -198,8 +199,6 @@ class RegisterBusiness extends Component {
                     value={values.razon}
                     onChange={handleChange}
                   /> */}
-
-                <div className="files">
                   <TextField
                     name="razon"
                     className="TxtField"
