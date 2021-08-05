@@ -1,7 +1,6 @@
 import {
   Avatar,
   Button,
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -10,7 +9,7 @@ import {
   TableRow,
   TextField,
 } from "@material-ui/core";
-import { PhotoCamera, PowerSettingsNew } from "@material-ui/icons";
+
 import React from "react";
 import { Component } from "react";
 import { handleRegexDisable } from "../utils/utilitaries";
@@ -29,6 +28,15 @@ class ServiceDetail extends Component {
     this.createData("Sabado"),
     this.createData("Domingo"),
   ];
+
+  handleRedirectService = () => {
+    this.props.history.push("/business/services/details");
+  };
+
+  handleRedirectAppointment = () => {
+    this.props.history.push("/business/services/appointment");
+  };
+
   render() {
     return (
       <div style={{ margin: "40px 0" }}>
@@ -44,7 +52,7 @@ class ServiceDetail extends Component {
           <div>
             <div>
               <button
-                // onClick={this.handleRedirect}
+                onClick={this.handleRedirectService}
                 className="button_ref"
                 style={{ textDecoration: "none" }}
               >
@@ -53,7 +61,7 @@ class ServiceDetail extends Component {
             </div>
             <div style={{ marginTop: "20px" }}>
               <button
-                // onClick={this.handleRedirectBank}
+                onClick={this.handleRedirectAppointment}
                 className="button_ref"
                 style={{ textDecoration: "none" }}
               >
@@ -63,7 +71,7 @@ class ServiceDetail extends Component {
           </div>
         </div>
 
-        <div style={{ width: "540px", margin: "-250px auto" }}>
+        <div style={{ width: "50%", margin: "-250px auto" }}>
           <h1>Detalles</h1>
           <div style={{ display: "flex" }}>
             <Avatar
@@ -212,7 +220,7 @@ class ServiceDetail extends Component {
                         }}
                       />
                     </TableCell>
-                    <TableCell className="font">
+                    <TableCell className="font" style={{ textAlign: "center" }}>
                       <TextField
                         id="time"
                         label="Fin"

@@ -3,7 +3,14 @@ import { Component } from "react";
 import Axios from "axios";
 import { Formik } from "formik";
 import ModalSucess from "./ModalSucess";
-import { TextField, Button } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import { Save } from "@material-ui/icons";
 import axios from "axios";
@@ -14,9 +21,11 @@ class RegisterDataBank extends Component {
     super(props);
 
     this.state = {
+      typeBank: [],
       typeData: [],
-      showModalSucesss: false,
+      typeAccount: [],
       disclaimerModal: "",
+      showModalSucesss: false,
       showModalError: false,
       disableButton: false,
     };
@@ -51,6 +60,8 @@ class RegisterDataBank extends Component {
             }, 3000);
           } else {
             this.handleInfoSubmit();
+            this.handleGetTypeBank();
+            this.handleGetTypeAccount();
           }
           return response;
         })
@@ -91,6 +102,58 @@ class RegisterDataBank extends Component {
     });
 
     return rspApi;
+  };
+
+  handleGetTypeBank = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getBanks";
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+        console.log(data);
+
+        this.setState({
+          typeBank: data,
+        });
+
+        return response;
+      });
+  };
+
+  handleGetTypeAccount = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getBanksAccountType/1";
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+        console.log(data);
+
+        this.setState({
+          typeAccount: data,
+        });
+
+        return response;
+      });
   };
 
   toggleModalSuccess = () => {
@@ -137,7 +200,8 @@ class RegisterDataBank extends Component {
           <Formik
             ref={(ref) => (this.form = ref)}
             initialValues={{
-              banco: "",
+              bancoId: "",
+              tipoId: "",
               numeroCuenta: "",
               numeroInterbancario: "",
               correoBancario: "",
@@ -146,13 +210,15 @@ class RegisterDataBank extends Component {
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(false);
               const bankModel = {
-                bankName: "",
+                idBank: "",
+                idBankAccountType: "",
                 accountNumber: "",
                 interbankAccountNumber: "",
                 email: "",
               };
 
-              bankModel.bankName = values.banco;
+              bankModel.idBank = values.bancoId;
+              bankModel.idBankAccountType = values.tipoId;
               bankModel.accountNumber = values.numeroCuenta;
               bankModel.interbankAccountNumber = values.numeroInterbancario;
               bankModel.email = values.correoBancario;
@@ -184,14 +250,14 @@ class RegisterDataBank extends Component {
             }) => (
               <form name="formBank" onSubmit={handleSubmit}>
                 <div className="files">
-                  <TextField
+                  {/* <TextField
                     name="banco"
                     className="TxtField"
                     variant="outlined"
                     label="Nombre del banco"
                     fullWidth
-                    value={values.banco}
-                    error={errors.banco && touched.banco}
+                    value={values.bancoId}
+                    error={errors.bancoId && touched.bancoId}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     style={{
@@ -203,7 +269,63 @@ class RegisterDataBank extends Component {
                     //   maxLength: 9,
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
+                  /> */}
+
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    style={{
+                      marginTop: "10px",
+                      marginRight: "5px",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    <InputLabel id="bankLabel">Nombre de banco</InputLabel>
+                    <Select
+                      labelId="bankLabel"
+                      label="Nombre de banco"
+                      value={values.bancoId}
+                      error={errors.bancoId && touched.bancoId}
+                      name="bancoId"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      {this.state.typeBank &&
+                        this.state.typeBank.map(({ id, name }) => (
+                          <MenuItem key={id} value={id}>
+                            {name}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    style={{
+                      marginTop: "10px",
+                      marginRight: "5px",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    <InputLabel id="accountType">Tipo de cuenta</InputLabel>
+                    <Select
+                      labelId="accountType"
+                      label="Tipo de cuenta"
+                      value={values.tipoId}
+                      error={errors.tipoId && touched.tipoId}
+                      name="tipoId"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      {this.state.typeAccount &&
+                        this.state.typeAccount.map(({ id, description }) => (
+                          <MenuItem key={id} value={id}>
+                            {description}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
 
                   <TextField
                     name="numeroCuenta"

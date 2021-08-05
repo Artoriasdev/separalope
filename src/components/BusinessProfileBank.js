@@ -1,7 +1,14 @@
 import React from "react";
 import { Component } from "react";
 import { Formik } from "formik";
-import { Button, TextField } from "@material-ui/core";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import { PowerSettingsNew, Save } from "@material-ui/icons";
@@ -13,12 +20,16 @@ class BusinessProfileBank extends Component {
     super(props);
     this.state = {
       formModel: [],
+      typeBank: [],
+      typeAccount: [],
       editButton: false,
     };
   }
 
   componentDidMount() {
     try {
+      this.handleGetTypeBank();
+      this.handleGetTypeAccount();
       (async () => {
         await this.handleGetData();
       })();
@@ -49,6 +60,8 @@ class BusinessProfileBank extends Component {
             formModel: data,
           });
 
+          console.log(data);
+
           const Formik = this.form;
           Formik.setFieldValue("banco", this.state.formModel[0].bankName);
           Formik.setFieldValue(
@@ -60,6 +73,8 @@ class BusinessProfileBank extends Component {
             this.state.formModel[0].interbankAccountNumber
           );
           Formik.setFieldValue("correoBancario", this.state.formModel[0].email);
+          Formik.setFieldValue("bancoId", this.state.formModel[0].idBank);
+          Formik.setFieldValue("tipoId", this.state.formModel[0].idAccountType);
           return response;
         })
         .catch((error) => {
@@ -79,6 +94,58 @@ class BusinessProfileBank extends Component {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  handleGetTypeBank = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getBanks";
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+        console.log(data);
+
+        this.setState({
+          typeBank: data,
+        });
+
+        return response;
+      });
+  };
+
+  handleGetTypeAccount = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getBanksAccountType/1";
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+        console.log(data);
+
+        this.setState({
+          typeAccount: data,
+        });
+
+        return response;
+      });
   };
 
   handleEditData = async (bankModel) => {
@@ -252,25 +319,28 @@ class BusinessProfileBank extends Component {
             <Formik
               ref={(ref) => (this.form = ref)}
               initialValues={{
-                banco: "",
                 numeroCuenta: "",
                 numeroInterbancario: "",
                 correoBancario: "",
+                bancoId: "",
+                tipoId: "",
               }}
               validate={{}}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 const bankModel = {
-                  bankName: "",
                   accountNumber: "",
                   interbankAccountNumber: "",
                   email: "",
+                  idBankAccountType: "",
+                  idBank: "",
                 };
 
-                bankModel.bankName = values.banco;
                 bankModel.accountNumber = values.numeroCuenta;
                 bankModel.interbankAccountNumber = values.numeroInterbancario;
                 bankModel.email = values.correoBancario;
+                bankModel.idBank = values.bancoId;
+                bankModel.idBankAccountType = values.tipoId;
 
                 (async () => {
                   await this.handleEditData(bankModel);
@@ -308,27 +378,63 @@ class BusinessProfileBank extends Component {
                   ) : null}
 
                   <div className="row">
-                    <TextField
-                      name="banco"
-                      className="TxtField"
+                    <FormControl
                       variant="outlined"
-                      label="Nombre del banco"
                       fullWidth
-                      value={values.banco}
-                      error={errors.banco && touched.banco}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      disabled={!this.state.editButton}
                       style={{
                         marginTop: "10px",
                         marginRight: "5px",
                         marginBottom: "15px",
                       }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
+                    >
+                      <InputLabel id="bankLabel">Nombre de banco</InputLabel>
+                      <Select
+                        labelId="bankLabel"
+                        label="Nombre de banco"
+                        value={values.bancoId}
+                        error={errors.bancoId && touched.bancoId}
+                        name="bancoId"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        disabled={!this.state.editButton}
+                      >
+                        {this.state.typeBank &&
+                          this.state.typeBank.map(({ id, name }) => (
+                            <MenuItem key={id} value={id}>
+                              {name}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </FormControl>
+
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      style={{
+                        marginTop: "10px",
+                        marginRight: "5px",
+                        marginBottom: "15px",
+                      }}
+                    >
+                      <InputLabel id="accountType">Tipo de cuenta</InputLabel>
+                      <Select
+                        labelId="accountType"
+                        label="Tipo de cuenta"
+                        value={values.tipoId}
+                        error={errors.tipoId && touched.tipoId}
+                        name="tipoId"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        disabled={!this.state.editButton}
+                      >
+                        {this.state.typeAccount &&
+                          this.state.typeAccount.map(({ id, description }) => (
+                            <MenuItem key={id} value={id}>
+                              {description}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </FormControl>
 
                     <TextField
                       name="numeroCuenta"

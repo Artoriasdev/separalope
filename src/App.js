@@ -31,6 +31,7 @@ import BussinesProfileBank from "./components/BusinessProfileBank";
 import BussinesProfilePassword from "./components/BusinessProfilePassword";
 import RegisterDataBank from "./components/RegisterDataBank";
 import ServiceDetail from "./components/ServiceDetail";
+import ServiceAppointment from "./components/ServiceAppointments";
 
 // import HomePage from "./pages/Home";
 
@@ -140,6 +141,11 @@ function App() {
           <Navbar />
           <Switch>
             <StyledMain f="1 0 auto" mt={"5.9rem"} bg={"#fff"}>
+              <Route
+                exact
+                path="/business/services/appointment"
+                component={ServiceAppointment}
+              />
               <Route
                 exact
                 path="/business/services/details"
