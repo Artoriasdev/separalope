@@ -129,6 +129,7 @@ class BusinessProfile extends Component {
 
   handleLogout = () => {
     sessionStorage.setItem("tk", "");
+    sessionStorage.removeItem("logged");
 
     this.props.history.push("/");
   };

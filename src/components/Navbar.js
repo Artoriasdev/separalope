@@ -13,7 +13,6 @@ const Navbar = () => {
             </figure>
           </button>
         </div>
-
         <div className="ulSession">
           <ul className="nav">
             <li>

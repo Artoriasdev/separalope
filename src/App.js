@@ -32,6 +32,8 @@ import BussinesProfilePassword from "./components/BusinessProfilePassword";
 import RegisterDataBank from "./components/RegisterDataBank";
 import ServiceDetail from "./components/ServiceDetail";
 import ServiceAppointment from "./components/ServiceAppointments";
+import NavBarLogged from "./components/NavBarLogged";
+import { useState } from "react";
 
 // import HomePage from "./pages/Home";
 
@@ -138,7 +140,12 @@ function App() {
         <ThemeProvider theme={theme}></ThemeProvider>
         <StyledGlobal />
         <BrowserRouter>
-          <Navbar />
+          {JSON.parse(sessionStorage.getItem("logged")) ? (
+            <NavBarLogged />
+          ) : (
+            <Navbar />
+          )}
+
           <Switch>
             <StyledMain f="1 0 auto" mt={"5.9rem"} bg={"#fff"}>
               <Route

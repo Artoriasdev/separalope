@@ -23,6 +23,11 @@ class Login extends Component {
         if (response.data.response === "true") {
           sessionStorage.setItem("tk", response.data.data.token);
           sessionStorage.setItem("logged", response.data.response);
+          sessionStorage.setItem(
+            "info",
+            JSON.stringify(response.data.data.listMenu)
+          );
+
           if (LoginModel.workflow === "B") {
             this.props.history.push("/business/category");
           }
@@ -158,7 +163,6 @@ class Login extends Component {
                   color="primary"
                   variant="contained"
                   className="btn-primary"
-                  disabled={isSubmitting}
                   style={{
                     margin: "10px 0",
                   }}
