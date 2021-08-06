@@ -15,51 +15,51 @@ class PastAppointments extends Component {
     this.createData(
       "1",
       "Clases de ingles básico",
-      "jorgerojas@hotmail.com",
+      "luiscastillo@hotmail.com",
       "domingo, 24 de junio 2021",
-      "12:00 PM"
+      "2:00 PM"
     ),
     this.createData(
       "2",
       "Clases de ingles básico",
-      "manuelvicio@hotmail.com",
+      "manuelrojas@hotmail.com",
       "sabado, 24 de junio 2021",
-      "12:00 PM"
+      "1:00 PM"
     ),
     this.createData(
       "3",
       "Clases de ingles básico",
       "test5@correotest.com",
       "viernes, 24 de junio 2021",
-      "12:00 PM"
+      "8:00 PM"
     ),
     this.createData(
       "4",
       "Clases de ingles básico",
-      "haberhaber@correotest.com",
+      "pedrocastillo@correotest.com",
       "lunes, 24 de junio 2021",
-      "12:00 PM"
+      "4:00 PM"
     ),
     this.createData(
       "5",
       "Clases de ingles básico",
       "yuyuyu@hotmail.com",
       "lunes, 24 de junio 2021",
-      "12:00 PM"
+      "8:00 PM"
     ),
     this.createData(
       "6",
       "Clases de ingles básico",
       "arthasmenethil@blubblub.com",
       "miercoles, 24 de junio 2021",
-      "12:00 PM"
+      "6:00 PM"
     ),
     this.createData(
       "7",
       "Clases de ingles básico",
       "bolvarfordragon@blubblub.com",
       "martes, 24 de junio 2021",
-      "12:00 PM"
+      "5:00 PM"
     ),
   ];
 
@@ -69,7 +69,11 @@ class PastAppointments extends Component {
         <h1>Citas Pasadas</h1>
         {this.rows.map((row) => (
           <Card
-            style={{ width: 275, display: "inline-block", margin: "10px 20px" }}
+            style={{
+              width: 275,
+              display: "inline-block",
+              margin: "10px 0 10px 40px",
+            }}
             variant="elevation"
             key={row.id}
           >

@@ -286,7 +286,7 @@ class BusinessProfileBank extends Component {
             className="text_form"
             style={{
               marginTop: "-550px",
-              marginLeft: "50vh",
+              marginLeft: "25%",
               boxSizing: "border-box",
               overflowX: "hidden",
             }}
@@ -311,7 +311,7 @@ class BusinessProfileBank extends Component {
           <div
             className="text_form"
             style={{
-              marginLeft: "50vh",
+              marginLeft: "25%",
               boxSizing: "border-box",
               overflowX: "hidden",
             }}

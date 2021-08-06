@@ -220,7 +220,7 @@ class BusinessProfile extends Component {
             className="text_form"
             style={{
               marginTop: "-550px",
-              marginLeft: "50vh",
+              marginLeft: "25%",
               boxSizing: "border-box",
               overflowX: "hidden",
             }}

@@ -1,4 +1,5 @@
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -74,34 +75,38 @@ class BusinessServices extends Component {
 
   rows = [
     this.createData(
-      "Ice cream sandwich",
+      "Clases de ingles",
       "Clases de inglés básico para niños. Nivel 3 a 5 años",
       "1 hora(s)",
       "S/.30.0",
       "Ver citas pendientes"
     ),
     this.createData(
-      "Eclair",
+      "Terapias",
       "Terapias de coaching personalizado para alcanzar tus metas",
       "1 hora(s)",
       "S/.50.0",
       "Ver citas pendientes"
     ),
     this.createData(
-      "Cupcake",
+      "Cuenta para eliminar",
       "Cuenta para eliminar",
       "2 hora(s)",
       "S/.30.0",
       "Ver citas pendientes"
     ),
     this.createData(
-      "Gingerbread",
+      "Entrenamiento espartano",
       "Necesitas 300 clases para ser como yo",
       "2 hora(s)",
       "S/.75.0",
       "Ver citas pendientes"
     ),
   ];
+
+  handleTemp = () => {
+    this.props.history.push("/business/services/details");
+  };
 
   render() {
     return (
@@ -117,7 +122,7 @@ class BusinessServices extends Component {
           </React.Fragment>
         </ModalError>
 
-        <div>
+        <div style={{ padding: "10px 30px" }}>
           <h4>Inicio &gt; Mis servicios</h4>
           <h1>Mis servicios</h1>
           <h3>Tus servicios</h3>
@@ -126,6 +131,16 @@ class BusinessServices extends Component {
           <div style={{ display: "block" }}>
             <h4>Estos son los servicios que han sido registrados</h4>
           </div>
+
+          <Button
+            variant="contained"
+            color="secondary"
+            className="btn-primary"
+            style={{ marginTop: "10px", marginBottom: "20px" }}
+            onClick={this.handleTemp}
+          >
+            Ir a detalles citas
+          </Button>
 
           <TableContainer
             style={{

@@ -1,26 +1,13 @@
-import logo from "./logo.svg";
 // import './App.css';
 //importar sass
 import "./sass/styles.scss";
 import FONT_MAVEN_REGULAR from "./assets/fonts/MavenPro-Regular.ttf";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import {
-  StyledRoot,
-  StyledMain,
-  StyledDiv,
-  StyledFigure,
-  StyledTitle,
-} from "./helpers/styled";
+import { StyledRoot, StyledMain } from "./helpers/styled";
 // import FullPageLoader from "./components/FullPageLoader";
 import { StyledGlobal } from "./helpers/styled";
 import Navbar from "./components/Navbar";
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-  Redirect,
-  Router,
-} from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Login from "./components/Login";
 import RegisterCustomer from "./components/RegisterCustomer";
 import RegisterBusiness from "./components/RegisterBusiness";
@@ -33,7 +20,7 @@ import RegisterDataBank from "./components/RegisterDataBank";
 import ServiceDetail from "./components/ServiceDetail";
 import ServiceAppointment from "./components/ServiceAppointments";
 import NavBarLogged from "./components/NavBarLogged";
-import { useState } from "react";
+import HomePage from "./components/HomePage";
 
 // import HomePage from "./pages/Home";
 
@@ -201,8 +188,8 @@ function App() {
                 path="/register/business"
                 component={RegisterBusiness}
               />
-              {/* <Route path="/" exact component={HomePage} /> */}
-              {/* <Redirect from="*" to="/" /> */}
+
+              <Route exact path="/" component={HomePage} />
             </StyledMain>
           </Switch>
           {/* <Footer /> */}

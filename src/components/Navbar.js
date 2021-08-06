@@ -1,13 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { AvatarSVG, LogoSVG } from "../assets/images/svg";
 
 const Navbar = () => {
+  const history = useHistory();
+
+  const handleRedirectHome = () => {
+    history.push("/");
+  };
+
   return (
     <header className="header">
       <nav className="nav navAlign">
         <div className="nav__logo">
-          <button className="buttonHeader">
+          <button
+            className="buttonHeader"
+            onClick={() => {
+              handleRedirectHome();
+            }}
+          >
             <figure className="buttonHeader__figure">
               <LogoSVG />
             </figure>

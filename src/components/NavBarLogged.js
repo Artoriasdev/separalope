@@ -9,7 +9,7 @@ const Navbar = () => {
 
   const [info, setInfo] = useState(JSON.parse(sessionStorage.getItem("info")));
 
-  const handleRedirect = (id) => {
+  const handleRedirectProfile = (id) => {
     if (id === 1) {
       history.push("/business/profile");
     }
@@ -24,6 +24,10 @@ const Navbar = () => {
     }
   };
 
+  const handleRedirectHome = () => {
+    history.push("/");
+  };
+
   const handleLogout = () => {
     sessionStorage.removeItem("logged");
     setLog(false);
@@ -34,7 +38,12 @@ const Navbar = () => {
     <header className="header">
       <nav className="nav navAlign">
         <div className="nav__logo">
-          <button className="buttonHeader">
+          <button
+            className="buttonHeader"
+            onClick={() => {
+              handleRedirectHome();
+            }}
+          >
             <figure className="buttonHeader__figure">
               <LogoSVG />
             </figure>
@@ -48,7 +57,7 @@ const Navbar = () => {
                   <button
                     className="buttonNav normal"
                     onClick={() => {
-                      handleRedirect(idMenu);
+                      handleRedirectProfile(idMenu);
                     }}
                   >
                     {nameMenu}

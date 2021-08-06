@@ -57,7 +57,7 @@ class ServiceAppointment extends Component {
             </div>
           </div>
         </div>
-        <div style={{ width: "50%", margin: " -200px auto" }}>
+        <div style={{ width: "51%", margin: " -200px auto" }}>
           <AppBar position="static" className="btn-primary">
             <Tabs
               variant="fullWidth"
@@ -65,8 +65,8 @@ class ServiceAppointment extends Component {
               onChange={this.handleChange}
               aria-label="nav tabs example"
             >
-              <LinkTab label="Citas futuras" href="/drafts" />
-              <LinkTab label="Citas pendientes" href="/trash" />
+              <LinkTab label="Citas pendientes" href="/drafts" />
+              <LinkTab label="Citas pasadas" href="/trash" />
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.value} index={0}>

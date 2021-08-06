@@ -69,7 +69,11 @@ class FutureAppointments extends Component {
         <h1>Citas a venir</h1>
         {this.rows.map((row) => (
           <Card
-            style={{ width: 275, display: "inline-block", margin: "10px 20px" }}
+            style={{
+              width: 275,
+              display: "inline-block",
+              margin: "10px 0 10px 40px",
+            }}
             variant="elevation"
             key={row.id}
           >
