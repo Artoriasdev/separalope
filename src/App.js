@@ -15,12 +15,16 @@ import BusinessCategory from "./components/BusinessCategory";
 import BusinessServices from "./components/BusinessServices";
 import BusinessProfile from "./components/BusinessProfile";
 import BussinesProfileBank from "./components/BusinessProfileBank";
-import BussinesProfilePassword from "./components/BusinessProfilePassword";
+import Password from "./components/Password";
 import RegisterDataBank from "./components/RegisterDataBank";
 import ServiceDetail from "./components/ServiceDetail";
 import ServiceAppointment from "./components/ServiceAppointments";
 import NavBarLogged from "./components/NavBarLogged";
 import HomePage from "./components/HomePage";
+import ClientProfile from "./components/ClientProfile";
+import Question from "./components/Question";
+import CustomerAppointment from "./components/CustomerAppointment";
+import CustomerHistory from "./components/CustomerHistory";
 
 // import HomePage from "./pages/Home";
 
@@ -161,11 +165,7 @@ function App() {
                 path="/business/profile/bank"
                 component={BussinesProfileBank}
               />
-              <Route
-                exact
-                path="/business/profile/password"
-                component={BussinesProfilePassword}
-              />
+              <Route exact path="/password_change" component={Password} />
               <Route
                 exact
                 path="/business/category"
@@ -183,10 +183,26 @@ function App() {
                 path="/register/customer"
                 component={RegisterCustomer}
               />
+
+              <Route exact path="/customer/profile" component={ClientProfile} />
+
               <Route
                 exact
                 path="/register/business"
                 component={RegisterBusiness}
+              />
+              <Route exact path="/frequent-questions" component={Question} />
+
+              <Route
+                exact
+                path="/customer-appointment"
+                component={CustomerAppointment}
+              />
+
+              <Route
+                exact
+                path="/customer-history"
+                component={CustomerHistory}
               />
 
               <Route exact path="/" component={HomePage} />

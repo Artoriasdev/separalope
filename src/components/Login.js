@@ -27,6 +27,7 @@ class Login extends Component {
             "info",
             JSON.stringify(response.data.data.listMenu)
           );
+          sessionStorage.setItem("workflow", LoginModel.workflow);
 
           if (LoginModel.workflow === "B") {
             this.props.history.push("/business/category");
@@ -34,6 +35,7 @@ class Login extends Component {
 
           if (LoginModel.workflow === "C") {
             this.props.history.push("/");
+            this.handleGetDataCustomer();
           }
         }
         console.log(response);
@@ -43,6 +45,37 @@ class Login extends Component {
         console.log(response.data.message);
       });
     return rspApi;
+  };
+
+  handleGetDataCustomer = async () => {
+    try {
+      const tk = sessionStorage.getItem("tk");
+      var headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tk}`,
+      };
+
+      let linkDocumentsApi =
+        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/getCustomer";
+
+      const rspApi = await Axios.get(linkDocumentsApi, {
+        headers: headers,
+      })
+        .then((response) => {
+          const { data } = response.data;
+
+          sessionStorage.setItem("name", data[0].name);
+
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      return rspApi;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {

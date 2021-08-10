@@ -55,26 +55,40 @@ class BusinessProfileBank extends Component {
           headers: headers,
         })
         .then((response) => {
-          const { data } = response.data;
-          this.setState({
-            formModel: data,
-          });
+          if (response.data.response === "true") {
+            const { data } = response.data;
+            this.setState({
+              formModel: data,
+            });
 
-          console.log(data);
+            console.log(data);
 
-          const Formik = this.form;
-          Formik.setFieldValue("banco", this.state.formModel[0].bankName);
-          Formik.setFieldValue(
-            "numeroCuenta",
-            this.state.formModel[0].accountNumber
-          );
-          Formik.setFieldValue(
-            "numeroInterbancario",
-            this.state.formModel[0].interbankAccountNumber
-          );
-          Formik.setFieldValue("correoBancario", this.state.formModel[0].email);
-          Formik.setFieldValue("bancoId", this.state.formModel[0].idBank);
-          Formik.setFieldValue("tipoId", this.state.formModel[0].idAccountType);
+            const Formik = this.form;
+            Formik.setFieldValue("banco", this.state.formModel[0].bankName);
+            Formik.setFieldValue(
+              "numeroCuenta",
+              this.state.formModel[0].accountNumber
+            );
+            Formik.setFieldValue(
+              "numeroInterbancario",
+              this.state.formModel[0].interbankAccountNumber
+            );
+            Formik.setFieldValue(
+              "correoBancario",
+              this.state.formModel[0].email
+            );
+            Formik.setFieldValue("bancoId", this.state.formModel[0].idBank);
+            Formik.setFieldValue(
+              "tipoId",
+              this.state.formModel[0].idAccountType
+            );
+          } else {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Usted no esta autorizado para ver esta información",
+            });
+          }
           return response;
         })
         .catch((error) => {
@@ -85,9 +99,6 @@ class BusinessProfileBank extends Component {
               disclaimerModal:
                 "Sesion expirada, porfavor vuelva a iniciar sesion",
             });
-            setTimeout(() => {
-              this.props.history.push("/login/B");
-            }, 3000);
           }
         });
       return rspApi;
@@ -189,7 +200,11 @@ class BusinessProfileBank extends Component {
   };
 
   handleLogout = () => {
-    sessionStorage.setItem("tk", "");
+    sessionStorage.removeItem("logged");
+    sessionStorage.removeItem("info");
+    sessionStorage.removeItem("workflow");
+    sessionStorage.removeItem("tk");
+    sessionStorage.removeItem("name");
     this.props.history.push("/");
   };
 
@@ -213,6 +228,7 @@ class BusinessProfileBank extends Component {
             />
           </React.Fragment>
         </ModalError>
+
         <div style={{ marginTop: "50px", marginLeft: "50px" }}>
           <div
             className="header_container"
@@ -240,7 +256,7 @@ class BusinessProfileBank extends Component {
               <p>Rosanaa Maria del Gracia</p>{" "}
               {/* cambiar por el nombre obtenido del back */}
             </div>
-            <div style={{ textAlign: "left" }}>
+            <div>
               <div style={{}}>
                 <button
                   onClick={this.handleRedirect}
@@ -259,15 +275,7 @@ class BusinessProfileBank extends Component {
                   Datos bancarios
                 </button>
               </div>
-              <div style={{ marginTop: "20px" }}>
-                <button
-                  onClick={this.handleRedirectPassword}
-                  className="button_ref"
-                  style={{ textDecoration: "none" }}
-                >
-                  Contraseña
-                </button>
-              </div>
+
               <div style={{ marginTop: "100px" }}>
                 <Button
                   variant="outlined"
@@ -285,7 +293,7 @@ class BusinessProfileBank extends Component {
           <div
             className="text_form"
             style={{
-              marginTop: "-550px",
+              marginTop: "-470px",
               marginLeft: "25%",
               boxSizing: "border-box",
               overflowX: "hidden",

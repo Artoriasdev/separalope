@@ -48,6 +48,7 @@ class RegisterDataBank extends Component {
           headers: headers,
         })
         .then((response) => {
+          console.log(response);
           if (response.data.response === "true") {
             this.setState({
               showModalError: true,
@@ -57,6 +58,16 @@ class RegisterDataBank extends Component {
             });
             setTimeout(() => {
               this.props.history.push("/business/profile");
+            }, 3000);
+          } else if (response.data.response === "false") {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Usted no esta autorizado para ver esta información",
+              disableButton: true,
+            });
+            setTimeout(() => {
+              this.props.history.push("/login/B");
             }, 3000);
           } else {
             this.handleInfoSubmit();

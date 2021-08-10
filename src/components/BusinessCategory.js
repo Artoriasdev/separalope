@@ -2,8 +2,9 @@ import React from "react";
 import { Component } from "react";
 import Axios from "axios";
 import Container from "../Modal/Container/Container";
-import { Button, TextField } from "@material-ui/core";
+import { Breadcrumbs, Button, Link, TextField } from "@material-ui/core";
 import ModalError from "./ModalError";
+import { NavigateNext } from "@material-ui/icons";
 
 class BusinessMenu extends Component {
   constructor(props) {
@@ -33,7 +34,16 @@ class BusinessMenu extends Component {
         headers: headers,
       })
         .then((response) => {
-          this.handleGetCategorys();
+          console.log(response);
+          if (response.data.response === "true") {
+            this.handleGetCategorys();
+          } else {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Usted no esta autorizado para ver esta información",
+            });
+          }
 
           return response;
         })
@@ -45,9 +55,6 @@ class BusinessMenu extends Component {
               disclaimerModal:
                 "Sesion expirada, porfavor vuelva a iniciar sesion",
             });
-            setTimeout(() => {
-              this.props.history.push("/login/B");
-            }, 3000);
           }
         });
       return rspApi;
@@ -95,7 +102,7 @@ class BusinessMenu extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ padding: "20px  30px" }}>
         <ModalError
           show={this.state.showModalError}
           closeCallback={this.toggleModalError}
@@ -106,15 +113,30 @@ class BusinessMenu extends Component {
             />
           </React.Fragment>
         </ModalError>
-        <div style={{ marginLeft: "20px" }}>
-          <h3>Inicio &gt; Categorias </h3>
-        </div>
-        <div style={{ marginLeft: "20px" }}>
-          <h2>Categorias</h2>
-          <h4>Ingresa la categoría que deseas buscar</h4>
-        </div>
-
-        <form style={{ marginLeft: "20px" }}>
+        <Breadcrumbs
+          separator={<NavigateNext fontSize="medium" />}
+          aria-label="breadcrumb"
+          className="font"
+        >
+          <Link color="inherit" href="/">
+            Inicio
+          </Link>
+          <Link
+            color="textPrimary"
+            href="/business/category"
+            // onClick={handleClick}
+          >
+            Categorias
+          </Link>
+        </Breadcrumbs>
+        <h1>Categorias</h1>
+        <form>
+          <h3
+            style={{ marginTop: "30px", marginBottom: "5px" }}
+            className="register__subtitle"
+          >
+            Si no ubicas tu categoría, ingresa a cuál perteneces.
+          </h3>
           <TextField
             className="TxtField"
             name="searchText"

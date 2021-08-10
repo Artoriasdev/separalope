@@ -1,8 +1,8 @@
 import { AppBar, Tabs } from "@material-ui/core";
 import React, { Component } from "react";
 import { LinkTab } from "../Nav Tabs/LinkTab";
-import FutureAppointments from "../Nav Tabs/Tab Pages/FutureAppointments";
-import PastAppointments from "../Nav Tabs/Tab Pages/PastAppointments";
+import FutureAppointments from "../Nav Tabs/Appointment Tabs/FutureAppointments";
+import PastAppointments from "../Nav Tabs/Appointment Tabs/PastAppointments";
 import { TabPanel } from "../Nav Tabs/TabPanel";
 
 class ServiceAppointment extends Component {

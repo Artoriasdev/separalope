@@ -8,7 +8,7 @@ class FutureAppointments extends Component {
   }
 
   componentDidMount() {
-    console.log(this.rows);
+    // console.log(this.rows);
   }
 
   rows = [

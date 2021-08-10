@@ -8,7 +8,7 @@ class PastAppointments extends Component {
   }
 
   componentDidMount() {
-    console.log(this.rows);
+    // console.log(this.rows);
   }
 
   rows = [
