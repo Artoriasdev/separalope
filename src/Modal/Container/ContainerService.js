@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ModalService from "../Modal/ModalService";
+import { ModalService } from "../Modal/ModalService";
 import TriggerButtonService from "../TriggerButton/TriggerButtonService";
 export class Container extends Component {
   state = { isShown: false };

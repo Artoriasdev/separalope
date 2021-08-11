@@ -6,7 +6,7 @@ import { Breadcrumbs, Button, Link, TextField } from "@material-ui/core";
 import ModalError from "./ModalError";
 import { NavigateNext } from "@material-ui/icons";
 
-class BusinessMenu extends Component {
+class BusinessCategory extends Component {
   constructor(props) {
     super(props);
 
@@ -34,8 +34,10 @@ class BusinessMenu extends Component {
         headers: headers,
       })
         .then((response) => {
-          console.log(response);
           if (response.data.response === "true") {
+            const { data } = response.data;
+
+            sessionStorage.setItem("id", data[0].id);
             this.handleGetCategorys();
           } else {
             this.setState({
@@ -91,6 +93,10 @@ class BusinessMenu extends Component {
 
       return response;
     });
+  };
+
+  handleRedirect = (id) => {
+    this.props.history.push(`/business/services-category/${id}`);
   };
 
   toggleModalError = () => {
@@ -166,7 +172,12 @@ class BusinessMenu extends Component {
             this.state.typeCategorys.map(({ id, image, logo, name }) => (
               <li
                 key={id}
-                style={{ display: "inline-block", position: "relative" }}
+                style={{
+                  display: "inline-block",
+                  position: "relative",
+                  cursor: "pointer",
+                }}
+                onClick={() => this.handleRedirect(id)}
               >
                 <a
                   style={{
@@ -174,7 +185,6 @@ class BusinessMenu extends Component {
                     textDecoration: "none",
                   }}
                   className="card"
-                  href="#"
                 >
                   <div
                     style={{
@@ -219,4 +229,4 @@ class BusinessMenu extends Component {
   }
 }
 
-export default BusinessMenu;
+export default BusinessCategory;

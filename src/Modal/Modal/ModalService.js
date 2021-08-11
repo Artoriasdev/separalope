@@ -21,7 +21,7 @@ export const ModalService = ({
         onKeyDown={onKeyDown}
       >
         <div className="mini " ref={modalRef}>
-          <div className="mini_content ">
+          <div className="mini_content">
             <button
               ref={buttonRef}
               aria-label="Close Modal"

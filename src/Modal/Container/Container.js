@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import {Modal} from '../Modal/Modal';
-import TriggerButton from '../TriggerButton/TriggerButton';
+import React, { Component } from "react";
+import { Modal } from "../Modal/Modal";
+import TriggerButton from "../TriggerButton/TriggerButton";
 export class Container extends Component {
   state = { isShown: false };
   showModal = () => {
@@ -25,7 +25,7 @@ export class Container extends Component {
   };
 
   toggleScrollLock = () => {
-    document.querySelector('html').classList.toggle('scroll-lock');
+    document.querySelector("html").classList.toggle("scroll-lock");
   };
   render() {
     return (
@@ -35,6 +35,7 @@ export class Container extends Component {
           buttonRef={(n) => (this.TriggerButton = n)}
           triggerText={this.props.triggerText}
         />
+
         {this.state.isShown ? (
           <Modal
             modalRef={(n) => (this.modal = n)}

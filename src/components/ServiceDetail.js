@@ -9,12 +9,30 @@ import {
   TableRow,
   TextField,
 } from "@material-ui/core";
+import axios from "axios";
 
 import React from "react";
 import { Component } from "react";
 import { handleRegexDisable } from "../utils/utilitaries";
 
 class ServiceDetail extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dataList: [],
+    };
+  }
+
+  componentDidMount() {
+    try {
+      // this.handleGetList();
+      // console.log(this.state.dataList);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   createData(name) {
     return { name };
   }

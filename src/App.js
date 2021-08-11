@@ -25,6 +25,7 @@ import ClientProfile from "./components/ClientProfile";
 import Question from "./components/Question";
 import CustomerAppointment from "./components/CustomerAppointment";
 import CustomerHistory from "./components/CustomerHistory";
+import BusinessServicesCategory from "./components/BusinessServicesCategory";
 
 // import HomePage from "./pages/Home";
 
@@ -175,6 +176,11 @@ function App() {
                 exact
                 path="/business/services"
                 component={BusinessServices}
+              />
+              <Route
+                exact
+                path="/business/services-category/:value"
+                component={BusinessServicesCategory}
               />
 
               <Route exact path="/login/:value" component={Login} />

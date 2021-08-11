@@ -16,7 +16,7 @@ import { Component } from "react";
 import Container from "../Modal/Container/ContainerService";
 import ModalError from "./ModalError";
 
-class BusinessServices extends Component {
+class BusinessServicesCategory extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,13 +73,16 @@ class BusinessServices extends Component {
 
   handleGetList = () => {
     const id = sessionStorage.getItem("id");
+    const cat = this.props.match.params.value;
+    const tk = sessionStorage.getItem("tk");
+
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
-      Authorization: "",
+      Authorization: `Bearer ${tk}`,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesByBusiness/${1}`;
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesByBusinessAndCategory/${1}/${cat}`;
 
     const rspApi = Axios.get(linkDocumentsApi, {
       headers: headers,
@@ -209,4 +212,4 @@ class BusinessServices extends Component {
   }
 }
 
-export default BusinessServices;
+export default BusinessServicesCategory;
