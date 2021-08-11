@@ -14,6 +14,7 @@ import Edit from "@material-ui/icons/Edit";
 import { PowerSettingsNew, Save } from "@material-ui/icons";
 import axios from "axios";
 import ModalError from "./ModalError";
+import ModalSucess from "./ModalSucess";
 
 class BusinessProfileBank extends Component {
   constructor(props) {
@@ -23,6 +24,9 @@ class BusinessProfileBank extends Component {
       typeBank: [],
       typeAccount: [],
       editButton: false,
+      showModalError: false,
+      showModalSuccess: false,
+      disclaimerModal: "",
     };
   }
 
@@ -174,7 +178,13 @@ class BusinessProfileBank extends Component {
         headers: headers,
       })
       .then((response) => {
-        console.log(response);
+        console.log(response.data.response);
+        if (response.data.response === "true") {
+          this.setState({
+            showModalSuccess: true,
+            disclaimerModal: response.data.message,
+          });
+        }
         return response;
       });
 
@@ -205,7 +215,8 @@ class BusinessProfileBank extends Component {
     sessionStorage.removeItem("workflow");
     sessionStorage.removeItem("tk");
     sessionStorage.removeItem("name");
-    this.props.history.push("/");
+    sessionStorage.removeItem("id");
+    this.props.history.go(this.props.history.push("/"));
   };
 
   toggleModalError = () => {
@@ -213,6 +224,13 @@ class BusinessProfileBank extends Component {
       showModalError: false,
     });
     this.props.history.push("/login/B");
+  };
+
+  toggleModalSuccess = () => {
+    this.setState({
+      showModalSuccess: false,
+    });
+    this.props.history.go();
   };
 
   render() {
@@ -228,6 +246,16 @@ class BusinessProfileBank extends Component {
             />
           </React.Fragment>
         </ModalError>
+        <ModalSucess
+          show={this.state.showModalSuccess}
+          closeCallback={this.toggleModalSuccess}
+        >
+          <React.Fragment>
+            <div
+              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
+            />
+          </React.Fragment>
+        </ModalSucess>
 
         <div style={{ marginTop: "50px", marginLeft: "50px" }}>
           <div

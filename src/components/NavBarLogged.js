@@ -52,7 +52,8 @@ const Navbar = () => {
     sessionStorage.removeItem("workflow");
     sessionStorage.removeItem("tk");
     sessionStorage.removeItem("name");
-    history.push("/");
+    sessionStorage.removeItem("id");
+    history.go(history.push("/"));
   };
 
   return (

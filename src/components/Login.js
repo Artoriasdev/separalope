@@ -30,11 +30,13 @@ class Login extends Component {
           sessionStorage.setItem("workflow", LoginModel.workflow);
 
           if (LoginModel.workflow === "B") {
-            this.props.history.push("/business/category");
+            this.props.history.go(
+              this.props.history.push("/business/category")
+            );
           }
 
           if (LoginModel.workflow === "C") {
-            this.props.history.push("/");
+            this.props.history.go(this.props.history.push("/"));
             this.handleGetDataCustomer();
           }
         }
@@ -91,6 +93,11 @@ class Login extends Component {
         </button>
 
         <div style={{ padding: "20px", width: "500px", margin: "50px auto" }}>
+          {this.props.match.params.value === "C" ? (
+            <h3 className="register__subtitle">Soy un cliente</h3>
+          ) : (
+            <h3 className="register__subtitle">Doy un servicio</h3>
+          )}
           <h1>Inicia sesión</h1>
 
           <Formik

@@ -7,6 +7,7 @@ import Edit from "@material-ui/icons/Edit";
 import axios from "axios";
 import { PowerSettingsNew, Save } from "@material-ui/icons";
 import ModalError from "./ModalError";
+import ModalSucess from "./ModalSucess";
 
 class BusinessProfile extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class BusinessProfile extends Component {
       typeData: [],
       edit: false,
       showModalError: false,
+      showModalSuccess: false,
       disclaimerModal: "",
     };
   }
@@ -107,7 +109,13 @@ class BusinessProfile extends Component {
         headers: headers,
       })
       .then((response) => {
-        console.log(response);
+        console.log(response.data.response);
+        if (response.data.response === "true") {
+          this.setState({
+            showModalSuccess: true,
+            disclaimerModal: response.data.message,
+          });
+        }
         return response;
       });
 
@@ -119,6 +127,13 @@ class BusinessProfile extends Component {
       showModalError: false,
     });
     this.props.history.push("/login/B");
+  };
+
+  toggleModalSuccess = () => {
+    this.setState({
+      showModalSuccess: false,
+    });
+    this.props.history.go();
   };
 
   //componentDidMount ,handlers
@@ -138,7 +153,8 @@ class BusinessProfile extends Component {
     sessionStorage.removeItem("workflow");
     sessionStorage.removeItem("tk");
     sessionStorage.removeItem("name");
-    this.props.history.push("/");
+    sessionStorage.removeItem("id");
+    this.props.history.go(this.props.history.push("/"));
   };
 
   render() {
@@ -154,6 +170,16 @@ class BusinessProfile extends Component {
             />
           </React.Fragment>
         </ModalError>
+        <ModalSucess
+          show={this.state.showModalSuccess}
+          closeCallback={this.toggleModalSuccess}
+        >
+          <React.Fragment>
+            <div
+              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
+            />
+          </React.Fragment>
+        </ModalSucess>
 
         <div style={{ marginTop: "50px", marginLeft: "50px" }}>
           <div

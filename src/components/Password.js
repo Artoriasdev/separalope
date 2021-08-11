@@ -6,16 +6,47 @@ import { handleRegexDisable } from "../utils/utilitaries";
 
 import { Save, Visibility } from "@material-ui/icons";
 import ModalError from "./ModalError";
+import ModalSucess from "./ModalSucess";
+import axios from "axios";
 
 class Password extends Component {
   constructor(props) {
     super(props);
     this.state = {
       formModel: [],
-
+      disclaimerModal: "",
       viewPassword: false,
+      showModalError: false,
+      showModalSuccess: false,
     };
   }
+
+  handleChangePassword = (passwordModel) => {
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+    let linkEditApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/user/passwordChange";
+
+    const rspApi = axios
+      .post(linkEditApi, passwordModel, {
+        headers: headers,
+      })
+      .then((response) => {
+        if (response.data.response === "true") {
+          this.setState({
+            showModalSucesss: true,
+            disclaimerModal: response.data.message,
+          });
+        }
+        return response;
+      });
+
+    return rspApi;
+  };
 
   handleViewPassword = () => {
     this.setState({ viewPassword: true });
@@ -24,31 +55,18 @@ class Password extends Component {
     this.setState({ viewPassword: false });
   };
 
-  handleRedirect = () => {
-    this.props.history.push("/business/profile");
-  };
-  handleRedirectBank = () => {
-    this.props.history.push("/business/profile/bank");
-  };
-  handleRedirectPassword = () => {
-    this.props.history.push("/business/profile/password");
-  };
-
-  handleLogout = () => {
-    sessionStorage.removeItem("logged");
-    sessionStorage.removeItem("info");
-    sessionStorage.removeItem("workflow");
-    sessionStorage.removeItem("tk");
-    sessionStorage.removeItem("name");
-
-    this.props.history.push("/");
-  };
-
   toggleModalError = () => {
     this.setState({
       showModalError: false,
     });
-    this.props.history.push("/login/B");
+    this.props.history.push("/");
+  };
+
+  toggleModalSuccess = () => {
+    this.setState({
+      showModalSucesss: false,
+    });
+    this.props.history.push("/");
   };
 
   render() {
@@ -65,6 +83,17 @@ class Password extends Component {
           </React.Fragment>
         </ModalError>
 
+        <ModalSucess
+          show={this.state.showModalSucesss}
+          closeCallback={this.toggleModalSuccess}
+        >
+          <React.Fragment>
+            <div
+              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
+            />
+          </React.Fragment>
+        </ModalSucess>
+
         <div style={{ width: "50%", margin: "auto" }}>
           <Formik
             ref={(ref) => (this.form = ref)}
@@ -77,14 +106,20 @@ class Password extends Component {
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(false);
               const dataModel = {
-                password: "",
-                confirmPassword: "",
+                currentPassword: "",
+                newPassword: "",
+                confirmNewPassword: "",
               };
 
-              dataModel.password = values.contraseña;
-              dataModel.confirmPassword = values.repetirContraseña;
+              dataModel.currentPassword = values.contraseña;
+              dataModel.newPassword = values.cambiarContraseña;
+              dataModel.confirmNewPassword = values.repetirContraseña;
 
               // aqui los getter y handler
+
+              (async () => {
+                await this.handleChangePassword(dataModel);
+              })();
             }}
           >
             {({
@@ -96,7 +131,7 @@ class Password extends Component {
               errors,
               touched,
             }) => (
-              <form name="formPassword">
+              <form name="formPassword" onSubmit={handleSubmit}>
                 <h2
                   style={{
                     marginTop: "15%",

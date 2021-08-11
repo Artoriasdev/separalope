@@ -172,8 +172,9 @@ class ClientProfile extends Component {
     sessionStorage.removeItem("info");
     sessionStorage.removeItem("workflow");
     sessionStorage.removeItem("tk");
-
-    this.props.history.push("/");
+    sessionStorage.removeItem("name");
+    sessionStorage.removeItem("id");
+    this.props.history.go(this.props.history.push("/"));
   };
 
   render() {
