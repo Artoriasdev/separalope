@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Button, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../../utils/utilitaries";
 import axios from "axios";
+import { Announcement } from "@material-ui/icons";
 
 export class Form extends Component {
   handleSubmitting = (formModel) => {
@@ -91,7 +92,38 @@ export class Form extends Component {
                   style={{ margin: "20px 0 10px 0" }}
                 />
               </div>
-              <div>{/* añadir nota de advertencia */}</div>
+              <div
+                style={{
+                  width: "100%",
+                  backgroundColor: "#ededed",
+                  borderRadius: "10px",
+                  height: "60px",
+                }}
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    height: "100%",
+
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Announcement
+                    style={{
+                      fontSize: "20px",
+                      verticalAlign: "middle",
+                      marginRight: "5px",
+                      color: "#ffb80f",
+                    }}
+                  />
+                  <span>
+                    Recuerda que tus categorías creadas, podrán ser activadas
+                    dentro de 24 horas.
+                  </span>
+                </div>
+              </div>
               <div>
                 <Button
                   size="large"

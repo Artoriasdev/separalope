@@ -14,6 +14,7 @@ import Edit from "@material-ui/icons/Edit";
 import axios from "axios";
 import { PowerSettingsNew, Save } from "@material-ui/icons";
 import ModalError from "./ModalError";
+import ModalSucess from "./ModalSucess";
 
 class ClientProfile extends Component {
   constructor(props) {
@@ -145,6 +146,12 @@ class ClientProfile extends Component {
       })
       .then((response) => {
         console.log(response);
+        if (response.data.response === "true") {
+          this.setState({
+            showModalSuccess: true,
+            disclaimerModal: response.data.message,
+          });
+        }
         return response;
       });
 
@@ -156,6 +163,13 @@ class ClientProfile extends Component {
       showModalError: false,
     });
     this.props.history.push("/login/C");
+  };
+
+  toggleModalSuccess = () => {
+    this.setState({
+      showModalSuccess: false,
+    });
+    this.props.history.go();
   };
 
   //componentDidMount ,handlers
@@ -190,6 +204,17 @@ class ClientProfile extends Component {
             />
           </React.Fragment>
         </ModalError>
+
+        <ModalSucess
+          show={this.state.showModalSuccess}
+          closeCallback={this.toggleModalSuccess}
+        >
+          <React.Fragment>
+            <div
+              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
+            />
+          </React.Fragment>
+        </ModalSucess>
 
         <div style={{ marginTop: "50px", marginLeft: "50px" }}>
           <div
