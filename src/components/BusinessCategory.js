@@ -93,6 +93,7 @@ class BusinessCategory extends Component {
 
       return response;
     });
+    return rspApi;
   };
 
   handleRedirect = (id) => {

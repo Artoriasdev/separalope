@@ -139,6 +139,7 @@ class RegisterDataBank extends Component {
 
         return response;
       });
+    return rspApi;
   };
 
   handleGetTypeAccount = () => {
@@ -165,6 +166,7 @@ class RegisterDataBank extends Component {
 
         return response;
       });
+    return rspApi;
   };
 
   toggleModalSuccess = () => {

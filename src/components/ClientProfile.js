@@ -65,6 +65,7 @@ class ClientProfile extends Component {
 
         return response;
       });
+    return rspApi;
   };
 
   handleGetData = async () => {

@@ -49,6 +49,7 @@ class RegisterCustomer extends Component {
 
       return response;
     });
+    return rspApi;
   };
 
   handleInfoSubmit = (CustomerModel) => {
@@ -101,7 +102,7 @@ class RegisterCustomer extends Component {
         </button>
 
         <div style={{ padding: "20px", width: "500px", margin: "50px auto" }}>
-          <h3 className="register__subtitle">Soy un usuario</h3>
+          <h3 className="register__subtitle">Soy un cliente</h3>
           <h1>Registra tu cuenta</h1>
           <Formik
             ref={(ref) => (this.form = ref)}
@@ -164,16 +165,6 @@ class RegisterCustomer extends Component {
               touched,
             }) => (
               <form name="formRegister" onSubmit={handleSubmit}>
-                {/* <input
-                    type="text"
-                    placeholder="Nombres"
-                    name="nombre"
-                    className="register__input"
-                    autoComplete="off"
-                    value={values.nombre}
-                    onChange={handleChange}
-                  /> */}
-
                 <div className="files">
                   <TextField
                     name="nombre"
@@ -226,21 +217,6 @@ class RegisterCustomer extends Component {
                 </div>
 
                 <div className="files">
-                  {/* <select
-                    name="documentos"
-                    className="dropdown"
-                    value={values.documentos}
-                    onChange={handleChange}
-                  >
-                    <option value="0">Elegir</option>
-                    {this.state.typeDocs &&
-                      this.state.typeDocs.map(({ id, descriptionLarge }) => (
-                        <option key={id} value={id}>
-                          {descriptionLarge}
-                        </option>
-                      ))}
-                  </select> */}
-
                   <Select
                     style={{
                       width: "100%",
@@ -268,15 +244,6 @@ class RegisterCustomer extends Component {
                       ))}
                   </Select>
 
-                  {/* <input
-                    type="text"
-                    placeholder="Número documento"
-                    name="nroDocumento"
-                    className="register__input"
-                    value={values.nroDocumento}
-                    onChange={handleChange}
-                  /> */}
-
                   <TextField
                     name="nroDocumento"
                     className="TxtField"
@@ -300,16 +267,6 @@ class RegisterCustomer extends Component {
                 </div>
 
                 <div className="files">
-                  {/* <input
-                    type="text"
-                    placeholder="Celular"
-                    name="celular"
-                    className="register__input"
-                    autoComplete="off"
-                    value={values.celular}
-                    onChange={handleChange}
-                    /> */}
-
                   <TextField
                     name="celular"
                     className="TxtField"
@@ -330,15 +287,6 @@ class RegisterCustomer extends Component {
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
-
-                  {/* <input
-                    type="text"
-                    placeholder="Correo electronico"
-                    name="correo"
-                    className="register__input"
-                    value={values.correo}
-                    onChange={handleChange}
-                    /> */}
 
                   <TextField
                     name="correo"
@@ -363,16 +311,6 @@ class RegisterCustomer extends Component {
                 </div>
 
                 <div className="files">
-                  {/* <input
-                    type="password"
-                    placeholder="Contraseña"
-                    name="contraseña"
-                    className="register__input"
-                    autoComplete="off"
-                    value={values.contraseña}
-                    onChange={handleChange}
-                  /> */}
-
                   <TextField
                     name="contraseña"
                     type="password"
@@ -395,14 +333,6 @@ class RegisterCustomer extends Component {
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
 
-                  {/* <input
-                    type="password"
-                    placeholder="Repetir contraseña"
-                    name="repContraseña"
-                    className="register__input"
-                    value={values.repContraseña}
-                    onChange={handleChange}
-                  /> */}
                   <TextField
                     name="repContraseña"
                     type="password"

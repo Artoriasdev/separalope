@@ -26,6 +26,10 @@ import Question from "./components/Question";
 import CustomerAppointment from "./components/CustomerAppointment";
 import CustomerHistory from "./components/CustomerHistory";
 import BusinessServicesCategory from "./components/BusinessServicesCategory";
+import MenuBusinessCategory from "./components/MenuBusinessCategory";
+import MenuServicesBusiness from "./components/MenuServicesBusiness";
+import ReserveAppointment from "./components/ReserveAppointment";
+import ConfirmLogin from "./components/ConfirmLogin";
 
 // import HomePage from "./pages/Home";
 
@@ -212,6 +216,18 @@ function App() {
               />
 
               <Route exact path="/" component={HomePage} />
+              <Route
+                exact
+                path="/services-menu/:value"
+                component={MenuBusinessCategory}
+              />
+              <Route
+                exact
+                path="/services-menu-category/:value"
+                component={MenuServicesBusiness}
+              />
+              <Route exact path="/confirm/:value" component={ConfirmLogin} />
+              <Route exact path="/reserve" component={ReserveAppointment} />
             </StyledMain>
           </Switch>
           {/* <Footer /> */}

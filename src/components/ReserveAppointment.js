@@ -1,132 +1,14 @@
-import React from "react";
-import { Component } from "react";
-import { ArrowCircleSVG } from "../assets/images/svg";
-import Axios from "axios";
+import { Button, TextField } from "@material-ui/core";
 import { Formik } from "formik";
-import ModalSucess from "./ModalSucess";
-import { TextField, Button } from "@material-ui/core";
+import React, { Component } from "react";
 import { handleRegexDisable } from "../utils/utilitaries";
 
-class RegisterBusiness extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      typeDocs: [],
-      typeCategorys: [],
-      showModalSucesss: false,
-      disclaimerModal: "",
-    };
-  }
-
-  componentDidMount() {
-    try {
-      this.handleGetDocuments();
-      this.handleGetCategorys();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  handleGetDocuments = () => {
-    var headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: "",
-    };
-
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getDocumentTypes";
-
-    const rspApi = Axios.get(linkDocumentsApi, {
-      headers: headers,
-    }).then((response) => {
-      const { data } = response.data;
-
-      this.setState({
-        typeDocs: data,
-      });
-
-      return response;
-    });
-    return rspApi;
-  };
-
-  handleGetCategorys = () => {
-    var headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: "",
-    };
-
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
-
-    const rspApi = Axios.get(linkDocumentsApi, {
-      headers: headers,
-    }).then((response) => {
-      const { data } = response.data;
-
-      this.setState({
-        typeCategorys: data,
-      });
-
-      return response;
-    });
-    return rspApi;
-  };
-
-  handleInfoSubmit = async (BusinessModel) => {
-    var headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: "",
-    };
-    let linkRegisterApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/registerBusiness";
-
-    const rspApi = Axios.post(linkRegisterApi, BusinessModel, {
-      headers: headers,
-    }).then((response) => {
-      console.log(response);
-      return response;
-    });
-
-    return rspApi;
-  };
-
-  toggleModalSuccess = () => {
-    this.setState({
-      showModalSucesss: false,
-    });
-    this.props.history.push("/login/B");
-  };
-
+class ReserveAppointment extends Component {
   render() {
     return (
-      <>
-        <ModalSucess
-          show={this.state.showModalSucesss}
-          closeCallback={this.toggleModalSuccess}
-        >
-          <React.Fragment>
-            <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalSucess>
-        <button
-          className="arrow__button"
-          onClick={() => this.props.history.goBack()}
-        >
-          <figure>
-            <ArrowCircleSVG />
-          </figure>
-        </button>
-
+      <div>
         <div style={{ padding: "20px", width: "500px", margin: "50px auto" }}>
-          <h3 className="register__subtitle">Doy un servicio</h3>
-          <h1>Registra tu cuenta</h1>
+          <h1>Reserva tu cita</h1>
           <Formik
             ref={(ref) => (this.form = ref)}
             initialValues={{
@@ -157,21 +39,6 @@ class RegisterBusiness extends Component {
               BusinessModel.password = values.contraseña;
               BusinessModel.confirmPassword = values.repContraseña;
               BusinessModel.idCategory = values.categoria;
-
-              (async () => {
-                const responseSubmit = await this.handleInfoSubmit(
-                  BusinessModel
-                );
-
-                const { response } = responseSubmit.data;
-
-                if (response === "true") {
-                  this.setState({
-                    showModalSucesss: true,
-                    disclaimerModal: "¡Registro grabado satisfactoriamente!",
-                  });
-                }
-              })();
             }}
           >
             {({
@@ -189,7 +56,7 @@ class RegisterBusiness extends Component {
                     name="razon"
                     className="TxtField"
                     variant="outlined"
-                    label="Razón social"
+                    label="Ingresa tu correo electrónico"
                     fullWidth
                     value={values.razon}
                     error={errors.razon && touched.razon}
@@ -209,7 +76,7 @@ class RegisterBusiness extends Component {
                     name="nombre"
                     className="TxtField"
                     variant="outlined"
-                    label="Nombre comercial"
+                    label="Ingresa tu numero de celular"
                     fullWidth
                     value={values.nombre}
                     error={errors.nombre && touched.nombre}
@@ -231,7 +98,7 @@ class RegisterBusiness extends Component {
                     name="nroDocumento"
                     className="TxtField"
                     variant="outlined"
-                    label="Número de documento"
+                    label="Profesor"
                     fullWidth
                     value={values.nroDocumento}
                     error={errors.nroDocumento && touched.nroDocumento}
@@ -252,7 +119,7 @@ class RegisterBusiness extends Component {
                     name="correo"
                     className="TxtField"
                     variant="outlined"
-                    label="Correo electrónico"
+                    label="Elige la fecha disponible"
                     fullWidth
                     value={values.correo}
                     error={errors.correo && touched.correo}
@@ -273,10 +140,10 @@ class RegisterBusiness extends Component {
                 <div className="files">
                   <TextField
                     name="repContraseña"
-                    type="password"
+                    type="text"
                     className="TxtField"
                     variant="outlined"
-                    label="Repetir contraseña"
+                    label="Duracion de la clase"
                     fullWidth
                     value={values.repContraseña}
                     error={errors.repContraseña && touched.repContraseña}
@@ -295,10 +162,10 @@ class RegisterBusiness extends Component {
 
                   <TextField
                     name="contraseña"
-                    type="password"
+                    type="text"
                     className="TxtField"
                     variant="outlined"
-                    label="Contraseña"
+                    label="Elige el horario"
                     fullWidth
                     value={values.contraseña}
                     error={errors.contraseña && touched.contraseña}
@@ -306,6 +173,29 @@ class RegisterBusiness extends Component {
                     onChange={handleChange}
                     style={{
                       marginLeft: "5px",
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+                <div className="files">
+                  <TextField
+                    name="precio"
+                    type="text"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Precio"
+                    fullWidth
+                    value={values.precio}
+                    error={errors.precio && touched.precio}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginRight: "51%",
                       marginTop: "5px",
                       marginBottom: "5px",
                     }}
@@ -327,15 +217,15 @@ class RegisterBusiness extends Component {
                   type="submit"
                   fullWidth
                 >
-                  Registrar
+                  Reservar cita
                 </Button>
               </form>
             )}
           </Formik>
         </div>
-      </>
+      </div>
     );
   }
 }
 
-export default RegisterBusiness;
+export default ReserveAppointment;

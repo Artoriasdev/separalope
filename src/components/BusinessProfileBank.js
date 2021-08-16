@@ -135,6 +135,7 @@ class BusinessProfileBank extends Component {
 
         return response;
       });
+    return rspApi;
   };
 
   handleGetTypeAccount = () => {
@@ -161,6 +162,7 @@ class BusinessProfileBank extends Component {
 
         return response;
       });
+    return rspApi;
   };
 
   handleEditData = async (bankModel) => {

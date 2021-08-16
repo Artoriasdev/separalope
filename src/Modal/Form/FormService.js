@@ -12,7 +12,6 @@ import {
   TextField,
 } from "@material-ui/core";
 import { handleRegexDisable } from "../../utils/utilitaries";
-import { Save } from "@material-ui/icons";
 
 export class FormService extends Component {
   handleSubmitting = (formModel) => {

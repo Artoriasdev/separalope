@@ -1,6 +1,5 @@
 import {
   Breadcrumbs,
-  Button,
   Link,
   Table,
   TableBody,
@@ -92,6 +91,7 @@ class BusinessServices extends Component {
 
       return response;
     });
+    return rspApi;
   };
 
   toggleModalError = () => {
@@ -101,8 +101,12 @@ class BusinessServices extends Component {
     this.props.history.push("/login/B");
   };
 
-  handleTemp = () => {
+  handleEdit = () => {
     this.props.history.push("/business/services/details");
+  };
+
+  handleAppointment = () => {
+    this.props.history.push("/business/services/appointment");
   };
 
   render() {
@@ -137,30 +141,17 @@ class BusinessServices extends Component {
             </Link>
           </Breadcrumbs>
           <h1>Mis servicios</h1>
-          <h3>Tus servicios</h3>
+
           <Container triggerText={this.state.triggerText} />
-
-          <div style={{ display: "block" }}>
-            <h4>Estos son los servicios que han sido registrados</h4>
-          </div>
-
-          <Button
-            variant="contained"
-            color="secondary"
-            className="btn-primary"
-            style={{ marginTop: "10px", marginBottom: "20px" }}
-            onClick={this.handleTemp}
-          >
-            Ir a detalles citas
-          </Button>
 
           <TableContainer
             style={{
               width: "85%",
               borderRadius: "10px 10px",
-              margin: "auto",
+              margin: "30px auto",
             }}
           >
+            <h3>Estos son los servicios que han sido registrados</h3>
             <Table sx={{ minWidth: 650 }}>
               <TableHead
                 style={{
@@ -174,6 +165,9 @@ class BusinessServices extends Component {
                   <TableCell className="font-tittle">Precio</TableCell>
                   <TableCell className="font-tittle" align="center">
                     Citas
+                  </TableCell>
+                  <TableCell className="font-tittle" align="center">
+                    Editar
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -195,7 +189,32 @@ class BusinessServices extends Component {
                         {currencySymbol + " " + price}
                       </TableCell>
                       <TableCell className="font" align="center">
-                        Ver citas pendientes
+                        <button
+                          className="font"
+                          style={{
+                            background: "none",
+                            border: "none",
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
+                          onClick={this.handleAppointment}
+                        >
+                          Ver citas pendientes
+                        </button>
+                      </TableCell>
+                      <TableCell className="font" align="center">
+                        <button
+                          className="font"
+                          style={{
+                            background: "none",
+                            border: "none",
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
+                          onClick={this.handleEdit}
+                        >
+                          Editar servicio
+                        </button>
                       </TableCell>
                     </TableRow>
                   )
