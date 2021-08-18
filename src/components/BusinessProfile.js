@@ -55,6 +55,7 @@ class BusinessProfile extends Component {
           console.log(response);
           if (response.data.response === "true") {
             const { data } = response.data;
+            sessionStorage.setItem("tradename", data[0].name);
             this.setState({
               typeData: data,
             });
@@ -154,6 +155,7 @@ class BusinessProfile extends Component {
     sessionStorage.removeItem("tk");
     sessionStorage.removeItem("name");
     sessionStorage.removeItem("id");
+    sessionStorage.removeItem("tradename");
     this.props.history.go(this.props.history.push("/"));
   };
 
@@ -181,40 +183,18 @@ class BusinessProfile extends Component {
           </React.Fragment>
         </ModalSucess>
 
-        <div style={{ marginTop: "50px", marginLeft: "50px" }}>
-          <div
-            className="header_container"
-            style={{
-              width: "200px",
-              textAlign: "center",
-            }}
-          >
+        <div className="header-profile-container">
+          <div className="header-profile">
             <img
               src="https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"
               alt="test"
-              style={{
-                borderRadius: "50%",
-                maxWidth: "150px",
-              }}
             />
-            <div
-              style={{
-                marginTop: "20px",
-                fontSize: "20px",
-                fontFamily: "MavenPro-Regular",
-                fontWeight: "bold",
-              }}
-            >
-              <p>Rosanaa Maria del Gracia</p>{" "}
-              {/* cambiar por el nombre obtenido del back */}
+            <div className="title">
+              <p>{sessionStorage.getItem("tradename")}</p>
             </div>
             <div>
               <div>
-                <button
-                  onClick={this.handleRedirect}
-                  className="button_ref"
-                  style={{ textDecoration: "none" }}
-                >
+                <button onClick={this.handleRedirect} className="button_ref">
                   Datos de la empresa
                 </button>
               </div>
@@ -222,7 +202,6 @@ class BusinessProfile extends Component {
                 <button
                   onClick={this.handleRedirectBank}
                   className="button_ref"
-                  style={{ textDecoration: "none" }}
                 >
                   Datos bancarios
                 </button>
@@ -233,7 +212,7 @@ class BusinessProfile extends Component {
                   variant="outlined"
                   color="secondary"
                   startIcon={<PowerSettingsNew />}
-                  style={{ width: "150px", margin: "0", padding: "5px 0" }}
+                  className="btn-logout"
                   onClick={this.handleLogout}
                 >
                   Cerrar sesion
@@ -242,15 +221,7 @@ class BusinessProfile extends Component {
             </div>
           </div>
 
-          <div
-            className="text_form"
-            style={{
-              marginTop: "-460px",
-              marginLeft: "25%",
-              boxSizing: "border-box",
-              overflowX: "hidden",
-            }}
-          >
+          <div className="form">
             <h1 style={{ display: "inline-block", marginRight: "20px" }}>
               Datos de negocio
             </h1>

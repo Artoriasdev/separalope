@@ -38,6 +38,8 @@ class BusinessCategory extends Component {
             const { data } = response.data;
 
             sessionStorage.setItem("id", data[0].id);
+            sessionStorage.setItem("tradename", data[0].name);
+
             this.handleGetCategorys();
           } else {
             this.setState({

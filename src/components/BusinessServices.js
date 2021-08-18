@@ -78,7 +78,7 @@ class BusinessServices extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesByBusiness/${1}`;
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesByBusiness/${id}`;
 
     const rspApi = Axios.get(linkDocumentsApi, {
       headers: headers,
@@ -144,20 +144,10 @@ class BusinessServices extends Component {
 
           <Container triggerText={this.state.triggerText} />
 
-          <TableContainer
-            style={{
-              width: "85%",
-              borderRadius: "10px 10px",
-              margin: "30px auto",
-            }}
-          >
-            <h3>Estos son los servicios que han sido registrados</h3>
+          <h3>Estos son los servicios que han sido registrados</h3>
+          <TableContainer className="table">
             <Table sx={{ minWidth: 650 }}>
-              <TableHead
-                style={{
-                  background: "#f3f3f3",
-                }}
-              >
+              <TableHead className="table-head">
                 <TableRow>
                   <TableCell className="font-tittle">Servicio</TableCell>
                   <TableCell className="font-tittle">Descripcion</TableCell>
@@ -191,28 +181,13 @@ class BusinessServices extends Component {
                       <TableCell className="font" align="center">
                         <button
                           className="font"
-                          style={{
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                          }}
                           onClick={this.handleAppointment}
                         >
                           Ver citas pendientes
                         </button>
                       </TableCell>
                       <TableCell className="font" align="center">
-                        <button
-                          className="font"
-                          style={{
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                          }}
-                          onClick={this.handleEdit}
-                        >
+                        <button className="font" onClick={this.handleEdit}>
                           Editar servicio
                         </button>
                       </TableCell>

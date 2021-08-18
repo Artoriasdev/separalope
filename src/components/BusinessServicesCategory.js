@@ -82,7 +82,7 @@ class BusinessServicesCategory extends Component {
       Authorization: `Bearer ${tk}`,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesByBusinessAndCategory/${1}/${cat}`;
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesByBusinessAndCategory/${id}/${cat}`;
 
     const rspApi = Axios.get(linkDocumentsApi, {
       headers: headers,
@@ -145,32 +145,12 @@ class BusinessServicesCategory extends Component {
           <Container triggerText={this.state.triggerText} />
 
           <div style={{ display: "block" }}>
-            <h4>Estos son los servicios que han sido registrados</h4>
+            <h3>Estos son los servicios que han sido registrados</h3>
           </div>
 
-          <Button
-            variant="contained"
-            color="secondary"
-            className="btn-primary"
-            style={{ marginTop: "10px", marginBottom: "20px" }}
-            onClick={this.handleTemp}
-          >
-            Ir a detalles citas
-          </Button>
-
-          <TableContainer
-            style={{
-              width: "85%",
-              borderRadius: "10px 10px",
-              margin: "auto",
-            }}
-          >
+          <TableContainer className="table">
             <Table sx={{ minWidth: 650 }}>
-              <TableHead
-                style={{
-                  background: "#f3f3f3",
-                }}
-              >
+              <TableHead className="table-head">
                 <TableRow>
                   <TableCell className="font-tittle">Servicio</TableCell>
                   <TableCell className="font-tittle">Descripcion</TableCell>
@@ -178,6 +158,9 @@ class BusinessServicesCategory extends Component {
                   <TableCell className="font-tittle">Precio</TableCell>
                   <TableCell className="font-tittle" align="center">
                     Citas
+                  </TableCell>
+                  <TableCell className="font-tittle" align="center">
+                    Editar
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -199,7 +182,17 @@ class BusinessServicesCategory extends Component {
                         {currencySymbol + " " + price}
                       </TableCell>
                       <TableCell className="font" align="center">
-                        Ver citas pendientes
+                        <button
+                          className="font"
+                          onClick={this.handleAppointment}
+                        >
+                          Ver citas pendientes
+                        </button>
+                      </TableCell>
+                      <TableCell className="font" align="center">
+                        <button className="font" onClick={this.handleEdit}>
+                          Editar servicio
+                        </button>
                       </TableCell>
                     </TableRow>
                   )

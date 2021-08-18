@@ -62,43 +62,25 @@ class MenuServicesBusiness extends Component {
       <div style={{ padding: "50px 0 0 0 ", width: "80%", margin: " auto" }}>
         <h1>Servicios de {this.state.business}</h1>
 
-        <div
-          style={{
-            width: "80%",
-            textAlign: "center",
-            margin: "auto",
-          }}
-        >
+        <div className="flip-container">
           {this.state.typeCategorys.map(
             ({ id, title, description, totalStock, currencySymbol, price }) => (
               <Flippy
                 flipOnHover={true} // default false
                 flipOnClick={false} // default false
                 flipDirection="horizontal" // horizontal or vertical
-                //ref={(r) => (this.flippy = r)}  to use toggle method like this.flippy.toggle()
-                // if you pass isFlipped prop component will be controlled component.
-                // and other props, which will go to div
-                style={{
-                  minWidth: "300px",
-                  height: "350px",
-                  display: "inline-block",
-                  margin: "0 30px 30px 0",
-                }} /// these are optional style, it is not necessary
+                className="flip-card"
                 key={id}
               >
                 <FrontSide
+                  className="flip-card-background"
                   style={{
                     position: "relative",
-                    backgroundColor: "white",
-                    borderRadius: "4px",
                   }}
                 >
                   <div
+                    className="flip-card-service"
                     style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
                       height: "100%",
                     }}
                   >
@@ -122,20 +104,10 @@ class MenuServicesBusiness extends Component {
                     </div>
                   </div>
                 </FrontSide>
-                <BackSide
-                  style={{
-                    backgroundColor: "white",
-                    borderRadius: "4px",
-                    textAlign: "justify",
-                    width: "100%",
-                  }}
-                >
+                <BackSide className="flip-card-background">
                   <div
+                    className="flip-card-service"
                     style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
                       height: "92%",
                     }}
                   >
@@ -146,12 +118,7 @@ class MenuServicesBusiness extends Component {
                     size="large"
                     color="primary"
                     variant="contained"
-                    className="btn-primary"
-                    style={{
-                      width: "110.2%",
-                      marginLeft: "-14px",
-                      textTransform: "capitalize",
-                    }}
+                    className="btn-primary btn_card"
                     onClick={() => this.handleRedirect(title)}
                     fullWidth
                   >

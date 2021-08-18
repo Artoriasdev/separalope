@@ -345,6 +345,16 @@ button {
     background-color: darken($color: #232323, $amount: 5) !important;
   }
 }
+.btn_card {
+  width: 110.2% !important;
+  margin-left: -14px !important;
+  text-transform: capitalize !important;
+}
+.btn-logout {
+  width: 150px !important;
+  margin: 0 !important;
+  padding: 5px 0 !important;
+}
 
 .register__subtitle {
   color: lighten($color: black, $amount: 50);
@@ -685,6 +695,7 @@ button {
     BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   width: 150px;
+  text-decoration: none;
 }
 
 .button_ref:hover {
@@ -752,5 +763,74 @@ button {
 
       // transition: 200ms;
     }
+  }
+}
+
+.flip-container {
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  .flip-card {
+    min-width: 300px;
+    height: 350px;
+    display: inline-block;
+    margin: 0 30px 30px 0;
+  }
+  .flip-title {
+    height: 82.5%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+  .flip-card-service {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .flip-card-background {
+    background-color: white;
+    border-radius: 4px;
+  }
+}
+
+.header-profile-container {
+  margin-top: 50px;
+  margin-left: 50px;
+  .header-profile {
+    width: 200px;
+    text-align: center;
+    img {
+      border-radius: 50%;
+      max-width: 150px;
+    }
+    .title {
+      margin-top: 20px;
+      font-size: 20px;
+      font-family: MavenPro-Regular;
+      font-weight: bold;
+    }
+  }
+}
+
+.form {
+  margin-top: -460px;
+  margin-left: 25%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.table {
+  width: 85% !important;
+  border-radius: 10px 10px !important;
+  margin: 30px auto !important;
+  .table-head {
+    background: #f3f3f3 !important;
+  }
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
   }
 }

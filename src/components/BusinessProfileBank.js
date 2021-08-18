@@ -181,6 +181,7 @@ class BusinessProfileBank extends Component {
       })
       .then((response) => {
         console.log(response.data.response);
+
         if (response.data.response === "true") {
           this.setState({
             showModalSuccess: true,
@@ -218,6 +219,7 @@ class BusinessProfileBank extends Component {
     sessionStorage.removeItem("tk");
     sessionStorage.removeItem("name");
     sessionStorage.removeItem("id");
+    sessionStorage.removeItem("tradename");
     this.props.history.go(this.props.history.push("/"));
   };
 
@@ -259,40 +261,18 @@ class BusinessProfileBank extends Component {
           </React.Fragment>
         </ModalSucess>
 
-        <div style={{ marginTop: "50px", marginLeft: "50px" }}>
-          <div
-            className="header_container"
-            style={{
-              width: "200px",
-              textAlign: "center",
-            }}
-          >
+        <div className="header-profile-container">
+          <div className="header-profile">
             <img
               src="https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"
               alt="test"
-              style={{
-                borderRadius: "50%",
-                maxWidth: "150px",
-              }}
             />
-            <div
-              style={{
-                marginTop: "20px",
-                fontSize: "20px",
-                fontFamily: "MavenPro-Regular",
-                fontWeight: "bold",
-              }}
-            >
-              <p>Rosanaa Maria del Gracia</p>{" "}
-              {/* cambiar por el nombre obtenido del back */}
+            <div className="title">
+              <p>{sessionStorage.getItem("tradename")}</p>
             </div>
             <div>
-              <div style={{}}>
-                <button
-                  onClick={this.handleRedirect}
-                  className="button_ref"
-                  style={{ textDecoration: "none" }}
-                >
+              <div>
+                <button onClick={this.handleRedirect} className="button_ref">
                   Datos de la empresa
                 </button>
               </div>
@@ -300,7 +280,6 @@ class BusinessProfileBank extends Component {
                 <button
                   onClick={this.handleRedirectBank}
                   className="button_ref"
-                  style={{ textDecoration: "none" }}
                 >
                   Datos bancarios
                 </button>
@@ -311,7 +290,7 @@ class BusinessProfileBank extends Component {
                   variant="outlined"
                   color="secondary"
                   startIcon={<PowerSettingsNew />}
-                  style={{ width: "150px", margin: "0", padding: "5px 0" }}
+                  className="btn-logout"
                   onClick={this.handleLogout}
                 >
                   Cerrar sesion
@@ -320,15 +299,7 @@ class BusinessProfileBank extends Component {
             </div>
           </div>
 
-          <div
-            className="text_form"
-            style={{
-              marginTop: "-470px",
-              marginLeft: "25%",
-              boxSizing: "border-box",
-              overflowX: "hidden",
-            }}
-          >
+          <div className="form">
             <h1 style={{ display: "inline-block", marginRight: "20px" }}>
               Datos de negocio
             </h1>
@@ -344,16 +315,7 @@ class BusinessProfileBank extends Component {
               Editar datos
             </Button>
             <hr style={{ maxWidth: "80%", margin: "0", padding: "0" }} />
-          </div>
 
-          <div
-            className="text_form"
-            style={{
-              marginLeft: "25%",
-              boxSizing: "border-box",
-              overflowX: "hidden",
-            }}
-          >
             <Formik
               ref={(ref) => (this.form = ref)}
               initialValues={{

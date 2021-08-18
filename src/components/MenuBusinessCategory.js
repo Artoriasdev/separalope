@@ -8,6 +8,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
+import { BackSide, Flippy, FrontSide } from "react-flippy";
+import { Button } from "@material-ui/core";
 
 class MenuBusinessCategory extends Component {
   constructor(props) {
@@ -66,35 +68,50 @@ class MenuBusinessCategory extends Component {
           <div>
             <h1>Nuestros negocios</h1>
           </div>
-          <div style={{ textAlign: "center" }}>
+          <div className="flip-container">
             {this.state.typeCategorys &&
-              this.state.typeCategorys.map(({ id, tradename, logo }) => (
-                <Card
-                  style={{
-                    maxWidth: 350,
-                    display: "inline-block",
-                    margin: "0 30px 20px 0 ",
-                  }}
+              this.state.typeCategorys.map(({ id, tradename, name }) => (
+                <Flippy
+                  flipOnHover={true} // default false
+                  flipOnClick={false} // default false
+                  flipDirection="horizontal" // horizontal or vertical
+                  //ref={(r) => (this.flippy = r)}  to use toggle method like this.flippy.toggle()
+                  // if you pass isFlipped prop component will be controlled component.
+                  // and other props, which will go to div
+                  // style={{
+                  //   width: "300px",
+                  //   height: "350px",
+                  //   display: "inline-block",
+                  //   margin: "0 30px 30px 0",
+                  // }} /// these are optional style, it is not necessary
+                  className="flip-card"
                   key={id}
-                  onClick={() => this.handleRedirect(id)}
                 >
-                  <CardActionArea>
-                    <CardMedia
-                      component="img"
-                      alt={tradename}
-                      height="250"
-                      image={logo}
-                      title={tradename}
-                    />
-                    <CardContent
-                      style={{ minHeight: "40px", textAlign: "center" }}
+                  <FrontSide className="flip-card-background">
+                    <h3 className="flip-title">{name}</h3>
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="contained"
+                      className="btn-primary btn_card"
+                      onClick={() => this.handleRedirect(id)}
                     >
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {tradename}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
+                      Ver servicios
+                    </Button>
+                  </FrontSide>
+                  <BackSide className="flip-card-background">
+                    <h3 className="flip-title">{tradename}</h3>
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="contained"
+                      className="btn-primary btn_card"
+                      onClick={() => this.handleRedirect(id)}
+                    >
+                      Ver servicios
+                    </Button>
+                  </BackSide>
+                </Flippy>
               ))}
           </div>
         </div>
