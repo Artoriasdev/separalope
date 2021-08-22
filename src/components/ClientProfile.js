@@ -468,7 +468,7 @@ class ClientProfile extends Component {
                       name="correo"
                       className="TxtField"
                       variant="outlined"
-                      label="Correo de la empresa"
+                      label="Correo"
                       fullWidth
                       value={values.correo}
                       error={errors.correo && touched.correo}

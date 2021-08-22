@@ -5,14 +5,14 @@ import "react-multi-carousel/lib/styles.css";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
 
 import axios from "axios";
-import { InputAdornment, TextField } from "@material-ui/core";
+import { Button, InputAdornment, TextField } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 
 const responsive = {
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 3,
-    slidesToSlide: 3, // optional, default to 1.
+    breakpoint: { max: 3000, min: 1080 },
+    items: 4,
+    slidesToSlide: 4, // optional, default to 1.
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
@@ -61,6 +61,7 @@ class HomePage extends Component {
       })
       .then((response) => {
         const { data } = response.data;
+        localStorage.setItem("info", JSON.stringify(data));
 
         this.setState({
           typeCategorys: data,
@@ -73,7 +74,7 @@ class HomePage extends Component {
 
   handleRedirect = (id, image, name, description) => {
     localStorage.setItem("image", image);
-    localStorage.setItem("name", name);
+    localStorage.setItem("categoria", name);
     localStorage.setItem("description", description);
     this.props.history.push(`/services-menu/${id}`);
   };
@@ -83,10 +84,10 @@ class HomePage extends Component {
       <div>
         <Carousel />
         {/* <Cards /> */}
-        <div style={{ padding: "30px", width: "70%", margin: "auto" }}>
+        <div style={{ padding: "30px", width: "80%", margin: "auto" }}>
           <div style={{ position: "relative" }}>
             <div>
-              <h1>Nuestras servicios</h1>
+              <h1 style={{ color: "#5829dd" }}>Nuestros servicios</h1>
               <h3 className="register__subtitle">
                 son 100% digitales via zoom en la comodidad de tu hogar <br /> y
                 en el horario que tu decidas.
@@ -116,83 +117,81 @@ class HomePage extends Component {
               />
             </div>
           </div>
-          <CarouselItem
-            swipeable={false}
-            draggable={false}
-            showDots={false}
-            responsive={responsive}
-            ssr={true} // means to render carousel on server-side.
-            infinite={true}
-            autoPlay={this.props.deviceType !== "mobile" ? false : true}
-            // autoPlaySpeed={1000}
-
-            transitionDuration={500}
-            containerClass="carousel-container"
-            removeArrowOnDeviceType={["tablet", "mobile"]}
-            deviceType={this.props.deviceType}
-            itemClass="carousel-item-padding-40-px"
-          >
-            {this.state.typeCategorys &&
-              this.state.typeCategorys.map(
-                ({ id, image, name, description }) => (
-                  <div
-                    style={{
-                      cursor: "pointer",
-                      width: "272px",
-                      margin: "auto",
-                    }}
-                    onClick={() =>
-                      this.handleRedirect(id, image, name, description)
-                    }
-                    key={id}
-                  >
-                    <Flippy
-                      flipOnHover={true} // default false
-                      flipOnClick={false} // default false
-                      flipDirection="horizontal" // horizontal or vertical
-                      //ref={(r) => (this.flippy = r)}  to use toggle method like this.flippy.toggle()
-                      // if you pass isFlipped prop component will be controlled component.
-                      // and other props, which will go to div
-                      style={{
-                        width: "272px",
-                        height: "272px",
-                        margin: "auto",
-                      }} /// these are optional style, it is not necessary
-                    >
-                      <FrontSide
-                        style={{
-                          backgroundImage: `url(${image})`,
-                          borderRadius: "4px",
-                        }}
-                      ></FrontSide>
-                      <BackSide
-                        style={{
-                          backgroundColor: "#232323",
-                          borderRadius: "4px",
-                          textAlign: "justify",
-                        }}
-                      >
-                        <p
-                          style={{
-                            display: "flex",
-                            height: "80%",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            color: "white",
-                          }}
-                        >
-                          {description}
-                        </p>
-                      </BackSide>
-                    </Flippy>
-                    <h3 style={{ textAlign: "center", color: "#5829dd" }}>
-                      {name}
-                    </h3>
-                  </div>
-                )
-              )}
-          </CarouselItem>
         </div>
+        <CarouselItem
+          swipeable={false}
+          draggable={false}
+          showDots={false}
+          responsive={responsive}
+          ssr={true} // means to render carousel on server-side.
+          infinite={true}
+          autoPlay={this.props.deviceType !== "mobile" ? false : true}
+          // autoPlaySpeed={1000}
+          transitionDuration={500}
+          containerClass="carousel-container"
+          removeArrowOnDeviceType={["tablet", "mobile"]}
+          deviceType={this.props.deviceType}
+          itemClass="carousel-item-padding-100-px"
+          renderButtonGroupOutside={true}
+        >
+          {this.state.typeCategorys &&
+            this.state.typeCategorys.map(({ id, image, name, description }) => (
+              <div
+                style={{
+                  cursor: "pointer",
+                  width: "272px",
+                  margin: "auto",
+                }}
+                onClick={() =>
+                  this.handleRedirect(id, image, name, description)
+                }
+                key={id}
+              >
+                <Flippy
+                  flipOnHover={true} // default false
+                  flipOnClick={false} // default false
+                  flipDirection="horizontal" // horizontal or vertical
+                  //ref={(r) => (this.flippy = r)}  to use toggle method like this.flippy.toggle()
+                  // if you pass isFlipped prop component will be controlled component.
+                  // and other props, which will go to div
+                  style={{
+                    width: "272px",
+                    height: "272px",
+                    margin: "auto",
+                  }} /// these are optional style, it is not necessary
+                >
+                  <FrontSide
+                    style={{
+                      backgroundImage: `url(${image})`,
+                      borderRadius: "4px",
+                    }}
+                  ></FrontSide>
+                  <BackSide
+                    style={{
+                      backgroundColor: "#232323",
+                      borderRadius: "4px",
+                      textAlign: "justify",
+                    }}
+                  >
+                    <p
+                      style={{
+                        display: "flex",
+                        height: "80%",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "white",
+                      }}
+                    >
+                      {description}
+                    </p>
+                  </BackSide>
+                </Flippy>
+                <h3 style={{ textAlign: "center", color: "#5829dd" }}>
+                  {name}
+                </h3>
+              </div>
+            ))}
+        </CarouselItem>
       </div>
     );
   }

@@ -30,6 +30,11 @@ import MenuBusinessCategory from "./components/MenuBusinessCategory";
 import MenuServicesBusiness from "./components/MenuServicesBusiness";
 import ReserveAppointment from "./components/ReserveAppointment";
 import ConfirmLogin from "./components/ConfirmLogin";
+import Banner from "./components/Banner";
+import PasswordRecovery from "./components/PasswordRecovery";
+import PasswordOTP from "./components/PasswordOTP";
+import PasswordRestore from "./components/PasswordRestore";
+import { Footer } from "./components/Footer";
 
 // import HomePage from "./pages/Home";
 
@@ -129,6 +134,9 @@ const theme = createMuiTheme({
 });
 
 function App() {
+  const logged = JSON.parse(sessionStorage.getItem("logged"));
+  const negocio = sessionStorage.getItem("tradename");
+  console.log(negocio);
   return (
     <>
       <StyledRoot>
@@ -136,14 +144,14 @@ function App() {
         <ThemeProvider theme={theme}></ThemeProvider>
         <StyledGlobal />
         <BrowserRouter>
-          {JSON.parse(sessionStorage.getItem("logged")) ? (
-            <NavBarLogged />
-          ) : (
-            <Navbar />
-          )}
+          {logged ? <NavBarLogged /> : <Navbar />}
 
           <Switch>
-            <StyledMain f="1 0 auto" mt={"5.9rem"} bg={"#fff"}>
+            <StyledMain
+              f="1 0 auto"
+              mt={negocio === null ? "5.9rem" : "3.15rem"}
+              bg={"#fff"}
+            >
               <Route
                 exact
                 path="/business/services/appointment"
@@ -228,9 +236,25 @@ function App() {
               />
               <Route exact path="/confirm/:value" component={ConfirmLogin} />
               <Route exact path="/reserve" component={ReserveAppointment} />
+              <Route exact path="/temp" component={Banner} />
+              <Route
+                exact
+                path="/password-recovery/:value"
+                component={PasswordRecovery}
+              />
+              <Route
+                exact
+                path="/password-recovery-otp/:value"
+                component={PasswordOTP}
+              />
+              <Route
+                exact
+                path="/password-restore/:value"
+                component={PasswordRestore}
+              />
             </StyledMain>
           </Switch>
-          {/* <Footer /> */}
+          <Footer />
         </BrowserRouter>
       </StyledRoot>
     </>

@@ -179,6 +179,9 @@ class BusinessCategory extends Component {
                   display: "inline-block",
                   position: "relative",
                   cursor: "pointer",
+                  marginBottom: "20px",
+                  maxWidth: "272px",
+                  marginRight: "25px",
                 }}
                 onClick={() => this.handleRedirect(id)}
               >
@@ -186,6 +189,7 @@ class BusinessCategory extends Component {
                   style={{
                     backgroundImage: `url(${image})`,
                     textDecoration: "none",
+                    borderRadius: "4px",
                   }}
                   className="card"
                 >

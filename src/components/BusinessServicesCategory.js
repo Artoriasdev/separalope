@@ -109,6 +109,14 @@ class BusinessServicesCategory extends Component {
     this.props.history.push("/business/services/details");
   };
 
+  handleEdit = () => {
+    this.props.history.push("/business/services/details");
+  };
+
+  handleAppointment = () => {
+    this.props.history.push("/business/services/appointment");
+  };
+
   render() {
     return (
       <>

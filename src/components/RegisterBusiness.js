@@ -4,7 +4,7 @@ import { ArrowCircleSVG } from "../assets/images/svg";
 import Axios from "axios";
 import { Formik } from "formik";
 import ModalSucess from "./ModalSucess";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Modal, Fade, Backdrop } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 
 class RegisterBusiness extends Component {
@@ -16,6 +16,7 @@ class RegisterBusiness extends Component {
       typeCategorys: [],
       showModalSucesss: false,
       disclaimerModal: "",
+      response: false,
     };
   }
 
@@ -88,7 +89,14 @@ class RegisterBusiness extends Component {
     const rspApi = Axios.post(linkRegisterApi, BusinessModel, {
       headers: headers,
     }).then((response) => {
-      console.log(response);
+      const { data } = response;
+
+      if (data.response === "false") {
+        this.setState({
+          showModalSucesss: true,
+          disclaimerModal: data.message,
+        });
+      }
       return response;
     });
 
@@ -99,30 +107,58 @@ class RegisterBusiness extends Component {
     this.setState({
       showModalSucesss: false,
     });
-    this.props.history.push("/login/B");
+    if (this.state.response === true) {
+      this.props.history.push("/login/B");
+    }
   };
 
   render() {
     return (
       <>
-        <ModalSucess
-          show={this.state.showModalSucesss}
-          closeCallback={this.toggleModalSuccess}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.showModalSucesss}
+          closeAfterTransition
+          onClose={this.toggleModalSuccess}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
         >
-          <React.Fragment>
+          <Fade in={this.state.showModalSucesss}>
             <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalSucess>
-        <button
-          className="arrow__button"
-          onClick={() => this.props.history.goBack()}
-        >
-          <figure>
-            <ArrowCircleSVG />
-          </figure>
-        </button>
+              style={{
+                backgroundColor: "white",
+                borderRadius: "4px",
+                boxShadow: "5",
+                padding: "20px",
+              }}
+            >
+              <p>{this.state.disclaimerModal}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                style={{
+                  margin: "10px 0",
+                  width: "80%",
+                  textTransform: "capitalize",
+                }}
+                onClick={this.toggleModalSuccess}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
 
         <div style={{ padding: "20px", width: "500px", margin: "50px auto" }}>
           <h3 className="register__subtitle">Doy un servicio</h3>
@@ -169,6 +205,7 @@ class RegisterBusiness extends Component {
                   this.setState({
                     showModalSucesss: true,
                     disclaimerModal: "¡Registro grabado satisfactoriamente!",
+                    response: true,
                   });
                 }
               })();
@@ -190,6 +227,7 @@ class RegisterBusiness extends Component {
                     className="TxtField"
                     variant="outlined"
                     label="Razón social"
+                    required
                     fullWidth
                     value={values.razon}
                     error={errors.razon && touched.razon}
@@ -210,6 +248,7 @@ class RegisterBusiness extends Component {
                     className="TxtField"
                     variant="outlined"
                     label="Nombre comercial"
+                    required
                     fullWidth
                     value={values.nombre}
                     error={errors.nombre && touched.nombre}
@@ -232,6 +271,8 @@ class RegisterBusiness extends Component {
                     className="TxtField"
                     variant="outlined"
                     label="Número de documento"
+                    required
+                    type="number"
                     fullWidth
                     value={values.nroDocumento}
                     error={errors.nroDocumento && touched.nroDocumento}
@@ -253,6 +294,8 @@ class RegisterBusiness extends Component {
                     className="TxtField"
                     variant="outlined"
                     label="Correo electrónico"
+                    type="email"
+                    required
                     fullWidth
                     value={values.correo}
                     error={errors.correo && touched.correo}
@@ -272,14 +315,15 @@ class RegisterBusiness extends Component {
 
                 <div className="files">
                   <TextField
-                    name="repContraseña"
+                    name="contraseña"
                     type="password"
                     className="TxtField"
                     variant="outlined"
-                    label="Repetir contraseña"
+                    label="Contraseña"
+                    required
                     fullWidth
-                    value={values.repContraseña}
-                    error={errors.repContraseña && touched.repContraseña}
+                    value={values.contraseña}
+                    error={errors.contraseña && touched.contraseña}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     style={{
@@ -292,16 +336,16 @@ class RegisterBusiness extends Component {
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
-
                   <TextField
-                    name="contraseña"
+                    name="repContraseña"
                     type="password"
                     className="TxtField"
                     variant="outlined"
-                    label="Contraseña"
+                    label="Repetir contraseña"
+                    required
                     fullWidth
-                    value={values.contraseña}
-                    error={errors.contraseña && touched.contraseña}
+                    value={values.repContraseña}
+                    error={errors.repContraseña && touched.repContraseña}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     style={{
@@ -323,6 +367,7 @@ class RegisterBusiness extends Component {
                   className="btn-primary"
                   style={{
                     margin: "10px 0",
+                    textTransform: "capitalize",
                   }}
                   type="submit"
                   fullWidth

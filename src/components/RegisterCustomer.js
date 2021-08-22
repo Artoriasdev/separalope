@@ -5,7 +5,7 @@ import { Component } from "react";
 import { ArrowCircleSVG } from "../assets/images/svg";
 import { handleRegexDisable } from "../utils/utilitaries";
 import ModalSucess from "./ModalSucess";
-import { TextField, MenuItem } from "@material-ui/core";
+import { TextField, MenuItem, Backdrop, Modal, Fade } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { Button } from "@material-ui/core";
 
@@ -17,6 +17,7 @@ class RegisterCustomer extends Component {
       typeCategorys: [],
       showModalSucesss: false,
       disclaimerModal: "",
+      response: "",
     };
   }
 
@@ -53,7 +54,6 @@ class RegisterCustomer extends Component {
   };
 
   handleInfoSubmit = (CustomerModel) => {
-    console.log("entra");
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -66,6 +66,14 @@ class RegisterCustomer extends Component {
     const rspApi = Axios.post(linkRegisterApi, CustomerModel, {
       headers: headers,
     }).then((response) => {
+      const { data } = response;
+
+      if (data.response === "false") {
+        this.setState({
+          showModalSucesss: true,
+          disclaimerModal: data.message,
+        });
+      }
       return response;
     });
 
@@ -76,30 +84,58 @@ class RegisterCustomer extends Component {
     this.setState({
       showModalSucesss: false,
     });
-    this.props.history.push("/login/C");
+    if (this.state.response === true) {
+      this.props.history.push("/login/C");
+    }
   };
 
   render() {
     return (
       <>
-        <ModalSucess
-          show={this.state.showModalSucesss}
-          closeCallback={this.toggleModalSuccess}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.showModalSucesss}
+          closeAfterTransition
+          onClose={this.toggleModalSuccess}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
         >
-          <React.Fragment>
+          <Fade in={this.state.showModalSucesss}>
             <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalSucess>
-        <button
-          className="arrow__button"
-          onClick={() => this.props.history.goBack()}
-        >
-          <figure>
-            <ArrowCircleSVG />
-          </figure>
-        </button>
+              style={{
+                backgroundColor: "white",
+                borderRadius: "4px",
+                boxShadow: "5",
+                padding: "20px",
+              }}
+            >
+              <p>{this.state.disclaimerModal}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                style={{
+                  margin: "10px 0",
+                  width: "80%",
+                  textTransform: "capitalize",
+                }}
+                onClick={this.toggleModalSuccess}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
 
         <div style={{ padding: "20px", width: "500px", margin: "50px auto" }}>
           <h3 className="register__subtitle">Soy un cliente</h3>
@@ -150,6 +186,7 @@ class RegisterCustomer extends Component {
                   this.setState({
                     showModalSucesss: true,
                     disclaimerModal: "¡Registro grabado satisfactoriamente!",
+                    response: true,
                   });
                 }
               })();
@@ -170,7 +207,8 @@ class RegisterCustomer extends Component {
                     name="nombre"
                     className="TxtField"
                     variant="outlined"
-                    placeholder="Nombres"
+                    label="Nombres"
+                    required
                     fullWidth
                     value={values.nombre}
                     error={errors.nombre && touched.nombre}
@@ -190,7 +228,8 @@ class RegisterCustomer extends Component {
                     name="apellido"
                     className="TxtField"
                     variant="outlined"
-                    placeholder="Apellidos"
+                    label="Apellidos"
+                    required
                     fullWidth
                     value={values.apellido}
                     error={errors.apellido && touched.apellido}
@@ -205,15 +244,6 @@ class RegisterCustomer extends Component {
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
-
-                  {/* <input
-                        type="text"
-                        placeholder="Apellidos"
-                        name="apellido"
-                        className="register__input"
-                        value={values.apellido}
-                        onChange={handleChange}
-                      /> */}
                 </div>
 
                 <div className="files">
@@ -230,6 +260,7 @@ class RegisterCustomer extends Component {
                     error={errors.documentos && touched.documentos}
                     name="documentos"
                     displayEmpty
+                    required
                     onChange={handleChange}
                     onBlur={handleBlur}
                   >
@@ -248,7 +279,8 @@ class RegisterCustomer extends Component {
                     name="nroDocumento"
                     className="TxtField"
                     variant="outlined"
-                    placeholder="Número de documento"
+                    label="Número de documento"
+                    required
                     fullWidth
                     value={values.nroDocumento}
                     error={errors.nroDocumento && touched.nroDocumento}
@@ -259,6 +291,7 @@ class RegisterCustomer extends Component {
                       marginTop: "5px",
                       marginBottom: "5px",
                     }}
+                    type="number"
                     // inputProps={{
                     //   maxLength: 9,
                     // }}
@@ -271,12 +304,15 @@ class RegisterCustomer extends Component {
                     name="celular"
                     className="TxtField"
                     variant="outlined"
-                    placeholder="Número de celular"
+                    label="Número de celular"
+                    required
                     fullWidth
                     value={values.celular}
                     error={errors.celular && touched.celular}
                     onBlur={handleBlur}
                     onChange={handleChange}
+                    type="number"
+                    required
                     style={{
                       marginRight: "5px",
                       marginTop: "5px",
@@ -292,7 +328,8 @@ class RegisterCustomer extends Component {
                     name="correo"
                     className="TxtField"
                     variant="outlined"
-                    placeholder="Correo electrónico"
+                    label="Correo electrónico"
+                    required
                     fullWidth
                     value={values.correo}
                     error={errors.correo && touched.correo}
@@ -303,6 +340,7 @@ class RegisterCustomer extends Component {
                       marginTop: "5px",
                       marginBottom: "5px",
                     }}
+                    type="email"
                     // inputProps={{
                     //   maxLength: 9,
                     // }}
@@ -316,7 +354,8 @@ class RegisterCustomer extends Component {
                     type="password"
                     className="TxtField"
                     variant="outlined"
-                    placeholder="Contraseña"
+                    label="Contraseña"
+                    required
                     fullWidth
                     value={values.contraseña}
                     error={errors.contraseña && touched.contraseña}
@@ -338,7 +377,8 @@ class RegisterCustomer extends Component {
                     type="password"
                     className="TxtField"
                     variant="outlined"
-                    placeholder="Repetir contraseña"
+                    label="Repetir contraseña"
+                    required
                     fullWidth
                     value={values.repContraseña}
                     error={errors.repContraseña && touched.repContraseña}
@@ -363,6 +403,7 @@ class RegisterCustomer extends Component {
                   className="btn-primary"
                   style={{
                     margin: "10px 0",
+                    textTransform: "capitalize",
                   }}
                   type="submit"
                   fullWidth

@@ -349,6 +349,17 @@ button {
   width: 110.2% !important;
   margin-left: -14px !important;
   text-transform: capitalize !important;
+  background-color: #5829dd !important;
+  font-family: VarelaRound-Regular, MavenPro-Regular, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+  &:disabled {
+    background-color: lighten($color: #5829dd, $amount: 15) !important;
+  }
+
+  &:hover {
+    background-color: darken($color: #5829dd, $amount: 5) !important;
+  }
 }
 .btn-logout {
   width: 150px !important;
@@ -833,4 +844,9 @@ button {
     cursor: pointer;
     text-decoration: underline;
   }
+}
+
+.carousel-container {
+  width: 88%;
+  margin: auto;
 }

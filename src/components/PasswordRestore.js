@@ -1,73 +1,70 @@
-import React from "react";
-import { Component } from "react";
-import { Formik } from "formik";
 import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
-import { handleRegexDisable } from "../utils/utilitaries";
-
-import { Save, Visibility } from "@material-ui/icons";
-import ModalError from "./ModalError";
-import ModalSucess from "./ModalSucess";
 import axios from "axios";
+import { Formik } from "formik";
+import React, { Component } from "react";
 
-class Password extends Component {
+class PasswordRestore extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      formModel: [],
-      disclaimerModal: "",
-      viewPassword: false,
-      showModalError: false,
-      showModalSuccess: false,
+      modal: false,
       response: false,
+      message: "",
     };
   }
 
-  handleChangePassword = (passwordModel) => {
-    const tk = sessionStorage.getItem("tk");
+  componentDidMount() {
+    try {
+      const Formik = this.form;
+      Formik.setFieldValue("correo", localStorage.getItem("correo"));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  handleRecovery = async (RecoveryModel) => {
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
-      Authorization: `Bearer ${tk}`,
+      Authorization: "",
     };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/user/passwordChange";
+    let linkLoginApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/user/passwordRestore";
 
     const rspApi = axios
-      .post(linkEditApi, passwordModel, {
+      .post(linkLoginApi, RecoveryModel, {
         headers: headers,
       })
       .then((response) => {
-        if (response.data.response === "true") {
+        const { data } = response;
+
+        if (data.response === "true") {
           this.setState({
-            showModalSucesss: true,
-            disclaimerModal: response.data.message,
+            modal: true,
+            message: data.message,
             response: true,
           });
-        } else if (response.data.response === "false") {
+        } else if (data.response === "false") {
           this.setState({
-            showModalSucesss: true,
-            disclaimerModal: response.data.message,
+            modal: true,
+            message: data.message,
           });
         }
         return response;
+      })
+      .catch(({ response }) => {
+        console.log(response.data.message);
       });
-
     return rspApi;
   };
 
-  handleViewPassword = () => {
-    this.setState({ viewPassword: true });
-  };
-  handleHidePassword = () => {
-    this.setState({ viewPassword: false });
-  };
-
-  toggleModalSuccess = () => {
+  handleClose = () => {
     this.setState({
-      showModalSucesss: false,
+      modal: false,
     });
     if (this.state.response === true) {
-      this.props.history.push("/");
+      this.props.history.push(`/login/${this.props.match.params.value}`);
+      localStorage.removeItem("correo");
     }
   };
 
@@ -77,9 +74,9 @@ class Password extends Component {
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
-          open={this.state.showModalSucesss}
+          open={this.state.modal}
           closeAfterTransition
-          onClose={this.toggleModalSuccess}
+          onClose={this.handleClose}
           BackdropComponent={Backdrop}
           BackdropProps={{
             timeout: 500,
@@ -91,7 +88,7 @@ class Password extends Component {
             textAlign: "center",
           }}
         >
-          <Fade in={this.state.showModalSucesss}>
+          <Fade in={this.state.modal}>
             <div
               style={{
                 backgroundColor: "white",
@@ -100,7 +97,7 @@ class Password extends Component {
                 padding: "20px",
               }}
             >
-              <p>{this.state.disclaimerModal}</p>
+              <p>{this.state.message}</p>
               <Button
                 size="large"
                 color="primary"
@@ -111,39 +108,45 @@ class Password extends Component {
                   width: "80%",
                   textTransform: "capitalize",
                 }}
-                onClick={this.toggleModalSuccess}
+                onClick={this.handleClose}
               >
                 Aceptar
               </Button>
             </div>
           </Fade>
         </Modal>
-        <div style={{ margin: "40px 0", padding: 0 }}>
-          <div style={{ width: "50%", margin: "auto" }}>
+        <div style={{ width: "30%", margin: "11%  auto" }}>
+          {this.props.match.params.value === "C" ? (
+            <h3 className="register__subtitle">Soy un cliente</h3>
+          ) : (
+            <h3 className="register__subtitle">Doy un servicio</h3>
+          )}
+          <h1>Restaurar contraseña</h1>
+          <div style={{ textAlign: "center" }}>
             <Formik
               ref={(ref) => (this.form = ref)}
               initialValues={{
+                correo: "",
                 contraseña: "",
-                cambiarContraseña: "",
                 repetirContraseña: "",
               }}
               validate={{}}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                const dataModel = {
-                  currentPassword: "",
+                const RecoveryModel = {
+                  email: "",
+                  workflow: "",
                   newPassword: "",
                   confirmNewPassword: "",
                 };
 
-                dataModel.currentPassword = values.contraseña;
-                dataModel.newPassword = values.cambiarContraseña;
-                dataModel.confirmNewPassword = values.repetirContraseña;
-
-                // aqui los getter y handler
+                RecoveryModel.email = values.correo;
+                RecoveryModel.newPassword = values.contraseña;
+                RecoveryModel.confirmNewPassword = values.repetirContraseña;
+                RecoveryModel.workflow = this.props.match.params.value;
 
                 (async () => {
-                  await this.handleChangePassword(dataModel);
+                  await this.handleRecovery(RecoveryModel);
                 })();
               }}
             >
@@ -156,53 +159,18 @@ class Password extends Component {
                 errors,
                 touched,
               }) => (
-                <form name="formPassword" onSubmit={handleSubmit}>
-                  <h2
-                    style={{
-                      marginTop: "15%",
-                      marginBottom: "30px",
-                      textAlign: "center",
-                    }}
-                  >
-                    Cambio de contraseña
-                  </h2>
-
-                  {this.state.viewPassword ? (
-                    <Button
-                      variant="contained"
-                      startIcon={<Visibility />}
-                      color="primary"
-                      className="btn-primary"
-                      style={{ marginBottom: "10px" }}
-                      onClick={this.handleHidePassword}
-                    >
-                      Ocultar contraseñas
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="contained"
-                      startIcon={<Visibility />}
-                      color="primary"
-                      className="btn-primary"
-                      style={{ marginBottom: "10px" }}
-                      onClick={this.handleViewPassword}
-                    >
-                      Ver contraseñas
-                    </Button>
-                  )}
-
+                <form name="formLogin" onSubmit={handleSubmit}>
                   <div className="files">
                     <TextField
-                      name="contraseña"
+                      name="correo"
                       className="TxtField"
                       variant="outlined"
-                      label="Contraseña actual"
-                      value={values.contraseña}
-                      error={errors.contraseña && touched.contraseña}
+                      label="Correo electronico"
+                      value={values.correo}
+                      required
+                      error={errors.correo && touched.correo}
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      required
-                      type={this.state.viewPassword ? "text" : "password"}
                       style={{
                         marginTop: "10px",
                         marginBottom: "10px",
@@ -211,23 +179,20 @@ class Password extends Component {
                       // inputProps={{
                       //   maxLength: 9,
                       // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
                   </div>
                   <div className="files">
                     <TextField
-                      name="cambiarContraseña"
+                      name="contraseña"
                       className="TxtField"
                       variant="outlined"
                       label="Ingresa tu nueva contraseña"
+                      required
                       fullWidth
-                      value={values.cambiarContraseña}
-                      error={
-                        errors.cambiarContraseña && touched.cambiarContraseña
-                      }
+                      value={values.contraseña}
+                      error={errors.contraseña && touched.contraseña}
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      required
                       type={this.state.viewPassword ? "text" : "password"}
                       style={{
                         marginTop: "10px",
@@ -237,7 +202,6 @@ class Password extends Component {
                       // inputProps={{
                       //   maxLength: 9,
                       // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
                     <TextField
                       name="repetirContraseña"
@@ -245,13 +209,13 @@ class Password extends Component {
                       variant="outlined"
                       label="Repite tu nueva contraseña"
                       value={values.repetirContraseña}
+                      required
                       fullWidth
                       error={
                         errors.repetirContraseña && touched.repetirContraseña
                       }
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      required
                       type={this.state.viewPassword ? "text" : "password"}
                       style={{
                         marginTop: "10px",
@@ -262,23 +226,23 @@ class Password extends Component {
                       // inputProps={{
                       //   maxLength: 9,
                       // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
                   </div>
 
-                  <div className="files">
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      type="submit"
-                      className="btn-primary"
-                      startIcon={<Save />}
-                      style={{ margin: "10px", textTransform: "capitalize" }}
-                      fullWidth
-                    >
-                      Cambiar contraseña
-                    </Button>
-                  </div>
+                  <Button
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                    className="btn-primary"
+                    style={{
+                      width: "80%",
+                      margin: "10px auto",
+                      textTransform: "capitalize",
+                    }}
+                    type="submit"
+                  >
+                    Enviar
+                  </Button>
                 </form>
               )}
             </Formik>
@@ -289,4 +253,4 @@ class Password extends Component {
   }
 }
 
-export default Password;
+export default PasswordRestore;
