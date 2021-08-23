@@ -130,8 +130,11 @@ const Navbar = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const handleRedirect = (id) => {
+  const handleRedirect = (id, name, image, description) => {
     history.go(history.push(`/services-menu/${id}`));
+    localStorage.setItem("categoria", name);
+    localStorage.setItem("image", image);
+    localStorage.setItem("description", description);
   };
 
   return (
@@ -248,9 +251,9 @@ const Navbar = () => {
                   root: classes.scrollButtons,
                 }}
               >
-                {info.map(({ id, name }) => (
+                {info.map(({ id, name, image, description }) => (
                   <Button
-                    onClick={() => handleRedirect(id)}
+                    onClick={() => handleRedirect(id, name, image, description)}
                     classes={{
                       root: classes.tab,
                     }}

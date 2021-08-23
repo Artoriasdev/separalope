@@ -30,7 +30,6 @@ import MenuBusinessCategory from "./components/MenuBusinessCategory";
 import MenuServicesBusiness from "./components/MenuServicesBusiness";
 import ReserveAppointment from "./components/ReserveAppointment";
 import ConfirmLogin from "./components/ConfirmLogin";
-import Banner from "./components/Banner";
 import PasswordRecovery from "./components/PasswordRecovery";
 import PasswordOTP from "./components/PasswordOTP";
 import PasswordRestore from "./components/PasswordRestore";
@@ -236,7 +235,7 @@ function App() {
               />
               <Route exact path="/confirm/:value" component={ConfirmLogin} />
               <Route exact path="/reserve" component={ReserveAppointment} />
-              <Route exact path="/temp" component={Banner} />
+
               <Route
                 exact
                 path="/password-recovery/:value"

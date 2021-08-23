@@ -2,7 +2,7 @@ import { Button } from "@material-ui/core";
 import axios from "axios";
 import React, { Component } from "react";
 import { BackSide, Flippy, FrontSide } from "react-flippy";
-import Carousel from "./Carousel";
+import Banner from "./BannerBusiness";
 
 class MenuServicesBusiness extends Component {
   constructor(props) {
@@ -61,7 +61,7 @@ class MenuServicesBusiness extends Component {
   render() {
     return (
       <>
-        <Carousel />
+        <Banner />
         <div style={{ padding: "50px 0 0 0 ", width: "80%", margin: " auto" }}>
           <h1>Servicios de {this.state.business}</h1>
 

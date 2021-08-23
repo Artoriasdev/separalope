@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
-
-import Carousel from "./Carousel";
-
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
-
 import { Button } from "@material-ui/core";
+import Banner from "./BannerCategory";
 
 class MenuBusinessCategory extends Component {
   constructor(props) {
@@ -56,14 +52,16 @@ class MenuBusinessCategory extends Component {
     return rspApi;
   };
 
-  handleRedirect = (id) => {
+  handleRedirect = (id, tradename, logo) => {
     this.props.history.push(`/services-menu-category/${id}`);
+    localStorage.setItem("negocio", tradename);
+    localStorage.setItem("logo", logo);
   };
 
   render() {
     return (
       <>
-        <Carousel />
+        <Banner />
         <div style={{ padding: "30px", width: "90%", margin: "auto" }}>
           <div>
             <h1 style={{ color: "#5829dd" }}>Nuestros negocios</h1>
@@ -100,7 +98,7 @@ class MenuBusinessCategory extends Component {
                       textTransform: "capitalize",
                     }}
                     fullWidth
-                    onClick={() => this.handleRedirect(id)}
+                    onClick={() => this.handleRedirect(id, tradename, logo)}
                   >
                     Ver negocios
                   </Button>

@@ -10,14 +10,14 @@ import { Search } from "@material-ui/icons";
 
 const responsive = {
   desktop: {
-    breakpoint: { max: 3000, min: 1080 },
+    breakpoint: { max: 3000, min: 1400 },
     items: 4,
     slidesToSlide: 4, // optional, default to 1.
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
-    slidesToSlide: 2, // optional, default to 1.
+    breakpoint: { max: 1400, min: 1000 },
+    items: 3,
+    slidesToSlide: 3, // optional, default to 1.
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
@@ -124,12 +124,12 @@ class HomePage extends Component {
           showDots={false}
           responsive={responsive}
           ssr={true} // means to render carousel on server-side.
-          infinite={true}
+          infinite={false}
           autoPlay={this.props.deviceType !== "mobile" ? false : true}
           // autoPlaySpeed={1000}
           transitionDuration={500}
           containerClass="carousel-container"
-          removeArrowOnDeviceType={["tablet", "mobile"]}
+          removeArrowOnDeviceType={["mobile"]}
           deviceType={this.props.deviceType}
           itemClass="carousel-item-padding-100-px"
           renderButtonGroupOutside={true}
