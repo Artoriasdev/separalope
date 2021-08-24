@@ -19,14 +19,11 @@ export class Container extends Component {
       this.closeModal();
     }
   };
-  onClickOutside = (event) => {
-    if (this.modal && this.modal.contains(event.target)) return;
-    this.closeModal();
-  };
 
   toggleScrollLock = () => {
     document.querySelector("html").classList.toggle("scroll-lock");
   };
+
   render() {
     return (
       <React.Fragment>
@@ -41,7 +38,8 @@ export class Container extends Component {
             buttonRef={(n) => (this.closeButton = n)}
             closeModal={this.closeModal}
             onKeyDown={this.onKeyDown}
-            onClickOutside={this.onClickOutside}
+            value={this.props.value}
+            history={this.props.history}
           />
         ) : null}
       </React.Fragment>

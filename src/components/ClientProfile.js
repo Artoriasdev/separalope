@@ -217,7 +217,7 @@ class ClientProfile extends Component {
           </React.Fragment>
         </ModalSucess>
 
-        <div style={{ marginTop: "50px", marginLeft: "50px" }}>
+        <div className="header-profile-container">
           <div
             className="header_container"
             style={{

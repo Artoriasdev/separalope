@@ -69,6 +69,7 @@ class Banner extends Component {
           backgroundImage: `url(${localStorage.getItem("image")})`,
           backgroundSize: "100%",
           backgroundPositionY: "bottom",
+          borderBottom: "solid 4px #232323",
         }}
       >
         <div style={{ background: "rgba(0, 0, 0, 0.3)" }}>

@@ -62,9 +62,8 @@ class MenuServicesBusiness extends Component {
     return (
       <>
         <Banner />
-        <div style={{ padding: "50px 0 0 0 ", width: "80%", margin: " auto" }}>
-          <h1>Servicios de {this.state.business}</h1>
 
+        <div style={{ padding: "50px 0 0 0 ", width: "80%", margin: " auto" }}>
           <div className="flip-container">
             {this.state.typeCategorys.map(
               ({ id, title, description, currencySymbol, price }) => (

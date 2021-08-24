@@ -161,16 +161,17 @@ const Navbar = () => {
                   variant="dense"
                 >
                   <Button
-                    className="font"
+                    className="font buttonHeader "
                     onClick={handleRedirectHome}
                     style={{
-                      textTransform: "capitalize",
+                      textTransform: "none",
 
                       height: "3.15rem",
                       marginTop: "-5px",
                     }}
                   >
-                    <h2 style={{ color: "black" }}>separalope</h2>
+                    <h2>sepáralo pe</h2>
+                    <h2 style={{ fontFamily: "unset" }}>!</h2>
                   </Button>
                   <div className={classes.grow} />
                   <div>

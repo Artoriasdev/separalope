@@ -57,7 +57,7 @@ class ServiceDetail extends Component {
 
   render() {
     return (
-      <div style={{ margin: "40px 0" }}>
+      <div style={{ margin: "40px 0", height: "950px" }}>
         <div
           className="header_container"
           style={{

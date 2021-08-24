@@ -142,7 +142,10 @@ class BusinessServices extends Component {
           </Breadcrumbs>
           <h1>Mis servicios</h1>
 
-          <Container triggerText={this.state.triggerText} />
+          <Container
+            triggerText={this.state.triggerText}
+            history={this.props.history}
+          />
 
           <h3>Estos son los servicios que han sido registrados</h3>
           <TableContainer className="table">
@@ -152,7 +155,9 @@ class BusinessServices extends Component {
                   <TableCell className="font-tittle">Servicio</TableCell>
                   <TableCell className="font-tittle">Descripcion</TableCell>
                   <TableCell className="font-tittle">Stock</TableCell>
-                  <TableCell className="font-tittle">Precio</TableCell>
+                  <TableCell className="font-tittle" width="12%">
+                    Precio
+                  </TableCell>
                   <TableCell className="font-tittle" align="center">
                     Citas
                   </TableCell>

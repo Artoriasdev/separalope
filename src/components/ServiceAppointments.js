@@ -34,6 +34,7 @@ class ServiceAppointment extends Component {
             textAlign: "center",
             marginLeft: "5%",
             marginTop: "100px",
+            zIndex: "-10",
           }}
         >
           <div>
@@ -57,7 +58,9 @@ class ServiceAppointment extends Component {
             </div>
           </div>
         </div>
-        <div style={{ width: "51%", margin: " -200px auto" }}>
+        <div
+          style={{ width: "51%", margin: " -200px auto", minHeight: "1300px" }}
+        >
           <AppBar position="static" className="btn-primary">
             <Tabs
               variant="fullWidth"

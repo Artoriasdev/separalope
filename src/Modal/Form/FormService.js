@@ -1,8 +1,12 @@
 import { Formik } from "formik";
 import React, { Component } from "react";
 import {
-  Avatar,
   Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -10,247 +14,902 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Backdrop,
+  Fade,
 } from "@material-ui/core";
 import { handleRegexDisable } from "../../utils/utilitaries";
+import axios from "axios";
+
+// import Container from "../Container/ContainerService";
 
 export class FormService extends Component {
-  handleSubmitting = (formModel) => {
-    console.log(formModel);
-  };
-
-  createData(name) {
-    return { name };
+  constructor(props) {
+    super(props);
+    this.state = {
+      categorias: [],
+      horas: [],
+      horarios: [],
+      disable: false,
+      modal: false,
+      response: false,
+      message: "",
+    };
   }
 
-  rows = [
-    this.createData("Lunes"),
-    this.createData("Martes"),
-    this.createData("Miercoles"),
-    this.createData("Jueves"),
-    this.createData("Viernes"),
-    this.createData("Sabado"),
-    this.createData("Domingo"),
-  ];
+  componentDidMount() {
+    const value = this.props.value;
+    if (value !== undefined) {
+      const Formik = this.form;
+      Formik.setFieldValue("categoria", value);
+      this.setState({
+        disable: true,
+      });
+    }
+    try {
+      this.handleGetCategorys();
+      this.handleGetHours();
+      this.handleGetAttention();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  handleGetCategorys = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        this.setState({
+          categorias: data,
+        });
+
+        return response;
+      });
+    return rspApi;
+  };
+
+  handleGetHours = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getHoursDurationService";
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        this.setState({
+          horas: data,
+        });
+
+        return response;
+      });
+    return rspApi;
+  };
+  handleGetAttention = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getHoursAttentionService";
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        this.setState({
+          horarios: data,
+        });
+
+        return response;
+      });
+    return rspApi;
+  };
+
+  handleSubmitting = (formModel) => {
+    console.log(formModel);
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+    let linkRegisterApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/registerService";
+
+    const rspApi = axios
+      .post(linkRegisterApi, formModel, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response;
+        console.log(data);
+        if (data.response === "true") {
+          this.setState({
+            modal: true,
+            response: true,
+            message: data.message,
+          });
+        } else if (data.response === "false") {
+          this.setState({
+            modal: true,
+
+            message: data.message,
+          });
+        }
+        return response;
+      });
+
+    return rspApi;
+    //
+  };
+
+  handleClose = () => {
+    this.setState({
+      modal: false,
+    });
+    if (this.state.response === true) {
+      this.props.history.go();
+      this.props.close();
+    }
+  };
 
   render() {
     return (
-      <Formik
-        ref={(ref) => (this.form = ref)}
-        initialValues={{
-          servicio: "",
-          descripcion: "",
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          setSubmitting(false);
-          const formModel = {
-            service: "",
-            description: "",
-          };
-
-          formModel.service = values.servicio;
-          formModel.description = values.descripcion;
-
-          this.handleSubmitting(formModel);
-        }}
-      >
-        {({
-          values,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-          errors,
-          touched,
-        }) => (
-          <form name="formSubmit" onSubmit={handleSubmit}>
-            <div style={{ width: "90%", margin: "0 auto" }}>
-              <h1>Crear nuevo Servicio</h1>
-              <hr />
-              <div style={{ display: "flex" }}>
-                <Avatar
-                  alt="gatitos"
-                  src="https://cf.ltkcdn.net/gatos/images/std/236641-800x515r1-etapas-desarrollo-gatitos.jpg"
-                  style={{ width: "70px", height: "70px", margin: "10px 0" }}
-                />
-                <div style={{ margin: "auto 10px" }}>
-                  <input
-                    accept="image/*"
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                    style={{ display: "none" }}
-                  />
-                  <label htmlFor="contained-button-file">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      component="span"
-                      className="btn-primary"
-                    >
-                      Subir foto
-                    </Button>
-                    <p style={{ fontSize: "12px" }}>Max 5mb</p>
-                  </label>
-                </div>
-              </div>
-
-              <div className="files">
-                <TextField
-                  name="servicio"
-                  className="TxtField"
-                  variant="outlined"
-                  fullWidth
-                  label="Servicio"
-                  //   value="value"
-                  //   error={errors.razon && touched.razon}
-                  //   onBlur={handleBlur}
-                  //   onChange={handleChange}
-                  style={{
-                    marginRight: "5px",
-                    marginBottom: "5px",
-                  }}
-                  // inputProps={{
-                  //   maxLength: 9,
-                  // }}
-                  onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                />
-
-                <TextField
-                  name="descripcion"
-                  className="TxtField"
-                  variant="outlined"
-                  fullWidth
-                  label="Descripcion"
-                  //   value="value"
-                  //   error={errors.nombre && touched.nombre}
-                  //   onBlur={handleBlur}
-                  //   onChange={handleChange}
-                  style={{
-                    marginLeft: "5px",
-                    marginBottom: "5px",
-                  }}
-                  // inputProps={{
-                  //   maxLength: 9,
-                  // }}
-                  onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                />
-              </div>
-              <div className="files">
-                <TextField
-                  name="horas"
-                  className="TxtField"
-                  variant="outlined"
-                  fullWidth
-                  label="Horas"
-                  //   value="value"
-                  //   error={errors.razon && touched.razon}
-                  //   onBlur={handleBlur}
-                  //   onChange={handleChange}
-                  style={{
-                    marginRight: "5px",
-                    marginBottom: "5px",
-                  }}
-                  // inputProps={{
-                  //   maxLength: 9,
-                  // }}
-                  onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                />
-
-                <TextField
-                  name="precio"
-                  className="TxtField"
-                  variant="outlined"
-                  fullWidth
-                  label="Precio"
-                  //   value="value"
-                  //   error={errors.nombre && touched.nombre}
-                  //   onBlur={handleBlur}
-                  //   onChange={handleChange}
-                  style={{
-                    marginLeft: "5px",
-                    marginBottom: "5px",
-                  }}
-                  // inputProps={{
-                  //   maxLength: 9,
-                  // }}
-                  onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                />
-              </div>
-              <TableContainer
+      <>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
+          <Fade in={this.state.modal}>
+            <div
+              style={{
+                backgroundColor: "white",
+                borderRadius: "4px",
+                boxShadow: "5",
+                padding: "20px",
+              }}
+            >
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
                 style={{
-                  width: "100%",
-                  borderRadius: "10px 10px",
                   margin: "10px 0",
+                  width: "80%",
+                  textTransform: "capitalize",
                 }}
+                onClick={this.handleClose}
               >
-                <Table sx={{ minWidth: 650 }}>
-                  <TableHead
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
+        <Formik
+          ref={(ref) => (this.form = ref)}
+          initialValues={{
+            categoria: "",
+
+            servicio: "",
+            descripcion: "",
+            hora: "",
+            precio: "",
+            horariosAtencion: {
+              LunesHoraInicio: "",
+              LunesHoraFinal: "",
+              MartesHoraInicio: "",
+              MartesHoraFinal: "",
+              MiercolesHoraInicio: "",
+              MiercolesHoraFinal: "",
+              JuevesHoraInicio: "",
+              JuevesHoraFinal: "",
+              ViernesHoraInicio: "",
+              ViernesHoraFinal: "",
+              SabadoHoraInicio: "",
+              SabadoHoraFinal: "",
+              DomingoHoraInicio: "",
+              DomingoHoraFinal: "",
+            },
+          }}
+          onSubmit={(values, { setSubmitting }) => {
+            setSubmitting(false);
+            const formModel = {
+              idCategory: "",
+              title: "",
+              description: "",
+
+              price: "",
+              duration: "",
+              scheduleAttention: {
+                mondayStartTime: "",
+                mondayEndTime: "",
+                tuesdayStartTime: "",
+                tuesdayEndTime: "",
+                wednesdayStartTime: "",
+                wednesdayEndTime: "",
+                thursdayStartTime: "",
+                thursdayEndTime: "",
+                fridayStartTime: "",
+                fridayEndTime: "",
+                saturdayStartTime: "",
+                saturdayEndTime: "",
+                sundayStartTime: "",
+                sundayEndTime: "",
+              },
+            };
+
+            formModel.title = values.servicio;
+            formModel.description = values.descripcion;
+            formModel.duration = values.hora;
+            formModel.price = values.precio;
+            formModel.idCategory = values.categoria;
+
+            formModel.scheduleAttention.mondayStartTime =
+              values.horariosAtencion.LunesHoraInicio;
+            formModel.scheduleAttention.mondayEndTime =
+              values.horariosAtencion.LunesHoraFinal;
+            formModel.scheduleAttention.tuesdayStartTime =
+              values.horariosAtencion.MartesHoraInicio;
+            formModel.scheduleAttention.tuesdayEndTime =
+              values.horariosAtencion.MartesHoraFinal;
+            formModel.scheduleAttention.wednesdayStartTime =
+              values.horariosAtencion.MiercolesHoraInicio;
+            formModel.scheduleAttention.wednesdayEndTime =
+              values.horariosAtencion.MiercolesHoraFinal;
+            formModel.scheduleAttention.thursdayStartTime =
+              values.horariosAtencion.JuevesHoraInicio;
+            formModel.scheduleAttention.thursdayEndTime =
+              values.horariosAtencion.JuevesHoraFinal;
+            formModel.scheduleAttention.fridayStartTime =
+              values.horariosAtencion.ViernesHoraInicio;
+            formModel.scheduleAttention.fridayEndTime =
+              values.horariosAtencion.ViernesHoraFinal;
+            formModel.scheduleAttention.saturdayStartTime =
+              values.horariosAtencion.SabadoHoraInicio;
+            formModel.scheduleAttention.saturdayEndTime =
+              values.horariosAtencion.SabadoHoraFinal;
+            formModel.scheduleAttention.sundayStartTime =
+              values.horariosAtencion.DomingoHoraInicio;
+            formModel.scheduleAttention.sundayEndTime =
+              values.horariosAtencion.DomingoHoraFinal;
+
+            this.handleSubmitting(formModel);
+          }}
+        >
+          {({
+            values,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+            errors,
+            touched,
+          }) => (
+            <form name="formSubmit" onSubmit={handleSubmit}>
+              <div style={{ width: "90%", margin: "0 auto" }}>
+                <h1>Crear nuevo servicio</h1>
+                <hr />
+
+                <div className="files">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
                     style={{
-                      background: "#f3f3f3",
+                      marginBottom: "5px",
+                      marginTop: "5px",
                     }}
                   >
-                    <TableRow>
-                      <TableCell className="font-tittle">Dia</TableCell>
-                      <TableCell className="font-tittle">Hora</TableCell>
-                      <TableCell className="font-tittle"></TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {this.rows.map((row) => (
-                      <TableRow key={row.name}>
-                        <TableCell className="font">{row.name}</TableCell>
-                        <TableCell className="font">
-                          <TextField
-                            id="time"
-                            label="Inicio"
-                            type="time"
-                            defaultValue="07:30"
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            inputProps={{
-                              step: 300, // 5 min
-                            }}
-                          />
+                    <InputLabel id="categoria">Categoria</InputLabel>
+                    <Select
+                      labelId="categoria"
+                      label="Categoria"
+                      value={values.categoria}
+                      error={errors.categoria && touched.categoria}
+                      name="categoria"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      disabled={this.state.disable}
+                      required
+                    >
+                      {this.state.categorias &&
+                        this.state.categorias.map(({ id, name }) => (
+                          <MenuItem key={id} value={id}>
+                            {name}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                </div>
+                <div className="files">
+                  <TextField
+                    name="servicio"
+                    className="TxtField"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    label="Servicio"
+                    value={values.servicio}
+                    error={errors.servicio && touched.servicio}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginRight: "5px",
+                      marginBottom: "5px",
+                      marginTop: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+
+                  <TextField
+                    name="descripcion"
+                    className="TxtField"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    label="Descripcion"
+                    value={values.descripcion}
+                    error={errors.descripcion && touched.descripcion}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginLeft: "5px",
+                      marginBottom: "5px",
+                      marginTop: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+                <div className="files">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    style={{
+                      marginRight: "5px",
+                      marginBottom: "5px",
+                      marginTop: "5px",
+                    }}
+                  >
+                    <InputLabel id="hora">Horas</InputLabel>
+                    <Select
+                      labelId="hora"
+                      label="Horas"
+                      value={values.hora}
+                      error={errors.hora && touched.hora}
+                      name="hora"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required
+                    >
+                      {this.state.horas &&
+                        this.state.horas.map(({ id, value }) => (
+                          <MenuItem key={id} value={id}>
+                            {value}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+
+                  <TextField
+                    name="precio"
+                    className="TxtField"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    label="Precio"
+                    type="number"
+                    value={values.precio}
+                    error={errors.precio && touched.precio}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginLeft: "5px",
+                      marginBottom: "5px",
+                      marginTop: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+                <TableContainer
+                  style={{
+                    width: "100%",
+                    borderRadius: "10px 10px",
+                    margin: "10px 0",
+                  }}
+                >
+                  <Table sx={{ minWidth: 650 }}>
+                    <TableHead
+                      style={{
+                        background: "#f3f3f3",
+                      }}
+                    >
+                      <TableRow>
+                        <TableCell className="font-tittle">Dia</TableCell>
+                        <TableCell
+                          className="font-tittle"
+                          style={{ textAlign: "center" }}
+                        >
+                          Inicio
+                        </TableCell>
+                        <TableCell
+                          className="font-tittle"
+                          style={{ textAlign: "center" }}
+                        >
+                          Fin
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font">Lunes</TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="inicio">Inicio</InputLabel>
+                            <Select
+                              labelId="inicio"
+                              label="Inicio"
+                              value={values.horariosAtencion.LunesHoraInicio}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.LunesHoraInicio"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
                         </TableCell>
                         <TableCell
                           className="font"
                           style={{ textAlign: "center" }}
                         >
-                          <TextField
-                            id="time"
-                            label="Fin"
-                            type="time"
-                            defaultValue="07:30"
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            inputProps={{
-                              step: 300, // 5 min
-                            }}
-                          />
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="fin">Fin</InputLabel>
+                            <Select
+                              labelId="fin"
+                              label="Fin"
+                              value={values.horariosAtencion.LunesHoraFinal}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.LunesHoraFinal"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
                         </TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </div>
-            <div className="files">
-              <Button
-                variant="contained"
-                color="secondary"
-                type="submit"
-                className="btn-primary"
-                fullWidth
-                style={{ marginTop: "10px" }}
-              >
-                Crear servicio
-              </Button>
-            </div>
-          </form>
-        )}
-      </Formik>
+                      <TableRow>
+                        <TableCell className="font">Martes</TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="inicio">Inicio</InputLabel>
+                            <Select
+                              labelId="inicio"
+                              label="Inicio"
+                              value={values.horariosAtencion.MartesHoraInicio}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.MartesHoraInicio"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="fin">Fin</InputLabel>
+                            <Select
+                              labelId="fin"
+                              label="Fin"
+                              value={values.horariosAtencion.MartesHoraFinal}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.MartesHoraFinal"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font">Miercoles</TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="inicio">Inicio</InputLabel>
+                            <Select
+                              labelId="inicio"
+                              label="Inicio"
+                              value={
+                                values.horariosAtencion.MiercolesHoraInicio
+                              }
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.MiercolesHoraInicio"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="fin">Fin</InputLabel>
+                            <Select
+                              labelId="fin"
+                              label="Fin"
+                              value={values.horariosAtencion.MiercolesHoraFinal}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.MiercolesHoraFinal"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font">Jueves</TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="inicio">Inicio</InputLabel>
+                            <Select
+                              labelId="inicio"
+                              label="Inicio"
+                              value={values.horariosAtencion.JuevesHoraInicio}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.JuevesHoraInicio"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="fin">Fin</InputLabel>
+                            <Select
+                              labelId="fin"
+                              label="Fin"
+                              value={values.horariosAtencion.JuevesHoraFinal}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.JuevesHoraFinal"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font">Viernes</TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="inicio">Inicio</InputLabel>
+                            <Select
+                              labelId="inicio"
+                              label="Inicio"
+                              value={values.horariosAtencion.ViernesHoraInicio}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.ViernesHoraInicio"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="fin">Fin</InputLabel>
+                            <Select
+                              labelId="fin"
+                              label="Fin"
+                              value={values.horariosAtencion.ViernesHoraFinal}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.ViernesHoraFinal"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font">Sabado</TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="inicio">Inicio</InputLabel>
+                            <Select
+                              labelId="inicio"
+                              label="Inicio"
+                              value={values.horariosAtencion.SabadoHoraInicio}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.SabadoHoraInicio"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="fin">Fin</InputLabel>
+                            <Select
+                              labelId="fin"
+                              label="Fin"
+                              value={values.horariosAtencion.SabadoHoraFinal}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.SabadoHoraFinal"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font">Domingo</TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="inicio">Inicio</InputLabel>
+                            <Select
+                              labelId="inicio"
+                              label="Inicio"
+                              value={values.horariosAtencion.DomingoHoraInicio}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.DomingoHoraInicio"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                        <TableCell
+                          className="font"
+                          style={{ textAlign: "center" }}
+                        >
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="fin">Fin</InputLabel>
+                            <Select
+                              labelId="fin"
+                              label="Fin"
+                              value={values.horariosAtencion.DomingoHoraFinal}
+                              error={
+                                errors.horariosAtencion &&
+                                touched.horariosAtencion
+                              }
+                              name="horariosAtencion.DomingoHoraFinal"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              {this.state.horarios &&
+                                this.state.horarios.map(({ id, value }) => (
+                                  <MenuItem key={id} value={id}>
+                                    {value}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
+              <div className="files">
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  type="submit"
+                  className="btn-primary"
+                  fullWidth
+                  style={{ marginTop: "10px" }}
+                >
+                  Crear servicio
+                </Button>
+              </div>
+            </form>
+          )}
+        </Formik>
+      </>
     );
   }
 }

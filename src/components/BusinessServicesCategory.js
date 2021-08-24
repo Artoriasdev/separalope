@@ -150,7 +150,11 @@ class BusinessServicesCategory extends Component {
           </Breadcrumbs>
           <h1>Mis servicios</h1>
           <h3>Tus servicios</h3>
-          <Container triggerText={this.state.triggerText} />
+          <Container
+            triggerText={this.state.triggerText}
+            value={this.props.match.params.value}
+            history={this.props.history}
+          />
 
           <div style={{ display: "block" }}>
             <h3>Estos son los servicios que han sido registrados</h3>
@@ -163,7 +167,9 @@ class BusinessServicesCategory extends Component {
                   <TableCell className="font-tittle">Servicio</TableCell>
                   <TableCell className="font-tittle">Descripcion</TableCell>
                   <TableCell className="font-tittle">Stock</TableCell>
-                  <TableCell className="font-tittle">Precio</TableCell>
+                  <TableCell className="font-tittle" width="12%">
+                    Precio
+                  </TableCell>
                   <TableCell className="font-tittle" align="center">
                     Citas
                   </TableCell>

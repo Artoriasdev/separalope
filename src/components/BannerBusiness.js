@@ -67,6 +67,7 @@ class Banner extends Component {
           backgroundSize: "40%",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          borderBottom: "solid 4px #232323",
         }}
       >
         <div style={{ background: "rgba(0, 0, 0, 0.3)" }}>

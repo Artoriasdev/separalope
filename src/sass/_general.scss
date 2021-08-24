@@ -809,6 +809,7 @@ button {
 .header-profile-container {
   margin-top: 50px;
   margin-left: 50px;
+  height: 600px;
   .header-profile {
     width: 200px;
     text-align: center;
@@ -833,7 +834,7 @@ button {
 }
 
 .table {
-  width: 85% !important;
+  width: 90% !important;
   border-radius: 10px 10px !important;
   margin: 30px auto !important;
   .table-head {

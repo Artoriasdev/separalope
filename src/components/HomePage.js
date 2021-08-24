@@ -7,6 +7,7 @@ import Flippy, { FrontSide, BackSide } from "react-flippy";
 import axios from "axios";
 import { Button, InputAdornment, TextField } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
+import { LogoSVG } from "../assets/images/svg";
 
 const responsive = {
   desktop: {
@@ -88,6 +89,7 @@ class HomePage extends Component {
           <div style={{ position: "relative" }}>
             <div>
               <h1 style={{ color: "#5829dd" }}>Nuestros servicios</h1>
+
               <h3 className="register__subtitle">
                 son 100% digitales via zoom en la comodidad de tu hogar <br /> y
                 en el horario que tu decidas.

@@ -154,11 +154,10 @@ export const Footer = () => {
         style={{
           backgroundColor: "#232323",
           marginTop: "-1px",
-          height: "3.5rem",
         }}
       >
         <Container maxWidth="lg">
-          <Toolbar variant="dense">
+          <Toolbar>
             <p style={{ fontSize: "13px", margin: "0", padding: "0" }}>
               Copyright © 2021 separalope
             </p>
