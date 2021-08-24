@@ -138,6 +138,7 @@ const Navbar = () => {
     sessionStorage.removeItem("name");
     sessionStorage.removeItem("id");
     sessionStorage.removeItem("tradename");
+    sessionStorage.removeItem("logo");
     localStorage.removeItem("name");
     history.go(history.push("/"));
   };

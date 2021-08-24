@@ -65,8 +65,6 @@ class BusinessProfileBank extends Component {
               formModel: data,
             });
 
-            console.log(data);
-
             const Formik = this.form;
             Formik.setFieldValue("banco", this.state.formModel[0].bankName);
             Formik.setFieldValue(
@@ -127,7 +125,6 @@ class BusinessProfileBank extends Component {
       })
       .then((response) => {
         const { data } = response.data;
-        console.log(data);
 
         this.setState({
           typeBank: data,
@@ -154,7 +151,6 @@ class BusinessProfileBank extends Component {
       })
       .then((response) => {
         const { data } = response.data;
-        console.log(data);
 
         this.setState({
           typeAccount: data,
@@ -180,8 +176,6 @@ class BusinessProfileBank extends Component {
         headers: headers,
       })
       .then((response) => {
-        console.log(response.data.response);
-
         if (response.data.response === "true") {
           this.setState({
             showModalSuccess: true,
@@ -220,6 +214,7 @@ class BusinessProfileBank extends Component {
     sessionStorage.removeItem("name");
     sessionStorage.removeItem("id");
     sessionStorage.removeItem("tradename");
+    sessionStorage.removeItem("logo");
     this.props.history.go(this.props.history.push("/"));
   };
 
@@ -263,10 +258,7 @@ class BusinessProfileBank extends Component {
 
         <div className="header-profile-container">
           <div className="header-profile">
-            <img
-              src="https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"
-              alt="test"
-            />
+            <img src={sessionStorage.getItem("logo")} alt="test" />
             <div className="title">
               <p>{sessionStorage.getItem("tradename")}</p>
             </div>

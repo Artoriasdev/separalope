@@ -39,6 +39,7 @@ class BusinessCategory extends Component {
 
             sessionStorage.setItem("id", data[0].id);
             sessionStorage.setItem("tradename", data[0].name);
+            sessionStorage.setItem("logo", data[0].logo);
 
             this.handleGetCategorys();
           } else {
