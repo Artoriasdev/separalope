@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 
-import { Save, Visibility } from "@material-ui/icons";
+import { Save, Visibility, VisibilityOff } from "@material-ui/icons";
 import ModalError from "./ModalError";
 import ModalSucess from "./ModalSucess";
 import axios from "axios";
@@ -170,7 +170,7 @@ class Password extends Component {
                   {this.state.viewPassword ? (
                     <Button
                       variant="contained"
-                      startIcon={<Visibility />}
+                      startIcon={<VisibilityOff />}
                       color="primary"
                       className="btn-primary"
                       style={{ marginBottom: "10px" }}
@@ -273,8 +273,7 @@ class Password extends Component {
                       type="submit"
                       className="btn-primary"
                       startIcon={<Save />}
-                      style={{ margin: "10px", textTransform: "capitalize" }}
-                      fullWidth
+                      style={{ margin: "10px auto", width: "60%" }}
                     >
                       Cambiar contraseña
                     </Button>

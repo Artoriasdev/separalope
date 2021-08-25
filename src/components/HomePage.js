@@ -62,7 +62,6 @@ class HomePage extends Component {
       })
       .then((response) => {
         const { data } = response.data;
-        localStorage.setItem("info", JSON.stringify(data));
 
         this.setState({
           typeCategorys: data,

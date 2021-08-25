@@ -83,9 +83,9 @@ class Login extends Component {
       })
         .then((response) => {
           const { data } = response.data;
-          // console.log(data);
+
           sessionStorage.setItem("name", data[0].name);
-          localStorage.setItem("name", data[0].name);
+          sessionStorage.setItem("lastName", data[0].lastName);
 
           return response;
         })

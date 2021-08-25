@@ -13,7 +13,8 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import { Facebook, Instagram } from "@material-ui/icons";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const useStyles = makeStyles(() => ({
   grow: {
@@ -23,6 +24,37 @@ const useStyles = makeStyles(() => ({
 
 export const Footer = () => {
   const classes = useStyles();
+
+  const [terms, setTerms] = useState([]);
+
+  useEffect(() => {
+    handleGetList();
+  }, []);
+
+  const handleGetList = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getTermsAndConditions`;
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        setTerms(data);
+
+        console.log(data);
+
+        return response;
+      });
+    return rspApi;
+  };
 
   const [term, setTerm] = useState(false);
   const [priv, setPriv] = useState(false);
@@ -78,23 +110,11 @@ export const Footer = () => {
       </Dialog>
 
       <Dialog open={term} onClose={handleClose} scroll="paper">
-        <DialogTitle style={{ textAlign: "center" }}>
-          <h2 className="font-p" style={{ margin: "0", color: "#5829dd" }}>
-            Términos y condiciones
-          </h2>
-        </DialogTitle>
-        <DialogContent>
-          <p tabIndex={-1}>
-            {[...new Array(20)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-                        Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                        Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                        Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join("\n")}
-          </p>
-        </DialogContent>
+        {terms.map(({ id, value }) => (
+          <DialogContent key={id}>
+            <div dangerouslySetInnerHTML={{ __html: value }} />
+          </DialogContent>
+        ))}
         <DialogActions style={{ justifyContent: "center" }}>
           <Button
             className="font-p btn-primary"

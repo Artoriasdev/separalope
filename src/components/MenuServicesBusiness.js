@@ -2,6 +2,7 @@ import { Button } from "@material-ui/core";
 import axios from "axios";
 import React, { Component } from "react";
 import { BackSide, Flippy, FrontSide } from "react-flippy";
+import { RatingService } from "../helpers/RatingService";
 import Banner from "./BannerBusiness";
 
 class MenuServicesBusiness extends Component {
@@ -87,7 +88,7 @@ class MenuServicesBusiness extends Component {
                       }}
                     >
                       <h3 style={{ margin: "0", padding: "0" }}>{title}</h3>
-                      <p style={{ margin: "15px 0" }}>Diseño de estrellas</p>
+                      <RatingService rate={2} />
                       <p style={{ margin: "5px 0 0 0" }}>Precio unitario</p>
                       <div
                         style={{

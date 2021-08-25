@@ -217,81 +217,26 @@ class ClientProfile extends Component {
           </React.Fragment>
         </ModalSucess>
 
-        <div className="header-profile-container">
-          <div
-            className="header_container"
-            style={{
-              width: "200px",
-              textAlign: "center",
-            }}
-          >
-            <img
-              src="https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"
-              alt="test"
-              style={{
-                borderRadius: "50%",
-                maxWidth: "150px",
-              }}
-            />
-            <div
-              style={{
-                marginTop: "20px",
-                fontSize: "20px",
-                fontFamily: "MavenPro-Regular",
-                fontWeight: "bold",
-              }}
-            >
-              <p>Rosanaa Maria del Gracia</p>{" "}
-              {/* cambiar por el nombre obtenido del back */}
-            </div>
-            <div style={{ marginTop: "20px" }}>
-              <button
-                onClick={this.handleRedirectProfile}
-                className="button_ref"
-                style={{ textDecoration: "none" }}
-              >
-                Datos de cliente
-              </button>
-            </div>
-
-            <div>
-              <div style={{ marginTop: "100px" }}>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  startIcon={<PowerSettingsNew />}
-                  style={{ width: "150px", margin: "0", padding: "5px 0" }}
-                  onClick={this.handleLogout}
-                >
-                  Cerrar sesion
-                </Button>
-              </div>
-            </div>
-          </div>
-
+        <div
+          style={{
+            margin: "10vh 0",
+          }}
+        >
           <div
             className="text_form"
             style={{
-              marginTop: "-435px",
-              marginLeft: "25%",
-              boxSizing: "border-box",
-              overflowX: "hidden",
+              width: "60%",
+              margin: "auto",
             }}
           >
-            <h1 style={{ display: "inline-block", marginRight: "20px" }}>
-              Datos de cliente
-            </h1>
-            <Button
-              variant="contained"
-              color="secondary"
-              className="btn-primary"
-              startIcon={<Edit />}
-              style={{ marginTop: "-14px" }}
-              onClick={this.handleEdit}
+            <h1
+              style={{
+                color: "#5829dd",
+              }}
             >
-              Editar datos
-            </Button>
-            <hr style={{ maxWidth: "80%", margin: "0", padding: "0" }} />
+              Mi perfil
+            </h1>
+            <hr style={{ width: "99%", margin: "0 auto", padding: "0" }} />
 
             <Formik
               ref={(ref) => (this.form = ref)}
@@ -342,8 +287,7 @@ class ClientProfile extends Component {
                 touched,
               }) => (
                 <form name="formData" onSubmit={handleSubmit}>
-                  <h2>Datos del cliente</h2>
-                  <div className="row">
+                  <div className="files">
                     <TextField
                       name="nombre"
                       className="TxtField"
@@ -356,7 +300,7 @@ class ClientProfile extends Component {
                       onChange={handleChange}
                       disabled={!this.state.edit}
                       style={{
-                        marginTop: "10px",
+                        marginTop: "30px",
                         marginRight: "5px",
                         marginBottom: "15px",
                       }}
@@ -377,7 +321,7 @@ class ClientProfile extends Component {
                       onBlur={handleBlur}
                       onChange={handleChange}
                       style={{
-                        marginTop: "10px",
+                        marginTop: "30px",
                         marginLeft: "5px",
                         marginBottom: "15px",
                       }}
@@ -388,7 +332,7 @@ class ClientProfile extends Component {
                       onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
                   </div>
-                  <div className="row">
+                  <div className="files">
                     <FormControl
                       variant="outlined"
                       fullWidth
@@ -442,7 +386,7 @@ class ClientProfile extends Component {
                       onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
                   </div>
-                  <div className="row">
+                  <div className="files">
                     <TextField
                       name="celular"
                       className="TxtField"
@@ -486,14 +430,18 @@ class ClientProfile extends Component {
                     />
                   </div>
                   {this.state.edit ? (
-                    <div className="row">
+                    <div className="files">
                       <Button
                         variant="contained"
                         color="secondary"
                         type="submit"
                         className="btn-primary"
                         startIcon={<Save />}
-                        style={{ marginTop: "10px" }}
+                        style={{
+                          marginTop: "10px",
+
+                          position: "absolute",
+                        }}
                       >
                         Guardar datos
                       </Button>
@@ -502,6 +450,16 @@ class ClientProfile extends Component {
                 </form>
               )}
             </Formik>
+            <Button
+              variant="contained"
+              color="secondary"
+              className="btn-primary"
+              startIcon={<Edit />}
+              style={{ float: "right", marginTop: "10px" }}
+              onClick={this.handleEdit}
+            >
+              Editar datos
+            </Button>
           </div>
         </div>
       </>

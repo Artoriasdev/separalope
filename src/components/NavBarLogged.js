@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Button,
@@ -13,6 +13,7 @@ import {
 import { ArrowDropDown, Settings } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { LogoSVG } from "../assets/images/svg";
+import axios from "axios";
 
 const useStyles = makeStyles(() => ({
   tab: {
@@ -82,7 +83,10 @@ const Navbar = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const handleRedirectServices = (id) => {
+  const handleRedirectServices = (id, name, image, description) => {
+    localStorage.setItem("categoria", name);
+    localStorage.setItem("image", image);
+    localStorage.setItem("description", description);
     history.go(history.push(`/services-menu/${id}`));
   };
 
@@ -92,11 +96,39 @@ const Navbar = () => {
     JSON.parse(sessionStorage.getItem("info"))
   );
 
-  const [info, setInfo] = useState(JSON.parse(localStorage.getItem("info")));
+  const [info, setInfo] = useState([]);
+
+  useEffect(() => {
+    handleGetCategorys();
+  }, []);
+
+  const handleGetCategorys = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        setInfo(data);
+
+        return response;
+      });
+    return rspApi;
+  };
 
   const [work, setWork] = useState(sessionStorage.getItem("workflow"));
 
-  const [name, setName] = useState(localStorage.getItem("name"));
+  const [name, setName] = useState(sessionStorage.getItem("name"));
 
   const handleRedirect = (id) => {
     if (id === 1 && work === "B") {
@@ -266,9 +298,11 @@ const Navbar = () => {
                         root: classes.scrollButtons,
                       }}
                     >
-                      {info.map(({ id, name }) => (
+                      {info.map(({ id, name, image, description }) => (
                         <Button
-                          onClick={() => handleRedirectServices(id)}
+                          onClick={() =>
+                            handleRedirectServices(id, name, image, description)
+                          }
                           classes={{
                             root: classes.tab,
                           }}

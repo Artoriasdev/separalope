@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import Tabs from "@material-ui/core/Tabs";
@@ -59,32 +59,7 @@ const StyledMenu = withStyles()((props) => (
   />
 ));
 
-const handleGetCategorys = () => {
-  var headers = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-    Authorization: "",
-  };
-
-  let linkDocumentsApi =
-    "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
-
-  const rspApi = axios
-    .get(linkDocumentsApi, {
-      headers: headers,
-    })
-    .then((response) => {
-      const { data } = response.data;
-
-      localStorage.setItem("info", JSON.stringify(data));
-
-      return response;
-    });
-  return rspApi;
-};
-
 const Navbar = () => {
-  // handleGetCategorys();
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -107,7 +82,35 @@ const Navbar = () => {
 
   const history = useHistory();
 
-  const [info, setInfo] = useState(JSON.parse(localStorage.getItem("info")));
+  const [info, setInfo] = useState([]);
+
+  useEffect(() => {
+    handleGetCategorys();
+  }, []);
+
+  const handleGetCategorys = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        setInfo(data);
+
+        return response;
+      });
+    return rspApi;
+  };
 
   const handleRedirectHome = () => {
     history.push("/");
