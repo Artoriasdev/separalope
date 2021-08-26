@@ -439,7 +439,6 @@ class ClientProfile extends Component {
                         startIcon={<Save />}
                         style={{
                           marginTop: "10px",
-
                           position: "absolute",
                         }}
                       >

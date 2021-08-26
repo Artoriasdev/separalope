@@ -93,10 +93,7 @@ class MenuBusinessCategory extends Component {
                     size="large"
                     color="primary"
                     variant="contained"
-                    className="btn-primary"
-                    style={{
-                      textTransform: "capitalize",
-                    }}
+                    className="btn_card"
                     fullWidth
                     onClick={() => this.handleRedirect(id, tradename, logo)}
                   >

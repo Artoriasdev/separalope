@@ -15,6 +15,7 @@ import {
 import { Facebook, Instagram } from "@material-ui/icons";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   grow: {
@@ -27,11 +28,13 @@ export const Footer = () => {
 
   const [terms, setTerms] = useState([]);
 
+  const history = useHistory();
+
   useEffect(() => {
-    handleGetList();
+    handleGetTerms();
   }, []);
 
-  const handleGetList = () => {
+  const handleGetTerms = () => {
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -54,6 +57,10 @@ export const Footer = () => {
         return response;
       });
     return rspApi;
+  };
+
+  const handleRedirect = () => {
+    history.push("/frequent-questions");
   };
 
   const [term, setTerm] = useState(false);
@@ -208,6 +215,34 @@ export const Footer = () => {
               }}
             >
               Politicas de privacidad
+            </button>
+            <div className={classes.grow} />
+            <hr
+              style={{
+                border: "none",
+                margin: 0,
+                marginLeft: "1rem",
+                marginRight: "1rem",
+                width: "1px",
+                height: "20px",
+                borderLeft: "1px solid #e9e9e9",
+              }}
+            />
+            <div className={classes.grow} />
+            <button
+              className="font-p"
+              onClick={handleRedirect}
+              style={{
+                background: "none",
+                border: "none",
+                color: "inherit",
+                textDecoration: "underline",
+                cursor: "pointer",
+                padding: "0",
+                fontSize: "13px",
+              }}
+            >
+              Preguntas frecuentes
             </button>
             <div className={classes.grow} />
             <hr

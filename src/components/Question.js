@@ -94,9 +94,11 @@ class Question extends Component {
   render() {
     return (
       <div style={{ width: "40%", margin: " 40px auto" }}>
-        <div style={{ display: "flex" }}>
-          <QuestionAnswer style={{ fontSize: "24px" }} />
-          <h1>Preguntas Frecuentes</h1>
+        <div style={{ color: "#5829dd" }}>
+          <QuestionAnswer
+            style={{ fontSize: "24px", position: "absolute", marginTop: "5px" }}
+          />
+          <h1 style={{ marginLeft: "30px" }}>Preguntas Frecuentes</h1>
         </div>
         {this.rows.map(({ id, tittle, content }) => (
           <Accordion key={id}>

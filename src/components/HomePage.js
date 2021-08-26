@@ -84,9 +84,16 @@ class HomePage extends Component {
       <div>
         <Carousel />
         {/* <Cards /> */}
-        <div style={{ padding: "30px", width: "80%", margin: "auto" }}>
-          <div style={{ position: "relative" }}>
-            <div>
+        <div
+          style={{
+            padding: "30px",
+            width: "80%",
+            margin: "0 auto",
+            height: "120px",
+          }}
+        >
+          <div>
+            <div style={{ position: "absolute" }}>
               <h1 style={{ color: "#5829dd" }}>Nuestros servicios</h1>
 
               <h3 className="register__subtitle">
@@ -95,13 +102,7 @@ class HomePage extends Component {
               </h3>
             </div>
 
-            <div
-              style={{
-                position: "absolute",
-                right: "0",
-                marginTop: "-100px",
-              }}
-            >
+            <div style={{ float: "right", marginTop: "30px" }}>
               <TextField
                 name="search"
                 label="Buscar categoria"
