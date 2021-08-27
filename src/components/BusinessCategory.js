@@ -112,7 +112,7 @@ class BusinessCategory extends Component {
 
   render() {
     return (
-      <div style={{ padding: "20px  30px" }}>
+      <div className="page-container" style={{ padding: "0" }}>
         <ModalError
           show={this.state.showModalError}
           closeCallback={this.toggleModalError}
@@ -140,7 +140,7 @@ class BusinessCategory extends Component {
           </Link>
         </Breadcrumbs>
         <h1>Categorias</h1>
-        <form>
+        <div>
           <h3
             style={{ marginTop: "30px", marginBottom: "5px" }}
             className="register__subtitle"
@@ -153,7 +153,7 @@ class BusinessCategory extends Component {
             placeholder="¿Qué estás buscando?"
             variant="standard"
             label="Buscador"
-            style={{ margin: "0 20px 20px 0", width: "80vh" }}
+            style={{ margin: "0 20px 20px 0", width: "40%" }}
           />
 
           <Button
@@ -166,72 +166,32 @@ class BusinessCategory extends Component {
           >
             Buscar
           </Button>
-        </form>
+        </div>
 
-        {/* aqui va el container */}
         <Container triggerText={this.state.triggerText} />
 
-        <ul>
+        <div className="category-container">
           {this.state.typeCategorys &&
             this.state.typeCategorys.map(({ id, image, logo, name }) => (
-              <li
-                key={id}
-                style={{
-                  display: "inline-block",
-                  position: "relative",
-                  cursor: "pointer",
-                  marginBottom: "20px",
-                  maxWidth: "272px",
-                  marginRight: "25px",
-                }}
-                onClick={() => this.handleRedirect(id)}
-              >
+              <li key={id} onClick={() => this.handleRedirect(id)}>
                 <a
                   style={{
                     backgroundImage: `url(${image})`,
-                    textDecoration: "none",
-                    borderRadius: "4px",
                   }}
                   className="card"
                 >
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "block",
-                      textAlign: "center",
-                      background: "rgba(0, 0, 0, 0.3)",
-                      paddingTop: "80px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        borderRadius: "50%",
-                        backgroundColor: "#ffdd00",
-                        paddingTop: "35px",
-                        paddingLeft: "8px",
-                        paddingRight: "8px",
-                        paddingBottom: "5px",
-                      }}
-                    >
+                  <div className="container">
+                    <span className="svg">
                       <img src={logo} alt={name} title={name} />
                     </span>
-                    <span>
-                      <p
-                        style={{
-                          color: "#ffff",
-                          marginTop: "15px",
-                          padding: "0px",
-                          fontSize: "18px",
-                        }}
-                      >
-                        {name}
-                      </p>
+                    <span className="name">
+                      <p>{name}</p>
                     </span>
                   </div>
                 </a>
               </li>
             ))}
-        </ul>
+        </div>
       </div>
     );
   }

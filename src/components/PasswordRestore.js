@@ -81,33 +81,16 @@ class PasswordRestore extends Component {
           BackdropProps={{
             timeout: 500,
           }}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
+          className="modal-container"
         >
           <Fade in={this.state.modal}>
-            <div
-              style={{
-                backgroundColor: "white",
-                borderRadius: "4px",
-                boxShadow: "5",
-                padding: "20px",
-              }}
-            >
+            <div className="modal-message-container">
               <p>{this.state.message}</p>
               <Button
                 size="large"
                 color="primary"
                 variant="contained"
                 className="btn-primary"
-                style={{
-                  margin: "10px 0",
-                  width: "80%",
-                  textTransform: "capitalize",
-                }}
                 onClick={this.handleClose}
               >
                 Aceptar
@@ -115,7 +98,10 @@ class PasswordRestore extends Component {
             </div>
           </Fade>
         </Modal>
-        <div style={{ width: "30%", margin: "11%  auto" }}>
+        <div
+          className="page-container"
+          style={{ width: "30%", margin: "11%  auto", padding: "0" }}
+        >
           {this.props.match.params.value === "C" ? (
             <h3 className="register__subtitle">Soy un cliente</h3>
           ) : (
@@ -162,6 +148,7 @@ class PasswordRestore extends Component {
                 <form name="formLogin" onSubmit={handleSubmit}>
                   <div className="files">
                     <TextField
+                      type="email"
                       name="correo"
                       className="TxtField"
                       variant="outlined"
@@ -237,7 +224,6 @@ class PasswordRestore extends Component {
                     style={{
                       width: "80%",
                       margin: "10px auto",
-                      textTransform: "capitalize",
                     }}
                     type="submit"
                   >

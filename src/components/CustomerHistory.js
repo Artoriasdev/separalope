@@ -88,11 +88,7 @@ class CustomerHistory extends Component {
         </div>
         <TableContainer className="table">
           <Table sx={{ minWidth: 650 }}>
-            <TableHead
-              style={{
-                background: "#f3f3f3",
-              }}
-            >
+            <TableHead className="table-head">
               <TableRow>
                 <TableCell className="font-tittle">Profesor/a</TableCell>
                 <TableCell className="font-tittle">Tipo de clase</TableCell>

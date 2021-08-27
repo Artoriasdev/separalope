@@ -1,11 +1,20 @@
 import { Formik } from "formik";
 import React, { Component } from "react";
-import { Button, TextField } from "@material-ui/core";
+import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../../utils/utilitaries";
 import axios from "axios";
 import { Announcement } from "@material-ui/icons";
 
 export class Form extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false,
+      response: false,
+      message: "",
+    };
+  }
+
   handleSubmitting = (formModel) => {
     const tk = sessionStorage.getItem("tk");
     var headers = {
@@ -21,16 +30,65 @@ export class Form extends Component {
         headers: headers,
       })
       .then((response) => {
-        console.log(response);
+        const { data } = response;
+        console.log(data);
+        if (data.response === "true") {
+          this.setState({
+            modal: true,
+            response: true,
+            message: data.message,
+          });
+        } else if (data.response === "false") {
+          this.setState({
+            modal: true,
+            message: data.message,
+          });
+        }
         return response;
       });
 
     return rspApi;
   };
 
+  handleClose = () => {
+    this.setState({
+      modal: false,
+    });
+    if (this.state.response === true) {
+      this.props.close();
+    }
+  };
+
   render() {
     return (
       <>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
+        >
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
         <Formik
           ref={(ref) => (this.form = ref)}
           initialValues={{

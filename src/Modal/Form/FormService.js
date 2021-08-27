@@ -192,33 +192,16 @@ export class FormService extends Component {
           BackdropProps={{
             timeout: 500,
           }}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
+          className="modal-container"
         >
           <Fade in={this.state.modal}>
-            <div
-              style={{
-                backgroundColor: "white",
-                borderRadius: "4px",
-                boxShadow: "5",
-                padding: "20px",
-              }}
-            >
+            <div className="modal-message-container">
               <p>{this.state.message}</p>
               <Button
                 size="large"
                 color="primary"
                 variant="contained"
                 className="btn-primary"
-                style={{
-                  margin: "10px 0",
-                  width: "80%",
-                  textTransform: "capitalize",
-                }}
                 onClick={this.handleClose}
               >
                 Aceptar

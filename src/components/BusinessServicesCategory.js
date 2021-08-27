@@ -131,7 +131,7 @@ class BusinessServicesCategory extends Component {
           </React.Fragment>
         </ModalError>
 
-        <div style={{ padding: "20px  70px" }}>
+        <div className="page-container" style={{ padding: "0" }}>
           <Breadcrumbs
             separator={<NavigateNext fontSize="medium" />}
             aria-label="breadcrumb"

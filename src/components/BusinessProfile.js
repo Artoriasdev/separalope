@@ -195,7 +195,7 @@ class BusinessProfile extends Component {
                   Datos de la empresa
                 </button>
               </div>
-              <div style={{ marginTop: "20px" }}>
+              <div className="button">
                 <button
                   onClick={this.handleRedirectBank}
                   className="button_ref"
@@ -204,7 +204,7 @@ class BusinessProfile extends Component {
                 </button>
               </div>
 
-              <div style={{ marginTop: "100px" }}>
+              <div className="logout">
                 <Button
                   variant="outlined"
                   color="secondary"
@@ -217,170 +217,167 @@ class BusinessProfile extends Component {
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="form">
-            <h1 style={{ display: "inline-block", marginRight: "20px" }}>
-              Datos de negocio
-            </h1>
-            <Button
-              variant="contained"
-              color="secondary"
-              className="btn-primary"
-              startIcon={<Edit />}
-              style={{ marginTop: "-14px" }}
-              onClick={this.handleEdit}
-            >
-              Editar datos
-            </Button>
-            <hr style={{ maxWidth: "80%", margin: "0", padding: "0" }} />
+        <div className="form">
+          <h1>Datos de negocio</h1>
+          <Button
+            variant="contained"
+            color="secondary"
+            className="btn-primary"
+            startIcon={<Edit />}
+            style={{ marginTop: "-14px" }}
+            onClick={this.handleEdit}
+          >
+            Editar datos
+          </Button>
+          <hr />
+          <Formik
+            ref={(ref) => (this.form = ref)}
+            initialValues={{
+              nombreCompañia: "",
+              nombreComercial: "",
+              numeroDocumento: "",
+              correo: "",
+            }}
+            validate={{}}
+            onSubmit={(values, { setSubmitting }) => {
+              setSubmitting(false);
+              const dataModel = {
+                businessName: "",
+                tradeName: "",
+                documentNumber: "",
+                email: "",
+              };
 
-            <Formik
-              ref={(ref) => (this.form = ref)}
-              initialValues={{
-                nombreCompañia: "",
-                nombreComercial: "",
-                numeroDocumento: "",
-                correo: "",
-              }}
-              validate={{}}
-              onSubmit={(values, { setSubmitting }) => {
-                setSubmitting(false);
-                const dataModel = {
-                  businessName: "",
-                  tradeName: "",
-                  documentNumber: "",
-                  email: "",
-                };
+              dataModel.businessName = values.nombreCompañia;
+              dataModel.tradeName = values.nombreComercial;
+              dataModel.documentNumber = values.numeroDocumento;
+              dataModel.email = values.correo;
 
-                dataModel.businessName = values.nombreCompañia;
-                dataModel.tradeName = values.nombreComercial;
-                dataModel.documentNumber = values.numeroDocumento;
-                dataModel.email = values.correo;
+              (async () => {
+                await this.handleEditData(dataModel);
+              })();
 
-                (async () => {
-                  await this.handleEditData(dataModel);
-                })();
+              // aqui los getter y handler
+            }}
+          >
+            {({
+              values,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              isSubmitting,
+              errors,
+              touched,
+            }) => (
+              <form name="formData" onSubmit={handleSubmit}>
+                <h2>Datos de la empresa</h2>
+                <div className="files">
+                  <TextField
+                    name="nombreCompañia"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Nombre de la compañia"
+                    fullWidth
+                    value={values.nombreCompañia}
+                    error={errors.nombreCompañia && touched.nombreCompañia}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    disabled={!this.state.edit}
+                    style={{
+                      marginTop: "10px",
+                      marginRight: "5px",
+                      marginBottom: "15px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
 
-                // aqui los getter y handler
-              }}
-            >
-              {({
-                values,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-                errors,
-                touched,
-              }) => (
-                <form name="formData" onSubmit={handleSubmit}>
-                  <h2>Datos de la empresa</h2>
-                  <div className="row">
-                    <TextField
-                      name="nombreCompañia"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Nombre de la compañia"
-                      fullWidth
-                      value={values.nombreCompañia}
-                      error={errors.nombreCompañia && touched.nombreCompañia}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      disabled={!this.state.edit}
-                      style={{
-                        marginTop: "10px",
-                        marginRight: "5px",
-                        marginBottom: "15px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
+                  <TextField
+                    name="nombreComercial"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Nombre comercial de la compañia"
+                    fullWidth
+                    value={values.nombreComercial}
+                    error={errors.nombreComercial && touched.nombreComercial}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginTop: "10px",
+                      marginLeft: "5px",
+                      marginBottom: "15px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    disabled={!this.state.edit}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+                <div className="files">
+                  <TextField
+                    name="numeroDocumento"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Numero de documento"
+                    fullWidth
+                    value={values.numeroDocumento}
+                    error={errors.numeroDocumento && touched.numeroDocumento}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    disabled={!this.state.edit}
+                    style={{
+                      marginRight: "5px",
+                      marginBottom: "10px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
 
-                    <TextField
-                      name="nombreComercial"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Nombre comercial de la compañia"
-                      fullWidth
-                      value={values.nombreComercial}
-                      error={errors.nombreComercial && touched.nombreComercial}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      style={{
-                        marginTop: "10px",
-                        marginLeft: "5px",
-                        marginBottom: "15px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      disabled={!this.state.edit}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
+                  <TextField
+                    name="correo"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Correo de la empresa"
+                    fullWidth
+                    value={values.correo}
+                    error={errors.correo && touched.correo}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    disabled={!this.state.edit}
+                    style={{
+                      marginLeft: "5px",
+                      marginBottom: "10px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+                {this.state.edit ? (
+                  <div className="files">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      type="submit"
+                      className="btn-primary"
+                      startIcon={<Save />}
+                      style={{ marginTop: "10px" }}
+                    >
+                      Guardar datos
+                    </Button>
                   </div>
-                  <div className="row">
-                    <TextField
-                      name="numeroDocumento"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Numero de documento"
-                      fullWidth
-                      value={values.numeroDocumento}
-                      error={errors.numeroDocumento && touched.numeroDocumento}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      disabled={!this.state.edit}
-                      style={{
-                        marginRight: "5px",
-                        marginBottom: "10px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-
-                    <TextField
-                      name="correo"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Correo de la empresa"
-                      fullWidth
-                      value={values.correo}
-                      error={errors.correo && touched.correo}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      disabled={!this.state.edit}
-                      style={{
-                        marginLeft: "5px",
-                        marginBottom: "10px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                  </div>
-                  {this.state.edit ? (
-                    <div className="row">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        type="submit"
-                        className="btn-primary"
-                        startIcon={<Save />}
-                        style={{ marginTop: "10px" }}
-                      >
-                        Guardar datos
-                      </Button>
-                    </div>
-                  ) : null}
-                </form>
-              )}
-            </Formik>
-          </div>
+                ) : null}
+              </form>
+            )}
+          </Formik>
         </div>
       </>
     );

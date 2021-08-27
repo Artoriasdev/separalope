@@ -268,7 +268,7 @@ class BusinessProfileBank extends Component {
                   Datos de la empresa
                 </button>
               </div>
-              <div style={{ marginTop: "20px" }}>
+              <div className="button">
                 <button
                   onClick={this.handleRedirectBank}
                   className="button_ref"
@@ -276,244 +276,241 @@ class BusinessProfileBank extends Component {
                   Datos bancarios
                 </button>
               </div>
+            </div>
 
-              <div style={{ marginTop: "100px" }}>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  startIcon={<PowerSettingsNew />}
-                  className="btn-logout"
-                  onClick={this.handleLogout}
-                >
-                  Cerrar sesion
-                </Button>
-              </div>
+            <div className="logout">
+              <Button
+                variant="outlined"
+                color="secondary"
+                startIcon={<PowerSettingsNew />}
+                className="btn-logout"
+                onClick={this.handleLogout}
+              >
+                Cerrar sesion
+              </Button>
             </div>
           </div>
+        </div>
 
-          <div className="form">
-            <h1 style={{ display: "inline-block", marginRight: "20px" }}>
-              Datos de negocio
-            </h1>
-            <Button
-              variant="contained"
-              color="secondary"
-              className="btn-primary"
-              startIcon={<Edit />}
-              style={{ marginTop: "-14px" }}
-              onClick={this.handleEdit}
-              disabled={this.state.formModel === undefined}
-            >
-              Editar datos
-            </Button>
-            <hr style={{ maxWidth: "80%", margin: "0", padding: "0" }} />
+        <div className="form">
+          <h1>Datos de negocio</h1>
+          <Button
+            variant="contained"
+            color="secondary"
+            className="btn-primary"
+            startIcon={<Edit />}
+            style={{ marginTop: "-14px" }}
+            onClick={this.handleEdit}
+            disabled={this.state.formModel === undefined}
+          >
+            Editar datos
+          </Button>
+          <hr />
 
-            <Formik
-              ref={(ref) => (this.form = ref)}
-              initialValues={{
-                numeroCuenta: "",
-                numeroInterbancario: "",
-                correoBancario: "",
-                bancoId: "",
-                tipoId: "",
-              }}
-              validate={{}}
-              onSubmit={(values, { setSubmitting }) => {
-                setSubmitting(false);
-                const bankModel = {
-                  accountNumber: "",
-                  interbankAccountNumber: "",
-                  email: "",
-                  idBankAccountType: "",
-                  idBank: "",
-                };
+          <Formik
+            ref={(ref) => (this.form = ref)}
+            initialValues={{
+              numeroCuenta: "",
+              numeroInterbancario: "",
+              correoBancario: "",
+              bancoId: "",
+              tipoId: "",
+            }}
+            validate={{}}
+            onSubmit={(values, { setSubmitting }) => {
+              setSubmitting(false);
+              const bankModel = {
+                accountNumber: "",
+                interbankAccountNumber: "",
+                email: "",
+                idBankAccountType: "",
+                idBank: "",
+              };
 
-                bankModel.accountNumber = values.numeroCuenta;
-                bankModel.interbankAccountNumber = values.numeroInterbancario;
-                bankModel.email = values.correoBancario;
-                bankModel.idBank = values.bancoId;
-                bankModel.idBankAccountType = values.tipoId;
+              bankModel.accountNumber = values.numeroCuenta;
+              bankModel.interbankAccountNumber = values.numeroInterbancario;
+              bankModel.email = values.correoBancario;
+              bankModel.idBank = values.bancoId;
+              bankModel.idBankAccountType = values.tipoId;
 
-                (async () => {
-                  await this.handleEditData(bankModel);
-                })();
+              (async () => {
+                await this.handleEditData(bankModel);
+              })();
 
-                // aqui los getter y handler
-              }}
-            >
-              {({
-                values,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-                errors,
-                touched,
-              }) => (
-                <form name="formBank" onSubmit={handleSubmit}>
-                  <h2 style={{ marginTop: "17.43px" }}>Datos bancarios</h2>
+              // aqui los getter y handler
+            }}
+          >
+            {({
+              values,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              isSubmitting,
+              errors,
+              touched,
+            }) => (
+              <form name="formBank" onSubmit={handleSubmit}>
+                <h2 style={{ marginTop: "17.43px" }}>Datos bancarios</h2>
 
-                  {this.state.formModel === undefined ? (
-                    <div>
-                      Usted no cuenta con ningún dato bancario, favor de
-                      registrar sus datos{" "}
-                      <button
-                        onClick={this.handleRedirectRegister}
-                        style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                        }}
-                      >
-                        aquí
-                      </button>
-                    </div>
-                  ) : null}
-
-                  <div className="row">
-                    <FormControl
-                      variant="outlined"
-                      fullWidth
+                {this.state.formModel === undefined ? (
+                  <div>
+                    Usted no cuenta con ningún dato bancario, favor de registrar
+                    sus datos{" "}
+                    <button
+                      onClick={this.handleRedirectRegister}
                       style={{
-                        marginTop: "10px",
-                        marginRight: "5px",
-                        marginBottom: "15px",
+                        cursor: "pointer",
+                        textDecoration: "underline",
                       }}
                     >
-                      <InputLabel id="bankLabel">Nombre de banco</InputLabel>
-                      <Select
-                        labelId="bankLabel"
-                        label="Nombre de banco"
-                        value={values.bancoId}
-                        error={errors.bancoId && touched.bancoId}
-                        name="bancoId"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        disabled={!this.state.editButton}
-                      >
-                        {this.state.typeBank &&
-                          this.state.typeBank.map(({ id, name }) => (
-                            <MenuItem key={id} value={id}>
-                              {name}
-                            </MenuItem>
-                          ))}
-                      </Select>
-                    </FormControl>
+                      aquí
+                    </button>
+                  </div>
+                ) : null}
 
-                    <FormControl
-                      variant="outlined"
-                      fullWidth
-                      style={{
-                        marginTop: "10px",
-                        marginRight: "5px",
-                        marginBottom: "15px",
-                      }}
+                <div className="files">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    style={{
+                      marginTop: "10px",
+                      marginRight: "5px",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    <InputLabel id="bankLabel">Nombre de banco</InputLabel>
+                    <Select
+                      labelId="bankLabel"
+                      label="Nombre de banco"
+                      value={values.bancoId}
+                      error={errors.bancoId && touched.bancoId}
+                      name="bancoId"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      disabled={!this.state.editButton}
                     >
-                      <InputLabel id="accountType">Tipo de cuenta</InputLabel>
-                      <Select
-                        labelId="accountType"
-                        label="Tipo de cuenta"
-                        value={values.tipoId}
-                        error={errors.tipoId && touched.tipoId}
-                        name="tipoId"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        disabled={!this.state.editButton}
-                      >
-                        {this.state.typeAccount &&
-                          this.state.typeAccount.map(({ id, description }) => (
-                            <MenuItem key={id} value={id}>
-                              {description}
-                            </MenuItem>
-                          ))}
-                      </Select>
-                    </FormControl>
+                      {this.state.typeBank &&
+                        this.state.typeBank.map(({ id, name }) => (
+                          <MenuItem key={id} value={id}>
+                            {name}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
 
-                    <TextField
-                      name="numeroCuenta"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Numero de cuenta"
-                      fullWidth
-                      value={values.numeroCuenta}
-                      error={errors.numeroCuenta && touched.numeroCuenta}
-                      onBlur={handleBlur}
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    style={{
+                      marginTop: "10px",
+                      marginRight: "5px",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    <InputLabel id="accountType">Tipo de cuenta</InputLabel>
+                    <Select
+                      labelId="accountType"
+                      label="Tipo de cuenta"
+                      value={values.tipoId}
+                      error={errors.tipoId && touched.tipoId}
+                      name="tipoId"
                       onChange={handleChange}
-                      disabled={!this.state.editButton}
-                      style={{
-                        marginTop: "10px",
-                        marginLeft: "5px",
-                        marginBottom: "15px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                  </div>
-                  <div className="row">
-                    <TextField
-                      name="numeroInterbancario"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Numero de cuenta interbancario"
-                      fullWidth
-                      value={values.numeroInterbancario}
-                      error={
-                        errors.numeroInterbancario &&
-                        touched.numeroInterbancario
-                      }
                       onBlur={handleBlur}
-                      onChange={handleChange}
                       disabled={!this.state.editButton}
-                      style={{
-                        marginRight: "5px",
-                        marginBottom: "10px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
+                    >
+                      {this.state.typeAccount &&
+                        this.state.typeAccount.map(({ id, description }) => (
+                          <MenuItem key={id} value={id}>
+                            {description}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
 
-                    <TextField
-                      name="correoBancario"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Correo bancario"
-                      fullWidth
-                      value={values.correoBancario}
-                      error={errors.correoBancario && touched.correoBancario}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      disabled={!this.state.editButton}
-                      style={{
-                        marginLeft: "5px",
-                        marginBottom: "10px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
+                  <TextField
+                    name="numeroCuenta"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Numero de cuenta"
+                    fullWidth
+                    value={values.numeroCuenta}
+                    error={errors.numeroCuenta && touched.numeroCuenta}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    disabled={!this.state.editButton}
+                    style={{
+                      marginTop: "10px",
+                      marginLeft: "5px",
+                      marginBottom: "15px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+                <div className="files">
+                  <TextField
+                    name="numeroInterbancario"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Numero de cuenta interbancario"
+                    fullWidth
+                    value={values.numeroInterbancario}
+                    error={
+                      errors.numeroInterbancario && touched.numeroInterbancario
+                    }
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    disabled={!this.state.editButton}
+                    style={{
+                      marginRight: "5px",
+                      marginBottom: "10px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+
+                  <TextField
+                    name="correoBancario"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Correo bancario"
+                    fullWidth
+                    value={values.correoBancario}
+                    error={errors.correoBancario && touched.correoBancario}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    disabled={!this.state.editButton}
+                    style={{
+                      marginLeft: "5px",
+                      marginBottom: "10px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+                {this.state.editButton ? (
+                  <div className="files">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      type="submit"
+                      className="btn-primary"
+                      startIcon={<Save />}
+                      style={{ marginTop: "10px" }}
+                    >
+                      Guardar datos bancarios
+                    </Button>
                   </div>
-                  {this.state.editButton ? (
-                    <div className="row">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        type="submit"
-                        className="btn-primary"
-                        startIcon={<Save />}
-                        style={{ marginTop: "10px" }}
-                      >
-                        Guardar datos bancarios
-                      </Button>
-                    </div>
-                  ) : null}
-                </form>
-              )}
-            </Formik>
-          </div>
+                ) : null}
+              </form>
+            )}
+          </Formik>
         </div>
       </>
     );

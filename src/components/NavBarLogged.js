@@ -148,7 +148,7 @@ const Navbar = () => {
   const handleRedirect = (id) => {
     if (id === 1 && work === "B") {
       history.push("/business/profile");
-    } else {
+    } else if (id === 1 && work === "C") {
       history.push("/customer/profile");
     }
     if (id === 2) {

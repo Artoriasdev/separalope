@@ -26,18 +26,9 @@ class ServiceAppointment extends Component {
   };
   render() {
     return (
-      <>
-        <div
-          className="header_container"
-          style={{
-            width: "200px",
-            textAlign: "center",
-            marginLeft: "5%",
-            marginTop: "100px",
-            zIndex: "-10",
-          }}
-        >
-          <div>
+      <div className="page-container" style={{ padding: "0", width: "100%" }}>
+        <div className="header-profile-container">
+          <div className="header-profile">
             <div>
               <button
                 onClick={this.handleRedirectService}
@@ -47,7 +38,7 @@ class ServiceAppointment extends Component {
                 Detalles servicios
               </button>
             </div>
-            <div style={{ marginTop: "20px" }}>
+            <div className="button">
               <button
                 onClick={this.handleRedirectAppointment}
                 className="button_ref"
@@ -58,9 +49,7 @@ class ServiceAppointment extends Component {
             </div>
           </div>
         </div>
-        <div
-          style={{ width: "51%", margin: " -200px auto", minHeight: "1300px" }}
-        >
+        <div style={{ width: "50%", margin: "3% auto" }}>
           <AppBar position="static" className="btn-primary">
             <Tabs
               variant="fullWidth"
@@ -68,8 +57,18 @@ class ServiceAppointment extends Component {
               onChange={this.handleChange}
               aria-label="nav tabs example"
             >
-              <LinkTab label="Citas pendientes" href="/drafts" />
-              <LinkTab label="Citas pasadas" href="/trash" />
+              <LinkTab
+                label="Citas pendientes"
+                href="/appointment"
+                className="font-p"
+                style={{ textTransform: "none" }}
+              />
+              <LinkTab
+                label="Citas pasadas"
+                href="/past"
+                className="font-p"
+                style={{ textTransform: "none" }}
+              />
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.value} index={0}>
@@ -79,7 +78,7 @@ class ServiceAppointment extends Component {
             <PastAppointments />
           </TabPanel>
         </div>
-      </>
+      </div>
     );
   }
 }

@@ -208,7 +208,10 @@ class RegisterDataBank extends Component {
           </React.Fragment>
         </ModalSucess>
 
-        <div style={{ padding: "20px", width: "500px", margin: "50px auto" }}>
+        <div
+          className="page-container"
+          style={{ width: "500px", margin: "5% auto" }}
+        >
           <h1>Registra tus datos bancarios</h1>
           <Formik
             ref={(ref) => (this.form = ref)}
@@ -263,27 +266,6 @@ class RegisterDataBank extends Component {
             }) => (
               <form name="formBank" onSubmit={handleSubmit}>
                 <div className="files">
-                  {/* <TextField
-                    name="banco"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Nombre del banco"
-                    fullWidth
-                    value={values.bancoId}
-                    error={errors.bancoId && touched.bancoId}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginTop: "10px",
-                      marginRight: "5px",
-                      marginBottom: "15px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  /> */}
-
                   <FormControl
                     variant="outlined"
                     fullWidth
@@ -412,7 +394,7 @@ class RegisterDataBank extends Component {
                     className="btn-primary"
                     startIcon={<Save />}
                     fullWidth
-                    style={{ marginTop: "10px" }}
+                    style={{ marginTop: "5px" }}
                   >
                     Guardar datos bancarios
                   </Button>
