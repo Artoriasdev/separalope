@@ -83,10 +83,9 @@ class HomePage extends Component {
     return (
       <div>
         <Carousel />
-        {/* <Cards /> */}
         <div
+          className="page-container"
           style={{
-            padding: "30px",
             width: "80%",
             margin: "0 auto",
             height: "120px",
@@ -94,7 +93,7 @@ class HomePage extends Component {
         >
           <div>
             <div style={{ position: "absolute" }}>
-              <h1 style={{ color: "#5829dd" }}>Nuestros servicios</h1>
+              <h1>Nuestros servicios</h1>
 
               <h3 className="register__subtitle">
                 son 100% digitales via zoom en la comodidad de tu hogar <br /> y
@@ -139,58 +138,29 @@ class HomePage extends Component {
           {this.state.typeCategorys &&
             this.state.typeCategorys.map(({ id, image, name, description }) => (
               <div
-                style={{
-                  cursor: "pointer",
-                  width: "272px",
-                  margin: "auto",
-                }}
+                className="flip-home"
                 onClick={() =>
                   this.handleRedirect(id, image, name, description)
                 }
                 key={id}
               >
                 <Flippy
-                  flipOnHover={true} // default false
-                  flipOnClick={false} // default false
-                  flipDirection="horizontal" // horizontal or vertical
-                  //ref={(r) => (this.flippy = r)}  to use toggle method like this.flippy.toggle()
-                  // if you pass isFlipped prop component will be controlled component.
-                  // and other props, which will go to div
-                  style={{
-                    width: "272px",
-                    height: "272px",
-                    margin: "auto",
-                  }} /// these are optional style, it is not necessary
+                  flipOnHover={true}
+                  flipOnClick={false}
+                  flipDirection="horizontal"
+                  className="flip-home-container"
                 >
                   <FrontSide
+                    className="flip-home-front"
                     style={{
                       backgroundImage: `url(${image})`,
-                      borderRadius: "4px",
                     }}
                   ></FrontSide>
-                  <BackSide
-                    style={{
-                      backgroundColor: "#232323",
-                      borderRadius: "4px",
-                      textAlign: "justify",
-                    }}
-                  >
-                    <p
-                      style={{
-                        display: "flex",
-                        height: "80%",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        color: "white",
-                      }}
-                    >
-                      {description}
-                    </p>
+                  <BackSide className="flip-home-back">
+                    <p>{description}</p>
                   </BackSide>
                 </Flippy>
-                <h3 style={{ textAlign: "center", color: "#5829dd" }}>
-                  {name}
-                </h3>
+                <h3>{name}</h3>
               </div>
             ))}
         </CarouselItem>

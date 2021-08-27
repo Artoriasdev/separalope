@@ -81,20 +81,12 @@ class CustomerHistory extends Component {
   ];
   render() {
     return (
-      <div style={{ maxWidth: "90%", margin: "40px auto" }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
+      <div className="page-container" style={{ padding: "0" }}>
+        <div className="appointment-container">
           <Event fontSize="large" style={{ margin: "0 5px 0 0" }} />
-          <h1 style={{ color: "#5829dd" }}>Mis historial de citas</h1>
+          <h1>Mis historial de citas</h1>
         </div>
-        <TableContainer
-          style={{
-            width: "100%",
-            borderRadius: "10px 10px",
-            margin: "10px 0",
-            boxShadow:
-              "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
-          }}
-        >
+        <TableContainer className="table">
           <Table sx={{ minWidth: 650 }}>
             <TableHead
               style={{

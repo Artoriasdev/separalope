@@ -78,7 +78,7 @@ export const Footer = () => {
     setPriv(false);
   };
   return (
-    <div style={{ marginTop: "30px" }}>
+    <div className="footer-container">
       <Dialog open={priv} onClose={handleClose}>
         <DialogTitle style={{ textAlign: "center" }}>
           <h2 style={{ margin: "0", color: "#5829dd" }} className="font-p">
@@ -139,28 +139,17 @@ export const Footer = () => {
         </DialogActions>
       </Dialog>
 
-      <AppBar
-        position="static"
-        style={{ backgroundColor: "#232323", paddingBottom: "25px" }}
-      >
+      <AppBar position="static" className="footer">
         <Container maxWidth="lg">
           <Toolbar>
             <Grid item>
-              <p style={{ margin: "20px 0 10px 0" }} className="font-tittle">
-                Contáctanos
-              </p>
-              <p style={{ fontSize: "13px", margin: "0", padding: "0" }}>
-                Celular : 999
-              </p>
-              <p style={{ fontSize: "13px", margin: "0", padding: "0" }}>
-                Correo: aaa@aaa
-              </p>
+              <p className="font-tittle">Contáctanos</p>
+              <p className="text">Celular : 999</p>
+              <p className="text">Correo: aaa@aaa</p>
             </Grid>
             <div className={classes.grow} />
             <Grid item>
-              <p style={{ margin: "20px 0 10px 0" }} className="font-tittle">
-                Búscanos en
-              </p>
+              <p className="font-tittle title">Búscanos en</p>
               <span>
                 <IconButton aria-label="facebook" color="inherit">
                   <Facebook />
@@ -173,103 +162,34 @@ export const Footer = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <hr
-        style={{ margin: "0", padding: "0", borderTop: "1px solid #e9e9e9" }}
-      />
+      <hr className="hr" />
       <AppBar
         position="static"
+        className="footer"
         style={{
-          backgroundColor: "#232323",
           marginTop: "-1px",
+          padding: "0",
         }}
       >
         <Container maxWidth="lg">
           <Toolbar>
-            <p style={{ fontSize: "13px", margin: "0", padding: "0" }}>
-              Copyright © 2021 separalope
-            </p>
+            <p className="p">Copyright © 2021 separalope</p>
             <div className={classes.grow} />
-            <hr
-              style={{
-                border: "none",
-                margin: 0,
-                marginLeft: "1rem",
-                marginRight: "1rem",
-                width: "1px",
-                height: "20px",
-                borderLeft: "1px solid #e9e9e9",
-              }}
-            />
+            <hr />
             <div className={classes.grow} />
-            <button
-              className="font-p"
-              onClick={handleModalPriv}
-              style={{
-                background: "none",
-                border: "none",
-                color: "inherit",
-                textDecoration: "underline",
-                cursor: "pointer",
-                padding: "0",
-                fontSize: "13px",
-              }}
-            >
+            <button className="font-p" onClick={handleModalPriv}>
               Politicas de privacidad
             </button>
             <div className={classes.grow} />
-            <hr
-              style={{
-                border: "none",
-                margin: 0,
-                marginLeft: "1rem",
-                marginRight: "1rem",
-                width: "1px",
-                height: "20px",
-                borderLeft: "1px solid #e9e9e9",
-              }}
-            />
+            <hr />
             <div className={classes.grow} />
-            <button
-              className="font-p"
-              onClick={handleRedirect}
-              style={{
-                background: "none",
-                border: "none",
-                color: "inherit",
-                textDecoration: "underline",
-                cursor: "pointer",
-                padding: "0",
-                fontSize: "13px",
-              }}
-            >
+            <button className="font-p" onClick={handleRedirect}>
               Preguntas frecuentes
             </button>
             <div className={classes.grow} />
-            <hr
-              style={{
-                border: "none",
-                margin: 0,
-                marginLeft: "1rem",
-                marginRight: "1rem",
-                width: "1px",
-                height: "20px",
-                borderLeft: "1px solid #e9e9e9",
-              }}
-            />
+            <hr />
             <div className={classes.grow} />
-            <button
-              className="font-p"
-              onClick={() => handleModalTerm()}
-              style={{
-                background: "none",
-                border: "none",
-                color: "inherit",
-                textDecoration: "underline",
-                cursor: "pointer",
-                padding: "0",
-                fontSize: "13px",
-              }}
-            >
+            <button className="font-p" onClick={() => handleModalTerm()}>
               Términos y condiciones
             </button>
           </Toolbar>

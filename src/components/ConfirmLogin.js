@@ -7,15 +7,8 @@ class ConfirmLogin extends Component {
   };
   render() {
     return (
-      <div
-        style={{
-          display: "flex",
-          textAlign: "center",
-          minHeight: "70vh",
-          width: "100%",
-        }}
-      >
-        <div style={{ maxWidth: "30%", margin: "auto" }}>
+      <div className="confirm-page">
+        <div className="content-container">
           <p className="font-tittle">
             Usted ha seleccionado {this.props.match.params.value}, para reservar
             su cita registrese en nuestra pagina web.
@@ -25,11 +18,6 @@ class ConfirmLogin extends Component {
             color="primary"
             variant="contained"
             className="btn-primary"
-            style={{
-              width: "80%",
-              textTransform: "capitalize",
-              marginBottom: "20px",
-            }}
             onClick={this.handleRedirect}
           >
             Regístrate

@@ -62,28 +62,20 @@ class MenuBusinessCategory extends Component {
     return (
       <>
         <Banner />
-        <div style={{ padding: "30px", width: "90%", margin: "auto" }}>
-          <div>
-            <h1 style={{ color: "#5829dd" }}>Nuestros negocios</h1>
-          </div>
+        <div className="page-container" style={{ margin: "0 auto" }}>
+          <h1>Nuestros negocios</h1>
+
           <div className="flip-container">
             {this.state.typeCategorys &&
               this.state.typeCategorys.map(({ id, tradename, logo }) => (
-                <Card
-                  style={{
-                    width: 345,
-                    display: "inline-block",
-                    marginRight: "20px",
-                  }}
-                  key={id}
-                >
+                <Card className="card-container" key={id}>
                   <CardMedia
                     image={logo}
-                    title="Contemplative Reptile"
-                    style={{ height: "240px", width: "300px", margin: "auto" }}
+                    title={tradename}
+                    className="card-media"
                   />
 
-                  <CardContent style={{ margin: "20px 0 10px 0" }}>
+                  <CardContent className="card-content">
                     <Typography gutterBottom variant="h5" component="h2">
                       {tradename}
                     </Typography>
@@ -94,6 +86,9 @@ class MenuBusinessCategory extends Component {
                     color="primary"
                     variant="contained"
                     className="btn_card"
+                    style={{
+                      margin: "0.5px 0",
+                    }}
                     fullWidth
                     onClick={() => this.handleRedirect(id, tradename, logo)}
                   >

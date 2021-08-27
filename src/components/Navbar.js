@@ -145,26 +145,13 @@ const Navbar = () => {
   return (
     <header className="header">
       <div className={classes.grow}>
-        <AppBar
-          position="static"
-          style={{
-            background: "#ffdd00",
-            boxShadow: "none",
-            height: "3.15rem",
-          }}
-        >
-          <Toolbar
-            style={{ width: "1235px", margin: "0 auto", padding: 0 }}
-            variant="dense"
-          >
+        <AppBar className="header" position="static">
+          <Toolbar className="bar" variant="dense">
             <Button
               className="font buttonHeader "
               onClick={handleRedirectHome}
               style={{
                 textTransform: "none",
-
-                height: "3.15rem",
-                marginTop: "-5px",
               }}
             >
               <h2>sepáralo pe</h2>
@@ -174,16 +161,12 @@ const Navbar = () => {
             <div>
               <Button
                 startIcon={<AccountCircle style={{ fontSize: "25px" }} />}
-                className="font"
+                className="font buttonHeader "
                 onClick={handleClick}
                 style={{
                   backgroundColor: anchorEl ? "#5829dd" : "transparent",
                   color: anchorEl ? "white" : "black",
                   textTransform: "capitalize",
-                  width: "150px",
-                  borderRadius: "0",
-                  height: "3.15rem",
-                  marginTop: "-3px",
                 }}
               >
                 Iniciar sesión
@@ -196,7 +179,7 @@ const Navbar = () => {
                 onClose={handleClose}
               >
                 <MenuItem
-                  style={{ width: "150px" }}
+                  className="menuItem"
                   onClick={() => handleRedirectButton(1)}
                 >
                   <ListItemText primary="Soy cliente" />
@@ -206,16 +189,12 @@ const Navbar = () => {
                 </MenuItem>
               </StyledMenu>
               <Button
-                className="font"
+                className="font buttonHeader"
                 onClick={handleClick2}
                 style={{
                   backgroundColor: anchorEl2 ? "#5829dd" : "transparent",
                   color: anchorEl2 ? "white" : "black",
                   textTransform: "capitalize",
-                  width: "150px",
-                  borderRadius: "0",
-                  height: "3.15rem",
-                  marginTop: "-5px",
                 }}
               >
                 Regístrate
@@ -229,7 +208,7 @@ const Navbar = () => {
                 style={{ borderRadius: "0" }}
               >
                 <MenuItem
-                  style={{ width: "150px" }}
+                  className="menuItem"
                   onClick={() => handleRedirectButton(3)}
                 >
                   <ListItemText primary="Soy cliente" />

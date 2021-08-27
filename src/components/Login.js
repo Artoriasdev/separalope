@@ -117,33 +117,16 @@ class Login extends Component {
           BackdropProps={{
             timeout: 500,
           }}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
+          className="modal-container"
         >
           <Fade in={this.state.modal}>
-            <div
-              style={{
-                backgroundColor: "white",
-                borderRadius: "4px",
-                boxShadow: "5",
-                padding: "20px",
-              }}
-            >
+            <div className="modal-message-container">
               <p>{this.state.message}</p>
               <Button
                 size="large"
                 color="primary"
                 variant="contained"
                 className="btn-primary"
-                style={{
-                  margin: "10px 0",
-                  width: "80%",
-                  textTransform: "capitalize",
-                }}
                 onClick={this.handleClose}
               >
                 Aceptar
@@ -161,7 +144,7 @@ class Login extends Component {
             </figure>
           </button>
 
-          <div style={{ padding: "20px", width: "500px", margin: "50px auto" }}>
+          <div className="page-container" style={{ width: "500px" }}>
             {this.props.match.params.value === "C" ? (
               <h3 className="register__subtitle">Soy un cliente</h3>
             ) : (
@@ -267,7 +250,7 @@ class Login extends Component {
                 </form>
               )}
             </Formik>
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <div className="recover-password-button">
               <a href={`/password-recovery/${this.props.match.params.value}`}>
                 Olvidé mi contraseña
               </a>

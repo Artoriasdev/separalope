@@ -75,33 +75,20 @@ class MenuServicesBusiness extends Component {
                   className="flip-card"
                   key={id}
                 >
-                  <FrontSide
-                    className="flip-card-background"
-                    style={{
-                      position: "relative",
-                    }}
-                  >
+                  <FrontSide className="flip-card-background">
                     <div
                       className="flip-card-service"
                       style={{
                         height: "100%",
                       }}
                     >
-                      <h3 style={{ margin: "0", padding: "0" }}>{title}</h3>
+                      <h3>{title}</h3>
                       <RatingService rate={2} />
-                      <p style={{ margin: "5px 0 0 0" }}>Precio unitario</p>
-                      <div
-                        style={{
-                          padding: "8px 15px",
-                          fontSize: "2.25rem",
-                          color: "#5829dd",
-                        }}
-                      >
+                      <p className="text">Precio unitario</p>
+                      <div className="price">
                         {currencySymbol} {price}
                       </div>
-                      <p className="font-p" style={{ margin: "5px 0 0 0" }}>
-                        Duracion : un numero
-                      </p>
+                      <p className="font-p text">Duracion : un numero</p>
                     </div>
                   </FrontSide>
                   <BackSide className="flip-card-background">
@@ -111,7 +98,7 @@ class MenuServicesBusiness extends Component {
                         height: "92%",
                       }}
                     >
-                      <h3 style={{ margin: "0", padding: "0" }}>{title}</h3>
+                      <h3>{title}</h3>
                       <h4 style={{ textAlign: "justify" }}>{description}</h4>
                       <p>Duracion : un numero</p>
                     </div>

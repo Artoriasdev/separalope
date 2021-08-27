@@ -56,6 +56,21 @@ const StyledMenu = withStyles()((props) => (
     {...props}
   />
 ));
+const StyledMenuSettings = withStyles()((props) => (
+  <Menu
+    elevation={2}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: "bottom",
+      horizontal: "center",
+    }}
+    transformOrigin={{
+      vertical: "top",
+      horizontal: "center",
+    }}
+    {...props}
+  />
+));
 
 const Navbar = () => {
   const classes = useStyles();
@@ -181,26 +196,13 @@ const Navbar = () => {
         <>
           <header className="header">
             <div className={classes.grow}>
-              <AppBar
-                position="static"
-                style={{
-                  background: "#ffdd00",
-                  boxShadow: "none",
-                  height: "3.15rem",
-                }}
-              >
-                <Toolbar
-                  style={{ width: "1235px", margin: "0 auto", padding: 0 }}
-                  variant="dense"
-                >
+              <AppBar className="header" position="static">
+                <Toolbar className="bar" variant="dense">
                   <Button
-                    className="font buttonHeader "
+                    className="font buttonHeader"
                     onClick={handleRedirectHome}
                     style={{
                       textTransform: "none",
-
-                      height: "3.15rem",
-                      marginTop: "-5px",
                     }}
                   >
                     <h2>sepáralo pe</h2>
@@ -210,16 +212,13 @@ const Navbar = () => {
                   <div>
                     <Button
                       endIcon={<ArrowDropDown style={{ fontSize: "25px" }} />}
-                      className="font"
+                      className="font buttonHeader "
                       onClick={handleClick}
                       style={{
                         backgroundColor: anchorEl ? "#5829dd" : "transparent",
                         color: anchorEl ? "white" : "black",
                         textTransform: "capitalize",
                         width: "200px",
-                        borderRadius: "0",
-                        height: "3.15rem",
-                        marginTop: "-3px",
                       }}
                     >
                       {name}
@@ -235,7 +234,7 @@ const Navbar = () => {
                         <>
                           <MenuItem
                             key={idMenu}
-                            style={{ width: "200px" }}
+                            className="menuItemClient"
                             onClick={() => handleRedirect(idMenu)}
                           >
                             <ListItemText primary={nameMenu} />
@@ -244,30 +243,26 @@ const Navbar = () => {
                       ))}
                     </StyledMenu>
                     <Button
-                      className="font"
+                      className="font  buttonHeader"
                       onClick={handleClick2}
                       style={{
                         backgroundColor: anchorEl2 ? "#5829dd" : "transparent",
                         color: anchorEl2 ? "white" : "black",
                         textTransform: "capitalize",
-
-                        borderRadius: "0",
-                        height: "3.15rem",
-                        marginTop: "-5px",
+                        width: "0",
                       }}
                     >
                       <Settings />
                     </Button>
-                    <StyledMenu
+                    <StyledMenuSettings
                       id="customized-menu"
                       anchorEl={anchorEl2}
                       keepMounted
                       open={Boolean(anchorEl2)}
                       onClose={handleClose2}
-                      style={{ borderRadius: "0" }}
                     >
                       <MenuItem
-                        style={{ width: "150px" }}
+                        className="menuItem"
                         onClick={() => handleRedirect(7)}
                       >
                         <ListItemText primary="Cambiar contraseña" />
@@ -278,7 +273,7 @@ const Navbar = () => {
                       <MenuItem onClick={() => handleLogout()}>
                         <ListItemText primary="Cerrar sesión" />
                       </MenuItem>
-                    </StyledMenu>
+                    </StyledMenuSettings>
                   </div>
                 </Toolbar>
               </AppBar>
@@ -323,105 +318,74 @@ const Navbar = () => {
         <>
           <header className="header">
             <div className={classes.grow}>
-              <AppBar
-                position="static"
-                style={{
-                  background: "#ffdd00",
-                  boxShadow: "none",
-                  height: "3.15rem",
-                }}
-              >
-                <Toolbar
-                  style={{ width: "1235px", margin: "0 auto", padding: 0 }}
-                  variant="dense"
-                >
+              <AppBar className="header" position="static">
+                <Toolbar className="bar" variant="dense">
                   <Button
-                    className="font"
+                    className="font  buttonHeader"
                     onClick={handleRedirectHome}
                     style={{
-                      textTransform: "capitalize",
-
-                      height: "3.15rem",
-                      marginTop: "-5px",
+                      textTransform: "none",
                     }}
                   >
-                    <h2 style={{ color: "black" }}>separalope</h2>
+                    <h2>sepáralo pe</h2>
+                    <h2 style={{ fontFamily: "unset" }}>!</h2>
                   </Button>
                   <div className={classes.grow} />
                   <div>
                     <Button
-                      className="font"
+                      className="font  buttonHeader"
                       onClick={() => handleRedirect(infoUser[1].idMenu)}
                       style={{
-                        backgroundColor: "transparent",
                         textTransform: "capitalize",
-                        borderRadius: "0",
-                        height: "3.15rem",
-                        marginTop: "-3px",
                       }}
                     >
                       {infoUser[1].nameMenu}
                     </Button>
                     <Button
-                      className="font"
+                      className="font buttonHeader"
                       onClick={() => handleRedirect(infoUser[2].idMenu)}
                       style={{
-                        backgroundColor: "transparent",
                         textTransform: "capitalize",
-                        borderRadius: "0",
-                        height: "3.15rem",
-                        marginTop: "-3px",
                       }}
                     >
                       {infoUser[2].nameMenu}
                     </Button>
                     <Button
-                      className="font"
+                      className="font buttonHeader"
                       onClick={() => handleRedirect(infoUser[0].idMenu)}
                       style={{
-                        backgroundColor: "transparent",
                         textTransform: "capitalize",
-                        borderRadius: "0",
-                        height: "3.15rem",
-                        marginTop: "-3px",
                       }}
                     >
                       {infoUser[0].nameMenu}
                     </Button>
 
                     <Button
-                      className="font"
+                      className="font buttonHeader"
                       onClick={handleClick}
                       style={{
                         backgroundColor: anchorEl ? "#5829dd" : "transparent",
                         color: anchorEl ? "white" : "black",
                         textTransform: "capitalize",
-
-                        borderRadius: "0",
-                        height: "3.15rem",
-                        marginTop: "-5px",
+                        width: "0",
                       }}
                     >
                       <Settings />
                     </Button>
-                    <StyledMenu
+                    <StyledMenuSettings
                       id="customized-menu"
                       anchorEl={anchorEl}
                       keepMounted
                       open={Boolean(anchorEl)}
                       onClose={handleClose}
-                      style={{ borderRadius: "0" }}
                     >
-                      <MenuItem
-                        style={{ width: "170px" }}
-                        onClick={() => handleRedirect(7)}
-                      >
+                      <MenuItem onClick={() => handleRedirect(7)}>
                         <ListItemText primary="Cambiar contraseña" />
                       </MenuItem>
                       <MenuItem onClick={handleLogout}>
                         <ListItemText primary="Cerrar sesión" />
                       </MenuItem>
-                    </StyledMenu>
+                    </StyledMenuSettings>
                   </div>
                 </Toolbar>
               </AppBar>
@@ -430,38 +394,6 @@ const Navbar = () => {
         </>
       )}
     </>
-    // {/* <li onClick={() => handleRedirect(infoUser[1].idMenu)}>
-    //         <button className="buttonNav normal">{infoUser[1].nameMenu}</button>
-    //       </li>
-    //       <li onClick={() => handleRedirect(infoUser[2].idMenu)}>
-    //         <button className="buttonNav normal">{infoUser[2].nameMenu}</button>
-    //       </li>
-    //       <li onClick={() => handleRedirect(infoUser[0].idMenu)}>
-    //         <button className="buttonNav normal">{infoUser[0].nameMenu}</button>
-    //       </li>
-    //       <li>
-    //         <button className="buttonNav normal">
-    //           <Settings
-    //             style={{
-    //               height: "100%",
-    //               margin: "8px 0",
-    //               fontSize: "24px",
-    //             }}
-    //           />
-    //         </button>
-    //         <ul
-    //           style={
-
-    //           }
-    //         >
-    //           <li onClick={() => handleRedirect(7)}>
-    //             <MenuItem style={{ left: -10 }}>Cambiar contraseña</MenuItem>
-    //           </li>
-    //           <li onClick={handleLogout}>
-    //             <MenuItem style={{ left: -10 }}>Cerrar sesión</MenuItem>
-    //           </li>
-    //         </ul>
-    //       </li> */}
   );
 };
 

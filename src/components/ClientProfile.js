@@ -218,248 +218,233 @@ class ClientProfile extends Component {
         </ModalSucess>
 
         <div
+          className="page-container"
           style={{
-            margin: "10vh 0",
+            width: "40%",
           }}
         >
-          <div
-            className="text_form"
-            style={{
-              width: "60%",
-              margin: "auto",
+          <h1>Mi perfil</h1>
+          <hr className="hr" />
+
+          <Formik
+            ref={(ref) => (this.form = ref)}
+            initialValues={{
+              idCliente: "",
+              nombre: "",
+              apellido: "",
+              tipoDocumento: "",
+              numeroDocumento: "",
+              celular: "",
+              correo: "",
+            }}
+            validate={{}}
+            onSubmit={(values, { setSubmitting }) => {
+              setSubmitting(false);
+              const dataModel = {
+                id: "",
+                name: "",
+                lastName: "",
+                documentType: "",
+                documentNumber: "",
+                mobile: "",
+                email: "",
+              };
+
+              dataModel.id = values.idCliente;
+              dataModel.name = values.nombre;
+              dataModel.lastName = values.apellido;
+              dataModel.documentType = values.tipoDocumento;
+              dataModel.documentNumber = values.numeroDocumento;
+              dataModel.mobile = values.celular;
+              dataModel.email = values.correo;
+
+              (async () => {
+                await this.handleEditData(dataModel);
+              })();
+
+              // aqui los getter y handler
             }}
           >
-            <h1
-              style={{
-                color: "#5829dd",
-              }}
-            >
-              Mi perfil
-            </h1>
-            <hr style={{ width: "99%", margin: "0 auto", padding: "0" }} />
+            {({
+              values,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              isSubmitting,
+              errors,
+              touched,
+            }) => (
+              <form name="formData" onSubmit={handleSubmit}>
+                <div className="files">
+                  <TextField
+                    name="nombre"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Nombres"
+                    fullWidth
+                    value={values.nombre}
+                    error={errors.nombre && touched.nombre}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    disabled={!this.state.edit}
+                    style={{
+                      marginTop: "30px",
+                      marginRight: "5px",
+                      marginBottom: "15px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
 
-            <Formik
-              ref={(ref) => (this.form = ref)}
-              initialValues={{
-                idCliente: "",
-                nombre: "",
-                apellido: "",
-                tipoDocumento: "",
-                numeroDocumento: "",
-                celular: "",
-                correo: "",
-              }}
-              validate={{}}
-              onSubmit={(values, { setSubmitting }) => {
-                setSubmitting(false);
-                const dataModel = {
-                  id: "",
-                  name: "",
-                  lastName: "",
-                  documentType: "",
-                  documentNumber: "",
-                  mobile: "",
-                  email: "",
-                };
-
-                dataModel.id = values.idCliente;
-                dataModel.name = values.nombre;
-                dataModel.lastName = values.apellido;
-                dataModel.documentType = values.tipoDocumento;
-                dataModel.documentNumber = values.numeroDocumento;
-                dataModel.mobile = values.celular;
-                dataModel.email = values.correo;
-
-                (async () => {
-                  await this.handleEditData(dataModel);
-                })();
-
-                // aqui los getter y handler
-              }}
-            >
-              {({
-                values,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-                errors,
-                touched,
-              }) => (
-                <form name="formData" onSubmit={handleSubmit}>
-                  <div className="files">
-                    <TextField
-                      name="nombre"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Nombres"
-                      fullWidth
-                      value={values.nombre}
-                      error={errors.nombre && touched.nombre}
-                      onBlur={handleBlur}
+                  <TextField
+                    name="apellido"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Apellidos"
+                    fullWidth
+                    value={values.apellido}
+                    error={errors.apellido && touched.apellido}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    style={{
+                      marginTop: "30px",
+                      marginLeft: "5px",
+                      marginBottom: "15px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    disabled={!this.state.edit}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+                <div className="files">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    style={{
+                      marginRight: "5px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <InputLabel id="typeDocument">Tipo de documento</InputLabel>
+                    <Select
+                      labelId="typeDocument"
+                      label="Tipo de documento"
+                      value={values.tipoDocumento}
+                      error={errors.tipoDocumento && touched.tipoDocumento}
+                      name="tipoDocumento"
                       onChange={handleChange}
-                      disabled={!this.state.edit}
-                      style={{
-                        marginTop: "30px",
-                        marginRight: "5px",
-                        marginBottom: "15px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-
-                    <TextField
-                      name="apellido"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Apellidos"
-                      fullWidth
-                      value={values.apellido}
-                      error={errors.apellido && touched.apellido}
                       onBlur={handleBlur}
-                      onChange={handleChange}
-                      style={{
-                        marginTop: "30px",
-                        marginLeft: "5px",
-                        marginBottom: "15px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
                       disabled={!this.state.edit}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                  </div>
+                    >
+                      {this.state.typeDocument &&
+                        this.state.typeDocument.map(
+                          ({ id, descriptionLarge }) => (
+                            <MenuItem key={id} value={id}>
+                              {descriptionLarge}
+                            </MenuItem>
+                          )
+                        )}
+                    </Select>
+                  </FormControl>
+
+                  <TextField
+                    name="numeroDocumento"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Numero de documento"
+                    fullWidth
+                    value={values.numeroDocumento}
+                    error={errors.numeroDocumento && touched.numeroDocumento}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    disabled={!this.state.edit}
+                    style={{
+                      marginLeft: "5px",
+                      marginBottom: "10px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+                <div className="files">
+                  <TextField
+                    name="celular"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Numero de celular"
+                    fullWidth
+                    value={values.celular}
+                    error={errors.celular && touched.celular}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    disabled={!this.state.edit}
+                    style={{
+                      marginRight: "5px",
+                      marginBottom: "10px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+
+                  <TextField
+                    name="correo"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Correo"
+                    fullWidth
+                    value={values.correo}
+                    error={errors.correo && touched.correo}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    disabled={!this.state.edit}
+                    style={{
+                      marginLeft: "5px",
+                      marginBottom: "10px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+                {this.state.edit ? (
                   <div className="files">
-                    <FormControl
-                      variant="outlined"
-                      fullWidth
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      type="submit"
+                      className="btn-primary"
+                      startIcon={<Save />}
                       style={{
-                        marginRight: "5px",
-                        marginBottom: "10px",
+                        marginTop: "10px",
+                        position: "absolute",
                       }}
                     >
-                      <InputLabel id="typeDocument">
-                        Tipo de documento
-                      </InputLabel>
-                      <Select
-                        labelId="typeDocument"
-                        label="Tipo de documento"
-                        value={values.tipoDocumento}
-                        error={errors.tipoDocumento && touched.tipoDocumento}
-                        name="tipoDocumento"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        disabled={!this.state.edit}
-                      >
-                        {this.state.typeDocument &&
-                          this.state.typeDocument.map(
-                            ({ id, descriptionLarge }) => (
-                              <MenuItem key={id} value={id}>
-                                {descriptionLarge}
-                              </MenuItem>
-                            )
-                          )}
-                      </Select>
-                    </FormControl>
-
-                    <TextField
-                      name="numeroDocumento"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Numero de documento"
-                      fullWidth
-                      value={values.numeroDocumento}
-                      error={errors.numeroDocumento && touched.numeroDocumento}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      disabled={!this.state.edit}
-                      style={{
-                        marginLeft: "5px",
-                        marginBottom: "10px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
+                      Guardar datos
+                    </Button>
                   </div>
-                  <div className="files">
-                    <TextField
-                      name="celular"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Numero de celular"
-                      fullWidth
-                      value={values.celular}
-                      error={errors.celular && touched.celular}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      disabled={!this.state.edit}
-                      style={{
-                        marginRight: "5px",
-                        marginBottom: "10px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-
-                    <TextField
-                      name="correo"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Correo"
-                      fullWidth
-                      value={values.correo}
-                      error={errors.correo && touched.correo}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      disabled={!this.state.edit}
-                      style={{
-                        marginLeft: "5px",
-                        marginBottom: "10px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                  </div>
-                  {this.state.edit ? (
-                    <div className="files">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        type="submit"
-                        className="btn-primary"
-                        startIcon={<Save />}
-                        style={{
-                          marginTop: "10px",
-                          position: "absolute",
-                        }}
-                      >
-                        Guardar datos
-                      </Button>
-                    </div>
-                  ) : null}
-                </form>
-              )}
-            </Formik>
-            <Button
-              variant="contained"
-              color="secondary"
-              className="btn-primary"
-              startIcon={<Edit />}
-              style={{ float: "right", marginTop: "10px" }}
-              onClick={this.handleEdit}
-            >
-              Editar datos
-            </Button>
-          </div>
+                ) : null}
+              </form>
+            )}
+          </Formik>
+          <Button
+            variant="contained"
+            color="secondary"
+            className="btn-primary"
+            startIcon={<Edit />}
+            style={{ float: "right", marginTop: "10px" }}
+            onClick={this.handleEdit}
+          >
+            Editar datos
+          </Button>
         </div>
       </>
     );

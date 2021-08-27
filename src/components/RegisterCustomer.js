@@ -102,33 +102,16 @@ class RegisterCustomer extends Component {
           BackdropProps={{
             timeout: 500,
           }}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
+          className="modal-container"
         >
           <Fade in={this.state.showModalSucesss}>
-            <div
-              style={{
-                backgroundColor: "white",
-                borderRadius: "4px",
-                boxShadow: "5",
-                padding: "20px",
-              }}
-            >
+            <div className="modal-message-container">
               <p>{this.state.disclaimerModal}</p>
               <Button
                 size="large"
                 color="primary"
                 variant="contained"
                 className="btn-primary"
-                style={{
-                  margin: "10px 0",
-                  width: "80%",
-                  textTransform: "capitalize",
-                }}
                 onClick={this.toggleModalSuccess}
               >
                 Aceptar
@@ -137,7 +120,7 @@ class RegisterCustomer extends Component {
           </Fade>
         </Modal>
 
-        <div style={{ padding: "20px", width: "500px", margin: "50px auto" }}>
+        <div className="page-container" style={{ width: "500px" }}>
           <h3 className="register__subtitle">Soy un cliente</h3>
           <h1>Registra tu cuenta</h1>
           <Formik
@@ -401,14 +384,10 @@ class RegisterCustomer extends Component {
                   color="primary"
                   variant="contained"
                   className="btn-primary"
-                  style={{
-                    margin: "10px 0",
-                    textTransform: "capitalize",
-                  }}
                   type="submit"
                   fullWidth
                 >
-                  Registrar
+                  Regístrar
                 </Button>
               </form>
             )}

@@ -7,7 +7,10 @@ class ReserveAppointment extends Component {
   render() {
     return (
       <div>
-        <div style={{ padding: "20px", width: "500px", margin: "50px auto" }}>
+        <div
+          className="page-container"
+          style={{ width: "500px", marginTop: "50px" }}
+        >
           <h1>Reserva tu cita</h1>
           <Formik
             ref={(ref) => (this.form = ref)}

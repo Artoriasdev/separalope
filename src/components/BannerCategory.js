@@ -13,40 +13,15 @@ function Project(props) {
       }}
       elevation={10}
     >
-      <div
-        style={{
-          //   position: "relative",
-          height: "60vh",
-          width: "90%",
-          justifyContent: "center",
-          alignItems: "center",
-          //   textAlign: "center",
-        }}
-      >
-        <div style={{ paddingTop: "15vh" }}>
-          <h2 style={{ textAlign: "left" }}>
-            {localStorage.getItem("categoria")}
-          </h2>
-          <p style={{ textAlign: "left", maxWidth: "600px" }}>
-            {localStorage.getItem("description")}
-          </p>
+      <div className="content">
+        <div className="title">
+          <h2>{localStorage.getItem("categoria")}</h2>
+          <p>{localStorage.getItem("description")}</p>
         </div>
       </div>
     </Paper>
   );
 }
-
-const items = [
-  {
-    name: "30%",
-    subtittle: "en tu primera clase de",
-    service: "entrenamiento",
-    description1:
-      "Por la compra de 10 clases de entrenamiento vía Zoom de yoga o entrenamientos.",
-    description2: "Si quieres mas informacion",
-    color: "#000000",
-  },
-];
 
 class Banner extends Component {
   constructor(props) {
@@ -65,14 +40,14 @@ class Banner extends Component {
   render() {
     return (
       <div
+        className="banner-container"
         style={{
           backgroundImage: `url(${localStorage.getItem("image")})`,
           backgroundSize: "100%",
           backgroundPositionY: "bottom",
-          borderBottom: "solid 4px #232323",
         }}
       >
-        <div style={{ background: "rgba(0, 0, 0, 0.3)" }}>
+        <div className="carousel-background">
           <Carousel
             className="SecondExample"
             autoPlay={this.state.autoPlay}
@@ -82,9 +57,7 @@ class Banner extends Component {
             navButtonsAlwaysVisible={this.state.navButtonsAlwaysVisible}
             navButtonsAlwaysInvisible={this.state.navButtonsAlwaysInvisible}
           >
-            {items.map((item, index) => {
-              return <Project item={item} key={index} />;
-            })}
+            <Project />;
           </Carousel>
         </div>
       </div>
