@@ -16,6 +16,20 @@ class Login extends Component {
     };
   }
 
+  componentDidMount() {
+    if (
+      sessionStorage.getItem("tk") !== null &&
+      sessionStorage.getItem("workflow") === "B"
+    ) {
+      this.props.history.push("/business/category");
+    } else if (
+      sessionStorage.getItem("tk") !== null &&
+      sessionStorage.getItem("workflow") === "C"
+    ) {
+      this.props.history.push("/");
+    }
+  }
+
   handleLogin = async (LoginModel) => {
     var headers = {
       "Content-Type": "application/json",

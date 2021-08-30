@@ -17,12 +17,16 @@ class MenuBusinessCategory extends Component {
   }
 
   componentDidMount() {
-    try {
-      (async () => {
-        await this.handleGetCategorys();
-      })();
-    } catch (error) {
-      console.log(error);
+    if (sessionStorage.getItem("workflow") === "B") {
+      this.props.history.push("/business/category");
+    } else {
+      try {
+        (async () => {
+          await this.handleGetCategorys();
+        })();
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 

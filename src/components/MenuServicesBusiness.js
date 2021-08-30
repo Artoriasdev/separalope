@@ -16,10 +16,14 @@ class MenuServicesBusiness extends Component {
   }
 
   componentDidMount() {
-    try {
-      this.handleGetList();
-    } catch (error) {
-      console.log(error);
+    if (sessionStorage.getItem("workflow") === "B") {
+      this.props.history.push("/business/category");
+    } else {
+      try {
+        this.handleGetList();
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 

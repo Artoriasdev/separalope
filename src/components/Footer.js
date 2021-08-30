@@ -52,8 +52,6 @@ export const Footer = () => {
 
         setTerms(data);
 
-        console.log(data);
-
         return response;
       });
     return rspApi;

@@ -176,6 +176,9 @@ const Navbar = () => {
   const handleRedirectHome = () => {
     history.push("/");
   };
+  const handleRedirectHomeBusiness = () => {
+    history.push("/business/category");
+  };
 
   const handleLogout = () => {
     sessionStorage.removeItem("logged");
@@ -186,6 +189,7 @@ const Navbar = () => {
     sessionStorage.removeItem("id");
     sessionStorage.removeItem("tradename");
     sessionStorage.removeItem("logo");
+    sessionStorage.removeItem("lastName");
     localStorage.removeItem("name");
     history.go(history.push("/"));
   };
@@ -322,7 +326,7 @@ const Navbar = () => {
                 <Toolbar className="bar" variant="dense">
                   <Button
                     className="font  buttonHeader"
-                    onClick={handleRedirectHome}
+                    onClick={handleRedirectHomeBusiness}
                     style={{
                       textTransform: "none",
                     }}

@@ -3,7 +3,7 @@ import { Component } from "react";
 import { ArrowCircleSVG } from "../assets/images/svg";
 import Axios from "axios";
 import { Formik } from "formik";
-import ModalSucess from "./ModalSucess";
+
 import { TextField, Button, Modal, Fade, Backdrop } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 
@@ -21,61 +21,25 @@ class RegisterBusiness extends Component {
   }
 
   componentDidMount() {
-    try {
-      this.handleGetDocuments();
-      this.handleGetCategorys();
-    } catch (e) {
-      console.log(e);
+    if (
+      sessionStorage.getItem("tk") !== null &&
+      sessionStorage.getItem("workflow") === "B"
+    ) {
+      this.props.history.push("/business/category");
+    } else if (
+      sessionStorage.getItem("tk") !== null &&
+      sessionStorage.getItem("workflow") === "C"
+    ) {
+      this.props.history.push("/");
+    } else {
+      try {
+        this.handleGetDocuments();
+        this.handleGetCategorys();
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
-
-  handleGetDocuments = () => {
-    var headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: "",
-    };
-
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getDocumentTypes";
-
-    const rspApi = Axios.get(linkDocumentsApi, {
-      headers: headers,
-    }).then((response) => {
-      const { data } = response.data;
-
-      this.setState({
-        typeDocs: data,
-      });
-
-      return response;
-    });
-    return rspApi;
-  };
-
-  handleGetCategorys = () => {
-    var headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: "",
-    };
-
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
-
-    const rspApi = Axios.get(linkDocumentsApi, {
-      headers: headers,
-    }).then((response) => {
-      const { data } = response.data;
-
-      this.setState({
-        typeCategorys: data,
-      });
-
-      return response;
-    });
-    return rspApi;
-  };
 
   handleInfoSubmit = async (BusinessModel) => {
     var headers = {
@@ -103,12 +67,49 @@ class RegisterBusiness extends Component {
     return rspApi;
   };
 
+  handleLogin = async (username, password) => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+    let linkLoginApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/user/authenticate";
+
+    var LoginModel = {
+      username: username,
+      password: password,
+      workflow: "B",
+    };
+
+    const rspApi = Axios.post(linkLoginApi, LoginModel, {
+      headers: headers,
+    })
+      .then((response) => {
+        if (response.data.response === "true") {
+          sessionStorage.setItem("tk", response.data.data.token);
+          sessionStorage.setItem("logged", response.data.response);
+          sessionStorage.setItem(
+            "info",
+            JSON.stringify(response.data.data.listMenu)
+          );
+          sessionStorage.setItem("workflow", "B");
+        }
+        console.log(response);
+        return response;
+      })
+      .catch(({ response }) => {
+        console.log(response);
+      });
+    return rspApi;
+  };
+
   toggleModalSuccess = () => {
     this.setState({
       showModalSucesss: false,
     });
     if (this.state.response === true) {
-      this.props.history.push("/login/B");
+      this.props.history.push("/business/category");
     }
   };
 
@@ -193,6 +194,10 @@ class RegisterBusiness extends Component {
                     disclaimerModal: "¡Registro grabado satisfactoriamente!",
                     response: true,
                   });
+                  this.handleLogin(
+                    BusinessModel.email,
+                    BusinessModel.confirmPassword
+                  );
                 }
               })();
             }}

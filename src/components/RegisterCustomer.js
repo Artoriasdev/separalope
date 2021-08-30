@@ -22,10 +22,22 @@ class RegisterCustomer extends Component {
   }
 
   componentDidMount() {
-    try {
-      this.handleGetDocuments();
-    } catch (e) {
-      console.log(e);
+    if (
+      sessionStorage.getItem("tk") !== null &&
+      sessionStorage.getItem("workflow") === "B"
+    ) {
+      this.props.history.push("/business/category");
+    } else if (
+      sessionStorage.getItem("tk") !== null &&
+      sessionStorage.getItem("workflow") === "C"
+    ) {
+      this.props.history.push("/");
+    } else {
+      try {
+        this.handleGetDocuments();
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 
@@ -80,12 +92,85 @@ class RegisterCustomer extends Component {
     return rspApi;
   };
 
+  handleLogin = async (username, password) => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+    let linkLoginApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/user/authenticate";
+
+    var LoginModel = {
+      username: username,
+      password: password,
+      workflow: "C",
+    };
+
+    const rspApi = Axios.post(linkLoginApi, LoginModel, {
+      headers: headers,
+    })
+      .then((response) => {
+        if (response.data.response === "true") {
+          sessionStorage.setItem("tk", response.data.data.token);
+          sessionStorage.setItem("logged", response.data.response);
+          sessionStorage.setItem(
+            "info",
+            JSON.stringify(response.data.data.listMenu)
+          );
+          sessionStorage.setItem("workflow", "C");
+          this.handleGetDataCustomer();
+        }
+        console.log(response);
+        return response;
+      })
+      .catch(({ response }) => {
+        console.log(response);
+      });
+    return rspApi;
+  };
+
+  handleGetDataCustomer = () => {
+    try {
+      const tk = sessionStorage.getItem("tk");
+      var headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tk}`,
+      };
+
+      let linkDocumentsApi =
+        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/getCustomer";
+
+      const rspApi = Axios.get(linkDocumentsApi, {
+        headers: headers,
+      })
+        .then((response) => {
+          const { data } = response.data;
+
+          sessionStorage.setItem("name", data[0].name);
+          sessionStorage.setItem("lastName", data[0].lastName);
+
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      return rspApi;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   toggleModalSuccess = () => {
     this.setState({
       showModalSucesss: false,
     });
     if (this.state.response === true) {
-      this.props.history.push("/login/C");
+      if (localStorage.getItem("reserve") === "true") {
+        this.props.history.push("/reserve");
+        localStorage.removeItem("reserve");
+      } else this.props.history.push("/");
     }
   };
 
@@ -171,6 +256,10 @@ class RegisterCustomer extends Component {
                     disclaimerModal: "¡Registro grabado satisfactoriamente!",
                     response: true,
                   });
+                  this.handleLogin(
+                    CustomerModel.email,
+                    CustomerModel.confirmPassword
+                  );
                 }
               })();
             }}

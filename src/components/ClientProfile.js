@@ -182,16 +182,6 @@ class ClientProfile extends Component {
     this.props.history.push("/customer/password");
   };
 
-  handleLogout = () => {
-    sessionStorage.removeItem("logged");
-    sessionStorage.removeItem("info");
-    sessionStorage.removeItem("workflow");
-    sessionStorage.removeItem("tk");
-    sessionStorage.removeItem("name");
-    sessionStorage.removeItem("id");
-    this.props.history.go(this.props.history.push("/"));
-  };
-
   render() {
     return (
       <>

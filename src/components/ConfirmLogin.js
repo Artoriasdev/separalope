@@ -4,6 +4,7 @@ import React, { Component } from "react";
 class ConfirmLogin extends Component {
   handleRedirect = () => {
     this.props.history.push("/register/customer");
+    localStorage.setItem("reserve", true);
   };
   render() {
     return (
