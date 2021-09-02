@@ -62,7 +62,11 @@ class Login extends Component {
           if (LoginModel.workflow === "C") {
             this.handleGetDataCustomer();
             // this.props.history.go();
-            this.props.history.push("/");
+            if (localStorage.getItem("reserve") === "true") {
+              this.props.history.push(`/reserve/${localStorage.getItem("id")}`);
+              localStorage.removeItem("reserve");
+              localStorage.removeItem("id");
+            } else this.props.history.push("/");
           }
         }
         console.log(response);

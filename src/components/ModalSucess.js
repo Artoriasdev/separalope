@@ -6,7 +6,7 @@ const Modal = ({ children, show, closeCallback }) => (
     <div className="overlay" onClick={closeCallback} />
     <div className="mdal_content">
       <div style={{ color: "#EE3224", fontWeight: "bold", fontSize: "24px" }}>
-        Separalo pe!
+        Sepáralo pe!
       </div>
       {children}
       {/* Registro grabado satisfactoriamente */}

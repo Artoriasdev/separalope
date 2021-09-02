@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import React from "react";
 import { Component } from "react";
 import { ArrowCircleSVG } from "../assets/images/svg";
@@ -8,6 +8,13 @@ import ModalSucess from "./ModalSucess";
 import { TextField, MenuItem, Backdrop, Modal, Fade } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { Button } from "@material-ui/core";
+import {
+  EMAIL_INVALID,
+  EMAIL_MINLENGTH,
+  E_MINLENGTH,
+  REQUIRED,
+} from "../utils/constants";
+import { EMAIL_REGEXP } from "../utils/regexp";
 
 class RegisterCustomer extends Component {
   constructor(props) {
@@ -168,8 +175,9 @@ class RegisterCustomer extends Component {
     });
     if (this.state.response === true) {
       if (localStorage.getItem("reserve") === "true") {
-        this.props.history.push("/reserve");
+        this.props.history.push(`/reserve/${localStorage.getItem("id")}`);
         localStorage.removeItem("reserve");
+        localStorage.removeItem("id");
       } else this.props.history.push("/");
     }
   };
@@ -220,7 +228,51 @@ class RegisterCustomer extends Component {
               documentos: "",
               nroDocumento: "",
             }}
-            validate={{}}
+            validate={(values) => {
+              const { correo, celular } = values;
+
+              let errors = {};
+
+              if (!EMAIL_REGEXP.test(correo)) {
+                errors.correo = EMAIL_INVALID;
+              } else if (correo.length < E_MINLENGTH) {
+                errors.correo = EMAIL_MINLENGTH;
+              }
+
+              if (!celular) {
+                errors.numCelular = " ";
+              } else if (celular.startsWith("0")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("1")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("2")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("3")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("4")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("5")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("6")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("7")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("8")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.length < 9) {
+                errors.celular = "*El número de celular debe tener 9 dígitos.";
+              }
+              return errors;
+            }}
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(false);
               const CustomerModel = {
@@ -364,6 +416,8 @@ class RegisterCustomer extends Component {
                       marginBottom: "5px",
                     }}
                     type="number"
+                    inputProps={{ min: "0", max: "99999999999" }}
+                    autoComplete="off"
                     // inputProps={{
                     //   maxLength: 9,
                     // }}
@@ -377,23 +431,26 @@ class RegisterCustomer extends Component {
                     className="TxtField"
                     variant="outlined"
                     label="Número de celular"
-                    required
                     fullWidth
                     value={values.celular}
                     error={errors.celular && touched.celular}
+                    required
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    type="number"
-                    required
                     style={{
                       marginRight: "5px",
                       marginTop: "5px",
                       marginBottom: "5px",
                     }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    inputProps={{
+                      maxLength: 9,
+                    }}
+                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="celular"
+                    component="div"
                   />
 
                   <TextField
@@ -412,11 +469,15 @@ class RegisterCustomer extends Component {
                       marginTop: "5px",
                       marginBottom: "5px",
                     }}
-                    type="email"
                     // inputProps={{
                     //   maxLength: 9,
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="correo"
+                    component="div"
                   />
                 </div>
 
@@ -475,6 +536,7 @@ class RegisterCustomer extends Component {
                   className="btn-primary"
                   type="submit"
                   fullWidth
+                  disabled={isSubmitting}
                 >
                   Regístrar
                 </Button>

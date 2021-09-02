@@ -1,6 +1,6 @@
 import React from "react";
 import { Component } from "react";
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import {
   Button,
   FormControl,
@@ -15,6 +15,12 @@ import axios from "axios";
 import { PowerSettingsNew, Save } from "@material-ui/icons";
 import ModalError from "./ModalError";
 import ModalSucess from "./ModalSucess";
+import { EMAIL_REGEXP } from "../utils/regexp";
+import {
+  EMAIL_INVALID,
+  EMAIL_MINLENGTH,
+  E_MINLENGTH,
+} from "../utils/constants";
 
 class ClientProfile extends Component {
   constructor(props) {
@@ -121,7 +127,7 @@ class ClientProfile extends Component {
             this.setState({
               showModalError: true,
               disclaimerModal:
-                "Sesion expirada, porfavor vuelva a iniciar sesion",
+                "Sesión expirada, porfavor vuelva a iniciar sesión",
             });
           }
         });
@@ -152,6 +158,8 @@ class ClientProfile extends Component {
             showModalSuccess: true,
             disclaimerModal: response.data.message,
           });
+          sessionStorage.setItem("name", dataModel.name);
+          sessionStorage.setItem("lastName", dataModel.lastName);
         }
         return response;
       });
@@ -170,6 +178,7 @@ class ClientProfile extends Component {
     this.setState({
       showModalSuccess: false,
     });
+
     this.props.history.go();
   };
 
@@ -227,7 +236,60 @@ class ClientProfile extends Component {
               celular: "",
               correo: "",
             }}
-            validate={{}}
+            validate={(values) => {
+              const {
+                idCliente,
+                nombre,
+                apellido,
+                tipoDocumento,
+                numeroDocumento,
+                celular,
+                correo,
+              } = values;
+
+              let errors = {};
+
+              if (!EMAIL_REGEXP.test(correo)) {
+                errors.correo = EMAIL_INVALID;
+              } else if (correo.length < E_MINLENGTH) {
+                errors.correo = EMAIL_MINLENGTH;
+              }
+
+              if (!celular) {
+                errors.numCelular = " ";
+              } else if (celular.startsWith("0")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("1")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("2")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("3")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("4")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("5")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("6")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("7")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("8")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.length < 9) {
+                errors.celular = "*El número de celular debe tener 9 dígitos.";
+              }
+
+              return errors;
+            }}
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(false);
               const dataModel = {
@@ -277,6 +339,8 @@ class ClientProfile extends Component {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     disabled={!this.state.edit}
+                    autoComplete="off"
+                    required
                     style={{
                       marginTop: "30px",
                       marginRight: "5px",
@@ -298,6 +362,8 @@ class ClientProfile extends Component {
                     error={errors.apellido && touched.apellido}
                     onBlur={handleBlur}
                     onChange={handleChange}
+                    autoComplete="off"
+                    required
                     style={{
                       marginTop: "30px",
                       marginLeft: "5px",
@@ -329,6 +395,7 @@ class ClientProfile extends Component {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       disabled={!this.state.edit}
+                      required
                     >
                       {this.state.typeDocument &&
                         this.state.typeDocument.map(
@@ -345,13 +412,17 @@ class ClientProfile extends Component {
                     name="numeroDocumento"
                     className="TxtField"
                     variant="outlined"
-                    label="Numero de documento"
+                    label="Número de documento"
                     fullWidth
                     value={values.numeroDocumento}
                     error={errors.numeroDocumento && touched.numeroDocumento}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     disabled={!this.state.edit}
+                    autoComplete="off"
+                    type="number"
+                    inputProps={{ min: "0" }}
+                    required
                     style={{
                       marginLeft: "5px",
                       marginBottom: "10px",
@@ -367,13 +438,14 @@ class ClientProfile extends Component {
                     name="celular"
                     className="TxtField"
                     variant="outlined"
-                    label="Numero de celular"
+                    label="Número de celular"
                     fullWidth
                     value={values.celular}
                     error={errors.celular && touched.celular}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     disabled={!this.state.edit}
+                    required
                     style={{
                       marginRight: "5px",
                       marginBottom: "10px",
@@ -382,6 +454,11 @@ class ClientProfile extends Component {
                     //   maxLength: 9,
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="celular"
+                    component="div"
                   />
 
                   <TextField
@@ -395,6 +472,8 @@ class ClientProfile extends Component {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     disabled={!this.state.edit}
+                    type="email"
+                    required
                     style={{
                       marginLeft: "5px",
                       marginBottom: "10px",
@@ -404,6 +483,11 @@ class ClientProfile extends Component {
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
+                  {errors.correo && (
+                    <div className="error">
+                      El correo electrónico no es válido.
+                    </div>
+                  )}
                 </div>
                 {this.state.edit ? (
                   <div className="files">
@@ -413,6 +497,7 @@ class ClientProfile extends Component {
                       type="submit"
                       className="btn-primary"
                       startIcon={<Save />}
+                      disabled={isSubmitting}
                       style={{
                         marginTop: "10px",
                         position: "absolute",

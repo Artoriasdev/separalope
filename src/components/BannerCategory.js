@@ -15,8 +15,8 @@ function Project(props) {
     >
       <div className="content">
         <div className="title">
-          <h2>{localStorage.getItem("categoria")}</h2>
-          <p>{localStorage.getItem("description")}</p>
+          <h2>{props.name}</h2>
+          <p>{props.description}</p>
         </div>
       </div>
     </Paper>
@@ -42,7 +42,7 @@ class Banner extends Component {
       <div
         className="banner-container"
         style={{
-          backgroundImage: `url(${localStorage.getItem("image")})`,
+          backgroundImage: `url(${this.props.image})`,
           backgroundSize: "100%",
           backgroundPositionY: "bottom",
         }}
@@ -57,7 +57,11 @@ class Banner extends Component {
             navButtonsAlwaysVisible={this.state.navButtonsAlwaysVisible}
             navButtonsAlwaysInvisible={this.state.navButtonsAlwaysInvisible}
           >
-            <Project />;
+            <Project
+              name={this.props.name}
+              description={this.props.description}
+            />
+            ;
           </Carousel>
         </div>
       </div>

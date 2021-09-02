@@ -135,7 +135,7 @@ const theme = createMuiTheme({
 function App() {
   const logged = JSON.parse(sessionStorage.getItem("logged"));
   const negocio = sessionStorage.getItem("tradename");
-  console.log(negocio);
+
   return (
     <>
       <StyledRoot>
@@ -230,11 +230,15 @@ function App() {
               />
               <Route
                 exact
-                path="/services-menu-category/:value"
+                path="/services-menu-category/:service"
                 component={MenuServicesBusiness}
               />
-              <Route exact path="/confirm/:value" component={ConfirmLogin} />
-              <Route exact path="/reserve" component={ReserveAppointment} />
+              <Route
+                exact
+                path="/confirm/:title/:id"
+                component={ConfirmLogin}
+              />
+              <Route exact path="/reserve/:id" component={ReserveAppointment} />
 
               <Route
                 exact

@@ -29,6 +29,7 @@ class PasswordRecovery extends Component {
       })
       .then((response) => {
         const { data } = response;
+        // console.log(response);
 
         if (data.response === "true") {
           this.setState({
@@ -36,8 +37,8 @@ class PasswordRecovery extends Component {
             response: true,
             message: data.message,
           });
-        }
-        if (data.response === "false") {
+          localStorage.setItem("correo", RecoveryModel.email);
+        } else if (data.response === "false") {
           this.setState({
             modal: true,
             message: data.message,
@@ -46,8 +47,16 @@ class PasswordRecovery extends Component {
         return response;
       })
       .catch(({ response }) => {
-        console.log(response.data.message);
+        console.log(response);
+        const { status } = response.data;
+        if (status === 500) {
+          this.setState({
+            modal: true,
+            message: "A ocurrido un error, por favor vuelva a intentarlo",
+          });
+        }
       });
+
     return rspApi;
   };
 
@@ -123,12 +132,6 @@ class PasswordRecovery extends Component {
                   const responseSubmit = await this.handleRecovery(
                     RecoveryModel
                   );
-
-                  const { response } = responseSubmit.data;
-
-                  if (response === "true") {
-                    localStorage.setItem("correo", RecoveryModel.email);
-                  }
                 })();
               }}
             >
@@ -148,7 +151,7 @@ class PasswordRecovery extends Component {
                       name="correo"
                       className="TxtField"
                       variant="outlined"
-                      label="Ingrese su correo electronico"
+                      label="Ingrese su correo electrónico"
                       required
                       value={values.correo}
                       error={errors.correo && touched.correo}

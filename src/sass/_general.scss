@@ -127,6 +127,17 @@ button {
   padding: 0;
 }
 
+.error {
+  margin-top: 0.3rem;
+  color: $red;
+  font-size: 0.8rem;
+  font-weight: bold;
+  position: relative;
+  &.bottom {
+    bottom: 0;
+  }
+}
+
 .bar {
   width: 1235px !important;
   margin: 0 auto;
@@ -767,12 +778,13 @@ button {
 .flip-home {
   cursor: pointer;
   width: 272px;
-  margin: auto;
+  margin-left: 50px;
+  margin-right: 50px;
 
   .flip-home-container {
     width: 272px;
     height: 272px;
-    margin: auto;
+    // margin: auto;
     .flip-home-front {
       border-radius: 4px;
     }
@@ -973,9 +985,9 @@ button {
     max-width: 30%;
     margin: auto;
     button {
-      width: 80%;
+      width: 40%;
       text-transform: capitalize;
-      margin-bottom: 20px;
+      margin: 10px 20px;
     }
   }
 }
@@ -1041,8 +1053,7 @@ button {
 }
 
 .carousel-container {
-  width: 88%;
-  margin: auto;
+  width: 100%;
 }
 
 .w-6 {
@@ -1057,4 +1068,42 @@ button {
 }
 .cursor-pointer {
   cursor: pointer;
+}
+
+.arrow-container {
+  position: absolute;
+  &_left {
+    left: 0;
+    position: absolute;
+    button {
+      margin: 0;
+
+      border: none;
+      cursor: pointer;
+      background: none;
+    }
+    svg {
+      height: 36px;
+      width: 36px;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+  &_right {
+    right: 0;
+    position: absolute;
+    button {
+      margin: 0;
+
+      border: none;
+      cursor: pointer;
+      background: none;
+    }
+    svg {
+      height: 36px;
+      width: 36px;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
 }

@@ -6,8 +6,13 @@ import Flippy, { FrontSide, BackSide } from "react-flippy";
 
 import axios from "axios";
 import { Button, InputAdornment, TextField } from "@material-ui/core";
-import { Search } from "@material-ui/icons";
-import { LogoSVG } from "../assets/images/svg";
+import { ArrowBack, Search } from "@material-ui/icons";
+import {
+  ArrowCircleSVG,
+  ArrowLeftSVG,
+  ArrowRightSVG,
+  LogoSVG,
+} from "../assets/images/svg";
 
 const responsive = {
   desktop: {
@@ -25,6 +30,26 @@ const responsive = {
     items: 1,
     slidesToSlide: 1, // optional, default to 1.
   },
+};
+
+const CustomLeftArrow = ({ onClick }) => {
+  return (
+    <div className="arrow-container_left">
+      <button onClick={() => onClick()}>
+        <ArrowLeftSVG />
+      </button>
+    </div>
+  );
+};
+
+const CustomRightArrow = ({ onClick }) => {
+  return (
+    <div className="arrow-container_right">
+      <button onClick={() => onClick()}>
+        <ArrowRightSVG />
+      </button>
+    </div>
+  );
 };
 
 class HomePage extends Component {
@@ -70,16 +95,14 @@ class HomePage extends Component {
         this.setState({
           typeCategorys: data,
         });
+        console.log(data);
 
         return response;
       });
     return rspApi;
   };
 
-  handleRedirect = (id, image, name, description) => {
-    localStorage.setItem("image", image);
-    localStorage.setItem("categoria", name);
-    localStorage.setItem("description", description);
+  handleRedirect = (id) => {
     this.props.history.push(`/services-menu/${id}`);
   };
 
@@ -91,24 +114,30 @@ class HomePage extends Component {
           className="page-container"
           style={{
             width: "80%",
+
             margin: "0 auto",
-            height: "120px",
           }}
         >
-          <div>
+          <div
+            style={{
+              height: "130px",
+              paddingLeft: "50px",
+              paddingRight: "50px",
+            }}
+          >
             <div style={{ position: "absolute" }}>
               <h1>Nuestros servicios</h1>
 
               <h3 className="register__subtitle">
-                son 100% digitales via zoom en la comodidad de tu hogar <br /> y
-                en el horario que tu decidas.
+                son 100% digitales vía zoom en la comodidad de tu hogar <br /> y
+                en el horario que tú decidas.
               </h3>
             </div>
 
             <div style={{ float: "right", marginTop: "30px" }}>
               <TextField
                 name="search"
-                label="Buscar categoria"
+                label="Buscar categoría"
                 id="filled-start-adornment"
                 className="font-p"
                 InputProps={{
@@ -122,52 +151,55 @@ class HomePage extends Component {
               />
             </div>
           </div>
+          <CarouselItem
+            swipeable={false}
+            draggable={false}
+            showDots={false}
+            responsive={responsive}
+            ssr={true} // means to render carousel on server-side.
+            infinite={false}
+            autoPlay={this.props.deviceType !== "mobile" ? false : true}
+            // autoPlaySpeed={1000}
+            transitionDuration={500}
+            containerClass="carousel-container"
+            removeArrowOnDeviceType={["mobile"]}
+            deviceType={this.props.deviceType}
+            itemClass="carousel-item-padding-100-px"
+            renderButtonGroupOutside={true}
+            // customRightArrow={<CustomLefttArrow />}
+            customLeftArrow={<CustomLeftArrow />}
+            customRightArrow={<CustomRightArrow />}
+          >
+            {this.state.typeCategorys &&
+              this.state.typeCategorys.map(
+                ({ id, image, name, description }) => (
+                  <div
+                    className="flip-home"
+                    onClick={() => this.handleRedirect(id)}
+                    key={id}
+                  >
+                    <Flippy
+                      flipOnHover={true}
+                      flipOnClick={false}
+                      flipDirection="horizontal"
+                      className="flip-home-container"
+                    >
+                      <FrontSide
+                        className="flip-home-front"
+                        style={{
+                          backgroundImage: `url(${image})`,
+                        }}
+                      ></FrontSide>
+                      <BackSide className="flip-home-back">
+                        <p>{description}</p>
+                      </BackSide>
+                    </Flippy>
+                    <h3>{name}</h3>
+                  </div>
+                )
+              )}
+          </CarouselItem>
         </div>
-        <CarouselItem
-          swipeable={false}
-          draggable={false}
-          showDots={false}
-          responsive={responsive}
-          ssr={true} // means to render carousel on server-side.
-          infinite={false}
-          autoPlay={this.props.deviceType !== "mobile" ? false : true}
-          // autoPlaySpeed={1000}
-          transitionDuration={500}
-          containerClass="carousel-container"
-          removeArrowOnDeviceType={["mobile"]}
-          deviceType={this.props.deviceType}
-          itemClass="carousel-item-padding-100-px"
-          renderButtonGroupOutside={true}
-        >
-          {this.state.typeCategorys &&
-            this.state.typeCategorys.map(({ id, image, name, description }) => (
-              <div
-                className="flip-home"
-                onClick={() =>
-                  this.handleRedirect(id, image, name, description)
-                }
-                key={id}
-              >
-                <Flippy
-                  flipOnHover={true}
-                  flipOnClick={false}
-                  flipDirection="horizontal"
-                  className="flip-home-container"
-                >
-                  <FrontSide
-                    className="flip-home-front"
-                    style={{
-                      backgroundImage: `url(${image})`,
-                    }}
-                  ></FrontSide>
-                  <BackSide className="flip-home-back">
-                    <p>{description}</p>
-                  </BackSide>
-                </Flippy>
-                <h3>{name}</h3>
-              </div>
-            ))}
-        </CarouselItem>
       </div>
     );
   }

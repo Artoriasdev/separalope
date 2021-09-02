@@ -1,12 +1,252 @@
-import { Button, TextField } from "@material-ui/core";
+import {
+  Backdrop,
+  Button,
+  Fade,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+} from "@material-ui/core";
+import axios from "axios";
 import { Formik } from "formik";
 import React, { Component } from "react";
 import { handleRegexDisable } from "../utils/utilitaries";
 
 class ReserveAppointment extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      customerData: [],
+      serviceData: [],
+      dateData: [],
+      modal: false,
+      response: false,
+      message: "",
+    };
+  }
+
+  componentDidMount() {
+    try {
+      this.handleGetCustomer();
+      this.handleGetServicesById();
+      this.handleGetAvailableDateService();
+      this.handleGetAvailableScheduleService();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  handleGetCustomer = async () => {
+    try {
+      const tk = sessionStorage.getItem("tk");
+      var headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tk}`,
+      };
+
+      let linkDocumentsApi =
+        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/getCustomer";
+
+      const rspApi = await axios
+        .get(linkDocumentsApi, {
+          headers: headers,
+        })
+        .then((response) => {
+          if (response.data.response === "true") {
+            const { data } = response.data;
+            this.setState({
+              customerData: data,
+            });
+
+            const Formik = this.form;
+            Formik.setFieldValue("celular", this.state.customerData[0].mobile);
+            Formik.setFieldValue("correo", this.state.customerData[0].email);
+          } else {
+            this.setState({
+              modal: true,
+              message: "Usted no esta autorizado para ver esta información",
+            });
+          }
+          return response;
+        })
+        .catch((error) => {
+          const { status } = error.response;
+          if (status === 401) {
+            this.setState({
+              modal: true,
+              message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+            });
+          }
+        });
+      return rspApi;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  handleGetServicesById = () => {
+    const id = this.props.match.params.id;
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesById/${id}`;
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        this.setState({
+          serviceData: data,
+        });
+        // console.log(data);
+        const Formik = this.form;
+        Formik.setFieldValue("servicio", this.state.serviceData[0].title);
+        Formik.setFieldValue("duracion", this.state.serviceData[0].duration);
+        Formik.setFieldValue(
+          "precio",
+          this.state.serviceData[0].currencySymbol +
+            ". " +
+            this.state.serviceData[0].price
+        );
+
+        return response;
+      });
+    return rspApi;
+  };
+
+  handleGetAvailableDateService = () => {
+    const id = this.props.match.params.id;
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getAvailableDateService/${id}`;
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        this.setState({
+          dateData: data,
+        });
+        // console.log(data);
+
+        return response;
+      });
+    return rspApi;
+  };
+
+  handleGetAvailableScheduleService = () => {
+    const id = this.props.match.params.id;
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getAvailableScheduleService/${id}/2021-09-06`;
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        this.setState({
+          hourData: data,
+        });
+        // console.log(data);
+
+        return response;
+      });
+    return rspApi;
+  };
+
+  handleInfoSubmit = (reserveModel) => {
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+
+    let linkRegisterApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/registerReservation";
+
+    const rspApi = axios
+      .post(linkRegisterApi, reserveModel, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response;
+
+        if (data.response === "false") {
+          this.setState({
+            modal: true,
+            message: data.message,
+          });
+        }
+        return response;
+      });
+
+    return rspApi;
+  };
+
+  handleClose = () => {
+    this.setState({
+      modal: false,
+    });
+    if (this.state.response === true) {
+      this.props.history.push("/customer-appointment");
+    }
+  };
+
   render() {
     return (
       <div>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
+        >
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
         <div
           className="page-container"
           style={{ width: "500px", marginTop: "50px" }}
@@ -15,33 +255,42 @@ class ReserveAppointment extends Component {
           <Formik
             ref={(ref) => (this.form = ref)}
             initialValues={{
-              razon: "",
-              nombre: "",
-              nroDocumento: "",
               correo: "",
-              contraseña: "",
-              repContraseña: "",
+              celular: "",
+              servicio: "",
+              duracion: "",
+              precio: "",
+              fechaDisponible: "",
+              horarioDisponible: "",
             }}
             validate={{}}
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(false);
-              const BusinessModel = {
-                businessName: "",
-                tradeName: "",
-                documentNumber: "",
-                email: "",
-                password: "",
-                confirmPassword: "",
+              const reserveModel = {
+                idService: "",
+                reservationDate: "",
+                reservationTime: "",
               };
 
-              BusinessModel.businessName = values.razon;
-              BusinessModel.tradeName = values.nombre;
-              BusinessModel.email = values.correo;
-              BusinessModel.mobile = values.celular;
-              BusinessModel.documentNumber = values.nroDocumento;
-              BusinessModel.password = values.contraseña;
-              BusinessModel.confirmPassword = values.repContraseña;
-              BusinessModel.idCategory = values.categoria;
+              reserveModel.idService = JSON.parse(this.props.match.params.id);
+              reserveModel.reservationDate = values.fechaDisponible;
+              reserveModel.reservationTime = values.horarioDisponible;
+
+              (async () => {
+                const responseSubmit = await this.handleInfoSubmit(
+                  reserveModel
+                );
+
+                const { response } = responseSubmit.data;
+
+                if (response === "true") {
+                  this.setState({
+                    modal: true,
+                    message: "¡Registro grabado satisfactoriamente!",
+                    response: true,
+                  });
+                }
+              })();
             }}
           >
             {({
@@ -56,81 +305,39 @@ class ReserveAppointment extends Component {
               <form name="formRegister" onSubmit={handleSubmit}>
                 <div className="files">
                   <TextField
-                    name="razon"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Ingresa tu correo electrónico"
-                    fullWidth
-                    value={values.razon}
-                    error={errors.razon && touched.razon}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginRight: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-
-                  <TextField
-                    name="nombre"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Ingresa tu numero de celular"
-                    fullWidth
-                    value={values.nombre}
-                    error={errors.nombre && touched.nombre}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginLeft: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                </div>
-
-                <div className="files">
-                  <TextField
-                    name="nroDocumento"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Profesor"
-                    fullWidth
-                    value={values.nroDocumento}
-                    error={errors.nroDocumento && touched.nroDocumento}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginRight: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-
-                  <TextField
                     name="correo"
                     className="TxtField"
                     variant="outlined"
-                    label="Elige la fecha disponible"
+                    label="Correo electrónico"
                     fullWidth
                     value={values.correo}
                     error={errors.correo && touched.correo}
                     onBlur={handleBlur}
                     onChange={handleChange}
+                    disabled={true}
+                    style={{
+                      marginRight: "5px",
+                      marginBottom: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+
+                  <TextField
+                    name="celular"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Número de celular"
+                    fullWidth
+                    value={values.celular}
+                    error={errors.celular && touched.celular}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    disabled={true}
                     style={{
                       marginLeft: "5px",
-                      marginTop: "5px",
                       marginBottom: "5px",
                     }}
                     // inputProps={{
@@ -142,16 +349,16 @@ class ReserveAppointment extends Component {
 
                 <div className="files">
                   <TextField
-                    name="repContraseña"
-                    type="text"
+                    name="servicio"
                     className="TxtField"
                     variant="outlined"
-                    label="Duracion de la clase"
+                    label="Nombre del servicio"
                     fullWidth
-                    value={values.repContraseña}
-                    error={errors.repContraseña && touched.repContraseña}
+                    value={values.servicio}
+                    error={errors.servicio && touched.servicio}
                     onBlur={handleBlur}
                     onChange={handleChange}
+                    disabled={true}
                     style={{
                       marginRight: "5px",
                       marginTop: "5px",
@@ -164,16 +371,17 @@ class ReserveAppointment extends Component {
                   />
 
                   <TextField
-                    name="contraseña"
+                    name="duracion"
                     type="text"
                     className="TxtField"
                     variant="outlined"
-                    label="Elige el horario"
+                    label="Duración de la clase"
                     fullWidth
-                    value={values.contraseña}
-                    error={errors.contraseña && touched.contraseña}
+                    value={values.duracion}
+                    error={errors.duracion && touched.duracion}
                     onBlur={handleBlur}
                     onChange={handleChange}
+                    disabled={true}
                     style={{
                       marginLeft: "5px",
                       marginTop: "5px",
@@ -185,6 +393,7 @@ class ReserveAppointment extends Component {
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
                 </div>
+
                 <div className="files">
                   <TextField
                     name="precio"
@@ -197,8 +406,9 @@ class ReserveAppointment extends Component {
                     error={errors.precio && touched.precio}
                     onBlur={handleBlur}
                     onChange={handleChange}
+                    disabled={true}
                     style={{
-                      marginRight: "51%",
+                      marginRight: "5px",
                       marginTop: "5px",
                       marginBottom: "5px",
                     }}
@@ -207,6 +417,67 @@ class ReserveAppointment extends Component {
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
+
+                  <Select
+                    style={{
+                      width: "100%",
+                      backgroundColor: "white",
+                      marginLeft: "5px",
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                    }}
+                    variant="outlined"
+                    value={values.fechaDisponible}
+                    error={errors.fechaDisponible && touched.fechaDisponible}
+                    name="fechaDisponible"
+                    displayEmpty
+                    required
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    <MenuItem disabled value={""}>
+                      <span className="empty--option">
+                        Elige la fecha disponible
+                      </span>
+                    </MenuItem>
+                    {this.state.dateData &&
+                      this.state.dateData.map(({ keyDate, valueDate }) => (
+                        <MenuItem key={keyDate} value={keyDate}>
+                          {valueDate}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </div>
+                <div className="files">
+                  <Select
+                    style={{
+                      backgroundColor: "white",
+                      marginRight: "51%",
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                    }}
+                    fullWidth
+                    variant="outlined"
+                    value={values.horarioDisponible}
+                    error={
+                      errors.horarioDisponible && touched.horarioDisponible
+                    }
+                    name="horarioDisponible"
+                    displayEmpty
+                    required
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    <MenuItem disabled value={""}>
+                      <span className="empty--option">Elige el horario</span>
+                    </MenuItem>
+                    {this.state.hourData &&
+                      this.state.hourData.map(({ keyTime, valueTime }) => (
+                        <MenuItem key={keyTime} value={keyTime}>
+                          {valueTime}
+                        </MenuItem>
+                      ))}
+                  </Select>
                 </div>
 
                 <Button

@@ -12,6 +12,7 @@ class MenuServicesBusiness extends Component {
     this.state = {
       typeCategorys: [],
       business: "",
+      image: "",
     };
   }
 
@@ -20,15 +21,15 @@ class MenuServicesBusiness extends Component {
       this.props.history.push("/business/category");
     } else {
       try {
-        this.handleGetList();
+        this.handleGetServicesByBusiness();
       } catch (error) {
         console.log(error);
       }
     }
   }
 
-  handleGetList = () => {
-    const cat = this.props.match.params.value;
+  handleGetServicesByBusiness = () => {
+    const cat = this.props.match.params.service;
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -47,7 +48,10 @@ class MenuServicesBusiness extends Component {
         this.setState({
           typeCategorys: data,
           business: data[0].tradenameBusiness,
+          image: data[0].logoBusiness,
         });
+        console.log(this.state.business);
+        console.log(this.state.image);
 
         return response;
       });
@@ -55,23 +59,23 @@ class MenuServicesBusiness extends Component {
     return rspApi;
   };
 
-  handleRedirect = (title) => {
+  handleRedirect = (title, id) => {
     if (sessionStorage.getItem("tk") === null) {
-      this.props.history.push(`/confirm/${title}`);
+      this.props.history.push(`/confirm/${title}/${id}`);
     } else {
-      this.props.history.push("/reserve");
+      this.props.history.push(`/reserve/${id}`);
     }
   };
 
   render() {
     return (
       <>
-        <Banner />
+        <Banner negocio={this.state.business} imagen={this.state.image} />
 
         <div style={{ padding: "50px 0 0 0 ", width: "80%", margin: " auto" }}>
           <div className="flip-container">
             {this.state.typeCategorys.map(
-              ({ id, title, description, currencySymbol, price }) => (
+              ({ id, title, description, currencySymbol, price, duration }) => (
                 <Flippy
                   flipOnHover={true} // default false
                   flipOnClick={false} // default false
@@ -92,7 +96,7 @@ class MenuServicesBusiness extends Component {
                       <div className="price">
                         {currencySymbol} {price}
                       </div>
-                      <p className="font-p text">Duracion : un numero</p>
+                      <p className="font-p text">Duración : {duration}</p>
                     </div>
                   </FrontSide>
                   <BackSide className="flip-card-background">
@@ -104,14 +108,14 @@ class MenuServicesBusiness extends Component {
                     >
                       <h3>{title}</h3>
                       <h4 style={{ textAlign: "justify" }}>{description}</h4>
-                      <p>Duracion : un numero</p>
+                      <p>Duracion : {duration}</p>
                     </div>
                     <Button
                       size="large"
                       color="primary"
                       variant="contained"
                       className=" btn_card"
-                      onClick={() => this.handleRedirect(title)}
+                      onClick={() => this.handleRedirect(title, id)}
                       fullWidth
                     >
                       Reservar cita

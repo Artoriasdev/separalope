@@ -12,7 +12,8 @@ class MenuBusinessCategory extends Component {
     super(props);
 
     this.state = {
-      typeCategorys: [],
+      typeBusiness: [],
+      category: [],
     };
   }
 
@@ -22,7 +23,8 @@ class MenuBusinessCategory extends Component {
     } else {
       try {
         (async () => {
-          await this.handleGetCategorys();
+          this.handleGetCategorys();
+          await this.handleGetBusinessByCategory();
         })();
       } catch (error) {
         console.log(error);
@@ -30,7 +32,7 @@ class MenuBusinessCategory extends Component {
     }
   }
 
-  handleGetCategorys = () => {
+  handleGetBusinessByCategory = () => {
     const cat = this.props.match.params.value;
     var headers = {
       "Content-Type": "application/json",
@@ -48,30 +50,64 @@ class MenuBusinessCategory extends Component {
         const { data } = response.data;
 
         this.setState({
-          typeCategorys: data,
+          typeBusiness: data,
         });
+
+        // console.log(data);
 
         return response;
       });
     return rspApi;
   };
 
-  handleRedirect = (id, tradename, logo) => {
+  handleGetCategorys = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+        const category = data.find(
+          (typeCategory) =>
+            typeCategory.id === JSON.parse(this.props.match.params.value)
+        );
+        this.setState({
+          category: category,
+        });
+        console.log(category);
+
+        return response;
+      });
+    return rspApi;
+  };
+
+  handleRedirect = (id) => {
     this.props.history.push(`/services-menu-category/${id}`);
-    localStorage.setItem("negocio", tradename);
-    localStorage.setItem("logo", logo);
   };
 
   render() {
     return (
       <>
-        <Banner />
+        <Banner
+          image={this.state.category.image}
+          name={this.state.category.name}
+          description={this.state.category.description}
+        />
         <div className="page-container" style={{ margin: "0 auto" }}>
           <h1>Nuestros negocios</h1>
 
           <div className="flip-container">
-            {this.state.typeCategorys &&
-              this.state.typeCategorys.map(({ id, tradename, logo }) => (
+            {this.state.typeBusiness &&
+              this.state.typeBusiness.map(({ id, tradename, logo }) => (
                 <Card className="card-container" key={id}>
                   <CardMedia
                     image={logo}
@@ -94,7 +130,7 @@ class MenuBusinessCategory extends Component {
                       margin: "0.5px 0",
                     }}
                     fullWidth
-                    onClick={() => this.handleRedirect(id, tradename, logo)}
+                    onClick={() => this.handleRedirect(id)}
                   >
                     Ver negocios
                   </Button>

@@ -37,7 +37,7 @@ function Project(props) {
       >
         <p>{props.item.description1}</p>
         <p style={{ marginTop: "50px" }}>{props.item.description2}</p>
-        <Button className="CheckButton">Check it out!</Button>
+        <Button className="CheckButton">Click aquí</Button>
       </div>
     </Paper>
   );
@@ -50,7 +50,7 @@ const items = [
     service: "entrenamiento",
     description1:
       "Por la compra de 10 clases de entrenamiento vía Zoom de yoga o entrenamientos.",
-    description2: "Si quieres mas informacion",
+    description2: "Si quieres mas información",
     color: "#000000",
   },
   {
@@ -59,7 +59,7 @@ const items = [
     service: "yoga",
     description1:
       "Por la compra de 10 clases de entrenamiento vía Zoom de yoga o entrenamientos.",
-    description2: "Si quieres mas informacion",
+    description2: "Si quieres mas información",
     color: "#000000",
   },
   {
@@ -68,7 +68,7 @@ const items = [
     service: "alpinismo",
     description1:
       "Por la compra de 10 clases de entrenamiento vía Zoom de yoga o entrenamientos.",
-    description2: "Si quieres mas informacion",
+    description2: "Si quieres mas información",
     color: "#000000",
   },
 ];

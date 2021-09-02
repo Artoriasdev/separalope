@@ -6,7 +6,7 @@ const ModalText = ({ children, show, closeCallback, disabled }) => (
     <div className="overlay" />
     <div className="mdal_content">
       <div style={{ color: "#EE3224", fontWeight: "bold", fontSize: "24px" }}>
-        Separalo pe!
+        Sepáralo pe!
       </div>
       {children}
       <div className="btn--container">

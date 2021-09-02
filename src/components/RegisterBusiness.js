@@ -2,10 +2,16 @@ import React from "react";
 import { Component } from "react";
 import { ArrowCircleSVG } from "../assets/images/svg";
 import Axios from "axios";
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 
 import { TextField, Button, Modal, Fade, Backdrop } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
+import { EMAIL_REGEXP } from "../utils/regexp";
+import {
+  EMAIL_INVALID,
+  EMAIL_MINLENGTH,
+  E_MINLENGTH,
+} from "../utils/constants";
 
 class RegisterBusiness extends Component {
   constructor(props) {
@@ -160,7 +166,23 @@ class RegisterBusiness extends Component {
               contraseña: "",
               repContraseña: "",
             }}
-            validate={{}}
+            validate={(values) => {
+              const { nroDocumento, correo } = values;
+
+              let errors = {};
+
+              if (nroDocumento.length < 11) {
+                errors.nroDocumento =
+                  "*El número de documento debe ser de 11 dígitos.";
+              }
+
+              if (!EMAIL_REGEXP.test(correo)) {
+                errors.correo = EMAIL_INVALID;
+              } else if (correo.length < E_MINLENGTH) {
+                errors.correo = EMAIL_MINLENGTH;
+              }
+              return errors;
+            }}
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(false);
               const BusinessModel = {
@@ -261,9 +283,9 @@ class RegisterBusiness extends Component {
                     name="nroDocumento"
                     className="TxtField"
                     variant="outlined"
-                    label="Número de documento"
+                    label="RUC"
+                    placeholder="Ingresa tu número de documento"
                     required
-                    type="number"
                     fullWidth
                     value={values.nroDocumento}
                     error={errors.nroDocumento && touched.nroDocumento}
@@ -274,10 +296,17 @@ class RegisterBusiness extends Component {
                       marginTop: "5px",
                       marginBottom: "5px",
                     }}
+                    inputProps={{ maxLength: 11 }}
+                    autoComplete="off"
                     // inputProps={{
                     //   maxLength: 9,
                     // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="nroDocumento"
+                    component="div"
                   />
 
                   <TextField
@@ -301,6 +330,11 @@ class RegisterBusiness extends Component {
                     //   maxLength: 9,
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="correo"
+                    component="div"
                   />
                 </div>
 
