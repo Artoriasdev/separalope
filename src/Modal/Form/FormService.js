@@ -426,7 +426,6 @@ export class FormService extends Component {
                     fullWidth
                     required
                     label="Precio"
-                    type="number"
                     value={values.precio}
                     error={errors.precio && touched.precio}
                     onBlur={handleBlur}
@@ -439,7 +438,7 @@ export class FormService extends Component {
                     // inputProps={{
                     //   maxLength: 9,
                     // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
                 </div>
                 <TableContainer

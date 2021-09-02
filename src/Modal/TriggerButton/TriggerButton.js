@@ -1,9 +1,16 @@
+import { Button } from "@material-ui/core";
 import React from "react";
 const Trigger = ({ triggerText, buttonRef, showModal }) => {
   return (
-    <button className="btn__aceptar" ref={buttonRef} onClick={showModal}>
+    <Button
+      className="btn-primary"
+      ref={buttonRef}
+      onClick={showModal}
+      variant="contained"
+      color="primary"
+    >
       {triggerText}
-    </button>
+    </Button>
   );
 };
 export default Trigger;

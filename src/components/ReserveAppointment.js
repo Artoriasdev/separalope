@@ -19,6 +19,7 @@ class ReserveAppointment extends Component {
       customerData: [],
       serviceData: [],
       dateData: [],
+      date: "",
       modal: false,
       response: false,
       message: "",
@@ -150,7 +151,7 @@ class ReserveAppointment extends Component {
     return rspApi;
   };
 
-  handleGetAvailableScheduleService = () => {
+  handleGetAvailableScheduleService = (date) => {
     const id = this.props.match.params.id;
     const tk = sessionStorage.getItem("tk");
     var headers = {
@@ -159,7 +160,7 @@ class ReserveAppointment extends Component {
       Authorization: `Bearer ${tk}`,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getAvailableScheduleService/${id}/2021-09-06`;
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getAvailableScheduleService/${id}/${date}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -176,6 +177,18 @@ class ReserveAppointment extends Component {
         return response;
       });
     return rspApi;
+  };
+
+  handleDateChange = (e) => {
+    const value = e.target.value;
+    const formField = e.target.name;
+    const formik = this.form;
+
+    if (formField === "fechaDisponible") {
+      formik.setFieldValue(formField, value, true);
+      formik.setFieldValue("horarioDisponible", "", true);
+      this.handleGetAvailableScheduleService(value);
+    }
   };
 
   handleInfoSubmit = (reserveModel) => {
@@ -432,7 +445,7 @@ class ReserveAppointment extends Component {
                     name="fechaDisponible"
                     displayEmpty
                     required
-                    onChange={handleChange}
+                    onChange={this.handleDateChange}
                     onBlur={handleBlur}
                   >
                     <MenuItem disabled value={""}>

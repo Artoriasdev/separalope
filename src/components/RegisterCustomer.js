@@ -72,6 +72,25 @@ class RegisterCustomer extends Component {
     return rspApi;
   };
 
+  handleDocumentChange = (e) => {
+    const value = e.target.value;
+    const formField = e.target.name;
+    const formik = this.form;
+
+    if (formField === "documentos") {
+      formik.setFieldValue(formField, value, true);
+      formik.setFieldValue("nroDocumento", "", false);
+    }
+    if (formField === "nroDocumento") {
+      const { documentos } = formik.state.values;
+      let maxLengthInput = 8;
+      if (documentos === "01") maxLengthInput = 8;
+      if (documentos === "04" || documentos === "07") maxLengthInput = 12;
+      formik.setFieldValue("maxLengthValue", maxLengthInput, true);
+      formik.setFieldValue(formField, value.toUpperCase(), true);
+    }
+  };
+
   handleInfoSubmit = (CustomerModel) => {
     var headers = {
       "Content-Type": "application/json",
@@ -227,9 +246,10 @@ class RegisterCustomer extends Component {
               repContraseña: "",
               documentos: "",
               nroDocumento: "",
+              maxLengthValue: 8,
             }}
             validate={(values) => {
-              const { correo, celular } = values;
+              const { correo, celular, documentos, nroDocumento } = values;
 
               let errors = {};
 
@@ -240,7 +260,7 @@ class RegisterCustomer extends Component {
               }
 
               if (!celular) {
-                errors.numCelular = " ";
+                errors.celular = " ";
               } else if (celular.startsWith("0")) {
                 errors.celular =
                   "*El número de celular debe iniciar con el dígito 9.";
@@ -385,7 +405,7 @@ class RegisterCustomer extends Component {
                     name="documentos"
                     displayEmpty
                     required
-                    onChange={handleChange}
+                    onChange={this.handleDocumentChange}
                     onBlur={handleBlur}
                   >
                     <MenuItem disabled value={""}>
@@ -409,19 +429,18 @@ class RegisterCustomer extends Component {
                     value={values.nroDocumento}
                     error={errors.nroDocumento && touched.nroDocumento}
                     onBlur={handleBlur}
-                    onChange={handleChange}
+                    onChange={this.handleDocumentChange}
                     style={{
                       marginLeft: "5px",
                       marginTop: "5px",
                       marginBottom: "5px",
                     }}
-                    type="number"
-                    inputProps={{ min: "0", max: "99999999999" }}
+                    inputProps={{ maxLength: values.maxLengthValue }}
                     autoComplete="off"
                     // inputProps={{
                     //   maxLength: 9,
                     // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
                 </div>
 

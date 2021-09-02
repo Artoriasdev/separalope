@@ -118,14 +118,14 @@ export class Form extends Component {
             touched,
           }) => (
             <form name="formSubmit" onSubmit={handleSubmit}>
-              <h1>Crear nueva categoria</h1>
+              <h1>Crear nueva categoría</h1>
               <hr />
               <div>
                 <TextField
                   name="categoria"
                   className="TxtField"
                   variant="outlined"
-                  label="Categoria"
+                  label="Categoría"
                   fullWidth
                   value={values.categoria}
                   error={errors.categoria && touched.categoria}
@@ -140,7 +140,7 @@ export class Form extends Component {
                   name="descripcion"
                   className="TxtField"
                   variant="outlined"
-                  label="Descripcion"
+                  label="Descripción"
                   fullWidth
                   value={values.descripcion}
                   error={errors.descripcion && touched.descripcion}
@@ -162,7 +162,6 @@ export class Form extends Component {
                   style={{
                     width: "100%",
                     height: "100%",
-
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",

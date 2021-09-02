@@ -12,7 +12,7 @@ class BusinessCategory extends Component {
 
     this.state = {
       typeCategorys: [],
-      triggerText: "Agregar categoria",
+      triggerText: "Agregar categoría",
       disclaimerModal: "",
       showModalError: false,
     };
@@ -112,7 +112,7 @@ class BusinessCategory extends Component {
 
   render() {
     return (
-      <div className="page-container" style={{ padding: "0" }}>
+      <div className="page-container" style={{ padding: "0", width: "80%" }}>
         <ModalError
           show={this.state.showModalError}
           closeCallback={this.toggleModalError}
@@ -136,10 +136,10 @@ class BusinessCategory extends Component {
             href="/business/category"
             // onClick={handleClick}
           >
-            Categorias
+            Categorías
           </Link>
         </Breadcrumbs>
-        <h1>Categorias</h1>
+        <h1>Categorías</h1>
         <div>
           <h3
             style={{ marginTop: "30px", marginBottom: "5px" }}
