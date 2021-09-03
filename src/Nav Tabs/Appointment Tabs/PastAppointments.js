@@ -1,95 +1,86 @@
 import { Card, CardContent } from "@material-ui/core";
 import { Alarm, Event, Person } from "@material-ui/icons";
+import axios from "axios";
 import React, { Component } from "react";
 
 class PastAppointments extends Component {
-  createData(id, name, email, date, time) {
-    return { id, name, email, date, time };
+  constructor(props) {
+    super(props);
+    this.state = {
+      appointments: [],
+    };
   }
 
   componentDidMount() {
-    // console.log(this.rows);
+    try {
+      this.handleGetReservationHistoryByBusiness();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  rows = [
-    this.createData(
-      "1",
-      "Clases de ingles básico",
-      "luiscastillo@hotmail.com",
-      "domingo, 24 de junio 2021",
-      "2:00 PM"
-    ),
-    this.createData(
-      "2",
-      "Clases de ingles básico",
-      "manuelrojas@hotmail.com",
-      "sabado, 24 de junio 2021",
-      "1:00 PM"
-    ),
-    this.createData(
-      "3",
-      "Clases de ingles básico",
-      "test5@correotest.com",
-      "viernes, 24 de junio 2021",
-      "8:00 PM"
-    ),
-    this.createData(
-      "4",
-      "Clases de ingles básico",
-      "pedrocastillo@correotest.com",
-      "lunes, 24 de junio 2021",
-      "4:00 PM"
-    ),
-    this.createData(
-      "5",
-      "Clases de ingles básico",
-      "yuyuyu@hotmail.com",
-      "lunes, 24 de junio 2021",
-      "8:00 PM"
-    ),
-    this.createData(
-      "6",
-      "Clases de ingles básico",
-      "arthasmenethil@blubblub.com",
-      "miercoles, 24 de junio 2021",
-      "6:00 PM"
-    ),
-    this.createData(
-      "7",
-      "Clases de ingles básico",
-      "bolvarfordragon@blubblub.com",
-      "martes, 24 de junio 2021",
-      "5:00 PM"
-    ),
-  ];
+  handleGetReservationHistoryByBusiness = () => {
+    const id = this.props.id;
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getReservationHistoryByBusiness/${id}`;
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        this.setState({
+          appointments: data,
+        });
+        console.log(data);
+
+        return response;
+      });
+    return rspApi;
+  };
 
   render() {
     return (
       <div>
-        <h1>Citas Pasadas</h1>
-        {this.rows.map((row) => (
-          <Card
-            style={{
-              width: 275,
-              display: "inline-block",
-              margin: "10px 0 10px 40px",
-            }}
-            variant="elevation"
-            key={row.id}
-          >
-            <CardContent className="font-tittle"> {row.name} </CardContent>
-            <hr style={{ width: "80%", margin: "0 auto" }} />
-            <CardContent className="font">
-              <Person /> {row.email}
-            </CardContent>
-            <CardContent className="font">
-              <Event /> {row.date}
-            </CardContent>
-            <CardContent className="font">
-              <Alarm /> {row.time}
-            </CardContent>
-          </Card>
-        ))}
+        <h1>Historial de citas</h1>
+        {this.state.appointments.map(
+          ({
+            titleService,
+            emailCustomer,
+            dateReservation,
+            timeReservation,
+          }) => (
+            <Card
+              style={{
+                width: 275,
+                display: "inline-block",
+                margin: "10px 0 10px 40px",
+              }}
+              variant="elevation"
+              key={titleService}
+            >
+              <CardContent className="font-tittle">{titleService}</CardContent>
+              <hr style={{ width: "80%", margin: "0 auto" }} />
+              <CardContent className="font">
+                <Person /> {emailCustomer}
+              </CardContent>
+              <CardContent className="font">
+                <Event /> {dateReservation}
+              </CardContent>
+              <CardContent className="font">
+                <Alarm /> {timeReservation}
+              </CardContent>
+            </Card>
+          )
+        )}
       </div>
     );
   }

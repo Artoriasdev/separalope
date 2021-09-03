@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Button,
+  Tab,
   ListItemText,
   makeStyles,
   Menu,
@@ -20,7 +21,9 @@ const useStyles = makeStyles(() => ({
     minHeight: "2.75rem",
     color: "white",
     textTransform: "capitalize",
-    marginRight: 40,
+    opacity: 1,
+    minWidth: "100px",
+    marginRight: 25,
   },
 
   scrollButtons: {
@@ -294,17 +297,16 @@ const Navbar = () => {
                         root: classes.scrollButtons,
                       }}
                     >
-                      {info.map(({ id, name, image, description }) => (
-                        <Button
+                      {info.map(({ id, name }) => (
+                        <Tab
                           onClick={() => handleRedirectServices(id)}
                           classes={{
                             root: classes.tab,
                           }}
+                          label={name}
                           key={id}
                           className="font-p"
-                        >
-                          {name}
-                        </Button>
+                        />
                       ))}
                     </Tabs>
                   </div>

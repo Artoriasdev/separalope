@@ -7,107 +7,96 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { Event } from "@material-ui/icons";
+import axios from "axios";
 import React, { Component } from "react";
 
 class CustomerHistory extends Component {
-  createData(id, name, type, date, time, status, points) {
-    return { id, name, type, date, time, status, points };
+  constructor(props) {
+    super(props);
+    this.state = {
+      appointments: [],
+    };
   }
 
-  rows = [
-    this.createData(
-      "1",
-      "Luke Skywalker",
-      "Como usar la fuerza",
-      "12/10/2040",
-      "4.35 P.M",
-      "Activo",
-      "5/5"
-    ),
-    this.createData(
-      "2",
-      "Luke Skywalker",
-      "Como usar la fuerza",
-      "12/10/2040",
-      "4.35 P.M",
-      "Activo",
-      "5/5"
-    ),
-    this.createData(
-      "3",
-      "Luke Skywalker",
-      "Como usar la fuerza",
-      "12/10/2040",
-      "4.35 P.M",
-      "Activo",
-      "5/5"
-    ),
-    this.createData(
-      "4",
-      "Luke Skywalker",
-      "Como usar la fuerza",
-      "12/10/2040",
-      "4.35 P.M",
-      "Activo",
-      "5/5"
-    ),
-    this.createData(
-      "5",
-      "Luke Skywalker",
-      "Como usar la fuerza",
-      "12/10/2040",
-      "4.35 P.M",
-      "Activo",
-      "5/5"
-    ),
-    this.createData(
-      "6",
-      "Luke Skywalker",
-      "Como usar la fuerza",
-      "12/10/2040",
-      "4.35 P.M",
-      "Activo",
-      "5/5"
-    ),
-    this.createData(
-      "7",
-      "Luke Skywalker",
-      "Como usar la fuerza",
-      "12/10/2040",
-      "4.35 P.M",
-      "Activo",
-      "5/5"
-    ),
-  ];
+  componentDidMount() {
+    try {
+      this.handleGetReservationHistoryByCustomer();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  handleGetReservationHistoryByCustomer = () => {
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getReservationHistoryByCustomer`;
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        this.setState({
+          appointments: data,
+        });
+        console.log(data);
+
+        return response;
+      });
+    return rspApi;
+  };
+
   render() {
     return (
       <div className="page-container" style={{ padding: "0" }}>
         <div className="appointment-container">
           <Event fontSize="large" style={{ margin: "0 5px 0 0" }} />
-          <h1>Mis historial de citas</h1>
+          <h1>Mis citas programadas</h1>
         </div>
         <TableContainer className="table">
           <Table sx={{ minWidth: 650 }}>
             <TableHead className="table-head">
               <TableRow>
-                <TableCell className="font-tittle">Profesor/a</TableCell>
-                <TableCell className="font-tittle">Tipo de clase</TableCell>
+                <TableCell className="font-tittle">Servicio</TableCell>
+                <TableCell className="font-tittle">Categoria</TableCell>
+                <TableCell className="font-tittle">Negocio</TableCell>
+                <TableCell className="font-tittle">Precio</TableCell>
                 <TableCell className="font-tittle">Fecha</TableCell>
                 <TableCell className="font-tittle">Hora</TableCell>
+                <TableCell className="font-tittle">Duracion</TableCell>
                 <TableCell className="font-tittle">Estado</TableCell>
-                <TableCell className="font-tittle">Puntuado</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.rows.map(
-                ({ id, name, type, date, time, status, points }) => (
-                  <TableRow key={id}>
-                    <TableCell className="font">{name}</TableCell>
-                    <TableCell className="font">{type}</TableCell>
-                    <TableCell className="font">{date}</TableCell>
-                    <TableCell className="font">{time}</TableCell>
-                    <TableCell className="font">{status}</TableCell>
-                    <TableCell className="font">{points}</TableCell>
+              {this.state.appointments.map(
+                ({
+                  titleService,
+                  nameCategory,
+                  tradeName,
+                  price,
+                  dateReservation,
+                  timeReservation,
+                  durationReservation,
+                  state,
+                }) => (
+                  <TableRow key={titleService}>
+                    <TableCell className="font">{titleService}</TableCell>
+                    <TableCell className="font">{nameCategory}</TableCell>
+                    <TableCell className="font">{tradeName}</TableCell>
+                    <TableCell className="font">{price}</TableCell>
+                    <TableCell className="font">{dateReservation}</TableCell>
+                    <TableCell className="font">{timeReservation}</TableCell>
+                    <TableCell className="font">
+                      {durationReservation}
+                    </TableCell>
+                    <TableCell className="font">{state}</TableCell>
                   </TableRow>
                 )
               )}

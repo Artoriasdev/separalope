@@ -34,6 +34,7 @@ import PasswordRecovery from "./components/PasswordRecovery";
 import PasswordOTP from "./components/PasswordOTP";
 import PasswordRestore from "./components/PasswordRestore";
 import { Footer } from "./components/Footer";
+import { ReserveComplete } from "./components/ReserveComplete";
 
 // import HomePage from "./pages/Home";
 
@@ -153,7 +154,7 @@ function App() {
             >
               <Route
                 exact
-                path="/business/services/appointment"
+                path="/business/services/appointment/:id"
                 component={ServiceAppointment}
               />
               <Route
@@ -254,6 +255,11 @@ function App() {
                 exact
                 path="/password-restore/:value"
                 component={PasswordRestore}
+              />
+              <Route
+                exact
+                path="/reserve-complete/:id"
+                component={ReserveComplete}
               />
             </StyledMain>
           </Switch>

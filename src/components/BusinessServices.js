@@ -105,8 +105,8 @@ class BusinessServices extends Component {
     this.props.history.push("/business/services/details");
   };
 
-  handleAppointment = () => {
-    this.props.history.push("/business/services/appointment");
+  handleAppointment = (id) => {
+    this.props.history.push(`/business/services/appointment/${id}`);
   };
 
   render() {
@@ -186,7 +186,7 @@ class BusinessServices extends Component {
                       <TableCell className="font" align="center">
                         <button
                           className="font"
-                          onClick={this.handleAppointment}
+                          onClick={() => this.handleAppointment(id)}
                         >
                           Ver citas pendientes
                         </button>

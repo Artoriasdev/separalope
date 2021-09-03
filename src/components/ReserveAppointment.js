@@ -226,7 +226,7 @@ class ReserveAppointment extends Component {
       modal: false,
     });
     if (this.state.response === true) {
-      this.props.history.push("/customer-appointment");
+      this.props.history.push(`/reserve-complete/${this.props.match.params.id}`);
     }
   };
 

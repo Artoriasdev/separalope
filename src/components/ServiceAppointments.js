@@ -59,23 +59,23 @@ class ServiceAppointment extends Component {
             >
               <LinkTab
                 label="Citas pendientes"
-                href="/appointment"
+                href="/appointments"
                 className="font-p"
                 style={{ textTransform: "none" }}
               />
               <LinkTab
                 label="Citas pasadas"
-                href="/past"
+                href="past"
                 className="font-p"
                 style={{ textTransform: "none" }}
               />
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.value} index={0}>
-            <FutureAppointments />
+            <FutureAppointments id={this.props.match.params.id} />
           </TabPanel>
           <TabPanel value={this.state.value} index={1}>
-            <PastAppointments />
+            <PastAppointments id={this.props.match.params.id} />
           </TabPanel>
         </div>
       </div>

@@ -7,6 +7,7 @@ import {
   AppBar,
   Avatar,
   Button,
+  Tab,
   makeStyles,
   MenuItem,
   Toolbar,
@@ -22,7 +23,10 @@ const useStyles = makeStyles(() => ({
     minHeight: "2.75rem",
     color: "white",
     textTransform: "capitalize",
-    marginRight: 40,
+    padding: "6px 8px",
+    opacity: 1,
+    minWidth: "100px",
+    marginRight: 25,
   },
 
   scrollButtons: {
@@ -233,17 +237,16 @@ const Navbar = () => {
                   root: classes.scrollButtons,
                 }}
               >
-                {info.map(({ id, name, image, description }) => (
-                  <Button
+                {info.map(({ id, name }) => (
+                  <Tab
                     onClick={() => handleRedirect(id)}
                     classes={{
                       root: classes.tab,
                     }}
+                    label={name}
                     key={id}
                     className="font-p"
-                  >
-                    {name}
-                  </Button>
+                  />
                 ))}
               </Tabs>
             </div>
