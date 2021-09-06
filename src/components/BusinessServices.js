@@ -60,7 +60,7 @@ class BusinessServices extends Component {
             this.setState({
               showModalError: true,
               disclaimerModal:
-                "Sesion expirada, porfavor vuelva a iniciar sesion",
+                "Sesión expirada, porfavor vuelva a iniciar sesión",
             });
           }
         });
@@ -101,8 +101,8 @@ class BusinessServices extends Component {
     this.props.history.push("/login/B");
   };
 
-  handleEdit = () => {
-    this.props.history.push("/business/services/details");
+  handleEdit = (id) => {
+    this.props.history.push(`/business/services/details/${id}`);
   };
 
   handleAppointment = (id) => {
@@ -192,7 +192,10 @@ class BusinessServices extends Component {
                         </button>
                       </TableCell>
                       <TableCell className="font" align="center">
-                        <button className="font" onClick={this.handleEdit}>
+                        <button
+                          className="font"
+                          onClick={() => this.handleEdit(id)}
+                        >
                           Editar servicio
                         </button>
                       </TableCell>

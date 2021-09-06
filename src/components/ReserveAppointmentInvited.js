@@ -8,18 +8,22 @@ import {
   TextField,
 } from "@material-ui/core";
 import axios from "axios";
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import React, { Component } from "react";
+import {
+  EMAIL_INVALID,
+  EMAIL_MINLENGTH,
+  E_MINLENGTH,
+} from "../utils/constants";
+import { EMAIL_REGEXP } from "../utils/regexp";
 import { handleRegexDisable } from "../utils/utilitaries";
 
-class ReserveAppointment extends Component {
+class ReserveAppointmentInvited extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      customerData: [],
       serviceData: [],
       dateData: [],
-      date: "",
       modal: false,
       response: false,
       message: "",
@@ -28,7 +32,6 @@ class ReserveAppointment extends Component {
 
   componentDidMount() {
     try {
-      this.handleGetCustomer();
       this.handleGetServicesById();
       this.handleGetAvailableDateService();
       this.handleGetAvailableScheduleService();
@@ -36,55 +39,6 @@ class ReserveAppointment extends Component {
       console.log(error);
     }
   }
-
-  handleGetCustomer = async () => {
-    try {
-      const tk = sessionStorage.getItem("tk");
-      var headers = {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tk}`,
-      };
-
-      let linkDocumentsApi =
-        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/getCustomer";
-
-      const rspApi = await axios
-        .get(linkDocumentsApi, {
-          headers: headers,
-        })
-        .then((response) => {
-          if (response.data.response === "true") {
-            const { data } = response.data;
-            this.setState({
-              customerData: data,
-            });
-
-            const Formik = this.form;
-            Formik.setFieldValue("celular", this.state.customerData[0].mobile);
-            Formik.setFieldValue("correo", this.state.customerData[0].email);
-          } else {
-            this.setState({
-              modal: true,
-              message: "Usted no esta autorizado para ver esta información",
-            });
-          }
-          return response;
-        })
-        .catch((error) => {
-          const { status } = error.response;
-          if (status === 401) {
-            this.setState({
-              modal: true,
-              message: "Sesión expirada, porfavor vuelva a iniciar sesión",
-            });
-          }
-        });
-      return rspApi;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   handleGetServicesById = () => {
     const id = this.props.match.params.id;
@@ -189,15 +143,14 @@ class ReserveAppointment extends Component {
   };
 
   handleInfoSubmit = (reserveModel) => {
-    const tk = sessionStorage.getItem("tk");
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
-      Authorization: `Bearer ${tk}`,
+      Authorization: ``,
     };
 
     let linkRegisterApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/registerReservation";
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/registerReservationInvited";
 
     const rspApi = axios
       .post(linkRegisterApi, reserveModel, {
@@ -226,9 +179,6 @@ class ReserveAppointment extends Component {
       this.props.history.push(
         `/reserve-complete/${this.props.match.params.id}`
       );
-    }
-    {
-      this.props.history.push("/login/C");
     }
   };
 
@@ -277,17 +227,67 @@ class ReserveAppointment extends Component {
               precio: "",
               fechaDisponible: "",
               horarioDisponible: "",
+              nombre: "",
+              apellido: "",
             }}
-            validate={{}}
+            validate={(values) => {
+              const { correo, celular } = values;
+
+              let errors = {};
+
+              if (!EMAIL_REGEXP.test(correo)) {
+                errors.correo = EMAIL_INVALID;
+              } else if (correo.length < E_MINLENGTH) {
+                errors.correo = EMAIL_MINLENGTH;
+              }
+
+              if (!celular) {
+                errors.celular = " ";
+              } else if (celular.startsWith("0")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("1")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("2")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("3")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("4")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("5")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("6")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("7")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.startsWith("8")) {
+                errors.celular =
+                  "*El número de celular debe iniciar con el dígito 9.";
+              } else if (celular.length < 9) {
+                errors.celular = "*El número de celular debe tener 9 dígitos.";
+              }
+              return errors;
+            }}
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(false);
               const reserveModel = {
                 idService: "",
+                email: "",
+                mobile: "",
+                name: "",
+                lastName: "",
                 reservationDate: "",
                 reservationTime: "",
               };
 
-              reserveModel.idService = JSON.parse(this.props.match.params.id);
+              reserveModel.idService = this.props.match.params.id;
               reserveModel.reservationDate = values.fechaDisponible;
               reserveModel.reservationTime = values.horarioDisponible;
 
@@ -320,6 +320,49 @@ class ReserveAppointment extends Component {
               <form name="formRegister" onSubmit={handleSubmit}>
                 <div className="files">
                   <TextField
+                    name="nombre"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Nombre"
+                    fullWidth
+                    value={values.nombre}
+                    error={errors.nombre && touched.nombre}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    required
+                    style={{
+                      marginRight: "5px",
+                      marginBottom: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("[a-z A-Z ]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+
+                  <TextField
+                    name="apellido"
+                    className="TxtField"
+                    variant="outlined"
+                    label="Apellidos"
+                    fullWidth
+                    value={values.apellido}
+                    error={errors.apellido && touched.apellido}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    required
+                    style={{
+                      marginLeft: "5px",
+                      marginBottom: "5px",
+                    }}
+                    // inputProps={{
+                    //   maxLength: 9,
+                    // }}
+                    onInput={handleRegexDisable("[a-z A-Z ]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                </div>
+                <div className="files">
+                  <TextField
                     name="correo"
                     className="TxtField"
                     variant="outlined"
@@ -329,8 +372,9 @@ class ReserveAppointment extends Component {
                     error={errors.correo && touched.correo}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    disabled={true}
+                    required
                     style={{
+                      marginTop: "5px",
                       marginRight: "5px",
                       marginBottom: "5px",
                     }}
@@ -338,6 +382,11 @@ class ReserveAppointment extends Component {
                     //   maxLength: 9,
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="correo"
+                    component="div"
                   />
 
                   <TextField
@@ -350,15 +399,21 @@ class ReserveAppointment extends Component {
                     error={errors.celular && touched.celular}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    disabled={true}
+                    required
                     style={{
+                      marginTop: "5px",
                       marginLeft: "5px",
                       marginBottom: "5px",
                     }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    inputProps={{
+                      maxLength: 9,
+                    }}
+                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="celular"
+                    component="div"
                   />
                 </div>
 
@@ -517,4 +572,4 @@ class ReserveAppointment extends Component {
   }
 }
 
-export default ReserveAppointment;
+export default ReserveAppointmentInvited;

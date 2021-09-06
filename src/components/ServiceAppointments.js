@@ -18,11 +18,15 @@ class ServiceAppointment extends Component {
   };
 
   handleRedirectService = () => {
-    this.props.history.push("/business/services/details");
+    this.props.history.push(
+      `/business/services/details/${this.props.match.params.id}`
+    );
   };
 
   handleRedirectAppointment = () => {
-    this.props.history.push("/business/services/appointment");
+    this.props.history.push(
+      `/business/services/appointment/${this.props.match.params.id}`
+    );
   };
   render() {
     return (

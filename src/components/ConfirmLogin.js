@@ -39,6 +39,11 @@ class ConfirmLogin extends Component {
           >
             Inicia sesión
           </Button>
+          <div style={{ marginTop: "10px" }}>
+            <a href={`/reserve/invited/${this.props.match.params.id}`}>
+              Continuar como invitado
+            </a>
+          </div>
         </div>
       </div>
     );

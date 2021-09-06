@@ -35,6 +35,7 @@ import PasswordOTP from "./components/PasswordOTP";
 import PasswordRestore from "./components/PasswordRestore";
 import { Footer } from "./components/Footer";
 import { ReserveComplete } from "./components/ReserveComplete";
+import ReserveAppointmentInvited from "./components/ReserveAppointmentInvited";
 
 // import HomePage from "./pages/Home";
 
@@ -159,7 +160,7 @@ function App() {
               />
               <Route
                 exact
-                path="/business/services/details"
+                path="/business/services/details/:id"
                 component={ServiceDetail}
               />
 
@@ -240,6 +241,11 @@ function App() {
                 component={ConfirmLogin}
               />
               <Route exact path="/reserve/:id" component={ReserveAppointment} />
+              <Route
+                exact
+                path="/reserve/invited/:id"
+                component={ReserveAppointmentInvited}
+              />
 
               <Route
                 exact

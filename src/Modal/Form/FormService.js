@@ -326,7 +326,7 @@ export class FormService extends Component {
                     <InputLabel id="categoria">Categoria</InputLabel>
                     <Select
                       labelId="categoria"
-                      label="Categoria"
+                      label="Categoría"
                       value={values.categoria}
                       error={errors.categoria && touched.categoria}
                       name="categoria"
@@ -373,7 +373,7 @@ export class FormService extends Component {
                     variant="outlined"
                     fullWidth
                     required
-                    label="Descripcion"
+                    label="Descripción"
                     value={values.descripcion}
                     error={errors.descripcion && touched.descripcion}
                     onBlur={handleBlur}
@@ -399,10 +399,10 @@ export class FormService extends Component {
                       marginTop: "5px",
                     }}
                   >
-                    <InputLabel id="hora">Horas</InputLabel>
+                    <InputLabel id="hora">Duración</InputLabel>
                     <Select
                       labelId="hora"
-                      label="Horas"
+                      label="Duración"
                       value={values.hora}
                       error={errors.hora && touched.hora}
                       name="hora"

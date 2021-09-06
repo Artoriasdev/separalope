@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@material-ui/core";
-import { Alarm, Event, Person } from "@material-ui/icons";
+import { Alarm, Event, Person, Schedule, Timer } from "@material-ui/icons";
 import axios from "axios";
 import React, { Component } from "react";
 
@@ -56,6 +56,7 @@ class PastAppointments extends Component {
             titleService,
             emailCustomer,
             dateReservation,
+            durationReservation,
             timeReservation,
           }) => (
             <Card
@@ -70,13 +71,17 @@ class PastAppointments extends Component {
               <CardContent className="font-tittle">{titleService}</CardContent>
               <hr style={{ width: "80%", margin: "0 auto" }} />
               <CardContent className="font">
-                <Person /> {emailCustomer}
+                <Person />
+                {emailCustomer}
               </CardContent>
               <CardContent className="font">
                 <Event /> {dateReservation}
               </CardContent>
               <CardContent className="font">
-                <Alarm /> {timeReservation}
+                <Timer /> {durationReservation}
+              </CardContent>
+              <CardContent className="font">
+                <Schedule /> {timeReservation}
               </CardContent>
             </Card>
           )

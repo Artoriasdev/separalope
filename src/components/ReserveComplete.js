@@ -21,11 +21,10 @@ export const ReserveComplete = (props) => {
 
   const handlePrecio = () => {
     const id = props.match.params.id;
-    const tk = sessionStorage.getItem("tk");
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
-      Authorization: `Bearer ${tk}`,
+      Authorization: ``,
     };
 
     let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesById/${id}`;
@@ -45,8 +44,12 @@ export const ReserveComplete = (props) => {
   };
 
   const handleRedirect = () => {
-    history.push("/customer-appointment");
-    history.go();
+    if (sessionStorage.getItem("logged") === "true") {
+      history.push("/customer-appointment");
+      history.go();
+    } else {
+      history.push("/");
+    }
   };
 
   return (

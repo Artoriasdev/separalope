@@ -99,7 +99,7 @@ class BusinessProfileBank extends Component {
             this.setState({
               showModalError: true,
               disclaimerModal:
-                "Sesion expirada, porfavor vuelva a iniciar sesion",
+                "Sesión expirada, porfavor vuelva a iniciar sesión",
             });
           }
         });
