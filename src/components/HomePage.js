@@ -126,7 +126,7 @@ class HomePage extends Component {
             }}
           >
             <div style={{ position: "absolute" }}>
-              <h1>Nuestros servicios</h1>
+              <h1>Nuestras Categorias</h1>
 
               <h3 className="register__subtitle">
                 son 100% digitales vía zoom en la comodidad de tu hogar <br /> y

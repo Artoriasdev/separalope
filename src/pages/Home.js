@@ -306,7 +306,7 @@ const HomePage = () => {
         </StyledDiv>
         <StyledDiv flex center between fwrap ph="1rem" className="searchDiv">
           <StyledDiv flex col w="50%">
-            <StyledTitle color="#5829dd">Nuestros Servicios</StyledTitle>
+            <StyledTitle color="#5829dd">Nuestras Categorias</StyledTitle>
             <StyledSubTitle color="rgba(0,0,0,0.4)">
               {serviceText}
             </StyledSubTitle>
