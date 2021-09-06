@@ -30,6 +30,14 @@ class ServiceDetail extends Component {
       horas: [],
       horarios: [],
       service: [],
+      err: {},
+      lunes: false,
+      martes: false,
+      miercoles: false,
+      jueves: false,
+      viernes: false,
+      sabado: false,
+      domingo: false,
       scheduleAttention: {},
       disable: false,
       modal: false,
@@ -291,12 +299,11 @@ class ServiceDetail extends Component {
         headers: headers,
       })
       .then((response) => {
-        console.log(response.data.response);
-        console.log(dataModel, "dataModel");
         if (response.data.response === "true") {
           this.setState({
             modal: true,
             message: response.data.message,
+            response: true,
           });
         }
         return response;
@@ -521,10 +528,143 @@ class ServiceDetail extends Component {
                   delete formModel.scheduleAttention.sundayStartTime;
                   delete formModel.scheduleAttention.sundayEndTime;
                 }
-                console.log(formModel);
-                (async () => {
-                  await this.handleEdit(formModel);
-                })();
+
+                if (
+                  formModel.scheduleAttention.mondayStartTime >
+                  formModel.scheduleAttention.mondayEndTime
+                ) {
+                  this.setState({
+                    err: {
+                      lunes:
+                        "El horario inicial no debe ser mayor al horario final",
+                    },
+                    lunes: true,
+                    martes: false,
+                    miercoles: false,
+                    jueves: false,
+                    viernes: false,
+                    sabado: false,
+                    domingo: false,
+                  });
+                } else if (
+                  formModel.scheduleAttention.tuesdayStartTime >
+                  formModel.scheduleAttention.tuesdayEndTime
+                ) {
+                  this.setState({
+                    err: {
+                      martes:
+                        "El horario inicial no debe ser mayor al horario final",
+                    },
+                    lunes: false,
+                    martes: true,
+                    miercoles: false,
+                    jueves: false,
+                    viernes: false,
+                    sabado: false,
+                    domingo: false,
+                  });
+                } else if (
+                  formModel.scheduleAttention.wednesdayStartTime >
+                  formModel.scheduleAttention.wednesdayEndTime
+                ) {
+                  this.setState({
+                    err: {
+                      miercoles:
+                        "El horario inicial no debe ser mayor al horario final",
+                    },
+                    lunes: false,
+                    martes: false,
+                    miercoles: true,
+                    jueves: false,
+                    viernes: false,
+                    sabado: false,
+                    domingo: false,
+                  });
+                } else if (
+                  formModel.scheduleAttention.thursdayStartTime >
+                  formModel.scheduleAttention.thursdayEndTime
+                ) {
+                  this.setState({
+                    err: {
+                      jueves:
+                        "El horario inicial no debe ser mayor al horario final",
+                    },
+                    lunes: false,
+                    martes: false,
+                    miercoles: false,
+                    jueves: true,
+                    viernes: false,
+                    sabado: false,
+                    domingo: false,
+                  });
+                } else if (
+                  formModel.scheduleAttention.fridayStartTime >
+                  formModel.scheduleAttention.fridayEndTime
+                ) {
+                  this.setState({
+                    err: {
+                      viernes:
+                        "El horario inicial no debe ser mayor al horario final",
+                    },
+                    lunes: false,
+                    martes: false,
+                    miercoles: false,
+                    jueves: false,
+                    viernes: true,
+                    sabado: false,
+                    domingo: false,
+                  });
+                } else if (
+                  formModel.scheduleAttention.saturdayStartTime >
+                  formModel.scheduleAttention.saturdayEndTime
+                ) {
+                  this.setState({
+                    err: {
+                      sabado:
+                        "El horario inicial no debe ser mayor al horario final",
+                    },
+                    lunes: false,
+                    martes: false,
+                    miercoles: false,
+                    jueves: false,
+                    viernes: false,
+                    sabado: true,
+                    domingo: false,
+                  });
+                } else if (
+                  formModel.scheduleAttention.sundayStartTime >
+                  formModel.scheduleAttention.sundayEndTime
+                ) {
+                  this.setState({
+                    err: {
+                      domingo:
+                        "El horario inicial no debe ser mayor al horario final",
+                    },
+                    lunes: false,
+                    martes: false,
+                    miercoles: false,
+                    jueves: false,
+                    viernes: false,
+                    sabado: false,
+                    domingo: true,
+                  });
+                } else {
+                  console.log(formModel);
+                  console.log(this.state.err);
+                  this.setState({
+                    err: {},
+                    lunes: false,
+                    martes: false,
+                    miercoles: false,
+                    jueves: false,
+                    viernes: false,
+                    sabado: false,
+                    domingo: false,
+                  });
+                  (async () => {
+                    await this.handleEdit(formModel);
+                  })();
+                }
               }}
             >
               {({
@@ -552,7 +692,9 @@ class ServiceDetail extends Component {
                           labelId="categoria"
                           label="Categoría"
                           value={values.categoria}
-                          error={errors.categoria && touched.categoria}
+                          error={
+                            this.state.martes.categoria && touched.categoria
+                          }
                           name="categoria"
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -576,7 +718,7 @@ class ServiceDetail extends Component {
                         required
                         label="Servicio"
                         value={values.servicio}
-                        error={errors.servicio && touched.servicio}
+                        error={this.state.martes.servicio && touched.servicio}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         style={{
@@ -598,7 +740,9 @@ class ServiceDetail extends Component {
                         required
                         label="Descripción"
                         value={values.descripcion}
-                        error={errors.descripcion && touched.descripcion}
+                        error={
+                          this.state.martes.descripcion && touched.descripcion
+                        }
                         onBlur={handleBlur}
                         onChange={handleChange}
                         style={{
@@ -627,7 +771,7 @@ class ServiceDetail extends Component {
                           labelId="hora"
                           label="Duración"
                           value={values.hora}
-                          error={errors.hora && touched.hora}
+                          error={this.state.martes.hora && touched.hora}
                           name="hora"
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -650,7 +794,7 @@ class ServiceDetail extends Component {
                         required
                         label="Precio"
                         value={values.precio}
-                        error={errors.precio && touched.precio}
+                        error={this.state.martes.precio && touched.precio}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         style={{
@@ -706,10 +850,7 @@ class ServiceDetail extends Component {
                                   labelId="inicio"
                                   label="Inicio"
                                   value={values.horarioAtencion.lunesHoraInicio}
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.lunes}
                                   name="horarioAtencion.lunesHoraInicio"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -723,6 +864,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.lunes ? (
+                                <div className="error">
+                                  {this.state.err.lunes}
+                                </div>
+                              ) : null}
                             </TableCell>
                             <TableCell
                               className="font"
@@ -734,10 +880,7 @@ class ServiceDetail extends Component {
                                   labelId="fin"
                                   label="Fin"
                                   value={values.horarioAtencion.lunesHoraFinal}
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.lunes}
                                   name="horarioAtencion.lunesHoraFinal"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -751,6 +894,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.lunes ? (
+                                <div className="error">
+                                  {this.state.err.lunes}
+                                </div>
+                              ) : null}
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -767,10 +915,7 @@ class ServiceDetail extends Component {
                                   value={
                                     values.horarioAtencion.martesHoraInicio
                                   }
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.martes}
                                   name="horarioAtencion.martesHoraInicio"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -784,6 +929,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.martes ? (
+                                <div className="error">
+                                  {this.state.err.martes}
+                                </div>
+                              ) : null}
                             </TableCell>
                             <TableCell
                               className="font"
@@ -795,10 +945,7 @@ class ServiceDetail extends Component {
                                   labelId="fin"
                                   label="Fin"
                                   value={values.horarioAtencion.martesHoraFinal}
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.martes}
                                   name="horarioAtencion.martesHoraFinal"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -812,6 +959,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.martes ? (
+                                <div className="error">
+                                  {this.state.err.martes}
+                                </div>
+                              ) : null}
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -828,10 +980,7 @@ class ServiceDetail extends Component {
                                   value={
                                     values.horarioAtencion.miercolesHoraInicio
                                   }
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.miercoles}
                                   name="horarioAtencion.miercolesHoraInicio"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -845,6 +994,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.miercoles ? (
+                                <div className="error">
+                                  {this.state.err.miercoles}
+                                </div>
+                              ) : null}
                             </TableCell>
                             <TableCell
                               className="font"
@@ -858,10 +1012,7 @@ class ServiceDetail extends Component {
                                   value={
                                     values.horarioAtencion.miercolesHoraFinal
                                   }
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.miercoles}
                                   name="horarioAtencion.miercolesHoraFinal"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -875,6 +1026,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.miercoles ? (
+                                <div className="error">
+                                  {this.state.err.miercoles}
+                                </div>
+                              ) : null}
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -891,10 +1047,7 @@ class ServiceDetail extends Component {
                                   value={
                                     values.horarioAtencion.juevesHoraInicio
                                   }
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.jueves}
                                   name="horarioAtencion.juevesHoraInicio"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -908,6 +1061,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.jueves ? (
+                                <div className="error">
+                                  {this.state.err.jueves}
+                                </div>
+                              ) : null}
                             </TableCell>
                             <TableCell
                               className="font"
@@ -919,10 +1077,7 @@ class ServiceDetail extends Component {
                                   labelId="fin"
                                   label="Fin"
                                   value={values.horarioAtencion.juevesHoraFinal}
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.jueves}
                                   name="horarioAtencion.juevesHoraFinal"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -936,6 +1091,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.jueves ? (
+                                <div className="error">
+                                  {this.state.err.jueves}
+                                </div>
+                              ) : null}
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -952,10 +1112,7 @@ class ServiceDetail extends Component {
                                   value={
                                     values.horarioAtencion.viernesHoraInicio
                                   }
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.viernes}
                                   name="horarioAtencion.viernesHoraInicio"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -969,6 +1126,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.viernes ? (
+                                <div className="error">
+                                  {this.state.err.viernes}
+                                </div>
+                              ) : null}
                             </TableCell>
                             <TableCell
                               className="font"
@@ -982,10 +1144,7 @@ class ServiceDetail extends Component {
                                   value={
                                     values.horarioAtencion.viernesHoraFinal
                                   }
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.viernes}
                                   name="horarioAtencion.viernesHoraFinal"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -999,6 +1158,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.viernes ? (
+                                <div className="error">
+                                  {this.state.err.viernes}
+                                </div>
+                              ) : null}
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -1015,10 +1179,7 @@ class ServiceDetail extends Component {
                                   value={
                                     values.horarioAtencion.sabadoHoraInicio
                                   }
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.sabado}
                                   name="horarioAtencion.sabadoHoraInicio"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -1032,6 +1193,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.sabado ? (
+                                <div className="error">
+                                  {this.state.err.sabado}
+                                </div>
+                              ) : null}
                             </TableCell>
                             <TableCell
                               className="font"
@@ -1043,10 +1209,7 @@ class ServiceDetail extends Component {
                                   labelId="fin"
                                   label="Fin"
                                   value={values.horarioAtencion.sabadoHoraFinal}
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.sabado}
                                   name="horarioAtencion.sabadoHoraFinal"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -1060,6 +1223,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.sabado ? (
+                                <div className="error">
+                                  {this.state.err.sabado}
+                                </div>
+                              ) : null}
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -1076,10 +1244,7 @@ class ServiceDetail extends Component {
                                   value={
                                     values.horarioAtencion.domingoHoraInicio
                                   }
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.domingo}
                                   name="horarioAtencion.domingoHoraInicio"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -1093,6 +1258,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.domingo ? (
+                                <div className="error">
+                                  {this.state.err.domingo}
+                                </div>
+                              ) : null}
                             </TableCell>
                             <TableCell
                               className="font"
@@ -1106,10 +1276,7 @@ class ServiceDetail extends Component {
                                   value={
                                     values.horarioAtencion.domingoHoraFinal
                                   }
-                                  error={
-                                    errors.horarioAtencion &&
-                                    touched.horarioAtencion
-                                  }
+                                  error={this.state.domingo}
                                   name="horarioAtencion.domingoHoraFinal"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -1123,6 +1290,11 @@ class ServiceDetail extends Component {
                                     ))}
                                 </Select>
                               </FormControl>
+                              {this.state.domingo ? (
+                                <div className="error">
+                                  {this.state.err.domingo}
+                                </div>
+                              ) : null}
                             </TableCell>
                           </TableRow>
                         </TableBody>

@@ -29,6 +29,14 @@ export class FormService extends Component {
       categorias: [],
       horas: [],
       horarios: [],
+      err: {},
+      lunes: false,
+      martes: false,
+      miercoles: false,
+      jueves: false,
+      viernes: false,
+      sabado: false,
+      domingo: false,
       disable: false,
       modal: false,
       response: false,
@@ -131,7 +139,7 @@ export class FormService extends Component {
     return rspApi;
   };
 
-  handleSubmitting = (formModel) => {
+  handleSubmitting = async (formModel) => {
     console.log(formModel);
     const tk = sessionStorage.getItem("tk");
     var headers = {
@@ -218,21 +226,21 @@ export class FormService extends Component {
             descripcion: "",
             hora: "",
             precio: "",
-            horariosAtencion: {
-              LunesHoraInicio: "",
-              LunesHoraFinal: "",
-              MartesHoraInicio: "",
-              MartesHoraFinal: "",
-              MiercolesHoraInicio: "",
-              MiercolesHoraFinal: "",
-              JuevesHoraInicio: "",
-              JuevesHoraFinal: "",
-              ViernesHoraInicio: "",
-              ViernesHoraFinal: "",
-              SabadoHoraInicio: "",
-              SabadoHoraFinal: "",
-              DomingoHoraInicio: "",
-              DomingoHoraFinal: "",
+            horarioAtencion: {
+              lunesHoraInicio: "",
+              lunesHoraFinal: "",
+              martesHoraInicio: "",
+              martesHoraFinal: "",
+              miercolesHoraInicio: "",
+              miercolesHoraFinal: "",
+              juevesHoraInicio: "",
+              juevesHoraFinal: "",
+              viernesHoraInicio: "",
+              viernesHoraFinal: "",
+              sabadoHoraInicio: "",
+              sabadoHoraFinal: "",
+              domingoHoraInicio: "",
+              domingoHoraFinal: "",
             },
           }}
           onSubmit={(values, { setSubmitting }) => {
@@ -269,35 +277,220 @@ export class FormService extends Component {
             formModel.idCategory = values.categoria;
 
             formModel.scheduleAttention.mondayStartTime =
-              values.horariosAtencion.LunesHoraInicio;
+              values.horarioAtencion.lunesHoraInicio;
             formModel.scheduleAttention.mondayEndTime =
-              values.horariosAtencion.LunesHoraFinal;
+              values.horarioAtencion.lunesHoraFinal;
             formModel.scheduleAttention.tuesdayStartTime =
-              values.horariosAtencion.MartesHoraInicio;
+              values.horarioAtencion.martesHoraInicio;
             formModel.scheduleAttention.tuesdayEndTime =
-              values.horariosAtencion.MartesHoraFinal;
+              values.horarioAtencion.martesHoraFinal;
             formModel.scheduleAttention.wednesdayStartTime =
-              values.horariosAtencion.MiercolesHoraInicio;
+              values.horarioAtencion.miercolesHoraInicio;
             formModel.scheduleAttention.wednesdayEndTime =
-              values.horariosAtencion.MiercolesHoraFinal;
+              values.horarioAtencion.miercolesHoraFinal;
             formModel.scheduleAttention.thursdayStartTime =
-              values.horariosAtencion.JuevesHoraInicio;
+              values.horarioAtencion.juevesHoraInicio;
             formModel.scheduleAttention.thursdayEndTime =
-              values.horariosAtencion.JuevesHoraFinal;
+              values.horarioAtencion.juevesHoraFinal;
             formModel.scheduleAttention.fridayStartTime =
-              values.horariosAtencion.ViernesHoraInicio;
+              values.horarioAtencion.viernesHoraInicio;
             formModel.scheduleAttention.fridayEndTime =
-              values.horariosAtencion.ViernesHoraFinal;
+              values.horarioAtencion.viernesHoraFinal;
             formModel.scheduleAttention.saturdayStartTime =
-              values.horariosAtencion.SabadoHoraInicio;
+              values.horarioAtencion.sabadoHoraInicio;
             formModel.scheduleAttention.saturdayEndTime =
-              values.horariosAtencion.SabadoHoraFinal;
+              values.horarioAtencion.sabadoHoraFinal;
             formModel.scheduleAttention.sundayStartTime =
-              values.horariosAtencion.DomingoHoraInicio;
+              values.horarioAtencion.domingoHoraInicio;
             formModel.scheduleAttention.sundayEndTime =
-              values.horariosAtencion.DomingoHoraFinal;
+              values.horarioAtencion.domingoHoraFinal;
 
-            this.handleSubmitting(formModel);
+            if (
+              formModel.scheduleAttention.mondayStartTime === undefined ||
+              formModel.scheduleAttention.mondayStartTime === ""
+            ) {
+              delete formModel.scheduleAttention.mondayStartTime;
+              delete formModel.scheduleAttention.mondayEndTime;
+            }
+            if (
+              formModel.scheduleAttention.tuesdayStartTime === undefined ||
+              formModel.scheduleAttention.tuesdayStartTime === ""
+            ) {
+              delete formModel.scheduleAttention.tuesdayStartTime;
+              delete formModel.scheduleAttention.tuesdayEndTime;
+            }
+            if (
+              formModel.scheduleAttention.wednesdayStartTime === undefined ||
+              formModel.scheduleAttention.wednesdayStartTime === ""
+            ) {
+              delete formModel.scheduleAttention.wednesdayStartTime;
+              delete formModel.scheduleAttention.wednesdayEndTime;
+            }
+            if (
+              formModel.scheduleAttention.thursdayStartTime === undefined ||
+              formModel.scheduleAttention.thursdayStartTime === ""
+            ) {
+              delete formModel.scheduleAttention.thursdayStartTime;
+              delete formModel.scheduleAttention.thursdayEndTime;
+            }
+            if (
+              formModel.scheduleAttention.fridayStartTime === undefined ||
+              formModel.scheduleAttention.fridayStartTime === ""
+            ) {
+              delete formModel.scheduleAttention.fridayStartTime;
+              delete formModel.scheduleAttention.fridayEndTime;
+            }
+            if (
+              formModel.scheduleAttention.saturdayStartTime === undefined ||
+              formModel.scheduleAttention.saturdayStartTime === ""
+            ) {
+              delete formModel.scheduleAttention.saturdayStartTime;
+              delete formModel.scheduleAttention.saturdayEndTime;
+            }
+            if (
+              formModel.scheduleAttention.sundayStartTime === undefined ||
+              formModel.scheduleAttention.sundayStartTime === ""
+            ) {
+              delete formModel.scheduleAttention.sundayStartTime;
+              delete formModel.scheduleAttention.sundayEndTime;
+            }
+
+            if (
+              formModel.scheduleAttention.mondayStartTime >
+              formModel.scheduleAttention.mondayEndTime
+            ) {
+              this.setState({
+                err: {
+                  lunes:
+                    "El horario inicial no debe ser mayor al horario final",
+                },
+                lunes: true,
+                martes: false,
+                miercoles: false,
+                jueves: false,
+                viernes: false,
+                sabado: false,
+                domingo: false,
+              });
+            } else if (
+              formModel.scheduleAttention.tuesdayStartTime >
+              formModel.scheduleAttention.tuesdayEndTime
+            ) {
+              this.setState({
+                err: {
+                  martes:
+                    "El horario inicial no debe ser mayor al horario final",
+                },
+                lunes: false,
+                martes: true,
+                miercoles: false,
+                jueves: false,
+                viernes: false,
+                sabado: false,
+                domingo: false,
+              });
+            } else if (
+              formModel.scheduleAttention.wednesdayStartTime >
+              formModel.scheduleAttention.wednesdayEndTime
+            ) {
+              this.setState({
+                err: {
+                  miercoles:
+                    "El horario inicial no debe ser mayor al horario final",
+                },
+                lunes: false,
+                martes: false,
+                miercoles: true,
+                jueves: false,
+                viernes: false,
+                sabado: false,
+                domingo: false,
+              });
+            } else if (
+              formModel.scheduleAttention.thursdayStartTime >
+              formModel.scheduleAttention.thursdayEndTime
+            ) {
+              this.setState({
+                err: {
+                  jueves:
+                    "El horario inicial no debe ser mayor al horario final",
+                },
+                lunes: false,
+                martes: false,
+                miercoles: false,
+                jueves: true,
+                viernes: false,
+                sabado: false,
+                domingo: false,
+              });
+            } else if (
+              formModel.scheduleAttention.fridayStartTime >
+              formModel.scheduleAttention.fridayEndTime
+            ) {
+              this.setState({
+                err: {
+                  viernes:
+                    "El horario inicial no debe ser mayor al horario final",
+                },
+                lunes: false,
+                martes: false,
+                miercoles: false,
+                jueves: false,
+                viernes: true,
+                sabado: false,
+                domingo: false,
+              });
+            } else if (
+              formModel.scheduleAttention.saturdayStartTime >
+              formModel.scheduleAttention.saturdayEndTime
+            ) {
+              this.setState({
+                err: {
+                  sabado:
+                    "El horario inicial no debe ser mayor al horario final",
+                },
+                lunes: false,
+                martes: false,
+                miercoles: false,
+                jueves: false,
+                viernes: false,
+                sabado: true,
+                domingo: false,
+              });
+            } else if (
+              formModel.scheduleAttention.sundayStartTime >
+              formModel.scheduleAttention.sundayEndTime
+            ) {
+              this.setState({
+                err: {
+                  domingo:
+                    "El horario inicial no debe ser mayor al horario final",
+                },
+                lunes: false,
+                martes: false,
+                miercoles: false,
+                jueves: false,
+                viernes: false,
+                sabado: false,
+                domingo: true,
+              });
+            } else {
+              console.log(formModel);
+              console.log(this.state.err);
+              this.setState({
+                err: {},
+                lunes: false,
+                martes: false,
+                miercoles: false,
+                jueves: false,
+                viernes: false,
+                sabado: false,
+                domingo: false,
+              });
+              (async () => {
+                await this.handleSubmitting(formModel);
+              })();
+            }
           }}
         >
           {({
@@ -482,15 +675,13 @@ export class FormService extends Component {
                             <Select
                               labelId="inicio"
                               label="Inicio"
-                              value={values.horariosAtencion.LunesHoraInicio}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.LunesHoraInicio"
+                              value={values.horarioAtencion.lunesHoraInicio}
+                              error={this.state.lunes}
+                              name="horarioAtencion.lunesHoraInicio"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -499,6 +690,9 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.lunes ? (
+                            <div className="error">{this.state.err.lunes}</div>
+                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
@@ -509,15 +703,13 @@ export class FormService extends Component {
                             <Select
                               labelId="fin"
                               label="Fin"
-                              value={values.horariosAtencion.LunesHoraFinal}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.LunesHoraFinal"
+                              value={values.horarioAtencion.lunesHoraFinal}
+                              error={this.state.lunes}
+                              name="horarioAtencion.lunesHoraFinal"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -526,6 +718,9 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.lunes ? (
+                            <div className="error">{this.state.err.lunes}</div>
+                          ) : null}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -539,15 +734,13 @@ export class FormService extends Component {
                             <Select
                               labelId="inicio"
                               label="Inicio"
-                              value={values.horariosAtencion.MartesHoraInicio}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.MartesHoraInicio"
+                              value={values.horarioAtencion.martesHoraInicio}
+                              error={this.state.martes}
+                              name="horarioAtencion.martesHoraInicio"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -556,6 +749,9 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.martes ? (
+                            <div className="error">{this.state.err.martes}</div>
+                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
@@ -566,15 +762,13 @@ export class FormService extends Component {
                             <Select
                               labelId="fin"
                               label="Fin"
-                              value={values.horariosAtencion.MartesHoraFinal}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.MartesHoraFinal"
+                              value={values.horarioAtencion.martesHoraFinal}
+                              error={this.state.martes}
+                              name="horarioAtencion.martesHoraFinal"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -583,6 +777,9 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.martes ? (
+                            <div className="error">{this.state.err.martes}</div>
+                          ) : null}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -596,17 +793,13 @@ export class FormService extends Component {
                             <Select
                               labelId="inicio"
                               label="Inicio"
-                              value={
-                                values.horariosAtencion.MiercolesHoraInicio
-                              }
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.MiercolesHoraInicio"
+                              value={values.horarioAtencion.miercolesHoraInicio}
+                              error={this.state.miercoles}
+                              name="horarioAtencion.miercolesHoraInicio"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -615,6 +808,11 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.miercoles ? (
+                            <div className="error">
+                              {this.state.err.miercoles}
+                            </div>
+                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
@@ -625,15 +823,13 @@ export class FormService extends Component {
                             <Select
                               labelId="fin"
                               label="Fin"
-                              value={values.horariosAtencion.MiercolesHoraFinal}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.MiercolesHoraFinal"
+                              value={values.horarioAtencion.miercolesHoraFinal}
+                              error={this.state.miercoles}
+                              name="horarioAtencion.miercolesHoraFinal"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -642,6 +838,11 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.miercoles ? (
+                            <div className="error">
+                              {this.state.err.miercoles}
+                            </div>
+                          ) : null}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -655,15 +856,13 @@ export class FormService extends Component {
                             <Select
                               labelId="inicio"
                               label="Inicio"
-                              value={values.horariosAtencion.JuevesHoraInicio}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.JuevesHoraInicio"
+                              value={values.horarioAtencion.juevesHoraInicio}
+                              error={this.state.jueves}
+                              name="horarioAtencion.juevesHoraInicio"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -672,6 +871,9 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.jueves ? (
+                            <div className="error">{this.state.err.jueves}</div>
+                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
@@ -682,15 +884,13 @@ export class FormService extends Component {
                             <Select
                               labelId="fin"
                               label="Fin"
-                              value={values.horariosAtencion.JuevesHoraFinal}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.JuevesHoraFinal"
+                              value={values.horarioAtencion.juevesHoraFinal}
+                              error={this.state.jueves}
+                              name="horarioAtencion.juevesHoraFinal"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -699,6 +899,9 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.jueves ? (
+                            <div className="error">{this.state.err.jueves}</div>
+                          ) : null}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -712,15 +915,13 @@ export class FormService extends Component {
                             <Select
                               labelId="inicio"
                               label="Inicio"
-                              value={values.horariosAtencion.ViernesHoraInicio}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.ViernesHoraInicio"
+                              value={values.horarioAtencion.viernesHoraInicio}
+                              error={this.state.viernes}
+                              name="horarioAtencion.viernesHoraInicio"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -729,6 +930,11 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.viernes ? (
+                            <div className="error">
+                              {this.state.err.viernes}
+                            </div>
+                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
@@ -739,15 +945,13 @@ export class FormService extends Component {
                             <Select
                               labelId="fin"
                               label="Fin"
-                              value={values.horariosAtencion.ViernesHoraFinal}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.ViernesHoraFinal"
+                              value={values.horarioAtencion.viernesHoraFinal}
+                              error={this.state.viernes}
+                              name="horarioAtencion.viernesHoraFinal"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -756,6 +960,11 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.viernes ? (
+                            <div className="error">
+                              {this.state.err.viernes}
+                            </div>
+                          ) : null}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -769,15 +978,13 @@ export class FormService extends Component {
                             <Select
                               labelId="inicio"
                               label="Inicio"
-                              value={values.horariosAtencion.SabadoHoraInicio}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.SabadoHoraInicio"
+                              value={values.horarioAtencion.sabadoHoraInicio}
+                              error={this.state.sabado}
+                              name="horarioAtencion.sabadoHoraInicio"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -786,6 +993,9 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.sabado ? (
+                            <div className="error">{this.state.err.sabado}</div>
+                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
@@ -796,15 +1006,13 @@ export class FormService extends Component {
                             <Select
                               labelId="fin"
                               label="Fin"
-                              value={values.horariosAtencion.SabadoHoraFinal}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.SabadoHoraFinal"
+                              value={values.horarioAtencion.sabadoHoraFinal}
+                              error={this.state.sabado}
+                              name="horarioAtencion.sabadoHoraFinal"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -813,6 +1021,9 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.sabado ? (
+                            <div className="error">{this.state.err.sabado}</div>
+                          ) : null}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -826,15 +1037,13 @@ export class FormService extends Component {
                             <Select
                               labelId="inicio"
                               label="Inicio"
-                              value={values.horariosAtencion.DomingoHoraInicio}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.DomingoHoraInicio"
+                              value={values.horarioAtencion.domingoHoraInicio}
+                              error={this.state.domingo}
+                              name="horarioAtencion.domingoHoraInicio"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -843,6 +1052,11 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.domingo ? (
+                            <div className="error">
+                              {this.state.err.domingo}
+                            </div>
+                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
@@ -853,15 +1067,13 @@ export class FormService extends Component {
                             <Select
                               labelId="fin"
                               label="Fin"
-                              value={values.horariosAtencion.DomingoHoraFinal}
-                              error={
-                                errors.horariosAtencion &&
-                                touched.horariosAtencion
-                              }
-                              name="horariosAtencion.DomingoHoraFinal"
+                              value={values.horarioAtencion.domingoHoraFinal}
+                              error={this.state.domingo}
+                              name="horarioAtencion.domingoHoraFinal"
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
+                              <MenuItem value="">Seleccione</MenuItem>
                               {this.state.horarios &&
                                 this.state.horarios.map(({ id, value }) => (
                                   <MenuItem key={id} value={id}>
@@ -870,6 +1082,11 @@ export class FormService extends Component {
                                 ))}
                             </Select>
                           </FormControl>
+                          {this.state.domingo ? (
+                            <div className="error">
+                              {this.state.err.domingo}
+                            </div>
+                          ) : null}
                         </TableCell>
                       </TableRow>
                     </TableBody>
