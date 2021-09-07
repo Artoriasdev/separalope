@@ -1,6 +1,6 @@
 import React from "react";
 import { Component } from "react";
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import { Button, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
@@ -8,6 +8,12 @@ import axios from "axios";
 import { PowerSettingsNew, Save } from "@material-ui/icons";
 import ModalError from "./ModalError";
 import ModalSucess from "./ModalSucess";
+import { EMAIL_REGEXP } from "../utils/regexp";
+import {
+  EMAIL_INVALID,
+  EMAIL_MINLENGTH,
+  E_MINLENGTH,
+} from "../utils/constants";
 
 class BusinessProfile extends Component {
   constructor(props) {
@@ -82,6 +88,13 @@ class BusinessProfile extends Component {
         .catch((error) => {
           const { status } = error.response;
           if (status === 401) {
+            sessionStorage.removeItem("tk");
+            sessionStorage.removeItem("logo");
+            sessionStorage.removeItem("logged");
+            sessionStorage.removeItem("workflow");
+            sessionStorage.removeItem("tradename");
+            sessionStorage.removeItem("info");
+            sessionStorage.removeItem("id");
             this.setState({
               showModalError: true,
               disclaimerModal:
@@ -127,6 +140,7 @@ class BusinessProfile extends Component {
       showModalError: false,
     });
     this.props.history.push("/login/B");
+    this.props.history.go();
   };
 
   toggleModalSuccess = () => {
@@ -240,7 +254,24 @@ class BusinessProfile extends Component {
               numeroDocumento: "",
               correo: "",
             }}
-            validate={{}}
+            validate={(values) => {
+              const { numeroDocumento, correo } = values;
+
+              let errors = {};
+
+              if (numeroDocumento.length < 11) {
+                errors.numeroDocumento =
+                  "El número de documento debe ser de 11 dígitos.";
+              }
+
+              if (!EMAIL_REGEXP.test(correo)) {
+                errors.correo = EMAIL_INVALID;
+              } else if (correo.length < E_MINLENGTH) {
+                errors.correo = EMAIL_MINLENGTH;
+              }
+
+              return errors;
+            }}
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(false);
               const dataModel = {
@@ -278,13 +309,14 @@ class BusinessProfile extends Component {
                     name="nombreCompañia"
                     className="TxtField"
                     variant="outlined"
-                    label="Nombre de la compañia"
+                    label="Nombre de la compañía"
                     fullWidth
                     value={values.nombreCompañia}
                     error={errors.nombreCompañia && touched.nombreCompañia}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     disabled={!this.state.edit}
+                    required
                     style={{
                       marginTop: "10px",
                       marginRight: "5px",
@@ -300,12 +332,13 @@ class BusinessProfile extends Component {
                     name="nombreComercial"
                     className="TxtField"
                     variant="outlined"
-                    label="Nombre comercial de la compañia"
+                    label="Nombre comercial de la compañía"
                     fullWidth
                     value={values.nombreComercial}
                     error={errors.nombreComercial && touched.nombreComercial}
                     onBlur={handleBlur}
                     onChange={handleChange}
+                    required
                     style={{
                       marginTop: "10px",
                       marginLeft: "5px",
@@ -323,21 +356,28 @@ class BusinessProfile extends Component {
                     name="numeroDocumento"
                     className="TxtField"
                     variant="outlined"
-                    label="Numero de documento"
+                    label="RUC"
+                    placeholder="Número de documento"
                     fullWidth
                     value={values.numeroDocumento}
                     error={errors.numeroDocumento && touched.numeroDocumento}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     disabled={!this.state.edit}
+                    required
                     style={{
                       marginRight: "5px",
                       marginBottom: "10px",
                     }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    inputProps={{
+                      maxLength: 11,
+                    }}
+                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="numeroDocumento"
+                    component="div"
                   />
 
                   <TextField
@@ -351,6 +391,7 @@ class BusinessProfile extends Component {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     disabled={!this.state.edit}
+                    required
                     style={{
                       marginLeft: "5px",
                       marginBottom: "10px",
@@ -359,6 +400,11 @@ class BusinessProfile extends Component {
                     //   maxLength: 9,
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="correo"
+                    component="div"
                   />
                 </div>
                 {this.state.edit ? (

@@ -516,7 +516,7 @@ export class FormService extends Component {
                       marginTop: "5px",
                     }}
                   >
-                    <InputLabel id="categoria">Categoria</InputLabel>
+                    <InputLabel id="categoria">Categoría</InputLabel>
                     <Select
                       labelId="categoria"
                       label="Categoría"
@@ -648,7 +648,7 @@ export class FormService extends Component {
                       }}
                     >
                       <TableRow>
-                        <TableCell className="font-tittle">Dia</TableCell>
+                        <TableCell className="font-tittle">Día</TableCell>
                         <TableCell
                           className="font-tittle"
                           style={{ textAlign: "center" }}
@@ -783,7 +783,7 @@ export class FormService extends Component {
                         </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell className="font">Miercoles</TableCell>
+                        <TableCell className="font">Miércoles</TableCell>
                         <TableCell
                           className="font"
                           style={{ textAlign: "center" }}
@@ -968,7 +968,7 @@ export class FormService extends Component {
                         </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell className="font">Sabado</TableCell>
+                        <TableCell className="font">Sábado</TableCell>
                         <TableCell
                           className="font"
                           style={{ textAlign: "center" }}

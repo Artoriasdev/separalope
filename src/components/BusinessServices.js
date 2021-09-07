@@ -57,6 +57,13 @@ class BusinessServices extends Component {
         .catch((error) => {
           const { status } = error.response;
           if (status === 401) {
+            sessionStorage.removeItem("tk");
+            sessionStorage.removeItem("logo");
+            sessionStorage.removeItem("logged");
+            sessionStorage.removeItem("workflow");
+            sessionStorage.removeItem("tradename");
+            sessionStorage.removeItem("info");
+            sessionStorage.removeItem("id");
             this.setState({
               showModalError: true,
               disclaimerModal:
@@ -99,6 +106,7 @@ class BusinessServices extends Component {
       showModalError: false,
     });
     this.props.history.push("/login/B");
+    this.props.history.go();
   };
 
   handleEdit = (id) => {
@@ -153,8 +161,8 @@ class BusinessServices extends Component {
               <TableHead className="table-head">
                 <TableRow>
                   <TableCell className="font-tittle">Servicio</TableCell>
-                  <TableCell className="font-tittle">Descripcion</TableCell>
-                  <TableCell className="font-tittle">Stock</TableCell>
+                  <TableCell className="font-tittle">Descripción</TableCell>
+                  <TableCell className="font-tittle">Duración</TableCell>
                   <TableCell className="font-tittle" width="12%">
                     Precio
                   </TableCell>
@@ -172,14 +180,16 @@ class BusinessServices extends Component {
                     id,
                     title,
                     description,
-                    totalStock,
+                    duration,
                     currencySymbol,
                     price,
                   }) => (
                     <TableRow key={id}>
                       <TableCell className="font">{title}</TableCell>
-                      <TableCell className="font">{description}</TableCell>
-                      <TableCell className="font">{totalStock}</TableCell>
+                      <TableCell className="font" width="30%">
+                        {description}
+                      </TableCell>
+                      <TableCell className="font">{duration}</TableCell>
                       <TableCell className="font">
                         {currencySymbol + " " + price}
                       </TableCell>

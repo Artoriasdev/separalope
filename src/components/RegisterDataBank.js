@@ -1,7 +1,7 @@
 import React from "react";
 import { Component } from "react";
 import Axios from "axios";
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import ModalSucess from "./ModalSucess";
 import {
   TextField,
@@ -15,6 +15,12 @@ import { handleRegexDisable } from "../utils/utilitaries";
 import { Save } from "@material-ui/icons";
 import axios from "axios";
 import ModalError from "./ModalError";
+import { EMAIL_REGEXP } from "../utils/regexp";
+import {
+  EMAIL_INVALID,
+  EMAIL_MINLENGTH,
+  E_MINLENGTH,
+} from "../utils/constants";
 
 class RegisterDataBank extends Component {
   constructor(props) {
@@ -48,8 +54,8 @@ class RegisterDataBank extends Component {
           headers: headers,
         })
         .then((response) => {
-          console.log(response);
-          if (response.data.response === "true") {
+          console.log(response.data.data);
+          if (response.data.data !== undefined) {
             this.setState({
               showModalError: true,
               disclaimerModal:
@@ -79,6 +85,13 @@ class RegisterDataBank extends Component {
         .catch((error) => {
           const { status } = error.response;
           if (status === 401) {
+            sessionStorage.removeItem("tk");
+            sessionStorage.removeItem("logo");
+            sessionStorage.removeItem("logged");
+            sessionStorage.removeItem("workflow");
+            sessionStorage.removeItem("tradename");
+            sessionStorage.removeItem("info");
+            sessionStorage.removeItem("id");
             this.setState({
               showModalError: true,
               disclaimerModal:
@@ -142,15 +155,14 @@ class RegisterDataBank extends Component {
     return rspApi;
   };
 
-  handleGetTypeAccount = () => {
+  handleGetTypeAccount = (id) => {
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getBanksAccountType/1";
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getBanksAccountType/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -167,6 +179,39 @@ class RegisterDataBank extends Component {
         return response;
       });
     return rspApi;
+  };
+
+  //hacer handleChangeDocumentType
+  handleDocumentChange = (e) => {
+    const value = e.target.value;
+    const formField = e.target.name;
+    const formik = this.form;
+
+    if (formField === "bancoId") {
+      formik.setFieldValue(formField, value, true);
+      formik.setFieldValue("tipoId", "", true);
+      formik.setFieldValue("numeroCuenta", "", true);
+      this.handleGetTypeAccount(value);
+    }
+    if (formField === "tipoId") {
+      formik.setFieldValue(formField, value, true);
+      formik.setFieldValue("numeroCuenta", "", true);
+    }
+    if (formField === "numeroCuenta") {
+      const { tipoId } = formik.state.values;
+      formik.setFieldValue(formField, value, true);
+
+      let maxLengthInput = 10;
+      if (tipoId === 1) maxLengthInput = 16;
+      if (tipoId === 2 || tipoId === 4) maxLengthInput = 12;
+      if (tipoId === 3) maxLengthInput = 17;
+      if (tipoId === 5) maxLengthInput = 11;
+      if (tipoId === 6) maxLengthInput = 10;
+      if (tipoId === 7) maxLengthInput = 14;
+      if (tipoId === 8) maxLengthInput = 13;
+      formik.setFieldValue("maxLengthValue", maxLengthInput, true);
+      formik.setFieldValue(formField, value.toUpperCase(), true);
+    }
   };
 
   toggleModalSuccess = () => {
@@ -221,8 +266,27 @@ class RegisterDataBank extends Component {
               numeroCuenta: "",
               numeroInterbancario: "",
               correoBancario: "",
+              maxLengthValue: 10,
             }}
-            validate={{}}
+            validate={(values) => {
+              const { numeroCuenta, maxLengthValue, correoBancario } = values;
+
+              let errors = {};
+
+              if (!EMAIL_REGEXP.test(correoBancario)) {
+                errors.correoBancario = EMAIL_INVALID;
+              } else if (correoBancario.length < E_MINLENGTH) {
+                errors.correoBancario = EMAIL_MINLENGTH;
+              }
+
+              if (!numeroCuenta) {
+                errors.numeroCuenta = "";
+              } else if (numeroCuenta.length < maxLengthValue) {
+                errors.numeroCuenta = `El número de cuenta debe tener ${values.maxLengthValue} dígitos`;
+              }
+
+              return errors;
+            }}
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(false);
               const bankModel = {
@@ -282,8 +346,9 @@ class RegisterDataBank extends Component {
                       value={values.bancoId}
                       error={errors.bancoId && touched.bancoId}
                       name="bancoId"
-                      onChange={handleChange}
+                      onChange={this.handleDocumentChange}
                       onBlur={handleBlur}
+                      required
                     >
                       {this.state.typeBank &&
                         this.state.typeBank.map(({ id, name }) => (
@@ -310,8 +375,9 @@ class RegisterDataBank extends Component {
                       value={values.tipoId}
                       error={errors.tipoId && touched.tipoId}
                       name="tipoId"
-                      onChange={handleChange}
+                      onChange={this.handleDocumentChange}
                       onBlur={handleBlur}
+                      required
                     >
                       {this.state.typeAccount &&
                         this.state.typeAccount.map(({ id, description }) => (
@@ -326,21 +392,27 @@ class RegisterDataBank extends Component {
                     name="numeroCuenta"
                     className="TxtField"
                     variant="outlined"
-                    label="Numero de cuenta"
+                    label="Número de cuenta"
                     fullWidth
                     value={values.numeroCuenta}
                     error={errors.numeroCuenta && touched.numeroCuenta}
                     onBlur={handleBlur}
-                    onChange={handleChange}
+                    onChange={this.handleDocumentChange}
+                    required
                     style={{
                       marginTop: "10px",
                       marginLeft: "5px",
                       marginBottom: "15px",
                     }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    inputProps={{
+                      maxLength: values.maxLengthValue,
+                    }}
+                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="numeroCuenta"
+                    component="div"
                   />
                 </div>
                 <div className="files">
@@ -348,7 +420,7 @@ class RegisterDataBank extends Component {
                     name="numeroInterbancario"
                     className="TxtField"
                     variant="outlined"
-                    label="Numero de cuenta interbancario"
+                    label="Número de cuenta interbancario"
                     fullWidth
                     value={values.numeroInterbancario}
                     error={
@@ -356,6 +428,7 @@ class RegisterDataBank extends Component {
                     }
                     onBlur={handleBlur}
                     onChange={handleChange}
+                    required
                     style={{
                       marginRight: "5px",
                       marginBottom: "10px",
@@ -376,6 +449,7 @@ class RegisterDataBank extends Component {
                     error={errors.correoBancario && touched.correoBancario}
                     onBlur={handleBlur}
                     onChange={handleChange}
+                    required
                     style={{
                       marginLeft: "5px",
                       marginBottom: "10px",
@@ -384,6 +458,11 @@ class RegisterDataBank extends Component {
                     //   maxLength: 9,
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="correoBancario"
+                    component="div"
                   />
                 </div>
                 <div className="files">
@@ -394,6 +473,7 @@ class RegisterDataBank extends Component {
                     className="btn-primary"
                     startIcon={<Save />}
                     fullWidth
+                    disabled={isSubmitting}
                     style={{ marginTop: "5px" }}
                   >
                     Guardar datos bancarios

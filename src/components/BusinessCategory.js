@@ -55,6 +55,13 @@ class BusinessCategory extends Component {
         .catch((error) => {
           const { status } = error.response;
           if (status === 401) {
+            sessionStorage.removeItem("tk");
+            sessionStorage.removeItem("logo");
+            sessionStorage.removeItem("logged");
+            sessionStorage.removeItem("workflow");
+            sessionStorage.removeItem("tradename");
+            sessionStorage.removeItem("info");
+            sessionStorage.removeItem("id");
             this.setState({
               showModalError: true,
               disclaimerModal:
@@ -108,6 +115,7 @@ class BusinessCategory extends Component {
       showModalError: false,
     });
     this.props.history.push("/login/B");
+    this.props.history.go();
   };
 
   render() {

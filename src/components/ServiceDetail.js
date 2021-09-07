@@ -822,7 +822,7 @@ class ServiceDetail extends Component {
                           }}
                         >
                           <TableRow>
-                            <TableCell className="font-tittle">Dia</TableCell>
+                            <TableCell className="font-tittle">Día</TableCell>
                             <TableCell
                               className="font-tittle"
                               style={{ textAlign: "center" }}
@@ -967,7 +967,7 @@ class ServiceDetail extends Component {
                             </TableCell>
                           </TableRow>
                           <TableRow>
-                            <TableCell className="font">Miercoles</TableCell>
+                            <TableCell className="font">Miércoles</TableCell>
                             <TableCell
                               className="font"
                               style={{ textAlign: "center" }}
@@ -1166,7 +1166,7 @@ class ServiceDetail extends Component {
                             </TableCell>
                           </TableRow>
                           <TableRow>
-                            <TableCell className="font">Sabado</TableCell>
+                            <TableCell className="font">Sábado</TableCell>
                             <TableCell
                               className="font"
                               style={{ textAlign: "center" }}

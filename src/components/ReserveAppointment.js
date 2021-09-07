@@ -74,6 +74,13 @@ class ReserveAppointment extends Component {
         .catch((error) => {
           const { status } = error.response;
           if (status === 401) {
+            sessionStorage.removeItem("tk");
+            sessionStorage.removeItem("logo");
+            sessionStorage.removeItem("logged");
+            sessionStorage.removeItem("workflow");
+            sessionStorage.removeItem("tradename");
+            sessionStorage.removeItem("info");
+            sessionStorage.removeItem("id");
             this.setState({
               modal: true,
               message: "Sesión expirada, porfavor vuelva a iniciar sesión",

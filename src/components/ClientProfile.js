@@ -124,6 +124,12 @@ class ClientProfile extends Component {
         .catch((error) => {
           const { status } = error.response;
           if (status === 401) {
+            sessionStorage.removeItem("tk");
+            sessionStorage.removeItem("logged");
+            sessionStorage.removeItem("workflow");
+            sessionStorage.removeItem("name");
+            sessionStorage.removeItem("info");
+            sessionStorage.removeItem("lastName");
             this.setState({
               showModalError: true,
               disclaimerModal:
@@ -172,6 +178,7 @@ class ClientProfile extends Component {
       showModalError: false,
     });
     this.props.history.push("/login/C");
+    this.props.history.go();
   };
 
   toggleModalSuccess = () => {
