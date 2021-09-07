@@ -679,35 +679,31 @@ class ServiceDetail extends Component {
                 <form name="formSubmit" onSubmit={handleSubmit}>
                   <div>
                     <div className="files">
-                      <FormControl
+                      <Select
+                        value={values.categoria}
+                        error={this.state.martes.categoria && touched.categoria}
+                        name="categoria"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        disabled
                         variant="outlined"
                         fullWidth
                         style={{
                           marginBottom: "5px",
                           marginTop: "5px",
                         }}
+                        displayEmpty
                       >
-                        <InputLabel id="categoria">Categoría</InputLabel>
-                        <Select
-                          labelId="categoria"
-                          label="Categoría"
-                          value={values.categoria}
-                          error={
-                            this.state.martes.categoria && touched.categoria
-                          }
-                          name="categoria"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          disabled
-                        >
-                          {this.state.categorias &&
-                            this.state.categorias.map(({ id, name }) => (
-                              <MenuItem key={id} value={id}>
-                                {name}
-                              </MenuItem>
-                            ))}
-                        </Select>
-                      </FormControl>
+                        <MenuItem disabled value={""}>
+                          Categoría
+                        </MenuItem>
+                        {this.state.categorias &&
+                          this.state.categorias.map(({ id, name }) => (
+                            <MenuItem key={id} value={id}>
+                              {name}
+                            </MenuItem>
+                          ))}
+                      </Select>
                     </div>
                     <div className="files">
                       <TextField
@@ -716,7 +712,7 @@ class ServiceDetail extends Component {
                         variant="outlined"
                         fullWidth
                         required
-                        label="Servicio"
+                        placeholder="Servicio"
                         value={values.servicio}
                         error={this.state.martes.servicio && touched.servicio}
                         onBlur={handleBlur}
@@ -731,14 +727,40 @@ class ServiceDetail extends Component {
                         // }}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
-
+                      <Select
+                        value={values.hora}
+                        error={this.state.martes.hora && touched.hora}
+                        name="hora"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        required
+                        variant="outlined"
+                        fullWidth
+                        style={{
+                          marginLeft: "5px",
+                          marginBottom: "5px",
+                          marginTop: "5px",
+                        }}
+                      >
+                        <MenuItem disabled value={""}>
+                          Duración
+                        </MenuItem>
+                        {this.state.horas &&
+                          this.state.horas.map(({ id, value }) => (
+                            <MenuItem key={id} value={id}>
+                              {value}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </div>
+                    <div className="files">
                       <TextField
                         name="descripcion"
                         className="TxtField"
                         variant="outlined"
                         fullWidth
                         required
-                        label="Descripción"
+                        placeholder="Descripción"
                         value={values.descripcion}
                         error={
                           this.state.martes.descripcion && touched.descripcion
@@ -746,45 +768,17 @@ class ServiceDetail extends Component {
                         onBlur={handleBlur}
                         onChange={handleChange}
                         style={{
-                          marginLeft: "5px",
+                          marginRight: "5px",
                           marginBottom: "5px",
                           marginTop: "5px",
                         }}
+                        multiline
+                        minRows={4}
                         // inputProps={{
                         //   maxLength: 9,
                         // }}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
-                    </div>
-                    <div className="files">
-                      <FormControl
-                        variant="outlined"
-                        fullWidth
-                        style={{
-                          marginRight: "5px",
-                          marginBottom: "5px",
-                          marginTop: "5px",
-                        }}
-                      >
-                        <InputLabel id="hora">Duración</InputLabel>
-                        <Select
-                          labelId="hora"
-                          label="Duración"
-                          value={values.hora}
-                          error={this.state.martes.hora && touched.hora}
-                          name="hora"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          required
-                        >
-                          {this.state.horas &&
-                            this.state.horas.map(({ id, value }) => (
-                              <MenuItem key={id} value={id}>
-                                {value}
-                              </MenuItem>
-                            ))}
-                        </Select>
-                      </FormControl>
 
                       <TextField
                         name="precio"
@@ -792,7 +786,7 @@ class ServiceDetail extends Component {
                         variant="outlined"
                         fullWidth
                         required
-                        label="Precio"
+                        placeholder="Precio"
                         value={values.precio}
                         error={this.state.martes.precio && touched.precio}
                         onBlur={handleBlur}
@@ -844,26 +838,24 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="inicio">Inicio</InputLabel>
-                                <Select
-                                  labelId="inicio"
-                                  label="Inicio"
-                                  value={values.horarioAtencion.lunesHoraInicio}
-                                  error={this.state.lunes}
-                                  name="horarioAtencion.lunesHoraInicio"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.lunesHoraInicio}
+                                error={this.state.lunes}
+                                name="horarioAtencion.lunesHoraInicio"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                displayEmpty
+                                variant="outlined"
+                                fullWidth
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.lunes ? (
                                 <div className="error">
                                   {this.state.err.lunes}
@@ -874,26 +866,24 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="fin">Fin</InputLabel>
-                                <Select
-                                  labelId="fin"
-                                  label="Fin"
-                                  value={values.horarioAtencion.lunesHoraFinal}
-                                  error={this.state.lunes}
-                                  name="horarioAtencion.lunesHoraFinal"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.lunesHoraFinal}
+                                error={this.state.lunes}
+                                name="horarioAtencion.lunesHoraFinal"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.lunes ? (
                                 <div className="error">
                                   {this.state.err.lunes}
@@ -907,28 +897,24 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="inicio">Inicio</InputLabel>
-                                <Select
-                                  labelId="inicio"
-                                  label="Inicio"
-                                  value={
-                                    values.horarioAtencion.martesHoraInicio
-                                  }
-                                  error={this.state.martes}
-                                  name="horarioAtencion.martesHoraInicio"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.martesHoraInicio}
+                                error={this.state.martes}
+                                name="horarioAtencion.martesHoraInicio"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.martes ? (
                                 <div className="error">
                                   {this.state.err.martes}
@@ -939,26 +925,24 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="fin">Fin</InputLabel>
-                                <Select
-                                  labelId="fin"
-                                  label="Fin"
-                                  value={values.horarioAtencion.martesHoraFinal}
-                                  error={this.state.martes}
-                                  name="horarioAtencion.martesHoraFinal"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.martesHoraFinal}
+                                error={this.state.martes}
+                                name="horarioAtencion.martesHoraFinal"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.martes ? (
                                 <div className="error">
                                   {this.state.err.martes}
@@ -972,28 +956,26 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="inicio">Inicio</InputLabel>
-                                <Select
-                                  labelId="inicio"
-                                  label="Inicio"
-                                  value={
-                                    values.horarioAtencion.miercolesHoraInicio
-                                  }
-                                  error={this.state.miercoles}
-                                  name="horarioAtencion.miercolesHoraInicio"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={
+                                  values.horarioAtencion.miercolesHoraInicio
+                                }
+                                error={this.state.miercoles}
+                                name="horarioAtencion.miercolesHoraInicio"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.miercoles ? (
                                 <div className="error">
                                   {this.state.err.miercoles}
@@ -1004,28 +986,26 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="fin">Fin</InputLabel>
-                                <Select
-                                  labelId="fin"
-                                  label="Fin"
-                                  value={
-                                    values.horarioAtencion.miercolesHoraFinal
-                                  }
-                                  error={this.state.miercoles}
-                                  name="horarioAtencion.miercolesHoraFinal"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={
+                                  values.horarioAtencion.miercolesHoraFinal
+                                }
+                                error={this.state.miercoles}
+                                name="horarioAtencion.miercolesHoraFinal"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.miercoles ? (
                                 <div className="error">
                                   {this.state.err.miercoles}
@@ -1039,28 +1019,24 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="inicio">Inicio</InputLabel>
-                                <Select
-                                  labelId="inicio"
-                                  label="Inicio"
-                                  value={
-                                    values.horarioAtencion.juevesHoraInicio
-                                  }
-                                  error={this.state.jueves}
-                                  name="horarioAtencion.juevesHoraInicio"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.juevesHoraInicio}
+                                error={this.state.jueves}
+                                name="horarioAtencion.juevesHoraInicio"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.jueves ? (
                                 <div className="error">
                                   {this.state.err.jueves}
@@ -1071,26 +1047,24 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="fin">Fin</InputLabel>
-                                <Select
-                                  labelId="fin"
-                                  label="Fin"
-                                  value={values.horarioAtencion.juevesHoraFinal}
-                                  error={this.state.jueves}
-                                  name="horarioAtencion.juevesHoraFinal"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.juevesHoraFinal}
+                                error={this.state.jueves}
+                                name="horarioAtencion.juevesHoraFinal"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.jueves ? (
                                 <div className="error">
                                   {this.state.err.jueves}
@@ -1104,28 +1078,24 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="inicio">Inicio</InputLabel>
-                                <Select
-                                  labelId="inicio"
-                                  label="Inicio"
-                                  value={
-                                    values.horarioAtencion.viernesHoraInicio
-                                  }
-                                  error={this.state.viernes}
-                                  name="horarioAtencion.viernesHoraInicio"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.viernesHoraInicio}
+                                error={this.state.viernes}
+                                name="horarioAtencion.viernesHoraInicio"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.viernes ? (
                                 <div className="error">
                                   {this.state.err.viernes}
@@ -1136,28 +1106,24 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="fin">Fin</InputLabel>
-                                <Select
-                                  labelId="fin"
-                                  label="Fin"
-                                  value={
-                                    values.horarioAtencion.viernesHoraFinal
-                                  }
-                                  error={this.state.viernes}
-                                  name="horarioAtencion.viernesHoraFinal"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.viernesHoraFinal}
+                                error={this.state.viernes}
+                                name="horarioAtencion.viernesHoraFinal"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.viernes ? (
                                 <div className="error">
                                   {this.state.err.viernes}
@@ -1171,28 +1137,25 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="inicio">Inicio</InputLabel>
-                                <Select
-                                  labelId="inicio"
-                                  label="Inicio"
-                                  value={
-                                    values.horarioAtencion.sabadoHoraInicio
-                                  }
-                                  error={this.state.sabado}
-                                  name="horarioAtencion.sabadoHoraInicio"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.sabadoHoraInicio}
+                                error={this.state.sabado}
+                                name="horarioAtencion.sabadoHoraInicio"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
+
                               {this.state.sabado ? (
                                 <div className="error">
                                   {this.state.err.sabado}
@@ -1203,26 +1166,24 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="fin">Fin</InputLabel>
-                                <Select
-                                  labelId="fin"
-                                  label="Fin"
-                                  value={values.horarioAtencion.sabadoHoraFinal}
-                                  error={this.state.sabado}
-                                  name="horarioAtencion.sabadoHoraFinal"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.sabadoHoraFinal}
+                                error={this.state.sabado}
+                                name="horarioAtencion.sabadoHoraFinal"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.sabado ? (
                                 <div className="error">
                                   {this.state.err.sabado}
@@ -1236,28 +1197,24 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="inicio">Inicio</InputLabel>
-                                <Select
-                                  labelId="inicio"
-                                  label="Inicio"
-                                  value={
-                                    values.horarioAtencion.domingoHoraInicio
-                                  }
-                                  error={this.state.domingo}
-                                  name="horarioAtencion.domingoHoraInicio"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.domingoHoraInicio}
+                                error={this.state.domingo}
+                                name="horarioAtencion.domingoHoraInicio"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.domingo ? (
                                 <div className="error">
                                   {this.state.err.domingo}
@@ -1268,28 +1225,24 @@ class ServiceDetail extends Component {
                               className="font"
                               style={{ textAlign: "center" }}
                             >
-                              <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="fin">Fin</InputLabel>
-                                <Select
-                                  labelId="fin"
-                                  label="Fin"
-                                  value={
-                                    values.horarioAtencion.domingoHoraFinal
-                                  }
-                                  error={this.state.domingo}
-                                  name="horarioAtencion.domingoHoraFinal"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                >
-                                  <MenuItem value="">Seleccione</MenuItem>
-                                  {this.state.horarios &&
-                                    this.state.horarios.map(({ id, value }) => (
-                                      <MenuItem key={id} value={id}>
-                                        {value}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                              </FormControl>
+                              <Select
+                                value={values.horarioAtencion.domingoHoraFinal}
+                                error={this.state.domingo}
+                                name="horarioAtencion.domingoHoraFinal"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                variant="outlined"
+                                fullWidth
+                                displayEmpty
+                              >
+                                <MenuItem value="">Seleccione</MenuItem>
+                                {this.state.horarios &&
+                                  this.state.horarios.map(({ id, value }) => (
+                                    <MenuItem key={id} value={id}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
                               {this.state.domingo ? (
                                 <div className="error">
                                   {this.state.err.domingo}

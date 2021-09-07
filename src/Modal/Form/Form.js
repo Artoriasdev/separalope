@@ -133,6 +133,8 @@ export class Form extends Component {
                   onChange={handleChange}
                   onInput={handleRegexDisable("")}
                   style={{ margin: "20px 0 0 0" }}
+                  required
+                  autoComplete="off"
                 />
               </div>
               <div>
@@ -148,6 +150,10 @@ export class Form extends Component {
                   onChange={handleChange}
                   onInput={handleRegexDisable("")}
                   style={{ margin: "20px 0 10px 0" }}
+                  required
+                  multiline
+                  minRows={5}
+                  autoComplete="off"
                 />
               </div>
               <div
