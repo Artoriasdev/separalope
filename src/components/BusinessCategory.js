@@ -176,29 +176,34 @@ class BusinessCategory extends Component {
           </Button>
         </div>
 
-        <Container triggerText={this.state.triggerText} />
+        <Container
+          triggerText={this.state.triggerText}
+          history={this.props.history}
+        />
 
         <div className="category-container">
-          {this.state.typeCategorys &&
-            this.state.typeCategorys.map(({ id, image, logo, name }) => (
-              <li key={id} onClick={() => this.handleRedirect(id)}>
-                <a
-                  style={{
-                    backgroundImage: `url(${image})`,
-                  }}
-                  className="card"
-                >
-                  <div className="container">
-                    <span className="svg">
-                      <img src={logo} alt={name} title={name} />
-                    </span>
-                    <span className="name">
-                      <p>{name}</p>
-                    </span>
+          <ul>
+            {this.state.typeCategorys &&
+              this.state.typeCategorys.map(({ id, image, logo, name }) => (
+                <li key={id} onClick={() => this.handleRedirect(id)}>
+                  <div
+                    style={{
+                      backgroundImage: `url(${image})`,
+                    }}
+                    className="card"
+                  >
+                    <div className="container">
+                      <span className="svg">
+                        <img src={logo} alt={name} title={name} />
+                      </span>
+                      <span className="name">
+                        <p>{name}</p>
+                      </span>
+                    </div>
                   </div>
-                </a>
-              </li>
-            ))}
+                </li>
+              ))}
+          </ul>
         </div>
       </div>
     );

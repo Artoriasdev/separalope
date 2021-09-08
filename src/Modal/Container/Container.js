@@ -38,6 +38,7 @@ export class Container extends Component {
             buttonRef={(n) => (this.closeButton = n)}
             closeModal={this.closeModal}
             onKeyDown={this.onKeyDown}
+            history={this.props.history}
           />
         ) : null}
       </React.Fragment>

@@ -53,20 +53,24 @@ class Login extends Component {
           sessionStorage.setItem("workflow", LoginModel.workflow);
 
           if (LoginModel.workflow === "B") {
-            // this.props.history.go(
-
-            // );
-            this.props.history.push("/business/category");
+            setTimeout(() => {
+              this.props.history.push("/business/category");
+              this.props.history.go();
+            }, 500);
           }
 
           if (LoginModel.workflow === "C") {
             this.handleGetDataCustomer();
-            // this.props.history.go();
             if (localStorage.getItem("reserve") === "true") {
               this.props.history.push(`/reserve/${localStorage.getItem("id")}`);
               localStorage.removeItem("reserve");
               localStorage.removeItem("id");
-            } else this.props.history.push("/");
+            } else {
+              setTimeout(() => {
+                this.props.history.go();
+                this.props.history.push("/");
+              }, 500);
+            }
           }
         }
         console.log(response);

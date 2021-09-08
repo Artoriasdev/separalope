@@ -189,7 +189,7 @@ button {
   background-color: #232323;
   &__nav {
     margin: 0 auto;
-    max-width: 1307px;
+    max-width: 1250px;
   }
 }
 
@@ -863,13 +863,24 @@ button {
 }
 
 .category-container {
+  ul {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+  }
   li {
     cursor: pointer;
-    display: inline-block;
-    margin-bottom: 20px;
-    margin-right: 25px;
-    max-width: 272px;
-    position: relative;
+    float: left !important;
+    margin-left: 22px;
+    margin-bottom: 22px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    *:before {
+      box-sizing: inherit;
+    }
+    *:after {
+      box-sizing: inherit;
+    }
   }
   a {
     text-decoration: none;

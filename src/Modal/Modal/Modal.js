@@ -1,7 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Form } from "../Form/Form";
-export const Modal = ({ onKeyDown, modalRef, buttonRef, closeModal }) => {
+export const Modal = ({
+  onKeyDown,
+  modalRef,
+  buttonRef,
+  closeModal,
+  history,
+}) => {
   return ReactDOM.createPortal(
     <aside
       tag="aside"
@@ -25,7 +31,7 @@ export const Modal = ({ onKeyDown, modalRef, buttonRef, closeModal }) => {
               <path d="M 10,10 L 30,30 M 30,10 L 10,30" />
             </svg>
           </button>
-          <Form close={closeModal} />
+          <Form close={closeModal} history={history} />
         </div>
       </div>
     </aside>,

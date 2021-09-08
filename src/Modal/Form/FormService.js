@@ -171,6 +171,21 @@ export class FormService extends Component {
           });
         }
         return response;
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          sessionStorage.removeItem("tk");
+          sessionStorage.removeItem("logo");
+          sessionStorage.removeItem("logged");
+          sessionStorage.removeItem("workflow");
+          sessionStorage.removeItem("tradename");
+          sessionStorage.removeItem("info");
+          sessionStorage.removeItem("id");
+          this.setState({
+            modal: true,
+            message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+          });
+        }
       });
 
     return rspApi;
@@ -185,6 +200,8 @@ export class FormService extends Component {
       this.props.history.go();
       this.props.close();
     }
+    this.props.history.push("/");
+    this.props.history.go();
   };
 
   render() {

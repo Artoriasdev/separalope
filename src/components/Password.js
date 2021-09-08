@@ -5,8 +5,6 @@ import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 
 import { Save, Visibility, VisibilityOff } from "@material-ui/icons";
-import ModalError from "./ModalError";
-import ModalSucess from "./ModalSucess";
 import axios from "axios";
 
 class Password extends Component {
@@ -20,6 +18,12 @@ class Password extends Component {
       showModalSuccess: false,
       response: false,
     };
+  }
+
+  componentDidMount() {
+    if (sessionStorage.getItem("tk") === null) {
+      this.props.history.push("/");
+    }
   }
 
   handleChangePassword = (passwordModel) => {
@@ -50,6 +54,21 @@ class Password extends Component {
           });
         }
         return response;
+      })
+      .catch((error) => {
+        console.log(error.response);
+        if (error.response.status === 401) {
+          sessionStorage.removeItem("tk");
+          sessionStorage.removeItem("logged");
+          sessionStorage.removeItem("workflow");
+          sessionStorage.removeItem("name");
+          sessionStorage.removeItem("info");
+          sessionStorage.removeItem("lastName");
+          this.setState({
+            showModalSucesss: true,
+            disclaimerModal: "Sesión expirada, porfavor vuelva a inciar sesión",
+          });
+        }
       });
 
     return rspApi;
@@ -69,6 +88,8 @@ class Password extends Component {
     if (this.state.response === true) {
       this.props.history.push("/");
     }
+    this.props.history.push("/");
+    this.props.history.go();
   };
 
   render() {
