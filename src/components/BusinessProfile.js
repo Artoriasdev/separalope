@@ -14,6 +14,7 @@ import {
   EMAIL_MINLENGTH,
   E_MINLENGTH,
 } from "../utils/constants";
+import FullPageLoader from "./FullPageLoader";
 
 class BusinessProfile extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class BusinessProfile extends Component {
       showModalError: false,
       showModalSuccess: false,
       disclaimerModal: "",
+      isLoading: false,
     };
   }
   handleEdit = () => {
@@ -99,6 +101,7 @@ class BusinessProfile extends Component {
               showModalError: true,
               disclaimerModal:
                 "Sesión expirada, porfavor vuelva a iniciar sesión",
+              isLoading: false,
             });
           }
         });
@@ -123,10 +126,14 @@ class BusinessProfile extends Component {
       })
       .then((response) => {
         console.log(response.data.response);
+        this.setState({
+          isLoading: true,
+        });
         if (response.data.response === "true") {
           this.setState({
             showModalSuccess: true,
             disclaimerModal: response.data.message,
+            isLoading: false,
           });
         }
         return response;
@@ -176,6 +183,7 @@ class BusinessProfile extends Component {
   render() {
     return (
       <>
+        <FullPageLoader isLoading={this.state.isLoading} />
         <ModalError
           show={this.state.showModalError}
           closeCallback={this.toggleModalError}

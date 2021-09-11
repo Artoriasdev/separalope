@@ -115,7 +115,7 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        <FullPageLoader isLoading={this.state.isLoading} />
+        {/* <FullPageLoader isLoading={this.state.isLoading} /> */}
         <Carousel />
         <div
           className="page-container"

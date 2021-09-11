@@ -17,6 +17,7 @@ import {
 } from "../utils/constants";
 import { EMAIL_REGEXP } from "../utils/regexp";
 import { handleRegexDisable } from "../utils/utilitaries";
+import FullPageLoader from "./FullPageLoader";
 
 class ReserveAppointmentInvited extends Component {
   constructor(props) {
@@ -158,11 +159,13 @@ class ReserveAppointmentInvited extends Component {
       })
       .then((response) => {
         const { data } = response;
+        this.setState({ isLoading: true });
 
         if (data.response === "false") {
           this.setState({
             modal: true,
             message: data.message,
+            isLoading: false,
           });
         }
         return response;
@@ -185,6 +188,7 @@ class ReserveAppointmentInvited extends Component {
   render() {
     return (
       <div>
+        <FullPageLoader isLoading={this.state.isLoading} />
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -305,6 +309,7 @@ class ReserveAppointmentInvited extends Component {
                     modal: true,
                     message: "¡Registro grabado satisfactoriamente!",
                     response: true,
+                    isLoading: false,
                   });
                 }
               })();

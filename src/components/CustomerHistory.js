@@ -95,7 +95,7 @@ class CustomerHistory extends Component {
   render() {
     return (
       <>
-        <FullPageLoader isLoading={this.state.isLoading} />
+        {/* <FullPageLoader isLoading={this.state.isLoading} /> */}
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"

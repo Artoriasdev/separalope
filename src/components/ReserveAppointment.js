@@ -87,6 +87,7 @@ class ReserveAppointment extends Component {
             this.setState({
               modal: true,
               message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+              isLoading: false,
             });
           }
         });
@@ -220,6 +221,7 @@ class ReserveAppointment extends Component {
           this.setState({
             modal: true,
             message: data.message,
+            isLoading: false,
           });
         }
         return response;

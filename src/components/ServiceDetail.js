@@ -21,6 +21,7 @@ import { Formik } from "formik";
 import React from "react";
 import { Component } from "react";
 import { handleRegexDisable } from "../utils/utilitaries";
+import FullPageLoader from "./FullPageLoader";
 
 class ServiceDetail extends Component {
   constructor(props) {
@@ -295,6 +296,7 @@ class ServiceDetail extends Component {
           this.setState({
             modal: true,
             message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+            isLoading: false,
           });
         }
       });
@@ -316,11 +318,16 @@ class ServiceDetail extends Component {
         headers: headers,
       })
       .then((response) => {
+        this.setState({
+          isLoading: true,
+        });
+
         if (response.data.response === "true") {
           this.setState({
             modal: true,
             message: response.data.message,
             response: true,
+            isLoading: false,
           });
         }
         return response;
@@ -356,6 +363,7 @@ class ServiceDetail extends Component {
   render() {
     return (
       <>
+        <FullPageLoader isLoading={this.state.isLoading} />
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"

@@ -15,6 +15,7 @@ import {
   REQUIRED,
 } from "../utils/constants";
 import { EMAIL_REGEXP } from "../utils/regexp";
+import FullPageLoader from "./FullPageLoader";
 
 class RegisterCustomer extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class RegisterCustomer extends Component {
       showModalSucesss: false,
       disclaimerModal: "",
       response: "",
+      isLoading: false,
     };
   }
 
@@ -105,11 +107,15 @@ class RegisterCustomer extends Component {
       headers: headers,
     }).then((response) => {
       const { data } = response;
+      this.setState({
+        isLoading: true,
+      });
 
       if (data.response === "false") {
         this.setState({
           showModalSucesss: true,
           disclaimerModal: data.message,
+          isLoading: false,
         });
       }
       return response;
@@ -209,6 +215,7 @@ class RegisterCustomer extends Component {
   render() {
     return (
       <>
+        <FullPageLoader isLoading={this.state.isLoading} />
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -338,6 +345,7 @@ class RegisterCustomer extends Component {
 
                 if (response === "true") {
                   this.setState({
+                    isLoading: false,
                     showModalSucesss: true,
                     disclaimerModal: "¡Registro grabado satisfactoriamente!",
                     response: true,

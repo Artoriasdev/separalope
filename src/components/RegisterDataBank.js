@@ -21,6 +21,7 @@ import {
   EMAIL_MINLENGTH,
   E_MINLENGTH,
 } from "../utils/constants";
+import FullPageLoader from "./FullPageLoader";
 
 class RegisterDataBank extends Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class RegisterDataBank extends Component {
       showModalSucesss: false,
       showModalError: false,
       disableButton: false,
+      isLoading: false,
     };
   }
 
@@ -122,6 +124,17 @@ class RegisterDataBank extends Component {
       headers: headers,
     }).then((response) => {
       console.log(response);
+      const { data } = response;
+      this.setState({
+        isLoading: true,
+      });
+      if (data.response === "false") {
+        this.setState({
+          showModalSucesss: true,
+          disclaimerModal: data.message,
+          isLoading: false,
+        });
+      }
       return response;
     });
 
@@ -229,6 +242,7 @@ class RegisterDataBank extends Component {
   render() {
     return (
       <>
+        <FullPageLoader isLoading={this.state.isLoading} />
         <ModalError
           show={this.state.showModalError}
           closeCallback={this.toggleModalError}
@@ -325,6 +339,7 @@ class RegisterDataBank extends Component {
 
                 if (response === "true") {
                   this.setState({
+                    isLoading: false,
                     showModalSucesss: true,
                     disclaimerModal: "¡Registro grabado satisfactoriamente!",
                   });
