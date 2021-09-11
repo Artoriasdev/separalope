@@ -5,14 +5,10 @@ import "react-multi-carousel/lib/styles.css";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
 
 import axios from "axios";
-import { Button, InputAdornment, TextField } from "@material-ui/core";
-import { ArrowBack, Search } from "@material-ui/icons";
-import {
-  ArrowCircleSVG,
-  ArrowLeftSVG,
-  ArrowRightSVG,
-  LogoSVG,
-} from "../assets/images/svg";
+import { InputAdornment, TextField } from "@material-ui/core";
+import { Search } from "@material-ui/icons";
+import { ArrowLeftSVG, ArrowRightSVG } from "../assets/images/svg";
+import FullPageLoader from "./FullPageLoader";
 
 const responsive = {
   desktop: {
@@ -58,6 +54,7 @@ class HomePage extends Component {
 
     this.state = {
       typeCategorys: [],
+      isLoading: false,
     };
   }
 
@@ -91,11 +88,20 @@ class HomePage extends Component {
       })
       .then((response) => {
         const { data } = response.data;
+        const rsp = response.data.response;
+        this.setState({
+          isLoading: true,
+        });
 
         this.setState({
           typeCategorys: data,
         });
-        console.log(data);
+        if (rsp === "true") {
+          this.setState({
+            isLoading: false,
+          });
+        }
+        // console.log(rsp);
 
         return response;
       });
@@ -109,6 +115,7 @@ class HomePage extends Component {
   render() {
     return (
       <div>
+        <FullPageLoader isLoading={this.state.isLoading} />
         <Carousel />
         <div
           className="page-container"
@@ -126,11 +133,11 @@ class HomePage extends Component {
             }}
           >
             <div style={{ position: "absolute" }}>
-              <h1>Nuestras Categorias</h1>
+              <h1>Nuestras categorías</h1>
 
               <h3 className="register__subtitle">
-                son 100% digitales vía zoom en la comodidad de tu hogar <br /> y
-                en el horario que tú decidas.
+                son 100% seguras vía internet en la comodidad de tu hogar <br />{" "}
+                y en el horario que tú decidas.
               </h3>
             </div>
 

@@ -1,6 +1,5 @@
 import React from "react";
 import { Component } from "react";
-import { ArrowCircleSVG } from "../assets/images/svg";
 import Axios from "axios";
 import { ErrorMessage, Formik } from "formik";
 
@@ -12,6 +11,7 @@ import {
   EMAIL_MINLENGTH,
   E_MINLENGTH,
 } from "../utils/constants";
+import FullPageLoader from "./FullPageLoader";
 
 class RegisterBusiness extends Component {
   constructor(props) {
@@ -23,6 +23,7 @@ class RegisterBusiness extends Component {
       showModalSucesss: false,
       disclaimerModal: "",
       response: false,
+      isLoading: false,
     };
   }
 
@@ -60,11 +61,15 @@ class RegisterBusiness extends Component {
       headers: headers,
     }).then((response) => {
       const { data } = response;
+      this.setState({
+        isLoading: true,
+      });
 
       if (data.response === "false") {
         this.setState({
           showModalSucesss: true,
           disclaimerModal: data.message,
+          isLoading: false,
         });
       }
       return response;
@@ -115,13 +120,23 @@ class RegisterBusiness extends Component {
       showModalSucesss: false,
     });
     if (this.state.response === true) {
-      this.props.history.push("/business/category");
+      this.setState({
+        isLoading: true,
+      });
+      setTimeout(() => {
+        this.props.history.push("/business/category");
+        this.props.history.go();
+        this.setState({
+          isLoading: false,
+        });
+      }, 500);
     }
   };
 
   render() {
     return (
       <>
+        <FullPageLoader isLoading={this.state.isLoading} />
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -215,6 +230,7 @@ class RegisterBusiness extends Component {
                     showModalSucesss: true,
                     disclaimerModal: "¡Registro grabado satisfactoriamente!",
                     response: true,
+                    isLoading: false,
                   });
                   this.handleLogin(
                     BusinessModel.email,
@@ -239,7 +255,7 @@ class RegisterBusiness extends Component {
                     name="razon"
                     className="TxtField"
                     variant="outlined"
-                    label="Razón social"
+                    placeholder="Razón social"
                     required
                     fullWidth
                     value={values.razon}
@@ -260,7 +276,7 @@ class RegisterBusiness extends Component {
                     name="nombre"
                     className="TxtField"
                     variant="outlined"
-                    label="Nombre comercial"
+                    placeholder="Nombre comercial"
                     required
                     fullWidth
                     value={values.nombre}
@@ -279,63 +295,56 @@ class RegisterBusiness extends Component {
                 </div>
 
                 <div className="files">
-                  <TextField
-                    name="nroDocumento"
-                    className="TxtField"
-                    variant="outlined"
-                    label="RUC"
-                    placeholder="Ingresa tu número de documento"
-                    required
-                    fullWidth
-                    value={values.nroDocumento}
-                    error={errors.nroDocumento && touched.nroDocumento}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginRight: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    inputProps={{ maxLength: 11 }}
-                    autoComplete="off"
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                  <ErrorMessage
-                    className="error"
-                    name="nroDocumento"
-                    component="div"
-                  />
+                  <div className="txt-left">
+                    <TextField
+                      name="nroDocumento"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="RUC"
+                      required
+                      fullWidth
+                      value={values.nroDocumento}
+                      error={errors.nroDocumento && touched.nroDocumento}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      inputProps={{ maxLength: 11 }}
+                      autoComplete="off"
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                    <ErrorMessage
+                      className="error"
+                      name="nroDocumento"
+                      component="div"
+                    />
+                  </div>
 
-                  <TextField
-                    name="correo"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Correo electrónico"
-                    type="email"
-                    required
-                    fullWidth
-                    value={values.correo}
-                    error={errors.correo && touched.correo}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginLeft: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                  <ErrorMessage
-                    className="error"
-                    name="correo"
-                    component="div"
-                  />
+                  <div className="txt-right">
+                    <TextField
+                      name="correo"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Correo electrónico"
+                      type="email"
+                      required
+                      fullWidth
+                      value={values.correo}
+                      error={errors.correo && touched.correo}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                    <ErrorMessage
+                      className="error"
+                      name="correo"
+                      component="div"
+                    />
+                  </div>
                 </div>
 
                 <div className="files">
@@ -344,7 +353,7 @@ class RegisterBusiness extends Component {
                     type="password"
                     className="TxtField"
                     variant="outlined"
-                    label="Contraseña"
+                    placeholder="Contraseña"
                     required
                     fullWidth
                     value={values.contraseña}
@@ -366,7 +375,7 @@ class RegisterBusiness extends Component {
                     type="password"
                     className="TxtField"
                     variant="outlined"
-                    label="Repetir contraseña"
+                    placeholder="Repetir contraseña"
                     required
                     fullWidth
                     value={values.repContraseña}
@@ -393,7 +402,7 @@ class RegisterBusiness extends Component {
                   type="submit"
                   fullWidth
                 >
-                  Regístrar
+                  Registrar
                 </Button>
               </form>
             )}

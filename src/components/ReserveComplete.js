@@ -110,10 +110,10 @@ export const ReserveComplete = (props) => {
             </Table>
           </TableContainer>
           <span className="mensaje">
-            Una vez enviado el voucher de pago, se le enviara un mensaje a su
-            correo electrónico confirmando su pago y el link de Zoom para su
-            clase, el mismo dia de su sesión le enviaremos un mensaje SMS,
-            recuerde estar unos minutos antes de su sesión.
+            Una vez enviado el voucher de pago, se le enviará un mensaje a su
+            correo electrónico confirmando su pago, el mismo día de su sesión le
+            enviaremos un mensaje SMS, recuerde estar unos minutos antes de su
+            sesión.
           </span>
           <Button
             size="large"

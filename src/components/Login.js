@@ -5,6 +5,7 @@ import React from "react";
 import { Component } from "react";
 import { ArrowCircleSVG } from "../assets/images/svg";
 import { handleRegexDisable } from "../utils/utilitaries";
+import FullPageLoader from "./FullPageLoader";
 
 class Login extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class Login extends Component {
       modal: false,
       response: false,
       message: "",
+      isLoading: false,
     };
   }
 
@@ -43,6 +45,9 @@ class Login extends Component {
       headers: headers,
     })
       .then((response) => {
+        this.setState({
+          isLoading: true,
+        });
         if (response.data.response === "true") {
           sessionStorage.setItem("tk", response.data.data.token);
           sessionStorage.setItem("logged", response.data.response);
@@ -54,6 +59,9 @@ class Login extends Component {
 
           if (LoginModel.workflow === "B") {
             setTimeout(() => {
+              this.setState({
+                isLoading: false,
+              });
               this.props.history.push("/business/category");
               this.props.history.go();
             }, 500);
@@ -67,6 +75,9 @@ class Login extends Component {
               localStorage.removeItem("id");
             } else {
               setTimeout(() => {
+                this.setState({
+                  isLoading: false,
+                });
                 this.props.history.go();
                 this.props.history.push("/");
               }, 500);
@@ -129,6 +140,7 @@ class Login extends Component {
   render() {
     return (
       <>
+        <FullPageLoader isLoading={this.state.isLoading} />
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -180,7 +192,7 @@ class Login extends Component {
                 correo: "",
                 contraseña: "",
               }}
-              validate={{}}
+              // validate={{}}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 const LoginModel = {

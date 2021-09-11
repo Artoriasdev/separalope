@@ -176,7 +176,7 @@ export const Footer = () => {
             <hr />
             <div className={classes.grow} />
             <button className="font-p" onClick={handleModalPriv}>
-              Politicas de privacidad
+              Políticas de privacidad
             </button>
             <div className={classes.grow} />
             <hr />

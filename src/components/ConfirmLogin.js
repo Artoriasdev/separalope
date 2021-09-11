@@ -29,16 +29,6 @@ class ConfirmLogin extends Component {
           >
             Regístrate
           </Button>
-          <span className="font-tittle">ó</span>
-          <Button
-            size="large"
-            color="primary"
-            variant="contained"
-            className="btn-primary"
-            onClick={this.handleRedirectLogin}
-          >
-            Inicia sesión
-          </Button>
           <div style={{ marginTop: "10px" }}>
             <a href={`/reserve/invited/${this.props.match.params.id}`}>
               Continuar como invitado

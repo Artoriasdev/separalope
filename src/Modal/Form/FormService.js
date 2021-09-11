@@ -199,9 +199,10 @@ export class FormService extends Component {
     if (this.state.response === true) {
       this.props.history.go();
       this.props.close();
+    } else {
+      this.props.history.push("/");
+      this.props.history.go();
     }
-    this.props.history.push("/");
-    this.props.history.go();
   };
 
   render() {
@@ -379,7 +380,7 @@ export class FormService extends Component {
               this.setState({
                 err: {
                   lunes:
-                    "El horario inicial no debe ser mayor al horario final",
+                    "El horario final no debe ser menor al horario inicial",
                 },
                 lunes: true,
                 martes: false,
@@ -396,7 +397,7 @@ export class FormService extends Component {
               this.setState({
                 err: {
                   martes:
-                    "El horario inicial no debe ser mayor al horario final",
+                    "El horario final no debe ser menor al horario inicial",
                 },
                 lunes: false,
                 martes: true,
@@ -413,7 +414,7 @@ export class FormService extends Component {
               this.setState({
                 err: {
                   miercoles:
-                    "El horario inicial no debe ser mayor al horario final",
+                    "El horario final no debe ser menor al horario inicial",
                 },
                 lunes: false,
                 martes: false,
@@ -430,7 +431,7 @@ export class FormService extends Component {
               this.setState({
                 err: {
                   jueves:
-                    "El horario inicial no debe ser mayor al horario final",
+                    "El horario final no debe ser menor al horario inicial",
                 },
                 lunes: false,
                 martes: false,
@@ -447,7 +448,7 @@ export class FormService extends Component {
               this.setState({
                 err: {
                   viernes:
-                    "El horario inicial no debe ser mayor al horario final",
+                    "El horario final no debe ser menor al horario inicial",
                 },
                 lunes: false,
                 martes: false,
@@ -464,7 +465,7 @@ export class FormService extends Component {
               this.setState({
                 err: {
                   sabado:
-                    "El horario inicial no debe ser mayor al horario final",
+                    "El horario final no debe ser menor al horario inicial",
                 },
                 lunes: false,
                 martes: false,
@@ -481,7 +482,7 @@ export class FormService extends Component {
               this.setState({
                 err: {
                   domingo:
-                    "El horario inicial no debe ser mayor al horario final",
+                    "El horario final no debe ser menor al horario inicial",
                 },
                 lunes: false,
                 martes: false,
@@ -506,8 +507,6 @@ export class FormService extends Component {
               });
               (async () => {
                 await this.handleSubmitting(formModel);
-                console.log(formModel);
-                console.log(values);
               })();
             }
           }}
@@ -522,29 +521,26 @@ export class FormService extends Component {
             touched,
           }) => (
             <form name="formSubmit" onSubmit={handleSubmit}>
-              <div style={{ width: "90%", margin: "0 auto" }}>
-                <h1>Crear nuevo servicio</h1>
-                <hr />
-
+              <div>
                 <div className="files">
                   <Select
-                    displayEmpty
                     value={values.categoria}
                     error={errors.categoria && touched.categoria}
                     name="categoria"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     disabled={this.state.disable}
-                    required
-                    fullWidth
                     variant="outlined"
+                    fullWidth
                     style={{
                       marginBottom: "5px",
                       marginTop: "5px",
                     }}
+                    displayEmpty
+                    required
                   >
                     <MenuItem disabled value={""}>
-                      <span className="empty--option">Categoría</span>
+                      Categoría
                     </MenuItem>
                     {this.state.categorias &&
                       this.state.categorias.map(({ id, name }) => (
@@ -566,7 +562,6 @@ export class FormService extends Component {
                     error={errors.servicio && touched.servicio}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    autoComplete="off"
                     style={{
                       marginRight: "5px",
                       marginBottom: "5px",
@@ -577,7 +572,6 @@ export class FormService extends Component {
                     // }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
-
                   <Select
                     value={values.hora}
                     error={errors.hora && touched.hora}
@@ -612,9 +606,6 @@ export class FormService extends Component {
                     variant="outlined"
                     fullWidth
                     required
-                    autoComplete="off"
-                    multiline
-                    minRows={3}
                     placeholder="Descripción"
                     value={values.descripcion}
                     error={errors.descripcion && touched.descripcion}
@@ -625,6 +616,8 @@ export class FormService extends Component {
                       marginBottom: "5px",
                       marginTop: "5px",
                     }}
+                    multiline
+                    minRows={4}
                     // inputProps={{
                     //   maxLength: 9,
                     // }}
@@ -655,10 +648,11 @@ export class FormService extends Component {
                 </div>
                 <TableContainer
                   style={{
-                    width: "100%",
+                    width: "99.9%",
                     borderRadius: "10px 10px",
                     margin: "10px 0",
                   }}
+                  className="modal-table"
                 >
                   <Table sx={{ minWidth: 650 }}>
                     <TableHead
@@ -687,11 +681,14 @@ export class FormService extends Component {
                         <TableCell className="font">Lunes</TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.lunesHoraInicio}
-                            error={this.state.lunes}
+                            error={errors.horarioAtencion}
                             name="horarioAtencion.lunesHoraInicio"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -707,14 +704,14 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.lunes ? (
-                            <div className="error">{this.state.err.lunes}</div>
-                          ) : null}
                         </TableCell>
+
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.lunesHoraFinal}
@@ -734,21 +731,25 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.lunes ? (
-                            <div className="error">{this.state.err.lunes}</div>
-                          ) : null}
                         </TableCell>
                       </TableRow>
+                      {this.state.lunes ? (
+                        <div className="error-table" style={{ width: "100%" }}>
+                          {this.state.err.lunes}
+                        </div>
+                      ) : null}
                       <TableRow>
                         <TableCell className="font">Martes</TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.martesHoraInicio}
-                            error={this.state.martes}
+                            error={errors.horarioAtencion}
                             name="horarioAtencion.martesHoraInicio"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -764,14 +765,13 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.martes ? (
-                            <div className="error">{this.state.err.martes}</div>
-                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.martesHoraFinal}
@@ -791,21 +791,26 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.martes ? (
-                            <div className="error">{this.state.err.martes}</div>
-                          ) : null}
                         </TableCell>
                       </TableRow>
+                      {this.state.martes ? (
+                        <div className="error-table" style={{ width: "100%" }}>
+                          {this.state.err.martes}
+                        </div>
+                      ) : null}
+
                       <TableRow>
                         <TableCell className="font">Miércoles</TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.miercolesHoraInicio}
-                            error={this.state.miercoles}
+                            error={errors.horarioAtencion}
                             name="horarioAtencion.miercolesHoraInicio"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -821,16 +826,13 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.miercoles ? (
-                            <div className="error">
-                              {this.state.err.miercoles}
-                            </div>
-                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.miercolesHoraFinal}
@@ -850,23 +852,25 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.miercoles ? (
-                            <div className="error">
-                              {this.state.err.miercoles}
-                            </div>
-                          ) : null}
                         </TableCell>
                       </TableRow>
+                      {this.state.miercoles ? (
+                        <div className="error-table">
+                          {this.state.err.miercoles}
+                        </div>
+                      ) : null}
                       <TableRow>
                         <TableCell className="font">Jueves</TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.juevesHoraInicio}
-                            error={this.state.jueves}
+                            error={errors.horarioAtencion}
                             name="horarioAtencion.juevesHoraInicio"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -882,14 +886,13 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.jueves ? (
-                            <div className="error">{this.state.err.jueves}</div>
-                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.juevesHoraFinal}
@@ -909,21 +912,25 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.jueves ? (
-                            <div className="error">{this.state.err.jueves}</div>
-                          ) : null}
                         </TableCell>
                       </TableRow>
+                      {this.state.jueves ? (
+                        <div className="error-table">
+                          {this.state.err.jueves}
+                        </div>
+                      ) : null}
                       <TableRow>
                         <TableCell className="font">Viernes</TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.viernesHoraInicio}
-                            error={this.state.viernes}
+                            error={errors.horarioAtencion}
                             name="horarioAtencion.viernesHoraInicio"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -939,16 +946,13 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.viernes ? (
-                            <div className="error">
-                              {this.state.err.viernes}
-                            </div>
-                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.viernesHoraFinal}
@@ -968,23 +972,25 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.viernes ? (
-                            <div className="error">
-                              {this.state.err.viernes}
-                            </div>
-                          ) : null}
                         </TableCell>
                       </TableRow>
+                      {this.state.viernes ? (
+                        <div className="error-table">
+                          {this.state.err.viernes}
+                        </div>
+                      ) : null}
                       <TableRow>
                         <TableCell className="font">Sábado</TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.sabadoHoraInicio}
-                            error={this.state.sabado}
+                            error={errors.horarioAtencion}
                             name="horarioAtencion.sabadoHoraInicio"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -1000,14 +1006,13 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.sabado ? (
-                            <div className="error">{this.state.err.sabado}</div>
-                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.sabadoHoraFinal}
@@ -1027,21 +1032,25 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.sabado ? (
-                            <div className="error">{this.state.err.sabado}</div>
-                          ) : null}
                         </TableCell>
                       </TableRow>
+                      {this.state.sabado ? (
+                        <div className="error-table">
+                          {this.state.err.sabado}
+                        </div>
+                      ) : null}
                       <TableRow>
                         <TableCell className="font">Domingo</TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.domingoHoraInicio}
-                            error={this.state.domingo}
+                            error={errors.horarioAtencion}
                             name="horarioAtencion.domingoHoraInicio"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -1057,16 +1066,13 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.domingo ? (
-                            <div className="error">
-                              {this.state.err.domingo}
-                            </div>
-                          ) : null}
                         </TableCell>
                         <TableCell
                           className="font"
-                          style={{ textAlign: "center" }}
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "30px",
+                          }}
                         >
                           <Select
                             value={values.horarioAtencion.domingoHoraFinal}
@@ -1086,14 +1092,13 @@ export class FormService extends Component {
                                 </MenuItem>
                               ))}
                           </Select>
-
-                          {this.state.domingo ? (
-                            <div className="error">
-                              {this.state.err.domingo}
-                            </div>
-                          ) : null}
                         </TableCell>
                       </TableRow>
+                      {this.state.domingo ? (
+                        <div className="error-table">
+                          {this.state.err.domingo}
+                        </div>
+                      ) : null}
                     </TableBody>
                   </Table>
                 </TableContainer>

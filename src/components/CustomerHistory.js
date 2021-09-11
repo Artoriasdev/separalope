@@ -10,9 +10,10 @@ import {
   Backdrop,
   Button,
 } from "@material-ui/core";
-import { Event } from "@material-ui/icons";
+import { Event, RepeatOneSharp } from "@material-ui/icons";
 import axios from "axios";
 import React, { Component } from "react";
+import FullPageLoader from "./FullPageLoader";
 
 class CustomerHistory extends Component {
   constructor(props) {
@@ -21,10 +22,14 @@ class CustomerHistory extends Component {
       appointments: [],
       modal: false,
       message: "",
+      isLoading: false,
     };
   }
 
   componentDidMount() {
+    this.setState({
+      isLoading: true,
+    });
     try {
       this.handleGetReservationHistoryByCustomer();
     } catch (error) {
@@ -52,6 +57,11 @@ class CustomerHistory extends Component {
         this.setState({
           appointments: data,
         });
+        if (response.data.response === "true") {
+          setTimeout(() => {
+            this.setState({ isLoading: false });
+          }, 1000);
+        }
         console.log(data);
 
         return response;
@@ -85,6 +95,7 @@ class CustomerHistory extends Component {
   render() {
     return (
       <>
+        <FullPageLoader isLoading={this.state.isLoading} />
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"

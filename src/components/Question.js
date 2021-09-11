@@ -61,18 +61,18 @@ class Question extends Component {
   rows = [
     this.createData(
       "1",
-      "¿Qué es enmicasa.pe?",
+      "¿Qué es sepáralo.pe?",
       "Somos una plataforma que tiene como objetivo tu bienestar y crecimiento personal, poniendo a tu disposición distintos especialistas que te brindarán sus servicios de manera virtual."
     ),
     this.createData(
       "2",
-      "¿Cuál es la misión de  enmicasa.pe?",
+      "¿Cuál es la misión de  sepáralo.pe?",
       "Impulsar el desarrollo social y de emprendedores peruanos, promoviendo un medio seguro que permita cuidarnos unos a otros."
     ),
     this.createData(
       "3",
       "¿Quiénes son los prestadores de servicios?",
-      "Son profesionales, técnicos o especialistas  que ponen sus servicios a disposición de los  usuarios que se encuentren interesados."
+      "Son profesionales, técnicos o especialistas  que ponen sus servicios a disposición de los usuarios que se encuentren interesados."
     ),
     this.createData(
       "4",
@@ -82,12 +82,12 @@ class Question extends Component {
     this.createData(
       "5",
       "¿Qué pasa si no puedo asistir  en el horario reservado?",
-      "Si has realizado la reserva y aun no has  pagado, no te preocupes la cita se cancelará  sola."
+      "Si has realizado la reserva y aun no has pagado, no te preocupes la cita se cancelará sola."
     ),
     this.createData(
       "6",
-      "¿Qué pasa si mi profesor no se presentó en el horario reservado y ya pagué el servicio?",
-      "La tolerancia será de 10 minutos de iniciada la sesión. Si el prestador de servicios no se conectó a la sesión pactada, entonces deberás tomarle un print de pantalla a la sesión donde se vea la fecha y hora, y enviarlo a soporte@enmicasa.pe .  Luego de revisar la información enviada, te estaremos devolviendo el costo para que puedas reservar otra sesión."
+      "¿Qué pasa si el prestador de servicio no se presentó en el horario reservado y ya pagué el servicio?",
+      "La tolerancia será de 10 minutos de iniciada la sesión. Si este no se conectó a la sesión pactada, entonces deberás tomarle un print de pantalla a la sesión donde se vea la fecha y hora, y enviarlo a soporte@sepáralo.pe. Luego de revisar la información enviada, te estaremos devolviendo el costo para que puedas reservar otra sesión."
     ),
   ];
 

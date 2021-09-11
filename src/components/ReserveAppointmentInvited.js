@@ -235,14 +235,16 @@ class ReserveAppointmentInvited extends Component {
 
               let errors = {};
 
-              if (!EMAIL_REGEXP.test(correo)) {
+              if (!correo) {
+                errors.correo = "";
+              } else if (!EMAIL_REGEXP.test(correo)) {
                 errors.correo = EMAIL_INVALID;
               } else if (correo.length < E_MINLENGTH) {
                 errors.correo = EMAIL_MINLENGTH;
               }
 
               if (!celular) {
-                errors.celular = " ";
+                errors.celular = "";
               } else if (celular.startsWith("0")) {
                 errors.celular =
                   "*El número de celular debe iniciar con el dígito 9.";
@@ -362,59 +364,49 @@ class ReserveAppointmentInvited extends Component {
                   />
                 </div>
                 <div className="files">
-                  <TextField
-                    name="correo"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Correo electrónico"
-                    fullWidth
-                    value={values.correo}
-                    error={errors.correo && touched.correo}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      marginTop: "5px",
-                      marginRight: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                  <ErrorMessage
-                    className="error"
-                    name="correo"
-                    component="div"
-                  />
-
-                  <TextField
-                    name="celular"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Número de celular"
-                    fullWidth
-                    value={values.celular}
-                    error={errors.celular && touched.celular}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      marginTop: "5px",
-                      marginLeft: "5px",
-                      marginBottom: "5px",
-                    }}
-                    inputProps={{
-                      maxLength: 9,
-                    }}
-                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                  <ErrorMessage
-                    className="error"
-                    name="celular"
-                    component="div"
-                  />
+                  <div className="txt-left">
+                    <TextField
+                      name="correo"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Correo electrónico"
+                      fullWidth
+                      value={values.correo}
+                      error={errors.correo && touched.correo}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      required
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                    <ErrorMessage
+                      className="error"
+                      name="correo"
+                      component="div"
+                    />
+                  </div>
+                  <div className="txt-right">
+                    <TextField
+                      name="celular"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Número de celular"
+                      fullWidth
+                      value={values.celular}
+                      error={errors.celular && touched.celular}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      required
+                      inputProps={{
+                        maxLength: 9,
+                      }}
+                      onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                    <ErrorMessage
+                      className="error"
+                      name="celular"
+                      component="div"
+                    />
+                  </div>
                 </div>
 
                 <div className="files">
@@ -445,7 +437,7 @@ class ReserveAppointmentInvited extends Component {
                     type="text"
                     className="TxtField"
                     variant="outlined"
-                    label="Duración de la clase"
+                    label="Duración del servicio"
                     fullWidth
                     value={values.duracion}
                     error={errors.duracion && touched.duracion}

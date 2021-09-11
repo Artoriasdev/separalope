@@ -1,42 +1,27 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { Component } from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import PropTypes from "prop-types";
 import classnames from "classnames";
-import {
-  StyledFullPageLoader,
-  StyledFigure,
-  StyledTitle,
-  StyledDiv,
-  StyledSpan,
-} from "../helpers/styled";
-import { IsotypeSVG } from "../assets/images/svg";
 
-const FullPageLoader = ({ children }) => {
-  const { loading } = useSelector((state) => state.app);
+export default class FullPageLoader extends Component {
+  renderSpinner() {
+    return (
+      <React.Fragment>
+        <CircularProgress className="mat__loading" />
+      </React.Fragment>
+    );
+  }
 
-  const [load, setLoad] = useState(true);
+  render() {
+    const { isLoading } = this.props;
+    return (
+      <div className={classnames("loading", { active: isLoading })}>
+        {this.renderSpinner()}
+      </div>
+    );
+  }
+}
 
-  useEffect(() => {
-    setLoad(loading);
-  }, [loading]);
-  return (
-    <>
-      <StyledFullPageLoader className={classnames({ active: load })}>
-        <StyledDiv className="content">
-          <StyledFigure flex center w="100px" h="100px">
-            <IsotypeSVG />
-          </StyledFigure>
-          <StyledTitle family="Run" color="#fff" mt="1rem">
-            enmicasa.pe
-          </StyledTitle>
-          <StyledDiv mt="1rem">
-            <StyledSpan color="#FFDD00" font="1.15rem" weight="bold">
-              ¡Somos 100% digitales vía Zoom!
-            </StyledSpan>
-          </StyledDiv>
-        </StyledDiv>
-      </StyledFullPageLoader>
-      {children}
-    </>
-  );
+FullPageLoader.propTypes = {
+  isLoading: PropTypes.bool,
 };
-export default FullPageLoader;

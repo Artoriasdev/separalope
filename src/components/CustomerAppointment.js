@@ -13,6 +13,7 @@ import {
 import { Event } from "@material-ui/icons";
 import axios from "axios";
 import React, { Component } from "react";
+import FullPageLoader from "./FullPageLoader";
 
 class CustomerAppointment extends Component {
   constructor(props) {
@@ -21,10 +22,14 @@ class CustomerAppointment extends Component {
       appointments: [],
       modal: false,
       message: "",
+      isLoading: false,
     };
   }
 
   componentDidMount() {
+    this.setState({
+      isLoading: true,
+    });
     try {
       this.handleGetReservationByCustomer();
     } catch (error) {
@@ -52,6 +57,11 @@ class CustomerAppointment extends Component {
         this.setState({
           appointments: data,
         });
+        if (response.data.response === "true") {
+          setTimeout(() => {
+            this.setState({ isLoading: false });
+          }, 1000);
+        }
         console.log(data);
 
         return response;
@@ -85,6 +95,8 @@ class CustomerAppointment extends Component {
   render() {
     return (
       <>
+        <FullPageLoader isLoading={this.state.isLoading} />
+
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"

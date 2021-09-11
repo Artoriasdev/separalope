@@ -197,7 +197,12 @@ class RegisterCustomer extends Component {
         this.props.history.push(`/reserve/${localStorage.getItem("id")}`);
         localStorage.removeItem("reserve");
         localStorage.removeItem("id");
-      } else this.props.history.push("/");
+      } else {
+        setTimeout(() => {
+          this.props.history.push("/");
+          this.props.history.go();
+        }, 500);
+      }
     }
   };
 
@@ -249,7 +254,13 @@ class RegisterCustomer extends Component {
               maxLengthValue: 8,
             }}
             validate={(values) => {
-              const { correo, celular, documentos, nroDocumento } = values;
+              const {
+                correo,
+                celular,
+                documentos,
+                nroDocumento,
+                maxLengthValue,
+              } = values;
 
               let errors = {};
 
@@ -258,10 +269,13 @@ class RegisterCustomer extends Component {
               } else if (correo.length < E_MINLENGTH) {
                 errors.correo = EMAIL_MINLENGTH;
               }
+              if (!nroDocumento) {
+                errors.nroDocumento = "";
+              } else if (nroDocumento.length < maxLengthValue) {
+                errors.nroDocumento = `*El número de documento debe ser de ${maxLengthValue} dígitos`;
+              }
 
-              if (!celular) {
-                errors.celular = " ";
-              } else if (celular.startsWith("0")) {
+              if (celular.startsWith("0")) {
                 errors.celular =
                   "*El número de celular debe iniciar con el dígito 9.";
               } else if (celular.startsWith("1")) {
@@ -351,7 +365,7 @@ class RegisterCustomer extends Component {
                     name="nombre"
                     className="TxtField"
                     variant="outlined"
-                    label="Nombres"
+                    placeholder="Nombres"
                     required
                     fullWidth
                     value={values.nombre}
@@ -372,7 +386,7 @@ class RegisterCustomer extends Component {
                     name="apellido"
                     className="TxtField"
                     variant="outlined"
-                    label="Apellidos"
+                    placeholder="Apellidos"
                     required
                     fullWidth
                     value={values.apellido}
@@ -391,113 +405,101 @@ class RegisterCustomer extends Component {
                 </div>
 
                 <div className="files">
-                  <Select
-                    style={{
-                      width: "100%",
-                      backgroundColor: "white",
-                      marginRight: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    variant="outlined"
-                    value={values.documentos}
-                    error={errors.documentos && touched.documentos}
-                    name="documentos"
-                    displayEmpty
-                    required
-                    onChange={this.handleDocumentChange}
-                    onBlur={handleBlur}
-                  >
-                    <MenuItem disabled value={""}>
-                      <span className="empty--option">Tipo de documento</span>
-                    </MenuItem>
-                    {this.state.typeDocs &&
-                      this.state.typeDocs.map(({ id, descriptionLarge }) => (
-                        <MenuItem key={id} value={id}>
-                          {descriptionLarge}
-                        </MenuItem>
-                      ))}
-                  </Select>
+                  <div className="txt-left">
+                    <Select
+                      style={{
+                        backgroundColor: "white",
+                      }}
+                      fullWidth
+                      variant="outlined"
+                      value={values.documentos}
+                      error={errors.documentos && touched.documentos}
+                      name="documentos"
+                      displayEmpty
+                      required
+                      onChange={this.handleDocumentChange}
+                      onBlur={handleBlur}
+                    >
+                      <MenuItem disabled value={""}>
+                        <span className="empty--option">Tipo de documento</span>
+                      </MenuItem>
+                      {this.state.typeDocs &&
+                        this.state.typeDocs.map(({ id, descriptionLarge }) => (
+                          <MenuItem key={id} value={id}>
+                            {descriptionLarge}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </div>
 
-                  <TextField
-                    name="nroDocumento"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Número de documento"
-                    required
-                    fullWidth
-                    value={values.nroDocumento}
-                    error={errors.nroDocumento && touched.nroDocumento}
-                    onBlur={handleBlur}
-                    onChange={this.handleDocumentChange}
-                    style={{
-                      marginLeft: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    inputProps={{ maxLength: values.maxLengthValue }}
-                    autoComplete="off"
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
+                  <div className="txt-right">
+                    <TextField
+                      name="nroDocumento"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Número de documento"
+                      required
+                      fullWidth
+                      value={values.nroDocumento}
+                      error={errors.nroDocumento && touched.nroDocumento}
+                      onBlur={handleBlur}
+                      onChange={this.handleDocumentChange}
+                      inputProps={{ maxLength: values.maxLengthValue }}
+                      autoComplete="off"
+                      onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                    <ErrorMessage
+                      className="error bottom"
+                      name="nroDocumento"
+                      component="div"
+                    />
+                  </div>
                 </div>
 
                 <div className="files">
-                  <TextField
-                    name="celular"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Número de celular"
-                    fullWidth
-                    value={values.celular}
-                    error={errors.celular && touched.celular}
-                    required
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginRight: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    inputProps={{
-                      maxLength: 9,
-                    }}
-                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                  <ErrorMessage
-                    className="error"
-                    name="celular"
-                    component="div"
-                  />
-
-                  <TextField
-                    name="correo"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Correo electrónico"
-                    required
-                    fullWidth
-                    value={values.correo}
-                    error={errors.correo && touched.correo}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginLeft: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                  <ErrorMessage
-                    className="error"
-                    name="correo"
-                    component="div"
-                  />
+                  <div className="txt-left">
+                    <TextField
+                      name="celular"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Número de celular"
+                      fullWidth
+                      value={values.celular}
+                      error={errors.celular && touched.celular}
+                      required
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      inputProps={{
+                        maxLength: 9,
+                      }}
+                      onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                    <ErrorMessage
+                      className="error bottom"
+                      name="celular"
+                      component="div"
+                    />
+                  </div>
+                  <div className="txt-right">
+                    <TextField
+                      name="correo"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Correo electrónico"
+                      required
+                      fullWidth
+                      value={values.correo}
+                      error={errors.correo && touched.correo}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                    <ErrorMessage
+                      className="error"
+                      name="correo"
+                      component="div"
+                    />
+                  </div>
                 </div>
 
                 <div className="files">
@@ -506,7 +508,7 @@ class RegisterCustomer extends Component {
                     type="password"
                     className="TxtField"
                     variant="outlined"
-                    label="Contraseña"
+                    placeholder="Contraseña"
                     required
                     fullWidth
                     value={values.contraseña}
@@ -529,7 +531,7 @@ class RegisterCustomer extends Component {
                     type="password"
                     className="TxtField"
                     variant="outlined"
-                    label="Repetir contraseña"
+                    placeholder="Repetir contraseña"
                     required
                     fullWidth
                     value={values.repContraseña}
@@ -557,7 +559,7 @@ class RegisterCustomer extends Component {
                   fullWidth
                   disabled={isSubmitting}
                 >
-                  Regístrar
+                  Registrar
                 </Button>
               </form>
             )}

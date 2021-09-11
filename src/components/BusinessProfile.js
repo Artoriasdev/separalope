@@ -80,7 +80,7 @@ class BusinessProfile extends Component {
             this.setState({
               showModalError: true,
               disclaimerModal:
-                "Usted no esta autorizado para ver esta información",
+                "Usted no está autorizado para ver esta información",
             });
           }
           return response;
@@ -309,7 +309,7 @@ class BusinessProfile extends Component {
                     name="nombreCompañia"
                     className="TxtField"
                     variant="outlined"
-                    label="Nombre de la compañía"
+                    placeholder="Nombre de la compañía"
                     fullWidth
                     value={values.nombreCompañia}
                     error={errors.nombreCompañia && touched.nombreCompañia}
@@ -320,7 +320,7 @@ class BusinessProfile extends Component {
                     style={{
                       marginTop: "10px",
                       marginRight: "5px",
-                      marginBottom: "15px",
+                      marginBottom: "5px",
                     }}
                     // inputProps={{
                     //   maxLength: 9,
@@ -332,7 +332,7 @@ class BusinessProfile extends Component {
                     name="nombreComercial"
                     className="TxtField"
                     variant="outlined"
-                    label="Nombre comercial de la compañía"
+                    placeholder="Nombre comercial de la compañía"
                     fullWidth
                     value={values.nombreComercial}
                     error={errors.nombreComercial && touched.nombreComercial}
@@ -342,7 +342,7 @@ class BusinessProfile extends Component {
                     style={{
                       marginTop: "10px",
                       marginLeft: "5px",
-                      marginBottom: "15px",
+                      marginBottom: "5px",
                     }}
                     // inputProps={{
                     //   maxLength: 9,
@@ -352,60 +352,50 @@ class BusinessProfile extends Component {
                   />
                 </div>
                 <div className="files">
-                  <TextField
-                    name="numeroDocumento"
-                    className="TxtField"
-                    variant="outlined"
-                    label="RUC"
-                    placeholder="Número de documento"
-                    fullWidth
-                    value={values.numeroDocumento}
-                    error={errors.numeroDocumento && touched.numeroDocumento}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    disabled={!this.state.edit}
-                    required
-                    style={{
-                      marginRight: "5px",
-                      marginBottom: "10px",
-                    }}
-                    inputProps={{
-                      maxLength: 11,
-                    }}
-                    onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                  <ErrorMessage
-                    className="error"
-                    name="numeroDocumento"
-                    component="div"
-                  />
-
-                  <TextField
-                    name="correo"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Correo de la empresa"
-                    fullWidth
-                    value={values.correo}
-                    error={errors.correo && touched.correo}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    disabled={!this.state.edit}
-                    required
-                    style={{
-                      marginLeft: "5px",
-                      marginBottom: "10px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                  <ErrorMessage
-                    className="error"
-                    name="correo"
-                    component="div"
-                  />
+                  <div className="txt-left">
+                    <TextField
+                      name="numeroDocumento"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="RUC"
+                      fullWidth
+                      value={values.numeroDocumento}
+                      error={errors.numeroDocumento && touched.numeroDocumento}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      disabled={!this.state.edit}
+                      required
+                      inputProps={{
+                        maxLength: 11,
+                      }}
+                      onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                    <ErrorMessage
+                      className="error"
+                      name="numeroDocumento"
+                      component="div"
+                    />
+                  </div>
+                  <div className="txt-right">
+                    <TextField
+                      name="correo"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Correo de la empresa"
+                      fullWidth
+                      value={values.correo}
+                      error={errors.correo && touched.correo}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      disabled={!this.state.edit}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                    <ErrorMessage
+                      className="error"
+                      name="correo"
+                      component="div"
+                    />
+                  </div>
                 </div>
                 {this.state.edit ? (
                   <div className="files">

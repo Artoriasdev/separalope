@@ -36,7 +36,7 @@ import PasswordRestore from "./components/PasswordRestore";
 import { Footer } from "./components/Footer";
 import { ReserveComplete } from "./components/ReserveComplete";
 import ReserveAppointmentInvited from "./components/ReserveAppointmentInvited";
-
+import React from "react";
 // import HomePage from "./pages/Home";
 
 const MavenProRegular = {
@@ -197,6 +197,7 @@ function App() {
               />
 
               <Route exact path="/login/:value" component={Login} />
+
               <Route
                 exact
                 path="/register/customer"

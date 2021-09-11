@@ -11,6 +11,7 @@ import axios from "axios";
 import { Formik } from "formik";
 import React, { Component } from "react";
 import { handleRegexDisable } from "../utils/utilitaries";
+import FullPageLoader from "./FullPageLoader";
 
 class ReserveAppointment extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class ReserveAppointment extends Component {
       modal: false,
       response: false,
       message: "",
+      isLoading: false,
     };
   }
 
@@ -59,6 +61,7 @@ class ReserveAppointment extends Component {
             this.setState({
               customerData: data,
             });
+            console.log(data);
 
             const Formik = this.form;
             Formik.setFieldValue("celular", this.state.customerData[0].mobile);
@@ -113,7 +116,7 @@ class ReserveAppointment extends Component {
         this.setState({
           serviceData: data,
         });
-        // console.log(data);
+        console.log(data);
         const Formik = this.form;
         Formik.setFieldValue("servicio", this.state.serviceData[0].title);
         Formik.setFieldValue("duracion", this.state.serviceData[0].duration);
@@ -229,19 +232,13 @@ class ReserveAppointment extends Component {
     this.setState({
       modal: false,
     });
-    if (this.state.response === true) {
-      this.props.history.push(
-        `/reserve-complete/${this.props.match.params.id}`
-      );
-    }
-    {
-      this.props.history.push("/login/C");
-    }
+    this.props.history.push("/login/C");
   };
 
   render() {
     return (
       <div>
+        <FullPageLoader isLoading={this.state.isLoading} />
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -285,7 +282,7 @@ class ReserveAppointment extends Component {
               fechaDisponible: "",
               horarioDisponible: "",
             }}
-            validate={{}}
+            // validate={{}}
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(false);
               const reserveModel = {
@@ -298,6 +295,10 @@ class ReserveAppointment extends Component {
               reserveModel.reservationDate = values.fechaDisponible;
               reserveModel.reservationTime = values.horarioDisponible;
 
+              this.setState({
+                isLoading: true,
+              });
+
               (async () => {
                 const responseSubmit = await this.handleInfoSubmit(
                   reserveModel
@@ -306,11 +307,14 @@ class ReserveAppointment extends Component {
                 const { response } = responseSubmit.data;
 
                 if (response === "true") {
-                  this.setState({
-                    modal: true,
-                    message: "¡Registro grabado satisfactoriamente!",
-                    response: true,
-                  });
+                  setTimeout(() => {
+                    this.setState({
+                      isLoading: false,
+                    });
+                    this.props.history.push(
+                      `/reserve-complete/${this.props.match.params.id}`
+                    );
+                  }, 500);
                 }
               })();
             }}
@@ -397,7 +401,7 @@ class ReserveAppointment extends Component {
                     type="text"
                     className="TxtField"
                     variant="outlined"
-                    label="Duración de la clase"
+                    label="Duración del servicio"
                     fullWidth
                     value={values.duracion}
                     error={errors.duracion && touched.duracion}

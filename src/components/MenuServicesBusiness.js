@@ -52,6 +52,7 @@ class MenuServicesBusiness extends Component {
         });
         console.log(this.state.business);
         console.log(this.state.image);
+        console.log(data);
 
         return response;
       });
