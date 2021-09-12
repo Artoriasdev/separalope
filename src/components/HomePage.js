@@ -8,7 +8,7 @@ import axios from "axios";
 import { InputAdornment, TextField } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import { ArrowLeftSVG, ArrowRightSVG } from "../assets/images/svg";
-import FullPageLoader from "./FullPageLoader";
+// import FullPageLoader from "./FullPageLoader";
 
 const responsive = {
   desktop: {

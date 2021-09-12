@@ -57,8 +57,12 @@ export const Footer = () => {
     return rspApi;
   };
 
-  const handleRedirect = () => {
-    history.push("/frequent-questions");
+  const handleRedirect = (id) => {
+    if (id === 1) {
+      history.push("/frequent-questions");
+    } else if (id === 2) {
+      history.push("/quejas-y-reclamaciones");
+    }
   };
 
   const [term, setTerm] = useState(false);
@@ -181,7 +185,7 @@ export const Footer = () => {
             <div className={classes.grow} />
             <hr />
             <div className={classes.grow} />
-            <button className="font-p" onClick={handleRedirect}>
+            <button className="font-p" onClick={() => handleRedirect(1)}>
               Preguntas frecuentes
             </button>
             <div className={classes.grow} />
@@ -189,6 +193,12 @@ export const Footer = () => {
             <div className={classes.grow} />
             <button className="font-p" onClick={() => handleModalTerm()}>
               Términos y condiciones
+            </button>
+            <div className={classes.grow} />
+            <hr />
+            <div className={classes.grow} />
+            <button className="font-p" onClick={() => handleRedirect(2)}>
+              Libro de reclamaciones
             </button>
           </Toolbar>
         </Container>

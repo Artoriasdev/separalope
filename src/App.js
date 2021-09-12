@@ -37,6 +37,8 @@ import { Footer } from "./components/Footer";
 import { ReserveComplete } from "./components/ReserveComplete";
 import ReserveAppointmentInvited from "./components/ReserveAppointmentInvited";
 import React from "react";
+import { CookiesBanner } from "./components/CookiesBanner";
+import Complains from "./components/Complains";
 // import HomePage from "./pages/Home";
 
 const MavenProRegular = {
@@ -146,6 +148,7 @@ function App() {
         <StyledGlobal />
         <BrowserRouter>
           {logged ? <NavBarLogged /> : <Navbar />}
+          <CookiesBanner />
 
           <Switch>
             <StyledMain
@@ -267,6 +270,11 @@ function App() {
                 exact
                 path="/reserve-complete/:id"
                 component={ReserveComplete}
+              />
+              <Route
+                exact
+                path="/quejas-y-reclamaciones"
+                component={Complains}
               />
             </StyledMain>
           </Switch>
