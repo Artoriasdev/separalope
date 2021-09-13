@@ -38,7 +38,7 @@ export const CookiesBanner = () => {
             "0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)",
         }}
         containerClasses="animate__animated animate__backInLeft"
-        buttonClasses="files"
+        // buttonClasses="files"
       >
         <p style={{ textAlign: "center" }}>
           Esta página web usa cookies para mejorar la experiencia del usuario.
