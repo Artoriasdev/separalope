@@ -178,11 +178,6 @@ class ReserveAppointmentInvited extends Component {
     this.setState({
       modal: false,
     });
-    if (this.state.response === true) {
-      this.props.history.push(
-        `/reserve-complete/${this.props.match.params.id}`
-      );
-    }
   };
 
   render() {
@@ -292,6 +287,10 @@ class ReserveAppointmentInvited extends Component {
                   reservationTime: "",
                 };
 
+                reserveModel.email = values.correo;
+                reserveModel.mobile = values.celular;
+                reserveModel.name = values.nombre;
+                reserveModel.lastName = values.apellido;
                 reserveModel.idService = this.props.match.params.id;
                 reserveModel.reservationDate = values.fechaDisponible;
                 reserveModel.reservationTime = values.horarioDisponible;
@@ -304,12 +303,14 @@ class ReserveAppointmentInvited extends Component {
                   const { response } = responseSubmit.data;
 
                   if (response === "true") {
-                    this.setState({
-                      modal: true,
-                      message: "¡Registro grabado satisfactoriamente!",
-                      response: true,
-                      isLoading: false,
-                    });
+                    setTimeout(() => {
+                      this.setState({
+                        isLoading: false,
+                      });
+                      this.props.history.push(
+                        `/reserve-complete/${this.props.match.params.id}`
+                      );
+                    }, 500);
                   }
                 })();
               }}
