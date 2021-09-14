@@ -93,7 +93,7 @@ class Question extends Component {
 
   render() {
     return (
-      <div style={{ width: "40%", margin: " 40px auto" }}>
+      <div className="question-container">
         <div style={{ color: "#5829dd" }}>
           <QuestionAnswer
             style={{ fontSize: "24px", position: "absolute", marginTop: "5px" }}

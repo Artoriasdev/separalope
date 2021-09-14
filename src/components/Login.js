@@ -178,116 +178,118 @@ class Login extends Component {
             </figure>
           </button>
 
-          <div className="page-container" style={{ width: "500px" }}>
-            {this.props.match.params.value === "C" ? (
-              <h3 className="register__subtitle">Soy un cliente</h3>
-            ) : (
-              <h3 className="register__subtitle">Doy un servicio</h3>
-            )}
-            <h1>Inicia sesión</h1>
-
-            <Formik
-              ref={(ref) => (this.form = ref)}
-              initialValues={{
-                correo: "",
-                contraseña: "",
-              }}
-              // validate={{}}
-              onSubmit={(values, { setSubmitting }) => {
-                setSubmitting(false);
-                const LoginModel = {
-                  username: "",
-                  password: "",
-                  workflow: "",
-                };
-
-                LoginModel.username = values.correo;
-                LoginModel.password = values.contraseña;
-                LoginModel.workflow = this.props.match.params.value;
-
-                (async () => {
-                  await this.handleLogin(LoginModel);
-                })();
-              }}
-            >
-              {({
-                values,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-                errors,
-                touched,
-              }) => (
-                <form name="formLogin" onSubmit={handleSubmit}>
-                  <div className="files">
-                    <TextField
-                      name="correo"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Correo"
-                      value={values.correo}
-                      error={errors.correo && touched.correo}
-                      required
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      fullWidth
-                      style={{
-                        marginTop: "10px",
-                        marginBottom: "10px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                  </div>
-
-                  <div className="files">
-                    <TextField
-                      name="contraseña"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Contraseña"
-                      type="password"
-                      value={values.contraseña}
-                      error={errors.contraseña && touched.contraseña}
-                      required
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      fullWidth
-                      style={{
-                        marginTop: "10px",
-                        marginBottom: "10px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                  </div>
-
-                  <Button
-                    size="large"
-                    color="primary"
-                    variant="contained"
-                    className="btn-primary"
-                    style={{
-                      margin: "10px 0",
-                      textTransform: "capitalize",
-                    }}
-                    type="submit"
-                    fullWidth
-                  >
-                    Iniciar sesión
-                  </Button>
-                </form>
+          <div className="page-container">
+            <div className="login">
+              {this.props.match.params.value === "C" ? (
+                <h3 className="register__subtitle">Soy un cliente</h3>
+              ) : (
+                <h3 className="register__subtitle">Doy un servicio</h3>
               )}
-            </Formik>
-            <div className="recover-password-button">
-              <a href={`/password-recovery/${this.props.match.params.value}`}>
-                Olvidé mi contraseña
-              </a>
+              <h1>Inicia sesión</h1>
+
+              <Formik
+                ref={(ref) => (this.form = ref)}
+                initialValues={{
+                  correo: "",
+                  contraseña: "",
+                }}
+                // validate={{}}
+                onSubmit={(values, { setSubmitting }) => {
+                  setSubmitting(false);
+                  const LoginModel = {
+                    username: "",
+                    password: "",
+                    workflow: "",
+                  };
+
+                  LoginModel.username = values.correo;
+                  LoginModel.password = values.contraseña;
+                  LoginModel.workflow = this.props.match.params.value;
+
+                  (async () => {
+                    await this.handleLogin(LoginModel);
+                  })();
+                }}
+              >
+                {({
+                  values,
+                  handleBlur,
+                  handleChange,
+                  handleSubmit,
+                  isSubmitting,
+                  errors,
+                  touched,
+                }) => (
+                  <form name="formLogin" onSubmit={handleSubmit}>
+                    <div className="files">
+                      <TextField
+                        name="correo"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Correo"
+                        value={values.correo}
+                        error={errors.correo && touched.correo}
+                        required
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        fullWidth
+                        style={{
+                          marginTop: "10px",
+                          marginBottom: "10px",
+                        }}
+                        // inputProps={{
+                        //   maxLength: 9,
+                        // }}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+
+                    <div className="files">
+                      <TextField
+                        name="contraseña"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Contraseña"
+                        type="password"
+                        value={values.contraseña}
+                        error={errors.contraseña && touched.contraseña}
+                        required
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        fullWidth
+                        style={{
+                          marginTop: "10px",
+                          marginBottom: "10px",
+                        }}
+                        // inputProps={{
+                        //   maxLength: 9,
+                        // }}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="contained"
+                      className="btn-primary"
+                      style={{
+                        margin: "10px 0",
+                        textTransform: "capitalize",
+                      }}
+                      type="submit"
+                      fullWidth
+                    >
+                      Iniciar sesión
+                    </Button>
+                  </form>
+                )}
+              </Formik>
+              <div className="recover-password-button">
+                <a href={`/password-recovery/${this.props.match.params.value}`}>
+                  Olvidé mi contraseña
+                </a>
+              </div>
             </div>
           </div>
         </div>

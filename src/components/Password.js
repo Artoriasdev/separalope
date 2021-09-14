@@ -123,168 +123,163 @@ class Password extends Component {
           </Fade>
         </Modal>
 
-        <div className="page-container" style={{ width: "50%" }}>
-          <Formik
-            ref={(ref) => (this.form = ref)}
-            initialValues={{
-              contraseña: "",
-              cambiarContraseña: "",
-              repetirContraseña: "",
-            }}
-            validate={{}}
-            onSubmit={(values, { setSubmitting }) => {
-              setSubmitting(false);
-              const dataModel = {
-                currentPassword: "",
-                newPassword: "",
-                confirmNewPassword: "",
-              };
+        <div className="page-container">
+          <div className="login">
+            <Formik
+              ref={(ref) => (this.form = ref)}
+              initialValues={{
+                contraseña: "",
+                cambiarContraseña: "",
+                repetirContraseña: "",
+              }}
+              validate={{}}
+              onSubmit={(values, { setSubmitting }) => {
+                setSubmitting(false);
+                const dataModel = {
+                  currentPassword: "",
+                  newPassword: "",
+                  confirmNewPassword: "",
+                };
 
-              dataModel.currentPassword = values.contraseña;
-              dataModel.newPassword = values.cambiarContraseña;
-              dataModel.confirmNewPassword = values.repetirContraseña;
+                dataModel.currentPassword = values.contraseña;
+                dataModel.newPassword = values.cambiarContraseña;
+                dataModel.confirmNewPassword = values.repetirContraseña;
 
-              // aqui los getter y handler
+                // aqui los getter y handler
 
-              (async () => {
-                await this.handleChangePassword(dataModel);
-              })();
-            }}
-          >
-            {({
-              values,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              errors,
-              touched,
-            }) => (
-              <form name="formPassword" onSubmit={handleSubmit}>
-                <h1
-                  style={{
-                    marginTop: "5%",
-                    marginBottom: "30px",
-                    textAlign: "center",
-                  }}
-                >
-                  Cambio de contraseña
-                </h1>
-
-                {this.state.viewPassword ? (
-                  <Button
-                    variant="contained"
-                    startIcon={<VisibilityOff />}
-                    color="primary"
-                    className="btn-primary"
-                    style={{ marginBottom: "10px" }}
-                    onClick={this.handleHidePassword}
-                  >
-                    Ocultar contraseñas
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    startIcon={<Visibility />}
-                    color="primary"
-                    className="btn-primary"
-                    style={{ marginBottom: "10px" }}
-                    onClick={this.handleViewPassword}
-                  >
-                    Ver contraseñas
-                  </Button>
-                )}
-
-                <div className="files">
-                  <TextField
-                    name="contraseña"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Contraseña actual"
-                    value={values.contraseña}
-                    error={errors.contraseña && touched.contraseña}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    required
-                    type={this.state.viewPassword ? "text" : "password"}
+                (async () => {
+                  await this.handleChangePassword(dataModel);
+                })();
+              }}
+            >
+              {({
+                values,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+                isSubmitting,
+                errors,
+                touched,
+              }) => (
+                <form name="formPassword" onSubmit={handleSubmit}>
+                  <h1
                     style={{
-                      marginTop: "10px",
-                      marginBottom: "10px",
-                      width: "49.4444444%",
+                      marginTop: "5%",
+                      marginBottom: "30px",
+                      textAlign: "center",
                     }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                </div>
-                <div className="files">
-                  <TextField
-                    name="cambiarContraseña"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Ingresa tu nueva contraseña"
-                    fullWidth
-                    value={values.cambiarContraseña}
-                    error={
-                      errors.cambiarContraseña && touched.cambiarContraseña
-                    }
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    required
-                    type={this.state.viewPassword ? "text" : "password"}
-                    style={{
-                      marginTop: "10px",
-                      marginRight: "5px",
-                      marginBottom: "15px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                  <TextField
-                    name="repetirContraseña"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Repite tu nueva contraseña"
-                    value={values.repetirContraseña}
-                    fullWidth
-                    error={
-                      errors.repetirContraseña && touched.repetirContraseña
-                    }
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    required
-                    type={this.state.viewPassword ? "text" : "password"}
-                    style={{
-                      marginTop: "10px",
-
-                      marginLeft: "5px",
-                      marginBottom: "20px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                </div>
-
-                <div className="files">
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    type="submit"
-                    className="btn-primary"
-                    startIcon={<Save />}
-                    style={{ margin: "10px auto", width: "60%" }}
                   >
-                    Cambiar contraseña
-                  </Button>
-                </div>
-              </form>
-            )}
-          </Formik>
+                    Cambio de contraseña
+                  </h1>
+
+                  {this.state.viewPassword ? (
+                    <Button
+                      variant="contained"
+                      startIcon={<VisibilityOff />}
+                      color="primary"
+                      className="btn-primary"
+                      style={{ marginBottom: "10px" }}
+                      onClick={this.handleHidePassword}
+                    >
+                      Ocultar contraseñas
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      startIcon={<Visibility />}
+                      color="primary"
+                      className="btn-primary"
+                      style={{ marginBottom: "10px" }}
+                      onClick={this.handleViewPassword}
+                    >
+                      Ver contraseñas
+                    </Button>
+                  )}
+
+                  <div className="files">
+                    <TextField
+                      name="contraseña"
+                      className="TxtField"
+                      variant="outlined"
+                      label="Contraseña actual"
+                      value={values.contraseña}
+                      error={errors.contraseña && touched.contraseña}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      required
+                      fullWidth
+                      type={this.state.viewPassword ? "text" : "password"}
+                      style={{
+                        backgroundColor: "white",
+                        marginRight: "51%",
+                        marginTop: "5px",
+                        marginBottom: "5px",
+                      }}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
+
+                  <div className="files">
+                    <div className="txt-left">
+                      <TextField
+                        name="cambiarContraseña"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Ingresa tu nueva contraseña"
+                        fullWidth
+                        value={values.cambiarContraseña}
+                        error={
+                          errors.cambiarContraseña && touched.cambiarContraseña
+                        }
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        required
+                        type={this.state.viewPassword ? "text" : "password"}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+
+                    <div className="txt-right">
+                      <TextField
+                        name="repetirContraseña"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Repite tu nueva contraseña"
+                        value={values.repetirContraseña}
+                        fullWidth
+                        error={
+                          errors.repetirContraseña && touched.repetirContraseña
+                        }
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        required
+                        type={this.state.viewPassword ? "text" : "password"}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+                  </div>
+
+                  <div className="files">
+                    <Button
+                      size="large"
+                      variant="contained"
+                      color="secondary"
+                      type="submit"
+                      className="btn-primary"
+                      startIcon={<Save />}
+                      style={{ margin: "10px auto" }}
+                      fullWidth
+                    >
+                      Cambiar contraseña
+                    </Button>
+                  </div>
+                </form>
+              )}
+            </Formik>
+          </div>
         </div>
       </>
     );

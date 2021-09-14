@@ -165,248 +165,225 @@ class RegisterBusiness extends Component {
           </Fade>
         </Modal>
 
-        <div
-          className="page-container"
-          style={{ width: "500px", margin: "50px auto" }}
-        >
-          <h3 className="register__subtitle">Doy un servicio</h3>
-          <h1>Registra tu cuenta</h1>
-          <Formik
-            ref={(ref) => (this.form = ref)}
-            initialValues={{
-              razon: "",
-              nombre: "",
-              nroDocumento: "",
-              correo: "",
-              contraseña: "",
-              repContraseña: "",
-            }}
-            validate={(values) => {
-              const { nroDocumento, correo } = values;
+        <div className="page-container">
+          <div className="login">
+            <h3 className="register__subtitle">Doy un servicio</h3>
+            <h1>Registra tu cuenta</h1>
+            <Formik
+              ref={(ref) => (this.form = ref)}
+              initialValues={{
+                razon: "",
+                nombre: "",
+                nroDocumento: "",
+                correo: "",
+                contraseña: "",
+                repContraseña: "",
+              }}
+              validate={(values) => {
+                const { nroDocumento, correo } = values;
 
-              let errors = {};
+                let errors = {};
 
-              if (nroDocumento.length < 11) {
-                errors.nroDocumento =
-                  "*El número de documento debe ser de 11 dígitos.";
-              }
-
-              if (!EMAIL_REGEXP.test(correo)) {
-                errors.correo = EMAIL_INVALID;
-              } else if (correo.length < E_MINLENGTH) {
-                errors.correo = EMAIL_MINLENGTH;
-              }
-              return errors;
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              setSubmitting(false);
-              const BusinessModel = {
-                businessName: "",
-                tradeName: "",
-                documentNumber: "",
-                email: "",
-                password: "",
-                confirmPassword: "",
-              };
-
-              BusinessModel.businessName = values.razon;
-              BusinessModel.tradeName = values.nombre;
-              BusinessModel.email = values.correo;
-              BusinessModel.mobile = values.celular;
-              BusinessModel.documentNumber = values.nroDocumento;
-              BusinessModel.password = values.contraseña;
-              BusinessModel.confirmPassword = values.repContraseña;
-              BusinessModel.idCategory = values.categoria;
-
-              (async () => {
-                const responseSubmit = await this.handleInfoSubmit(
-                  BusinessModel
-                );
-
-                const { response } = responseSubmit.data;
-
-                if (response === "true") {
-                  this.setState({
-                    showModalSucesss: true,
-                    disclaimerModal: "¡Registro grabado satisfactoriamente!",
-                    response: true,
-                    isLoading: false,
-                  });
-                  this.handleLogin(
-                    BusinessModel.email,
-                    BusinessModel.confirmPassword
-                  );
+                if (nroDocumento.length < 11) {
+                  errors.nroDocumento =
+                    "*El número de documento debe ser de 11 dígitos.";
                 }
-              })();
-            }}
-          >
-            {({
-              values,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              errors,
-              touched,
-            }) => (
-              <form name="formRegister" onSubmit={handleSubmit}>
-                <div className="files">
-                  <TextField
-                    name="razon"
-                    className="TxtField"
-                    variant="outlined"
-                    placeholder="Razón social"
-                    required
-                    fullWidth
-                    value={values.razon}
-                    error={errors.razon && touched.razon}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginRight: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
 
-                  <TextField
-                    name="nombre"
-                    className="TxtField"
-                    variant="outlined"
-                    placeholder="Nombre comercial"
-                    required
-                    fullWidth
-                    value={values.nombre}
-                    error={errors.nombre && touched.nombre}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginLeft: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                </div>
+                if (!EMAIL_REGEXP.test(correo)) {
+                  errors.correo = EMAIL_INVALID;
+                } else if (correo.length < E_MINLENGTH) {
+                  errors.correo = EMAIL_MINLENGTH;
+                }
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                setSubmitting(false);
+                const BusinessModel = {
+                  businessName: "",
+                  tradeName: "",
+                  documentNumber: "",
+                  email: "",
+                  password: "",
+                  confirmPassword: "",
+                };
 
-                <div className="files">
-                  <div className="txt-left">
-                    <TextField
-                      name="nroDocumento"
-                      className="TxtField"
-                      variant="outlined"
-                      placeholder="RUC"
-                      required
-                      fullWidth
-                      value={values.nroDocumento}
-                      error={errors.nroDocumento && touched.nroDocumento}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      inputProps={{ maxLength: 11 }}
-                      autoComplete="off"
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                    <ErrorMessage
-                      className="error"
-                      name="nroDocumento"
-                      component="div"
-                    />
+                BusinessModel.businessName = values.razon;
+                BusinessModel.tradeName = values.nombre;
+                BusinessModel.email = values.correo;
+                BusinessModel.mobile = values.celular;
+                BusinessModel.documentNumber = values.nroDocumento;
+                BusinessModel.password = values.contraseña;
+                BusinessModel.confirmPassword = values.repContraseña;
+                BusinessModel.idCategory = values.categoria;
+
+                (async () => {
+                  const responseSubmit = await this.handleInfoSubmit(
+                    BusinessModel
+                  );
+
+                  const { response } = responseSubmit.data;
+
+                  if (response === "true") {
+                    this.setState({
+                      showModalSucesss: true,
+                      disclaimerModal: "¡Registro grabado satisfactoriamente!",
+                      response: true,
+                      isLoading: false,
+                    });
+                    this.handleLogin(
+                      BusinessModel.email,
+                      BusinessModel.confirmPassword
+                    );
+                  }
+                })();
+              }}
+            >
+              {({
+                values,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+                isSubmitting,
+                errors,
+                touched,
+              }) => (
+                <form name="formRegister" onSubmit={handleSubmit}>
+                  <div className="files">
+                    <div className="txt-left">
+                      <TextField
+                        name="razon"
+                        className="TxtField"
+                        variant="outlined"
+                        placeholder="Razón social"
+                        required
+                        fullWidth
+                        value={values.razon}
+                        error={errors.razon && touched.razon}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+
+                    <div className="txt-right">
+                      <TextField
+                        name="nombre"
+                        className="TxtField"
+                        variant="outlined"
+                        placeholder="Nombre comercial"
+                        required
+                        fullWidth
+                        value={values.nombre}
+                        error={errors.nombre && touched.nombre}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
                   </div>
 
-                  <div className="txt-right">
-                    <TextField
-                      name="correo"
-                      className="TxtField"
-                      variant="outlined"
-                      placeholder="Correo electrónico"
-                      type="email"
-                      required
-                      fullWidth
-                      value={values.correo}
-                      error={errors.correo && touched.correo}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                    <ErrorMessage
-                      className="error"
-                      name="correo"
-                      component="div"
-                    />
+                  <div className="files">
+                    <div className="txt-left">
+                      <TextField
+                        name="nroDocumento"
+                        className="TxtField"
+                        variant="outlined"
+                        placeholder="RUC"
+                        required
+                        fullWidth
+                        value={values.nroDocumento}
+                        error={errors.nroDocumento && touched.nroDocumento}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        inputProps={{ maxLength: 11 }}
+                        autoComplete="off"
+                        onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                      <ErrorMessage
+                        className="error"
+                        name="nroDocumento"
+                        component="div"
+                      />
+                    </div>
+
+                    <div className="txt-right">
+                      <TextField
+                        name="correo"
+                        className="TxtField"
+                        variant="outlined"
+                        placeholder="Correo electrónico"
+                        type="email"
+                        required
+                        fullWidth
+                        value={values.correo}
+                        error={errors.correo && touched.correo}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                      <ErrorMessage
+                        className="error"
+                        name="correo"
+                        component="div"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="files">
-                  <TextField
-                    name="contraseña"
-                    type="password"
-                    className="TxtField"
-                    variant="outlined"
-                    placeholder="Contraseña"
-                    required
-                    fullWidth
-                    value={values.contraseña}
-                    error={errors.contraseña && touched.contraseña}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginRight: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                  <TextField
-                    name="repContraseña"
-                    type="password"
-                    className="TxtField"
-                    variant="outlined"
-                    placeholder="Repetir contraseña"
-                    required
-                    fullWidth
-                    value={values.repContraseña}
-                    error={errors.repContraseña && touched.repContraseña}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginLeft: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                </div>
+                  <div className="files">
+                    <div className="txt-left">
+                      <TextField
+                        name="contraseña"
+                        type="password"
+                        className="TxtField"
+                        variant="outlined"
+                        placeholder="Contraseña"
+                        required
+                        fullWidth
+                        value={values.contraseña}
+                        error={errors.contraseña && touched.contraseña}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        style={{
+                          marginBottom: "5px",
+                        }}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+                    <div className="txt-right">
+                      <TextField
+                        name="repContraseña"
+                        type="password"
+                        className="TxtField"
+                        variant="outlined"
+                        placeholder="Repetir contraseña"
+                        required
+                        fullWidth
+                        value={values.repContraseña}
+                        error={errors.repContraseña && touched.repContraseña}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        style={{
+                          marginBottom: "5px",
+                        }}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+                  </div>
 
-                <Button
-                  size="large"
-                  color="primary"
-                  variant="contained"
-                  className="btn-primary"
-                  type="submit"
-                  fullWidth
-                >
-                  Registrar
-                </Button>
-              </form>
-            )}
-          </Formik>
+                  <Button
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                    className="btn-primary"
+                    type="submit"
+                    fullWidth
+                  >
+                    Registrar
+                  </Button>
+                </form>
+              )}
+            </Formik>
+          </div>
         </div>
       </>
     );

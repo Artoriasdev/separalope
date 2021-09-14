@@ -28,16 +28,7 @@ export const CookiesBanner = () => {
           justifyContent: "center",
         }}
         cookieName="acceptCookies"
-        style={{
-          background: "white",
-          width: "30%",
-          margin: "40px",
-          color: "black",
-          borderRadius: "10px",
-          boxShadow:
-            "0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)",
-        }}
-        containerClasses="animate__animated animate__backInLeft"
+        containerClasses="animate__animated animate__backInLeft cookie-container"
         // buttonClasses="files"
       >
         <p style={{ textAlign: "center" }}>

@@ -12,17 +12,17 @@ import { ArrowLeftSVG, ArrowRightSVG } from "../assets/images/svg";
 
 const responsive = {
   desktop: {
-    breakpoint: { max: 3000, min: 1400 },
+    breakpoint: { max: 3000, min: 1500 },
     items: 4,
     slidesToSlide: 4, // optional, default to 1.
   },
   tablet: {
-    breakpoint: { max: 1400, min: 1000 },
+    breakpoint: { max: 1500, min: 1200 },
     items: 3,
     slidesToSlide: 3, // optional, default to 1.
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
+    breakpoint: { max: 1100, min: 0 },
     items: 1,
     slidesToSlide: 1, // optional, default to 1.
   },
@@ -132,7 +132,7 @@ class HomePage extends Component {
               paddingRight: "50px",
             }}
           >
-            <div style={{ position: "absolute" }}>
+            <div className="home-text">
               <h1>Nuestras categorías</h1>
 
               <h3 className="register__subtitle">
@@ -141,7 +141,7 @@ class HomePage extends Component {
               </h3>
             </div>
 
-            <div style={{ float: "right", marginTop: "30px" }}>
+            <div className="home-search">
               <TextField
                 name="search"
                 label="Buscar categoría"
@@ -159,13 +159,13 @@ class HomePage extends Component {
             </div>
           </div>
           <CarouselItem
-            swipeable={false}
+            swipeable={["mobile"] ? true : false}
             draggable={false}
             showDots={false}
             responsive={responsive}
             ssr={true} // means to render carousel on server-side.
             infinite={false}
-            autoPlay={this.props.deviceType !== "mobile" ? false : true}
+            autoPlay={false}
             // autoPlaySpeed={1000}
             transitionDuration={500}
             containerClass="carousel-container"

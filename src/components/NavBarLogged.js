@@ -10,13 +10,15 @@ import {
   Tabs,
   Toolbar,
   withStyles,
+  IconButton,
 } from "@material-ui/core";
 import { ArrowDropDown, Settings } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { LogoSVG } from "../assets/images/svg";
 import axios from "axios";
+import MoreIcon from "@material-ui/icons/MoreVert";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   tab: {
     minHeight: "2.75rem",
     color: "white",
@@ -41,6 +43,18 @@ const useStyles = makeStyles(() => ({
     // [theme.breakpoints.up("sm")]: {
     //   display: "block",
     // },
+  },
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
   },
 }));
 
@@ -80,6 +94,17 @@ const Navbar = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
+
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -171,6 +196,7 @@ const Navbar = () => {
     }
     setAnchorEl(null);
     setAnchorEl2(null);
+    setMobileMoreAnchorEl(null);
   };
 
   const handleRedirectHome = () => {
@@ -194,6 +220,143 @@ const Navbar = () => {
     history.go(history.push("/"));
   };
 
+  const mobileMenuId = "";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+      style={{ maxWidth: "80%", textAlign: "center" }}
+    >
+      {name ? (
+        <>
+          <Button
+            endIcon={<ArrowDropDown style={{ fontSize: "25px" }} />}
+            className="font buttonHeader "
+            onClick={handleClick}
+            style={{
+              backgroundColor: anchorEl ? "#5829dd" : "transparent",
+              color: anchorEl ? "white" : "black",
+              textTransform: "capitalize",
+              width: "200px",
+            }}
+          >
+            {name}
+          </Button>
+          <StyledMenu
+            id="customized-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            {infoUser.map(({ idMenu, nameMenu }) => (
+              <>
+                <MenuItem
+                  key={idMenu}
+                  className="menuItemClient"
+                  onClick={() => handleRedirect(idMenu)}
+                >
+                  <ListItemText primary={nameMenu} />
+                </MenuItem>
+              </>
+            ))}
+          </StyledMenu>
+          <Button
+            className="font  buttonHeader"
+            onClick={handleClick2}
+            style={{
+              backgroundColor: anchorEl2 ? "#5829dd" : "transparent",
+              color: anchorEl2 ? "white" : "black",
+              textTransform: "capitalize",
+              width: "0",
+            }}
+          >
+            <Settings />
+          </Button>
+          <StyledMenuSettings
+            id="customized-menu"
+            anchorEl={anchorEl2}
+            keepMounted
+            open={Boolean(anchorEl2)}
+            onClose={handleClose2}
+          >
+            <MenuItem className="menuItem" onClick={() => handleRedirect(7)}>
+              <ListItemText primary="Cambiar contraseña" />
+            </MenuItem>
+            <MenuItem onClick={() => handleRedirect(8)}>
+              <ListItemText primary="Preguntas frecuentes" />
+            </MenuItem>
+            <MenuItem onClick={() => handleLogout()}>
+              <ListItemText primary="Cerrar sesión" />
+            </MenuItem>
+          </StyledMenuSettings>
+        </>
+      ) : (
+        <>
+          <Button
+            className="font  buttonHeader"
+            onClick={() => handleRedirect(infoUser[1].idMenu)}
+            style={{
+              textTransform: "capitalize",
+            }}
+          >
+            {infoUser[1].nameMenu}
+          </Button>
+          <Button
+            className="font buttonHeader"
+            onClick={() => handleRedirect(infoUser[2].idMenu)}
+            style={{
+              textTransform: "capitalize",
+            }}
+          >
+            {infoUser[2].nameMenu}
+          </Button>
+          <Button
+            className="font buttonHeader"
+            onClick={() => handleRedirect(infoUser[0].idMenu)}
+            style={{
+              textTransform: "capitalize",
+            }}
+          >
+            {infoUser[0].nameMenu}
+          </Button>
+
+          <Button
+            className="font buttonHeader"
+            onClick={handleClick}
+            style={{
+              backgroundColor: anchorEl ? "#5829dd" : "transparent",
+              color: anchorEl ? "white" : "black",
+              textTransform: "capitalize",
+              width: "0",
+            }}
+          >
+            <Settings />
+          </Button>
+          <StyledMenuSettings
+            id="customized-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={() => handleRedirect(7)}>
+              <ListItemText primary="Cambiar contraseña" />
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>
+              <ListItemText primary="Cerrar sesión" />
+            </MenuItem>
+          </StyledMenuSettings>
+        </>
+      )}
+    </Menu>
+  );
+
   return (
     <>
       {name ? (
@@ -213,7 +376,7 @@ const Navbar = () => {
                     <h2 style={{ fontFamily: "unset" }}>!</h2>
                   </Button>
                   <div className={classes.grow} />
-                  <div>
+                  <div className={classes.sectionDesktop}>
                     <Button
                       endIcon={<ArrowDropDown style={{ fontSize: "25px" }} />}
                       className="font buttonHeader "
@@ -279,6 +442,17 @@ const Navbar = () => {
                       </MenuItem>
                     </StyledMenuSettings>
                   </div>
+                  <div className={classes.sectionMobile}>
+                    <IconButton
+                      aria-label="show more"
+                      aria-controls={mobileMenuId}
+                      aria-haspopup="true"
+                      onClick={handleMobileMenuOpen}
+                      color="black"
+                    >
+                      <MoreIcon color="black" />
+                    </IconButton>
+                  </div>
                 </Toolbar>
               </AppBar>
             </div>
@@ -313,6 +487,7 @@ const Navbar = () => {
                 </nav>
               </div>
             </div>
+            {renderMobileMenu}
           </header>
         </>
       ) : (
@@ -332,7 +507,7 @@ const Navbar = () => {
                     <h2 style={{ fontFamily: "unset" }}>!</h2>
                   </Button>
                   <div className={classes.grow} />
-                  <div>
+                  <div className={classes.sectionDesktop}>
                     <Button
                       className="font  buttonHeader"
                       onClick={() => handleRedirect(infoUser[1].idMenu)}
@@ -388,9 +563,21 @@ const Navbar = () => {
                       </MenuItem>
                     </StyledMenuSettings>
                   </div>
+                  <div className={classes.sectionMobile}>
+                    <IconButton
+                      aria-label="show more"
+                      aria-controls={mobileMenuId}
+                      aria-haspopup="true"
+                      onClick={handleMobileMenuOpen}
+                      color="black"
+                    >
+                      <MoreIcon color="black" />
+                    </IconButton>
+                  </div>
                 </Toolbar>
               </AppBar>
             </div>
+            {renderMobileMenu}
           </header>
         </>
       )}

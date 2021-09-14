@@ -11,14 +11,16 @@ import {
   makeStyles,
   MenuItem,
   Toolbar,
+  IconButton,
 } from "@material-ui/core";
+import MoreIcon from "@material-ui/icons/MoreVert";
 import axios from "axios";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import { AccountCircle } from "@material-ui/icons";
 import { LogoSVG } from "../assets/images/svg";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   tab: {
     minHeight: "2.75rem",
     color: "white",
@@ -45,6 +47,18 @@ const useStyles = makeStyles(() => ({
     //   display: "block",
     // },
   },
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
 }));
 
 const StyledMenu = withStyles()((props) => (
@@ -68,6 +82,17 @@ const Navbar = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
+
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -132,6 +157,7 @@ const Navbar = () => {
     }
     setAnchorEl(null);
     setAnchorEl2(null);
+    setMobileMoreAnchorEl(null);
   };
 
   const [value, setValue] = useState(0);
@@ -142,6 +168,73 @@ const Navbar = () => {
   const handleRedirect = (id) => {
     history.go(history.push(`/services-menu/${id}`));
   };
+
+  const mobileMenuId = "";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+      style={{ maxWidth: "60%", textAlign: "center" }}
+    >
+      <Button
+        startIcon={<AccountCircle style={{ fontSize: "25px" }} />}
+        className="font buttonHeader "
+        onClick={handleClick}
+        style={{
+          backgroundColor: anchorEl ? "#5829dd" : "transparent",
+          color: anchorEl ? "white" : "black",
+          textTransform: "capitalize",
+        }}
+      >
+        Iniciar sesión
+      </Button>
+      <StyledMenu
+        id="customized-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem className="menuItem" onClick={() => handleRedirectButton(1)}>
+          <ListItemText primary="Soy cliente" />
+        </MenuItem>
+        <MenuItem onClick={() => handleRedirectButton(2)}>
+          <ListItemText primary="Doy servicio" />
+        </MenuItem>
+      </StyledMenu>
+      <Button
+        className="font buttonHeader"
+        onClick={handleClick2}
+        style={{
+          backgroundColor: anchorEl2 ? "#5829dd" : "transparent",
+          color: anchorEl2 ? "white" : "black",
+          textTransform: "capitalize",
+        }}
+      >
+        Regístrate
+      </Button>
+      <StyledMenu
+        id="customized-menu"
+        anchorEl={anchorEl2}
+        keepMounted
+        open={Boolean(anchorEl2)}
+        onClose={handleClose2}
+        style={{ borderRadius: "0" }}
+      >
+        <MenuItem className="menuItem" onClick={() => handleRedirectButton(3)}>
+          <ListItemText primary="Soy cliente" />
+        </MenuItem>
+        <MenuItem onClick={() => handleRedirectButton(4)}>
+          <ListItemText primary="Doy servicio" />
+        </MenuItem>
+      </StyledMenu>
+    </Menu>
+  );
 
   return (
     <header className="header">
@@ -159,7 +252,7 @@ const Navbar = () => {
               <h2 style={{ fontFamily: "unset" }}>!</h2>
             </Button>
             <div className={classes.grow} />
-            <div>
+            <div className={classes.sectionDesktop}>
               <Button
                 startIcon={<AccountCircle style={{ fontSize: "25px" }} />}
                 className="font buttonHeader "
@@ -219,6 +312,17 @@ const Navbar = () => {
                 </MenuItem>
               </StyledMenu>
             </div>
+            <div className={classes.sectionMobile}>
+              <IconButton
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="black"
+              >
+                <MoreIcon color="black" />
+              </IconButton>
+            </div>
           </Toolbar>
         </AppBar>
       </div>
@@ -253,6 +357,7 @@ const Navbar = () => {
           </nav>
         </div>
       </div>
+      {renderMobileMenu}
     </header>
   );
 };

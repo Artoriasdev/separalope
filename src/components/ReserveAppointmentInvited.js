@@ -216,353 +216,348 @@ class ReserveAppointmentInvited extends Component {
             </div>
           </Fade>
         </Modal>
-        <div
-          className="page-container"
-          style={{ width: "500px", marginTop: "50px" }}
-        >
-          <h1>Reserva tu cita</h1>
-          <Formik
-            ref={(ref) => (this.form = ref)}
-            initialValues={{
-              correo: "",
-              celular: "",
-              servicio: "",
-              duracion: "",
-              precio: "",
-              fechaDisponible: "",
-              horarioDisponible: "",
-              nombre: "",
-              apellido: "",
-            }}
-            validate={(values) => {
-              const { correo, celular } = values;
+        <div className="page-container">
+          <div className="login">
+            <h1>Reserva tu cita</h1>
+            <Formik
+              ref={(ref) => (this.form = ref)}
+              initialValues={{
+                correo: "",
+                celular: "",
+                servicio: "",
+                duracion: "",
+                precio: "",
+                fechaDisponible: "",
+                horarioDisponible: "",
+                nombre: "",
+                apellido: "",
+              }}
+              validate={(values) => {
+                const { correo, celular } = values;
 
-              let errors = {};
+                let errors = {};
 
-              if (!correo) {
-                errors.correo = "";
-              } else if (!EMAIL_REGEXP.test(correo)) {
-                errors.correo = EMAIL_INVALID;
-              } else if (correo.length < E_MINLENGTH) {
-                errors.correo = EMAIL_MINLENGTH;
-              }
-
-              if (!celular) {
-                errors.celular = "";
-              } else if (celular.startsWith("0")) {
-                errors.celular =
-                  "*El número de celular debe iniciar con el dígito 9.";
-              } else if (celular.startsWith("1")) {
-                errors.celular =
-                  "*El número de celular debe iniciar con el dígito 9.";
-              } else if (celular.startsWith("2")) {
-                errors.celular =
-                  "*El número de celular debe iniciar con el dígito 9.";
-              } else if (celular.startsWith("3")) {
-                errors.celular =
-                  "*El número de celular debe iniciar con el dígito 9.";
-              } else if (celular.startsWith("4")) {
-                errors.celular =
-                  "*El número de celular debe iniciar con el dígito 9.";
-              } else if (celular.startsWith("5")) {
-                errors.celular =
-                  "*El número de celular debe iniciar con el dígito 9.";
-              } else if (celular.startsWith("6")) {
-                errors.celular =
-                  "*El número de celular debe iniciar con el dígito 9.";
-              } else if (celular.startsWith("7")) {
-                errors.celular =
-                  "*El número de celular debe iniciar con el dígito 9.";
-              } else if (celular.startsWith("8")) {
-                errors.celular =
-                  "*El número de celular debe iniciar con el dígito 9.";
-              } else if (celular.length < 9) {
-                errors.celular = "*El número de celular debe tener 9 dígitos.";
-              }
-              return errors;
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              setSubmitting(false);
-              const reserveModel = {
-                idService: "",
-                email: "",
-                mobile: "",
-                name: "",
-                lastName: "",
-                reservationDate: "",
-                reservationTime: "",
-              };
-
-              reserveModel.idService = this.props.match.params.id;
-              reserveModel.reservationDate = values.fechaDisponible;
-              reserveModel.reservationTime = values.horarioDisponible;
-
-              (async () => {
-                const responseSubmit = await this.handleInfoSubmit(
-                  reserveModel
-                );
-
-                const { response } = responseSubmit.data;
-
-                if (response === "true") {
-                  this.setState({
-                    modal: true,
-                    message: "¡Registro grabado satisfactoriamente!",
-                    response: true,
-                    isLoading: false,
-                  });
+                if (!correo) {
+                  errors.correo = "";
+                } else if (!EMAIL_REGEXP.test(correo)) {
+                  errors.correo = EMAIL_INVALID;
+                } else if (correo.length < E_MINLENGTH) {
+                  errors.correo = EMAIL_MINLENGTH;
                 }
-              })();
-            }}
-          >
-            {({
-              values,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              errors,
-              touched,
-            }) => (
-              <form name="formRegister" onSubmit={handleSubmit}>
-                <div className="files">
-                  <TextField
-                    name="nombre"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Nombre"
-                    fullWidth
-                    value={values.nombre}
-                    error={errors.nombre && touched.nombre}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      marginRight: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("[a-z A-Z ]")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
 
-                  <TextField
-                    name="apellido"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Apellidos"
-                    fullWidth
-                    value={values.apellido}
-                    error={errors.apellido && touched.apellido}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      marginLeft: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("[a-z A-Z ]")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                </div>
-                <div className="files">
-                  <div className="txt-left">
-                    <TextField
-                      name="correo"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Correo electrónico"
-                      fullWidth
-                      value={values.correo}
-                      error={errors.correo && touched.correo}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      required
-                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                    <ErrorMessage
-                      className="error"
-                      name="correo"
-                      component="div"
-                    />
+                if (!celular) {
+                  errors.celular = "";
+                } else if (celular.startsWith("0")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("1")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("2")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("3")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("4")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("5")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("6")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("7")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("8")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.length < 9) {
+                  errors.celular =
+                    "*El número de celular debe tener 9 dígitos.";
+                }
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                setSubmitting(false);
+                const reserveModel = {
+                  idService: "",
+                  email: "",
+                  mobile: "",
+                  name: "",
+                  lastName: "",
+                  reservationDate: "",
+                  reservationTime: "",
+                };
+
+                reserveModel.idService = this.props.match.params.id;
+                reserveModel.reservationDate = values.fechaDisponible;
+                reserveModel.reservationTime = values.horarioDisponible;
+
+                (async () => {
+                  const responseSubmit = await this.handleInfoSubmit(
+                    reserveModel
+                  );
+
+                  const { response } = responseSubmit.data;
+
+                  if (response === "true") {
+                    this.setState({
+                      modal: true,
+                      message: "¡Registro grabado satisfactoriamente!",
+                      response: true,
+                      isLoading: false,
+                    });
+                  }
+                })();
+              }}
+            >
+              {({
+                values,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+                isSubmitting,
+                errors,
+                touched,
+              }) => (
+                <form name="formRegister" onSubmit={handleSubmit}>
+                  <div className="files">
+                    <div className="txt-left">
+                      <TextField
+                        name="nombre"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Nombre"
+                        fullWidth
+                        value={values.nombre}
+                        error={errors.nombre && touched.nombre}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        required
+                        style={{
+                          marginBottom: "5px",
+                        }}
+                        onInput={handleRegexDisable("[a-z A-Z ]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+
+                    <div className="txt-right">
+                      <TextField
+                        name="apellido"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Apellidos"
+                        fullWidth
+                        value={values.apellido}
+                        error={errors.apellido && touched.apellido}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        required
+                        style={{
+                          marginBottom: "5px",
+                        }}
+                        onInput={handleRegexDisable("[a-z A-Z ]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
                   </div>
-                  <div className="txt-right">
-                    <TextField
-                      name="celular"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Número de celular"
-                      fullWidth
-                      value={values.celular}
-                      error={errors.celular && touched.celular}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      required
-                      inputProps={{
-                        maxLength: 9,
+                  <div className="files">
+                    <div className="txt-left">
+                      <TextField
+                        name="correo"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Correo electrónico"
+                        fullWidth
+                        value={values.correo}
+                        error={errors.correo && touched.correo}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        required
+                        style={{
+                          marginBottom: "5px",
+                        }}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                      <ErrorMessage
+                        className="error"
+                        name="correo"
+                        component="div"
+                      />
+                    </div>
+                    <div className="txt-right">
+                      <TextField
+                        name="celular"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Número de celular"
+                        fullWidth
+                        value={values.celular}
+                        error={errors.celular && touched.celular}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        required
+                        inputProps={{
+                          maxLength: 9,
+                        }}
+                        style={{
+                          marginBottom: "5px",
+                        }}
+                        onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                      <ErrorMessage
+                        className="error"
+                        name="celular"
+                        component="div"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="files">
+                    <div className="txt-left">
+                      <TextField
+                        name="servicio"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Nombre del servicio"
+                        fullWidth
+                        value={values.servicio}
+                        error={errors.servicio && touched.servicio}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        disabled={true}
+                        style={{
+                          marginBottom: "5px",
+                        }}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+
+                    <div className="txt-right">
+                      <TextField
+                        name="duracion"
+                        type="text"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Duración del servicio"
+                        fullWidth
+                        value={values.duracion}
+                        error={errors.duracion && touched.duracion}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        disabled={true}
+                        style={{
+                          marginBottom: "5px",
+                        }}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+                  </div>
+
+                  <div className="files">
+                    <div className="txt-left">
+                      <TextField
+                        name="precio"
+                        type="text"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Precio"
+                        fullWidth
+                        value={values.precio}
+                        error={errors.precio && touched.precio}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        disabled={true}
+                        style={{
+                          marginBottom: "5px",
+                        }}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+
+                    <div className="txt-right">
+                      <Select
+                        style={{
+                          width: "100%",
+                          backgroundColor: "white",
+                          marginBottom: "5px",
+                        }}
+                        variant="outlined"
+                        value={values.fechaDisponible}
+                        error={
+                          errors.fechaDisponible && touched.fechaDisponible
+                        }
+                        name="fechaDisponible"
+                        displayEmpty
+                        required
+                        onChange={this.handleDateChange}
+                        onBlur={handleBlur}
+                      >
+                        <MenuItem disabled value={""}>
+                          <span className="empty--option">
+                            Elige la fecha disponible
+                          </span>
+                        </MenuItem>
+                        {this.state.dateData &&
+                          this.state.dateData.map(({ keyDate, valueDate }) => (
+                            <MenuItem key={keyDate} value={keyDate}>
+                              {valueDate}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </div>
+                  </div>
+                  <div className="files">
+                    <Select
+                      style={{
+                        backgroundColor: "white",
+                        marginRight: "51%",
+                        marginTop: "5px",
+                        marginBottom: "5px",
                       }}
-                      onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                    />
-                    <ErrorMessage
-                      className="error"
-                      name="celular"
-                      component="div"
-                    />
+                      fullWidth
+                      variant="outlined"
+                      value={values.horarioDisponible}
+                      error={
+                        errors.horarioDisponible && touched.horarioDisponible
+                      }
+                      name="horarioDisponible"
+                      displayEmpty
+                      required
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <MenuItem disabled value={""}>
+                        <span className="empty--option">Elige el horario</span>
+                      </MenuItem>
+                      {this.state.hourData &&
+                        this.state.hourData.map(({ keyTime, valueTime }) => (
+                          <MenuItem key={keyTime} value={keyTime}>
+                            {valueTime}
+                          </MenuItem>
+                        ))}
+                    </Select>
                   </div>
-                </div>
 
-                <div className="files">
-                  <TextField
-                    name="servicio"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Nombre del servicio"
+                  <Button
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                    className="btn-primary"
+                    style={{
+                      margin: "10px 0",
+                    }}
+                    type="submit"
                     fullWidth
-                    value={values.servicio}
-                    error={errors.servicio && touched.servicio}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    disabled={true}
-                    style={{
-                      marginRight: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-
-                  <TextField
-                    name="duracion"
-                    type="text"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Duración del servicio"
-                    fullWidth
-                    value={values.duracion}
-                    error={errors.duracion && touched.duracion}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    disabled={true}
-                    style={{
-                      marginLeft: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                </div>
-
-                <div className="files">
-                  <TextField
-                    name="precio"
-                    type="text"
-                    className="TxtField"
-                    variant="outlined"
-                    label="Precio"
-                    fullWidth
-                    value={values.precio}
-                    error={errors.precio && touched.precio}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    disabled={true}
-                    style={{
-                      marginRight: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-
-                  <Select
-                    style={{
-                      width: "100%",
-                      backgroundColor: "white",
-                      marginLeft: "5px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    variant="outlined"
-                    value={values.fechaDisponible}
-                    error={errors.fechaDisponible && touched.fechaDisponible}
-                    name="fechaDisponible"
-                    displayEmpty
-                    required
-                    onChange={this.handleDateChange}
-                    onBlur={handleBlur}
                   >
-                    <MenuItem disabled value={""}>
-                      <span className="empty--option">
-                        Elige la fecha disponible
-                      </span>
-                    </MenuItem>
-                    {this.state.dateData &&
-                      this.state.dateData.map(({ keyDate, valueDate }) => (
-                        <MenuItem key={keyDate} value={keyDate}>
-                          {valueDate}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </div>
-                <div className="files">
-                  <Select
-                    style={{
-                      backgroundColor: "white",
-                      marginRight: "51%",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                    fullWidth
-                    variant="outlined"
-                    value={values.horarioDisponible}
-                    error={
-                      errors.horarioDisponible && touched.horarioDisponible
-                    }
-                    name="horarioDisponible"
-                    displayEmpty
-                    required
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  >
-                    <MenuItem disabled value={""}>
-                      <span className="empty--option">Elige el horario</span>
-                    </MenuItem>
-                    {this.state.hourData &&
-                      this.state.hourData.map(({ keyTime, valueTime }) => (
-                        <MenuItem key={keyTime} value={keyTime}>
-                          {valueTime}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </div>
-
-                <Button
-                  size="large"
-                  color="primary"
-                  variant="contained"
-                  className="btn-primary"
-                  style={{
-                    margin: "10px 0",
-                  }}
-                  type="submit"
-                  fullWidth
-                >
-                  Reservar cita
-                </Button>
-              </form>
-            )}
-          </Formik>
+                    Reservar cita
+                  </Button>
+                </form>
+              )}
+            </Formik>
+          </div>
         </div>
       </div>
     );
