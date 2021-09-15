@@ -70,6 +70,12 @@ class BusinessServicesCategory extends Component {
               disclaimerModal:
                 "Sesión expirada, porfavor vuelva a iniciar sesión",
             });
+          } else {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            });
           }
         });
       return rspApi;
@@ -93,15 +99,24 @@ class BusinessServicesCategory extends Component {
 
     const rspApi = Axios.get(linkDocumentsApi, {
       headers: headers,
-    }).then((response) => {
-      const { data } = response.data;
+    })
+      .then((response) => {
+        const { data } = response.data;
 
-      this.setState({
-        dataList: data,
+        this.setState({
+          dataList: data,
+        });
+
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          showModalError: true,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
-
-      return response;
-    });
     return rspApi;
   };
 

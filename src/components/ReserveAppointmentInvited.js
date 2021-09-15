@@ -120,6 +120,7 @@ class ReserveAppointmentInvited extends Component {
       })
       .then((response) => {
         const { data } = response.data;
+        console.log(data);
 
         this.setState({
           hourData: data,
@@ -140,6 +141,7 @@ class ReserveAppointmentInvited extends Component {
       formik.setFieldValue(formField, value, true);
       formik.setFieldValue("horarioDisponible", "", true);
       this.handleGetAvailableScheduleService(value);
+      console.log(value);
     }
   };
 

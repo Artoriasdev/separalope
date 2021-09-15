@@ -217,6 +217,9 @@ button {
   &__nav {
     margin: 0 auto;
     max-width: 1250px;
+    @include desktop {
+      width: 80% !important;
+    }
   }
 }
 
@@ -837,6 +840,10 @@ button {
   width: 272px;
   margin-left: 50px;
   margin-right: 50px;
+  @include mobile {
+    margin-left: 10px;
+    margin-right: 0;
+  }
 
   .flip-home-container {
     width: 272px;
@@ -868,6 +875,15 @@ button {
   padding: 30px 0;
   width: 90%;
   margin: 50px auto;
+  @include tablet {
+    padding: 0;
+    margin: 20px auto;
+  }
+  .category {
+    @include mobile {
+      width: 100% !important;
+    }
+  }
   .login {
     width: 500px;
     margin: 0 auto;
@@ -880,10 +896,14 @@ button {
     color: #5829dd;
   }
   .card-container {
-    width: 345px;
+    min-width: 345px;
     display: inline-block;
     margin-right: 20px;
     margin-bottom: 20px;
+    @include mobile {
+      min-width: 300px;
+      width: 0;
+    }
     .card-media {
       height: 240px;
       width: 300px;
@@ -952,6 +972,10 @@ button {
     }
     *:after {
       box-sizing: inherit;
+    }
+    @include mobile {
+      margin-left: 0;
+      margin-right: 22px;
     }
   }
   a {
@@ -1124,9 +1148,21 @@ button {
   width: 300px;
   position: absolute;
   padding: 30px 30px;
+  @include tablet {
+    position: relative;
+    margin: 30px auto;
+    width: 50%;
+    // display: flex;
+    // flex-direction: row;
+    padding: 0;
+  }
   .header-profile {
     width: 200px;
     text-align: center;
+    @include tablet {
+      width: 100%;
+    }
+
     img {
       border-radius: 50%;
       max-width: 150px;
@@ -1137,11 +1173,26 @@ button {
       font-family: MavenPro-Regular;
       font-weight: bold;
     }
+    .button-container {
+      @include tablet {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+      }
+    }
     .button {
       margin-top: 20px;
+      @include tablet {
+        margin-top: 0;
+        margin-left: 20px;
+      }
     }
     .logout {
       margin-top: 100px;
+      @include tablet {
+        display: none;
+      }
     }
   }
 }
@@ -1152,6 +1203,11 @@ button {
   margin: auto;
   padding-top: 5%;
   padding-left: 5%;
+  @include tablet {
+    width: 90%;
+    margin: 0 auto;
+    padding: 0;
+  }
 
   // box-sizing: border-box;
   // overflow-x: hidden;

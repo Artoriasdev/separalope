@@ -67,6 +67,12 @@ class BusinessCategory extends Component {
               disclaimerModal:
                 "Sesión expirada, porfavor vuelva a iniciar sesión",
             });
+          } else {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            });
           }
         });
       return rspApi;
@@ -95,14 +101,23 @@ class BusinessCategory extends Component {
 
     const rspApi = Axios.get(linkDocumentsApi, {
       headers: headers,
-    }).then((response) => {
-      const { data } = response.data;
-      this.setState({
-        typeCategorys: data,
-      });
+    })
+      .then((response) => {
+        const { data } = response.data;
+        this.setState({
+          typeCategorys: data,
+        });
 
-      return response;
-    });
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
+      });
     return rspApi;
   };
 
@@ -120,7 +135,7 @@ class BusinessCategory extends Component {
 
   render() {
     return (
-      <div className="page-container" style={{ padding: "0", width: "80%" }}>
+      <div className="page-container">
         <ModalError
           show={this.state.showModalError}
           closeCallback={this.toggleModalError}
@@ -131,79 +146,81 @@ class BusinessCategory extends Component {
             />
           </React.Fragment>
         </ModalError>
-        <Breadcrumbs
-          separator={<NavigateNext fontSize="medium" />}
-          aria-label="breadcrumb"
-          className="font"
-        >
-          <Link color="inherit" href="/">
-            Inicio
-          </Link>
-          <Link
-            color="textPrimary"
-            href="/business/category"
-            // onClick={handleClick}
+        <div className="category">
+          <Breadcrumbs
+            separator={<NavigateNext fontSize="medium" />}
+            aria-label="breadcrumb"
+            className="font"
           >
-            Categorías
-          </Link>
-        </Breadcrumbs>
-        <h1>Categorías</h1>
-        <div>
-          <h3
-            style={{ marginTop: "30px", marginBottom: "5px" }}
-            className="register__subtitle"
-          >
-            Si no ubicas tu categoría, ingresa a cuál perteneces.
-          </h3>
-          <TextField
-            className="TxtField"
-            name="searchText"
-            placeholder="¿Qué estás buscando?"
-            variant="standard"
-            label="Buscador"
-            style={{ margin: "0 20px 20px 0", width: "40%" }}
+            <Link color="inherit" href="/">
+              Inicio
+            </Link>
+            <Link
+              color="textPrimary"
+              href="/business/category"
+              // onClick={handleClick}
+            >
+              Categorías
+            </Link>
+          </Breadcrumbs>
+          <h1>Categorías</h1>
+          <div>
+            <h3
+              style={{ marginTop: "30px", marginBottom: "5px" }}
+              className="register__subtitle"
+            >
+              Si no ubicas tu categoría, ingresa a cuál perteneces.
+            </h3>
+            <TextField
+              className="TxtField"
+              name="searchText"
+              placeholder="¿Qué estás buscando?"
+              variant="standard"
+              label="Buscador"
+              style={{ margin: "0 20px 20px 0", width: "40%" }}
+            />
+
+            <Button
+              size="large"
+              color="primary"
+              variant="contained"
+              className="btn-primary"
+              style={{ margin: "5px 0" }}
+              type="submit"
+            >
+              Buscar
+            </Button>
+          </div>
+
+          <Container
+            triggerText={this.state.triggerText}
+            history={this.props.history}
           />
 
-          <Button
-            size="large"
-            color="primary"
-            variant="contained"
-            className="btn-primary"
-            style={{ margin: "5px 0" }}
-            type="submit"
-          >
-            Buscar
-          </Button>
-        </div>
-
-        <Container
-          triggerText={this.state.triggerText}
-          history={this.props.history}
-        />
-
-        <div className="category-container">
-          <ul>
-            {this.state.typeCategorys &&
-              this.state.typeCategorys.map(({ id, image, logo, name }) => (
-                <li key={id} onClick={() => this.handleRedirect(id)}>
-                  <div
-                    style={{
-                      backgroundImage: `url(${image})`,
-                    }}
-                    className="card"
-                  >
-                    <div className="container">
-                      <span className="svg">
-                        <img src={logo} alt={name} title={name} />
-                      </span>
-                      <span className="name">
-                        <p>{name}</p>
-                      </span>
+          <div className="category-container">
+            <ul>
+              {this.state.typeCategorys &&
+                this.state.typeCategorys.map(({ id, image, logo, name }) => (
+                  <li key={id} onClick={() => this.handleRedirect(id)}>
+                    <div
+                      style={{
+                        backgroundImage: `url(${image})`,
+                      }}
+                      className="card"
+                    >
+                      <div className="container">
+                        <span className="svg">
+                          <img src={logo} alt={name} title={name} />
+                        </span>
+                        <span className="name">
+                          <p>{name}</p>
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
-          </ul>
+                  </li>
+                ))}
+            </ul>
+          </div>
         </div>
       </div>
     );

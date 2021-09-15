@@ -68,6 +68,7 @@ class BusinessProfileBank extends Component {
         .then((response) => {
           if (response.data.response === "true") {
             const { data } = response.data;
+            console.log(data);
             this.setState({
               formModel: data,
             });
@@ -116,6 +117,13 @@ class BusinessProfileBank extends Component {
                 "Sesión expirada, porfavor vuelva a iniciar sesión",
               isLoading: false,
             });
+          } else {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+              isLoading: false,
+            });
           }
         });
       return rspApi;
@@ -146,6 +154,15 @@ class BusinessProfileBank extends Component {
         });
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          showModalError: true,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          isLoading: false,
+        });
       });
     return rspApi;
   };
@@ -171,6 +188,15 @@ class BusinessProfileBank extends Component {
         });
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          showModalError: true,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          isLoading: false,
+        });
       });
     return rspApi;
   };
@@ -237,6 +263,15 @@ class BusinessProfileBank extends Component {
           });
         }
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          showModalError: true,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          isLoading: false,
+        });
       });
 
     return rspApi;
@@ -318,7 +353,7 @@ class BusinessProfileBank extends Component {
             <div className="title">
               <p>{sessionStorage.getItem("tradename")}</p>
             </div>
-            <div>
+            <div className="button-container">
               <div>
                 <button onClick={this.handleRedirect} className="button_ref">
                   Datos de la empresa

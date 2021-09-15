@@ -89,6 +89,12 @@ class ReserveAppointment extends Component {
               message: "Sesión expirada, porfavor vuelva a iniciar sesión",
               isLoading: false,
             });
+          } else {
+            this.setState({
+              modal: true,
+              message:
+                "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            });
           }
         });
       return rspApi;
@@ -129,6 +135,14 @@ class ReserveAppointment extends Component {
         );
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
     return rspApi;
   };
@@ -156,6 +170,14 @@ class ReserveAppointment extends Component {
         // console.log(data);
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
     return rspApi;
   };
@@ -183,6 +205,14 @@ class ReserveAppointment extends Component {
         // console.log(data);
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
     return rspApi;
   };
@@ -225,6 +255,14 @@ class ReserveAppointment extends Component {
           });
         }
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
 
     return rspApi;

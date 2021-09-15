@@ -19,7 +19,7 @@ import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   grow: {
-    flexGrow: 3,
+    flexGrow: 1,
   },
 }));
 

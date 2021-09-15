@@ -135,6 +135,12 @@ class ClientProfile extends Component {
               disclaimerModal:
                 "Sesión expirada, porfavor vuelva a iniciar sesión",
             });
+          } else {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            });
           }
         });
       return rspApi;
@@ -168,6 +174,14 @@ class ClientProfile extends Component {
           sessionStorage.setItem("lastName", dataModel.lastName);
         }
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          showModalError: true,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
 
     return rspApi;

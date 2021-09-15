@@ -27,9 +27,6 @@ class CustomerAppointment extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      isLoading: true,
-    });
     try {
       this.handleGetReservationByCustomer();
     } catch (error) {
@@ -78,6 +75,12 @@ class CustomerAppointment extends Component {
           this.setState({
             modal: true,
             message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+          });
+        } else {
+          this.setState({
+            modal: true,
+            message:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
           });
         }
       });

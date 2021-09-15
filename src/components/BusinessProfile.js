@@ -103,6 +103,12 @@ class BusinessProfile extends Component {
                 "Sesión expirada, porfavor vuelva a iniciar sesión",
               isLoading: false,
             });
+          } else {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            });
           }
         });
       return rspApi;
@@ -137,6 +143,15 @@ class BusinessProfile extends Component {
           });
         }
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          showModalError: true,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          isLoading: false,
+        });
       });
 
     return rspApi;
@@ -211,7 +226,7 @@ class BusinessProfile extends Component {
             <div className="title">
               <p>{sessionStorage.getItem("tradename")}</p>
             </div>
-            <div>
+            <div className="button-container">
               <div>
                 <button onClick={this.handleRedirect} className="button_ref">
                   Datos de la empresa
@@ -313,51 +328,44 @@ class BusinessProfile extends Component {
               <form name="formData" onSubmit={handleSubmit}>
                 <h2>Datos de la empresa</h2>
                 <div className="files">
-                  <TextField
-                    name="nombreCompañia"
-                    className="TxtField"
-                    variant="outlined"
-                    placeholder="Nombre de la compañía"
-                    fullWidth
-                    value={values.nombreCompañia}
-                    error={errors.nombreCompañia && touched.nombreCompañia}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    disabled={!this.state.edit}
-                    required
-                    style={{
-                      marginTop: "10px",
-                      marginRight: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-
-                  <TextField
-                    name="nombreComercial"
-                    className="TxtField"
-                    variant="outlined"
-                    placeholder="Nombre comercial de la compañía"
-                    fullWidth
-                    value={values.nombreComercial}
-                    error={errors.nombreComercial && touched.nombreComercial}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      marginTop: "10px",
-                      marginLeft: "5px",
-                      marginBottom: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    disabled={!this.state.edit}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
+                  <div className="txt-left">
+                    <TextField
+                      name="nombreCompañia"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Nombre de la compañía"
+                      fullWidth
+                      value={values.nombreCompañia}
+                      error={errors.nombreCompañia && touched.nombreCompañia}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      disabled={!this.state.edit}
+                      required
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
+                  <div className="txt-right">
+                    <TextField
+                      name="nombreComercial"
+                      className="TxtField"
+                      variant="outlined"
+                      placeholder="Nombre comercial de la compañía"
+                      fullWidth
+                      value={values.nombreComercial}
+                      error={errors.nombreComercial && touched.nombreComercial}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      required
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      disabled={!this.state.edit}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
                 </div>
                 <div className="files">
                   <div className="txt-left">

@@ -5,7 +5,14 @@ import "react-multi-carousel/lib/styles.css";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
 
 import axios from "axios";
-import { InputAdornment, TextField } from "@material-ui/core";
+import {
+  Backdrop,
+  Button,
+  Fade,
+  InputAdornment,
+  Modal,
+  TextField,
+} from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import { ArrowLeftSVG, ArrowRightSVG } from "../assets/images/svg";
 // import FullPageLoader from "./FullPageLoader";
@@ -55,6 +62,8 @@ class HomePage extends Component {
     this.state = {
       typeCategorys: [],
       isLoading: false,
+      modal: false,
+      message: "",
     };
   }
 
@@ -104,6 +113,14 @@ class HomePage extends Component {
         // console.log(rsp);
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
     return rspApi;
   };
@@ -112,19 +129,45 @@ class HomePage extends Component {
     this.props.history.push(`/services-menu/${id}`);
   };
 
+  handleClose = () => {
+    this.setState({
+      modal: false,
+    });
+  };
+
   render() {
     return (
       <div>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
+        >
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
         {/* <FullPageLoader isLoading={this.state.isLoading} /> */}
         <Carousel />
-        <div
-          className="page-container"
-          style={{
-            width: "80%",
-
-            margin: "0 auto",
-          }}
-        >
+        <div className="page-container">
           <div
             style={{
               height: "130px",
