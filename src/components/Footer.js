@@ -9,17 +9,51 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText as p,
+  createTheme,
   DialogTitle,
+  List,
+  ListItem,
+  ListItemText,
+  Collapse,
 } from "@material-ui/core";
-import { Facebook, Instagram } from "@material-ui/icons";
+import {
+  Facebook,
+  Instagram,
+  ExpandLess,
+  ExpandMore,
+} from "@material-ui/icons";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
+const tema = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 550,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
+});
+
 const useStyles = makeStyles(() => ({
   grow: {
-    flexGrow: 1,
+    flexGrow: 2,
+  },
+  sectionDesktop: {
+    display: "none",
+    [tema.breakpoints.up("sm")]: {
+      display: "flex",
+    },
+  },
+  sectionMobile: {
+    display: "flex",
+    flexDirection: "column",
+    [tema.breakpoints.up("sm")]: {
+      display: "none",
+    },
   },
 }));
 
@@ -29,6 +63,12 @@ export const Footer = () => {
   const [terms, setTerms] = useState([]);
 
   const history = useHistory();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   useEffect(() => {
     handleGetTerms();
@@ -79,6 +119,38 @@ export const Footer = () => {
     setTerm(false);
     setPriv(false);
   };
+
+  const renderMobileMenu = (
+    <List component="nav" aria-labelledby="nested-list-subheader">
+      <ListItem button onClick={handleClick}>
+        <ListItemText
+          primary="Nuestras políticas"
+          style={{ textAlign: "center" }}
+        />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItem>
+            <button className="font-p" onClick={handleModalPriv}>
+              Políticas de privacidad
+            </button>
+          </ListItem>
+          <ListItem>
+            <button className="font-p" onClick={() => handleRedirect(1)}>
+              Preguntas frecuentes
+            </button>
+          </ListItem>
+          <ListItem>
+            <button className="font-p" onClick={() => handleModalTerm()}>
+              Términos y condiciones
+            </button>
+          </ListItem>
+        </List>
+      </Collapse>
+    </List>
+  );
+
   return (
     <div className="footer-container">
       <Dialog open={priv} onClose={handleClose}>
@@ -174,32 +246,61 @@ export const Footer = () => {
         }}
       >
         <Container maxWidth="lg">
-          <Toolbar>
-            <p className="p">Copyright © 2021 separalope</p>
+          <Toolbar className="footer">
+            <div className={classes.sectionDesktop}>
+              <p className="p">Copyright © 2021 separalope</p>
+            </div>
             <div className={classes.grow} />
-            <hr />
+            <div className={classes.sectionDesktop}>
+              <hr />
+            </div>
             <div className={classes.grow} />
-            <button className="font-p" onClick={handleModalPriv}>
-              Políticas de privacidad
-            </button>
+            <div className={classes.sectionDesktop}>
+              <button className="font-p" onClick={handleModalPriv}>
+                Políticas de privacidad
+              </button>
+            </div>
             <div className={classes.grow} />
-            <hr />
+            <div className={classes.sectionDesktop}>
+              <hr />
+            </div>
             <div className={classes.grow} />
-            <button className="font-p" onClick={() => handleRedirect(1)}>
-              Preguntas frecuentes
-            </button>
+            <div className={classes.sectionDesktop}>
+              <button className="font-p" onClick={() => handleRedirect(1)}>
+                Preguntas frecuentes
+              </button>
+            </div>
             <div className={classes.grow} />
-            <hr />
+            <div className={classes.sectionDesktop}>
+              <hr />
+            </div>
             <div className={classes.grow} />
-            <button className="font-p" onClick={() => handleModalTerm()}>
-              Términos y condiciones
-            </button>
+            <div className={classes.sectionDesktop}>
+              <button className="font-p" onClick={() => handleModalTerm()}>
+                Términos y condiciones
+              </button>
+            </div>
             <div className={classes.grow} />
-            <hr />
+            <div className={classes.sectionDesktop}>
+              <hr />
+            </div>
             <div className={classes.grow} />
-            <button className="font-p" onClick={() => handleRedirect(2)}>
-              Libro de reclamaciones
-            </button>
+            <div className={classes.sectionDesktop}>
+              <button className="font-p" onClick={() => handleRedirect(2)}>
+                Libro de reclamaciones
+              </button>
+            </div>
+            <div className={classes.sectionMobile}>
+              <p className="p">Copyright © 2021 separalope</p>
+              <button
+                className="font-p"
+                onClick={() => handleRedirect(2)}
+                style={{ marginTop: "20px" }}
+              >
+                Libro de reclamaciones
+              </button>
+              {renderMobileMenu}
+            </div>
           </Toolbar>
         </Container>
       </AppBar>

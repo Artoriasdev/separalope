@@ -1392,3 +1392,13 @@ button {
     }
   }
 }
+
+.footer {
+  @media (max-width: 550px) {
+    margin-top: 20px;
+    flex-direction: column;
+    hr {
+      border-left: none !important;
+    }
+  }
+}
