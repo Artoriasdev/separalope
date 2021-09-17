@@ -109,7 +109,7 @@ class MenuServicesBusiness extends Component {
                     >
                       <h3>{title}</h3>
                       <h4 style={{ textAlign: "justify" }}>{description}</h4>
-                      <p>Duracion : {duration}</p>
+                      <p>Duración : {duration}</p>
                     </div>
                     <Button
                       size="large"

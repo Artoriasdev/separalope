@@ -1,8 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "animate.css";
 
 const ModalText = ({ children, show, closeCallback, disabled }) => (
-  <div className="mdal" style={{ display: show ? "block" : "none" }}>
+  <div
+    className="mdal animate__animated animate__fadeIn"
+    style={{ display: show ? "block" : "none" }}
+  >
     <div className="overlay" />
     <div className="mdal_content">
       <div style={{ color: "#EE3224", fontWeight: "bold", fontSize: "24px" }}>

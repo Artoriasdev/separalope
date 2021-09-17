@@ -467,7 +467,7 @@ class Complains extends Component {
                           // inputProps={{
                           //   maxLength: 9,
                           // }}
-                          onInput={handleRegexDisable("[a-z A-Z ]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                          onInput={handleRegexDisable("[]")} // TODO haz el manejo correcto con NUMBER_REGEXP
                         />
                       </div>
                       <div className="files">
@@ -489,7 +489,7 @@ class Complains extends Component {
                           // inputProps={{
                           //   maxLength: 9,
                           // }}
-                          onInput={handleRegexDisable("[a-z A-Z ]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                          onInput={handleRegexDisable("[]")} // TODO haz el manejo correcto con NUMBER_REGEXP
                         />
                       </div>
                       <div
