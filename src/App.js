@@ -39,6 +39,7 @@ import ReserveAppointmentInvited from "./components/ReserveAppointmentInvited";
 import React from "react";
 import { CookiesBanner } from "./components/CookiesBanner";
 import Complains from "./components/Complains";
+import BusinessReports from "./components/BusinessReports";
 // import HomePage from "./pages/Home";
 
 const MavenProRegular = {
@@ -187,6 +188,11 @@ function App() {
                 exact
                 path="/business/category"
                 component={BusinessCategory}
+              />
+              <Route
+                exact
+                path="/business/reports"
+                component={BusinessReports}
               />
               <Route
                 exact

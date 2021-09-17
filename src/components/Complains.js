@@ -18,6 +18,14 @@ import {
   E_MINLENGTH,
 } from "../utils/constants";
 import FullPageLoader from "./FullPageLoader";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { pickerTheme } from "../utils/constants";
+import esLocale from "date-fns/locale/es";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import classnames from "classnames";
+import { CalendarToday } from "@material-ui/icons";
 
 class Complains extends Component {
   constructor(props) {
@@ -191,6 +199,8 @@ class Complains extends Component {
   };
 
   render() {
+    const nowDate = new Date();
+    nowDate.setFullYear(nowDate.getFullYear() - 2);
     return (
       <>
         <FullPageLoader isLoading={this.state.isLoading} />
@@ -548,6 +558,54 @@ class Complains extends Component {
                     </div>
                     <div className="right">
                       <div className="files">
+                        <MuiThemeProvider theme={pickerTheme}>
+                          <MuiPickersUtilsProvider
+                            utils={DateFnsUtils}
+                            locale={esLocale}
+                          >
+                            <DatePicker
+                              cancelLabel="Cancelar"
+                              okLabel="Aceptar"
+                              disableFuture
+                              // maxDate={nowDate}
+                              openTo="year"
+                              format="dd/MM/yyyy"
+                              fullWidth
+                              disabled
+                              views={["year", "month", "date"]}
+                              onChange={handleChange}
+                              // disabledDays={this.state.disabledDays}
+                              // onDisabledDayError={this.handleDisabledSelect}
+                              value={values.fechaIngreso}
+                              className="border"
+                              name="fechaIngreso"
+                              InputProps={{
+                                style: {
+                                  marginTop: "10px",
+                                  marginBottom: "10px",
+                                  height: 54,
+                                  backgroundColor: "#FFFFFF",
+                                  borderRadius: "3px",
+                                  border: "1px solid #C4C4C4",
+                                  paddingLeft: "13px",
+                                },
+                                endAdornment: (
+                                  <InputAdornment position="end">
+                                    <figure
+                                      className={classnames(
+                                        "input__adornment__date"
+                                      )}
+                                    >
+                                      <CalendarToday />
+                                    </figure>
+                                  </InputAdornment>
+                                ),
+                              }}
+                            />
+                          </MuiPickersUtilsProvider>
+                        </MuiThemeProvider>
+                      </div>
+                      <div className="files">
                         <Select
                           style={{
                             backgroundColor: "white",
@@ -643,7 +701,7 @@ class Complains extends Component {
                     }}
                     type="submit"
                   >
-                    Registrar queja
+                    Registrar solicitud
                   </Button>
                 </form>
               )}

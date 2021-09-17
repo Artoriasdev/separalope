@@ -188,6 +188,9 @@ const Navbar = () => {
     if (id === 5) {
       history.push("/business/services");
     }
+    if (id === 6) {
+      history.push("/business/reports");
+    }
     if (id === 7) {
       history.push("/password_change");
     }
@@ -315,6 +318,15 @@ const Navbar = () => {
             }}
           >
             {infoUser[2].nameMenu}
+          </Button>
+          <Button
+            className="font buttonHeader"
+            onClick={() => handleRedirect(infoUser[3].idMenu)}
+            style={{
+              textTransform: "capitalize",
+            }}
+          >
+            {infoUser[3].nameMenu}
           </Button>
           <Button
             className="font buttonHeader"
@@ -525,6 +537,15 @@ const Navbar = () => {
                       }}
                     >
                       {infoUser[2].nameMenu}
+                    </Button>
+                    <Button
+                      className="font buttonHeader"
+                      onClick={() => handleRedirect(infoUser[3].idMenu)}
+                      style={{
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {infoUser[3].nameMenu}
                     </Button>
                     <Button
                       className="font buttonHeader"
