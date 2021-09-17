@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 
 const VerticalBar = (props) => {
-  const [labels, setLabels] = useState([dias]);
-
   const dias = [
     "Lunes",
     "Martes",
@@ -29,9 +27,21 @@ const VerticalBar = (props) => {
     "Noviembre",
     "Diciembre",
   ];
+  const [labels, setLabels] = useState([dias]);
+
   const backgroundColor = [];
-  const numbers = [12, 19, 3, 5, 20, 3, 15];
+  const numbersDias = [];
+  const numbersMeses = [];
+  const numbersSemanas = [];
+  const [numbers, setNumbers] = useState([12, 20, 3, 5, 15, 3, 19]);
   const colors = [
+    "rgba(255, 40, 180, 0.2)",
+    "rgba(54, 162, 10, 0.2)",
+    "rgba(255, 100, 86, 0.2)",
+    "rgba(75, 192, 192, 0.2)",
+    "rgba(193, 99, 255, 0.2)",
+    "rgba(280, 111, 64, 0.2)",
+    "rgba(75, 192, 192, 0.2)",
     "rgba(255, 99, 132, 0.2)",
     "rgba(54, 162, 235, 0.2)",
     "rgba(255, 206, 86, 0.2)",
@@ -41,28 +51,42 @@ const VerticalBar = (props) => {
   ];
 
   useEffect(() => {
-    console.log(props.fecha);
     if (props.fecha === 1) {
       setLabels(dias);
+      setNumbers(numbersDias);
     }
     if (props.fecha === 2) {
       setLabels(semanas);
+      setNumbers(numbersSemanas);
     }
     if (props.fecha === 3) {
       setLabels(meses);
+      setNumbers(numbersMeses);
     }
   }, [props.fecha]);
 
   var v = 0;
-  for (var i = 0; i < numbers.length; i++) {
+  for (var i = 0; i < 12; i++) {
+    numbersMeses.push(Math.random() * 100);
+
+    // console.log(numbers.length);
+  }
+  for (i = 0; i < 5; i++) {
+    numbersSemanas.push(Math.random() * 100);
+
+    // console.log(numbers.length);
+  }
+  for (i = 0; i < 7; i++) {
+    numbersDias.push(Math.random() * 100);
+  }
+  for (i = 0; i < numbers.length; i++) {
     if (numbers[i] > v) {
       v = numbers[i];
     }
   }
-
-  for (i = 0; i < numbers.length - 1; i++) {
+  for (i = 0; i < numbers.length; i++) {
     if (numbers[i] === v) {
-      backgroundColor.push("rgba(75, 192, 192, 0.8)");
+      backgroundColor.push("rgba(0, 255, 0, 0.7)");
     } else {
       backgroundColor.push(colors[i]);
     }
@@ -72,7 +96,7 @@ const VerticalBar = (props) => {
     labels: labels,
     datasets: [
       {
-        label: "# of Votes",
+        label: "Mayor número",
         data: numbers,
         backgroundColor: backgroundColor,
         borderColor: backgroundColor,

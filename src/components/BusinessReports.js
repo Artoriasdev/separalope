@@ -7,8 +7,8 @@ class BusinessReports extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fecha: 0,
-      ventas: 0,
+      fecha: 1,
+      ventas: 1,
     };
   }
   handleDocumentChange = (e) => {
@@ -26,50 +26,54 @@ class BusinessReports extends Component {
   };
   render() {
     return (
-      <div className="page-container">
+      <div className="page-container" style={{ padding: 0 }}>
         <h1>Mis reportes</h1>
+        <h3 className="register__subtitle">
+          Estos son los reportes obtenidos hasta la fecha <br />
+          Podrá ver los resultados diarios, semanales y mensuales
+        </h3>
         <div>
-          <div className="files">
-            <Select
-              value={this.state.fecha}
-              name="fecha"
-              onChange={this.handleDocumentChange}
-              required
-              variant="outlined"
-              fullWidth
-              style={{
-                marginTop: "10px",
-                textAlign: "center",
-                marginBottom: "5px",
-              }}
-              displayEmpty={false}
-            >
-              <MenuItem selected={true} disabled value={0}>
-                Resultados
-              </MenuItem>
-              <MenuItem value={1}>Días</MenuItem>
-              <MenuItem value={2}>Semanas</MenuItem>
-              <MenuItem value={3}>Meses</MenuItem>
-            </Select>
-          </div>
-          <div className="files">
-            <div className="txt-left">
-              <Select
-                value={this.state.ventas}
-                name="venta"
-                onChange={this.handleDocumentChange}
-                required
-                variant="outlined"
-                fullWidth
-              >
-                <MenuItem disabled value={0}>
-                  Tipo
-                </MenuItem>
-                <MenuItem value={1}>Servicios</MenuItem>
-                <MenuItem value={2}>Ventas</MenuItem>
-              </Select>
+          <div className="vertical-bar">
+            <div className="files">
+              <div className="txt-left">
+                <p>Resultado por :</p>
+                <Select
+                  value={this.state.fecha}
+                  name="fecha"
+                  onChange={this.handleDocumentChange}
+                  required
+                  variant="outlined"
+                  fullWidth
+                  displayEmpty={false}
+                >
+                  <MenuItem selected={true} disabled value={0}>
+                    Resultados
+                  </MenuItem>
+                  <MenuItem value={1}>Días</MenuItem>
+                  <MenuItem value={2}>Semanas</MenuItem>
+                  <MenuItem value={3}>Meses</MenuItem>
+                </Select>
+              </div>
+              <div className="txt-right">
+                <p>Tipo:</p>
+                <Select
+                  value={this.state.ventas}
+                  name="venta"
+                  onChange={this.handleDocumentChange}
+                  required
+                  variant="outlined"
+                  fullWidth
+                >
+                  <MenuItem disabled value={0}>
+                    Tipo
+                  </MenuItem>
+                  <MenuItem value={1}>Servicios</MenuItem>
+                  <MenuItem value={2}>Ventas</MenuItem>
+                </Select>
+              </div>
             </div>
           </div>
+
           <VerticalBar fecha={this.state.fecha} venta={this.state.ventas} />
         </div>
       </div>
