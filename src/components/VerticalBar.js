@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import Chart from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
 
 const VerticalBar = (props) => {
-  const fecha = props.fecha;
-  const venta = props.venta;
+  const [labels, setLabels] = useState([dias]);
 
-  if (props.fecha === 1) {
-    console.log(fecha);
-  }
-  if (props.venta === 1) {
-    console.log(venta);
-  }
+  const dias = [
+    "Lunes",
+    "Martes",
+    "Miercoles",
+    "Jueves",
+    "Viernes",
+    "Sabado",
+    "Domingo",
+  ];
+  const semanas = ["Semana 1", "Semana 2", "Semana 3", "Semana 4"];
+  const meses = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
   const backgroundColor = [];
   const numbers = [12, 19, 3, 5, 20, 3, 15];
   const colors = [
@@ -23,6 +40,19 @@ const VerticalBar = (props) => {
     "rgba(255, 159, 64, 0.2)",
   ];
 
+  useEffect(() => {
+    console.log(props.fecha);
+    if (props.fecha === 1) {
+      setLabels(dias);
+    }
+    if (props.fecha === 2) {
+      setLabels(semanas);
+    }
+    if (props.fecha === 3) {
+      setLabels(meses);
+    }
+  }, [props.fecha]);
+
   var v = 0;
   for (var i = 0; i < numbers.length; i++) {
     if (numbers[i] > v) {
@@ -30,7 +60,7 @@ const VerticalBar = (props) => {
     }
   }
 
-  for (i = 0; i < numbers.length; i++) {
+  for (i = 0; i < numbers.length - 1; i++) {
     if (numbers[i] === v) {
       backgroundColor.push("rgba(75, 192, 192, 0.8)");
     } else {
@@ -38,15 +68,6 @@ const VerticalBar = (props) => {
     }
   }
 
-  const labels = [
-    "Lunes",
-    "Martes",
-    "Miercoles",
-    "Jueves",
-    "Viernes",
-    "Sabado",
-    "Domingo",
-  ];
   const data = {
     labels: labels,
     datasets: [

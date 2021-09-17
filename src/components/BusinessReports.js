@@ -28,7 +28,7 @@ class BusinessReports extends Component {
     return (
       <div className="page-container">
         <h1>Mis reportes</h1>
-        {/* <div>
+        <div>
           <div className="files">
             <Select
               value={this.state.fecha}
@@ -47,9 +47,9 @@ class BusinessReports extends Component {
               <MenuItem selected={true} disabled value={0}>
                 Resultados
               </MenuItem>
-              <MenuItem value={1}>Valor 1</MenuItem>
-              <MenuItem value={2}>Valor 2</MenuItem>
-              <MenuItem value={3}>Valor 3</MenuItem>
+              <MenuItem value={1}>Días</MenuItem>
+              <MenuItem value={2}>Semanas</MenuItem>
+              <MenuItem value={3}>Meses</MenuItem>
             </Select>
           </div>
           <div className="files">
@@ -65,13 +65,13 @@ class BusinessReports extends Component {
                 <MenuItem disabled value={0}>
                   Tipo
                 </MenuItem>
-                <MenuItem value={1}>Valor 1</MenuItem>
-                <MenuItem value={2}>Valor 2</MenuItem>
+                <MenuItem value={1}>Servicios</MenuItem>
+                <MenuItem value={2}>Ventas</MenuItem>
               </Select>
             </div>
           </div>
           <VerticalBar fecha={this.state.fecha} venta={this.state.ventas} />
-        </div> */}
+        </div>
       </div>
     );
   }
