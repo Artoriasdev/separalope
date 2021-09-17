@@ -180,6 +180,11 @@ class ReserveAppointmentInvited extends Component {
     this.setState({
       modal: false,
     });
+    if (this.state.response === true) {
+      this.props.history.push(
+        `/reserve-complete/${this.props.match.params.id}`
+      );
+    }
   };
 
   render() {
@@ -308,10 +313,10 @@ class ReserveAppointmentInvited extends Component {
                     setTimeout(() => {
                       this.setState({
                         isLoading: false,
+                        modal: true,
+                        message: "¡Registro grabado satisfactoriamente!",
+                        response: true,
                       });
-                      this.props.history.push(
-                        `/reserve-complete/${this.props.match.params.id}`
-                      );
                     }, 500);
                   }
                 })();

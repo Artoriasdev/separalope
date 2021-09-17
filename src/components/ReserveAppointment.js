@@ -272,7 +272,13 @@ class ReserveAppointment extends Component {
     this.setState({
       modal: false,
     });
-    this.props.history.push("/login/C");
+    if (this.state.response === true) {
+      this.props.history.push(
+        `/reserve-complete/${this.props.match.params.id}`
+      );
+    } else {
+      this.props.history.push("/login/C");
+    }
   };
 
   render() {
@@ -347,11 +353,11 @@ class ReserveAppointment extends Component {
                   if (response === "true") {
                     setTimeout(() => {
                       this.setState({
+                        modal: true,
+                        message: "¡Registro grabado satisfactoriamente!",
+                        response: true,
                         isLoading: false,
                       });
-                      this.props.history.push(
-                        `/reserve-complete/${this.props.match.params.id}`
-                      );
                     }, 500);
                   }
                 })();
