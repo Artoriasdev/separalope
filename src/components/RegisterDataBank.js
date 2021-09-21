@@ -95,11 +95,22 @@ class RegisterDataBank extends Component {
             setTimeout(() => {
               this.props.history.push("/login/B");
             }, 3000);
+          } else {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            });
           }
         });
       return rspApi;
     } catch (error) {
       console.log(error);
+      this.setState({
+        showModalError: true,
+        disclaimerModal:
+          "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+      });
     }
   }
 
@@ -207,11 +218,12 @@ class RegisterDataBank extends Component {
       const { tipoId } = formik.state.values;
       formik.setFieldValue(formField, value, true);
 
-      let maxLengthInput = 10;
-      if (tipoId === 1) maxLengthInput = 14;
-      if (tipoId === 2 || tipoId === 5 || tipoId === 6) maxLengthInput = 13;
-      if (tipoId === 3 || tipoId === 4) maxLengthInput = 18;
-      if (tipoId === 7 || tipoId === 8) maxLengthInput = 10;
+      const id = this.state.typeAccount.find(
+        (arreglo) => arreglo.id === tipoId
+      );
+
+      let maxLengthInput = id.length;
+      console.log(maxLengthInput);
 
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
       formik.setFieldValue(formField, value.toUpperCase(), true);

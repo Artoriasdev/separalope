@@ -203,7 +203,7 @@ const Navbar = () => {
           <ListItemText primary="Soy cliente" />
         </MenuItem>
         <MenuItem onClick={() => handleRedirectButton(2)}>
-          <ListItemText primary="Doy servicio" />
+          <ListItemText primary="Soy un negocio" />
         </MenuItem>
       </StyledMenu>
       <Button
@@ -229,7 +229,7 @@ const Navbar = () => {
           <ListItemText primary="Soy cliente" />
         </MenuItem>
         <MenuItem onClick={() => handleRedirectButton(4)}>
-          <ListItemText primary="Doy servicio" />
+          <ListItemText primary="Soy un negocio" />
         </MenuItem>
       </StyledMenu>
     </Menu>
@@ -278,7 +278,7 @@ const Navbar = () => {
                   <ListItemText primary="Soy cliente" />
                 </MenuItem>
                 <MenuItem onClick={() => handleRedirectButton(2)}>
-                  <ListItemText primary="Doy servicio" />
+                  <ListItemText primary="Soy un negocio" />
                 </MenuItem>
               </StyledMenu>
               <Button
@@ -307,7 +307,7 @@ const Navbar = () => {
                   <ListItemText primary="Soy cliente" />
                 </MenuItem>
                 <MenuItem onClick={() => handleRedirectButton(4)}>
-                  <ListItemText primary="Doy servicio" />
+                  <ListItemText primary="Soy un negocio" />
                 </MenuItem>
               </StyledMenu>
             </div>

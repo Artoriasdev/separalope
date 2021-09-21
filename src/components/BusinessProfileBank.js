@@ -179,6 +179,7 @@ class BusinessProfileBank extends Component {
         this.setState({
           typeAccount: data,
         });
+        console.log(data);
 
         return response;
       })
@@ -213,11 +214,12 @@ class BusinessProfileBank extends Component {
       const { tipoId } = formik.state.values;
       formik.setFieldValue(formField, value, true);
 
-      let maxLengthInput = 10;
-      if (tipoId === 1) maxLengthInput = 14;
-      if (tipoId === 2 || tipoId === 5 || tipoId === 6) maxLengthInput = 13;
-      if (tipoId === 3 || tipoId === 4) maxLengthInput = 18;
-      if (tipoId === 7 || tipoId === 8) maxLengthInput = 10;
+      const id = this.state.typeAccount.find(
+        (arreglo) => arreglo.id === tipoId
+      );
+
+      let maxLengthInput = id.length;
+      console.log(maxLengthInput);
 
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
       formik.setFieldValue(formField, value.toUpperCase(), true);
@@ -431,7 +433,7 @@ class BusinessProfileBank extends Component {
                 errors.numeroInterbancario = "";
               } else if (numeroInterbancario.length < 6) {
                 errors.numeroInterbancario =
-                  "El número de cuenta debe tener mínimo 6 dígitos";
+                  "El número de cuenta interbancaria debe tener un mínimo 6 dígitos";
               }
 
               return errors;
@@ -546,7 +548,7 @@ class BusinessProfileBank extends Component {
                       name="numeroCuenta"
                       className="TxtField"
                       variant="outlined"
-                      placeholder="Número de cuenta"
+                      label="Número de cuenta"
                       fullWidth
                       value={values.numeroCuenta}
                       error={errors.numeroCuenta && touched.numeroCuenta}
@@ -573,7 +575,7 @@ class BusinessProfileBank extends Component {
                       name="numeroInterbancario"
                       className="TxtField"
                       variant="outlined"
-                      placeholder="Número de cuenta interbancario"
+                      label="Número de cuenta interbancario"
                       fullWidth
                       disabled={!this.state.editButton}
                       value={values.numeroInterbancario}
@@ -602,7 +604,7 @@ class BusinessProfileBank extends Component {
                       name="correoBancario"
                       className="TxtField"
                       variant="outlined"
-                      placeholder="Correo bancario"
+                      label="Correo bancario"
                       fullWidth
                       disabled={!this.state.editButton}
                       autoComplete="off"
