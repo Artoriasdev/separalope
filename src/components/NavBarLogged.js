@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { ArrowDropDown, Settings } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
-import { LogoSVG } from "../assets/images/svg";
+// import { LogoSVG } from "../assets/images/svg";
 import axios from "axios";
 import MoreIcon from "@material-ui/icons/MoreVert";
 

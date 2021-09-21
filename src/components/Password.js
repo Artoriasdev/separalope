@@ -67,6 +67,13 @@ class Password extends Component {
           this.setState({
             showModalSucesss: true,
             disclaimerModal: "Sesión expirada, porfavor vuelva a inciar sesión",
+            response: true,
+          });
+        } else {
+          this.setState({
+            showModalSuccess: true,
+            disclaimerModal:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
           });
         }
       });
@@ -87,9 +94,8 @@ class Password extends Component {
     });
     if (this.state.response === true) {
       this.props.history.push("/");
+      this.props.history.go();
     }
-    this.props.history.push("/");
-    this.props.history.go();
   };
 
   render() {

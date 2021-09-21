@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import FocusTrap from "focus-trap-react";
 import { FormService } from "../Form/FormService";
 export const ModalService = ({
   onKeyDown,

@@ -2,9 +2,9 @@ import Axios from "axios";
 import { ErrorMessage, Formik } from "formik";
 import React from "react";
 import { Component } from "react";
-import { ArrowCircleSVG } from "../assets/images/svg";
+
 import { handleRegexDisable } from "../utils/utilitaries";
-import ModalSucess from "./ModalSucess";
+
 import { TextField, MenuItem, Backdrop, Modal, Fade } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { Button } from "@material-ui/core";
@@ -12,7 +12,6 @@ import {
   EMAIL_INVALID,
   EMAIL_MINLENGTH,
   E_MINLENGTH,
-  REQUIRED,
 } from "../utils/constants";
 import { EMAIL_REGEXP } from "../utils/regexp";
 import FullPageLoader from "./FullPageLoader";
@@ -64,6 +63,7 @@ class RegisterCustomer extends Component {
       headers: headers,
     }).then((response) => {
       const { data } = response.data;
+      console.log(data);
 
       this.setState({
         typeDocs: data,
@@ -86,10 +86,18 @@ class RegisterCustomer extends Component {
     if (formField === "nroDocumento") {
       const { documentos } = formik.state.values;
       let maxLengthInput = 8;
-      if (documentos === "01") maxLengthInput = 8;
-      if (documentos === "04" || documentos === "07") maxLengthInput = 12;
+      let valor = "[0-9]";
+      if (documentos === "01") {
+        maxLengthInput = 8;
+        valor = "[0-9]";
+      }
+      if (documentos === "04" || documentos === "07") {
+        maxLengthInput = 12;
+        valor = "";
+      }
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
-      formik.setFieldValue(formField, value.toUpperCase(), true);
+      formik.setFieldValue("ingreso", valor, true);
+      formik.setFieldValue(formField, value, true);
     }
   };
 
@@ -260,15 +268,11 @@ class RegisterCustomer extends Component {
                 documentos: "",
                 nroDocumento: "",
                 maxLengthValue: 8,
+                ingreso: "[0-9]",
               }}
               validate={(values) => {
-                const {
-                  correo,
-                  celular,
-                  documentos,
-                  nroDocumento,
-                  maxLengthValue,
-                } = values;
+                const { correo, celular, nroDocumento, maxLengthValue } =
+                  values;
 
                 let errors = {};
 
@@ -450,7 +454,7 @@ class RegisterCustomer extends Component {
                         onChange={this.handleDocumentChange}
                         inputProps={{ maxLength: values.maxLengthValue }}
                         autoComplete="off"
-                        onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                        onInput={handleRegexDisable(values.ingreso)} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
                       <ErrorMessage
                         className="error bottom"

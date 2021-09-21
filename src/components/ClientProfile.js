@@ -1,18 +1,11 @@
 import React from "react";
 import { Component } from "react";
 import { ErrorMessage, Formik } from "formik";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@material-ui/core";
+import { Button, MenuItem, Select, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import axios from "axios";
-import { PowerSettingsNew, Save } from "@material-ui/icons";
+import { Save } from "@material-ui/icons";
 import ModalError from "./ModalError";
 import ModalSucess from "./ModalSucess";
 import { EMAIL_REGEXP } from "../utils/regexp";
@@ -198,11 +191,19 @@ class ClientProfile extends Component {
     }
     if (formField === "numeroDocumento") {
       const { tipoDocumento } = formik.state.values;
+      let valor = "[0-9]";
       let maxLengthInput = 8;
-      if (tipoDocumento === "01") maxLengthInput = 8;
-      if (tipoDocumento === "04" || tipoDocumento === "07") maxLengthInput = 12;
+      if (tipoDocumento === "01") {
+        maxLengthInput = 8;
+        valor = "[0-9]";
+      }
+      if (tipoDocumento === "04" || tipoDocumento === "07") {
+        maxLengthInput = 12;
+        valor = "";
+      }
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
-      formik.setFieldValue(formField, value.toUpperCase(), true);
+      formik.setFieldValue("ingreso", valor, true);
+      formik.setFieldValue(formField, value, true);
     }
   };
 
@@ -272,18 +273,11 @@ class ClientProfile extends Component {
                 celular: "",
                 correo: "",
                 maxLengthValue: 8,
+                ingreso: "[0-9]",
               }}
               validate={(values) => {
-                const {
-                  idCliente,
-                  nombre,
-                  apellido,
-                  tipoDocumento,
-                  numeroDocumento,
-                  celular,
-                  correo,
-                  maxLengthValue,
-                } = values;
+                const { numeroDocumento, celular, correo, maxLengthValue } =
+                  values;
 
                 let errors = {};
 
@@ -453,12 +447,12 @@ class ClientProfile extends Component {
                         onChange={this.handleDocumentChange}
                         disabled={!this.state.edit}
                         autoComplete="off"
-                        inputProps={{ min: "0" }}
-                        required
                         inputProps={{
+                          min: "0",
                           maxLength: values.maxLengthValue,
                         }}
-                        onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                        required
+                        onInput={handleRegexDisable(values.ingreso)} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
                       <ErrorMessage
                         className="error"

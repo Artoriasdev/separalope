@@ -1,7 +1,5 @@
 import {
   Button,
-  FormControl,
-  InputLabel,
   MenuItem,
   Modal,
   Select,
@@ -15,7 +13,6 @@ import {
   Backdrop,
   Fade,
 } from "@material-ui/core";
-import { ErrorSharp } from "@material-ui/icons";
 import axios from "axios";
 import { Formik } from "formik";
 import React from "react";
@@ -801,9 +798,10 @@ class ServiceDetail extends Component {
                         }}
                         multiline
                         minRows={4}
-                        // inputProps={{
-                        //   maxLength: 9,
-                        // }}
+                        maxRows={5}
+                        inputProps={{
+                          maxLength: 255,
+                        }}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
 

@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@material-ui/core";
-import { Alarm, Event, Person, Schedule, Timer } from "@material-ui/icons";
+import { Event, Person, Schedule, Timer } from "@material-ui/icons";
 import axios from "axios";
 import React, { Component } from "react";
 

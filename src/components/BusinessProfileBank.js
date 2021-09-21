@@ -1,14 +1,7 @@
 import React from "react";
 import { Component } from "react";
 import { ErrorMessage, Formik } from "formik";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@material-ui/core";
+import { Button, MenuItem, Select, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import { PowerSettingsNew, Save } from "@material-ui/icons";

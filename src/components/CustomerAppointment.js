@@ -13,7 +13,7 @@ import {
 import { Event } from "@material-ui/icons";
 import axios from "axios";
 import React, { Component } from "react";
-import FullPageLoader from "./FullPageLoader";
+// import FullPageLoader from "./FullPageLoader";
 
 class CustomerAppointment extends Component {
   constructor(props) {

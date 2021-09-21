@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 export const INITIAL_ASYNC_STATE = {
   payload: null,
   error: null,
@@ -147,7 +147,7 @@ export const terms = {
   titulo: "Términos y condiciones",
 };
 
-export const pickerTheme = createMuiTheme({
+export const pickerTheme = createTheme({
   typography: {
     useNextVariants: true,
   },

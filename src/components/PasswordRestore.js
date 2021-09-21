@@ -173,7 +173,7 @@ class PasswordRestore extends Component {
                       name="contraseña"
                       className="TxtField"
                       variant="outlined"
-                      label="Ingresa tu nueva contraseña"
+                      placeholder="Ingresa tu nueva contraseña"
                       required
                       fullWidth
                       value={values.contraseña}
@@ -194,7 +194,7 @@ class PasswordRestore extends Component {
                       name="repetirContraseña"
                       className="TxtField"
                       variant="outlined"
-                      label="Repite tu nueva contraseña"
+                      placeholder="Repite tu nueva contraseña"
                       value={values.repetirContraseña}
                       required
                       fullWidth

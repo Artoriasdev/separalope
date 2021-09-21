@@ -129,9 +129,7 @@ class PasswordRecovery extends Component {
                 RecoveryModel.workflow = this.props.match.params.value;
 
                 (async () => {
-                  const responseSubmit = await this.handleRecovery(
-                    RecoveryModel
-                  );
+                  await this.handleRecovery(RecoveryModel);
                 })();
               }}
             >
@@ -155,7 +153,6 @@ class PasswordRecovery extends Component {
                       required
                       value={values.correo}
                       error={errors.correo && touched.correo}
-                      required
                       onBlur={handleBlur}
                       onChange={handleChange}
                       fullWidth

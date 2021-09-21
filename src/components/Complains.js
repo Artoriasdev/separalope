@@ -37,8 +37,6 @@ class Complains extends Component {
       modal: false,
       message: "",
       response: false,
-      modal: false,
-      message: "",
     };
   }
 
@@ -364,6 +362,8 @@ class Complains extends Component {
                         <Select
                           style={{
                             backgroundColor: "white",
+                            marginTop: "10px",
+                            marginBottom: "10px",
                           }}
                           fullWidth
                           variant="outlined"
@@ -374,7 +374,6 @@ class Complains extends Component {
                           required
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          style={{ marginTop: "10px", marginBottom: "10px" }}
                         >
                           <MenuItem disabled value={""}>
                             <span className="empty--option">
@@ -390,6 +389,8 @@ class Complains extends Component {
                         <Select
                           style={{
                             backgroundColor: "white",
+                            marginTop: "10px",
+                            marginBottom: "10px",
                           }}
                           fullWidth
                           variant="outlined"
@@ -400,7 +401,6 @@ class Complains extends Component {
                           required
                           onChange={this.handleDocumentChange}
                           onBlur={handleBlur}
-                          style={{ marginTop: "10px", marginBottom: "10px" }}
                         >
                           <MenuItem disabled value={""}>
                             <span className="empty--option">
@@ -467,7 +467,7 @@ class Complains extends Component {
                           // inputProps={{
                           //   maxLength: 9,
                           // }}
-                          onInput={handleRegexDisable("[]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                          onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                         />
                       </div>
                       <div className="files">
@@ -489,7 +489,7 @@ class Complains extends Component {
                           // inputProps={{
                           //   maxLength: 9,
                           // }}
-                          onInput={handleRegexDisable("[]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                          onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                         />
                       </div>
                       <div
@@ -609,6 +609,8 @@ class Complains extends Component {
                         <Select
                           style={{
                             backgroundColor: "white",
+                            marginTop: "10px",
+                            marginBottom: "10px",
                           }}
                           fullWidth
                           variant="outlined"
@@ -619,7 +621,6 @@ class Complains extends Component {
                           required
                           onChange={this.handleComplaintChange}
                           onBlur={handleBlur}
-                          style={{ marginTop: "10px", marginBottom: "10px" }}
                         >
                           <MenuItem disabled value={""}>
                             <span className="empty--option">
@@ -635,6 +636,8 @@ class Complains extends Component {
                         <Select
                           style={{
                             backgroundColor: "white",
+                            marginTop: "10px",
+                            marginBottom: "10px",
                           }}
                           fullWidth
                           variant="outlined"
@@ -645,7 +648,6 @@ class Complains extends Component {
                           required
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          style={{ marginTop: "10px", marginBottom: "10px" }}
                         >
                           <MenuItem disabled value={""}>
                             <span className="empty--option">Categoría</span>
@@ -678,10 +680,11 @@ class Complains extends Component {
                             marginBottom: "10px",
                           }}
                           minRows={8}
+                          maxRows={9}
                           multiline
-                          // inputProps={{
-                          //   maxLength: 9,
-                          // }}
+                          inputProps={{
+                            maxLength: 255,
+                          }}
                           onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                         />
                       </div>

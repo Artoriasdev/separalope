@@ -89,6 +89,7 @@ export const Footer = () => {
       })
       .then((response) => {
         const { data } = response.data;
+        console.log(data);
 
         setTerms(data);
 

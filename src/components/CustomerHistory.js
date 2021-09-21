@@ -10,10 +10,10 @@ import {
   Backdrop,
   Button,
 } from "@material-ui/core";
-import { Event, RepeatOneSharp } from "@material-ui/icons";
+import { Event } from "@material-ui/icons";
 import axios from "axios";
 import React, { Component } from "react";
-import FullPageLoader from "./FullPageLoader";
+// import FullPageLoader from "./FullPageLoader";
 
 class CustomerHistory extends Component {
   constructor(props) {

@@ -14,7 +14,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
-import { ArrowLeftSVG, ArrowRightSVG } from "../assets/images/svg";
+import { ArrowLeftSVG, ArrowRightSVG, LogoSVG } from "../assets/images/svg";
 // import FullPageLoader from "./FullPageLoader";
 
 const responsive = {
@@ -175,6 +175,9 @@ class HomePage extends Component {
               paddingRight: "50px",
             }}
           >
+            {/* <div style={{ width: "36px", height: "36px" }}>
+              <LogoSVG />
+            </div> */}
             <div className="home-text">
               <h1>Nuestras categorías</h1>
 
@@ -183,7 +186,6 @@ class HomePage extends Component {
                 y en el horario que tú decidas.
               </h3>
             </div>
-
             <div className="home-search">
               <TextField
                 name="search"

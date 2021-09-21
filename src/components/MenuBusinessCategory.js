@@ -91,7 +91,9 @@ class MenuBusinessCategory extends Component {
   };
 
   handleRedirect = (id) => {
-    this.props.history.push(`/services-menu-category/${id}`);
+    this.props.history.push(
+      `/services-menu-category/${id}/${this.props.match.params.value}`
+    );
   };
 
   render() {

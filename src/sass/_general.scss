@@ -1068,10 +1068,11 @@ button {
     background: rgba(0, 0, 0, 0.3);
   }
   .content {
-    height: 60vh;
+    height: 100%;
     width: 90%;
     justify-content: center;
     align-items: center;
+    margin-bottom: 10%;
   }
   .title {
     padding-top: 15vh;

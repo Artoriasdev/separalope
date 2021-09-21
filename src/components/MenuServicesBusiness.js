@@ -29,14 +29,15 @@ class MenuServicesBusiness extends Component {
   }
 
   handleGetServicesByBusiness = () => {
-    const cat = this.props.match.params.service;
+    const id = this.props.match.params.id;
+    const cat = this.props.match.params.category;
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: "",
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesByBusiness/${cat}`;
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesByBusinessAndCategory/${id}/${cat}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {

@@ -150,7 +150,7 @@ class PasswordOTP extends Component {
                       name="correo"
                       className="TxtField"
                       variant="outlined"
-                      label="Ingrese su correo electronico"
+                      label="Ingrese su correo electrónico"
                       value={values.correo}
                       required
                       error={errors.correo && touched.correo}
@@ -169,7 +169,7 @@ class PasswordOTP extends Component {
                       name="otp"
                       className="TxtField"
                       variant="outlined"
-                      label="Ingrese su codigo"
+                      placeholder="Ingrese su código"
                       value={values.otp}
                       error={errors.otp && touched.otp}
                       onBlur={handleBlur}

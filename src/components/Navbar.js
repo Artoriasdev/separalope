@@ -5,7 +5,6 @@ import Tabs from "@material-ui/core/Tabs";
 import { withStyles } from "@material-ui/core/styles";
 import {
   AppBar,
-  Avatar,
   Button,
   Tab,
   makeStyles,
@@ -18,7 +17,7 @@ import axios from "axios";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import { AccountCircle } from "@material-ui/icons";
-import { LogoSVG } from "../assets/images/svg";
+// import { LogoSVG } from "../assets/images/svg";
 
 const useStyles = makeStyles((theme) => ({
   tab: {
@@ -318,9 +317,8 @@ const Navbar = () => {
                 aria-controls={mobileMenuId}
                 aria-haspopup="true"
                 onClick={handleMobileMenuOpen}
-                color="black"
               >
-                <MoreIcon color="black" />
+                <MoreIcon />
               </IconButton>
             </div>
           </Toolbar>

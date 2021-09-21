@@ -2,8 +2,6 @@ import { Formik } from "formik";
 import React, { Component } from "react";
 import {
   Button,
-  FormControl,
-  InputLabel,
   MenuItem,
   Modal,
   Select,
@@ -618,9 +616,10 @@ export class FormService extends Component {
                     }}
                     multiline
                     minRows={4}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
+                    maxRows={5}
+                    inputProps={{
+                      maxLength: 255,
+                    }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
 
