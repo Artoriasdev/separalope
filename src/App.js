@@ -195,7 +195,7 @@ function App() {
               />
               <Route
                 exact
-                path="/reserve-complete/:id"
+                path="/reserve-complete"
                 component={ReserveComplete}
               />
               <Route

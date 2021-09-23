@@ -246,6 +246,7 @@ class ReserveAppointment extends Component {
       })
       .then((response) => {
         const { data } = response;
+        localStorage.setItem("data", JSON.stringify(data));
 
         if (data.response === "false") {
           this.setState({
@@ -273,9 +274,7 @@ class ReserveAppointment extends Component {
       modal: false,
     });
     if (this.state.response === true) {
-      this.props.history.push(
-        `/reserve-complete/${this.props.match.params.id}`
-      );
+      this.props.history.push(`/reserve-complete`);
     } else {
       this.props.history.push("/login/C");
     }

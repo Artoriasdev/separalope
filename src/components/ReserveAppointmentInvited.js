@@ -209,9 +209,7 @@ class ReserveAppointmentInvited extends Component {
       modal: false,
     });
     if (this.state.response === true) {
-      this.props.history.push(
-        `/reserve-complete/${this.props.match.params.id}`
-      );
+      this.props.history.push(`/reserve-complete`);
     }
   };
 

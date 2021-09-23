@@ -10,7 +10,7 @@ import {
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-export const ReserveComplete = (props) => {
+export const ReserveComplete = () => {
   const history = useHistory();
 
   const { message } = JSON.parse(localStorage.getItem("data"));
@@ -19,7 +19,7 @@ export const ReserveComplete = (props) => {
   const handleRedirect = () => {
     if (sessionStorage.getItem("logged") === "true") {
       history.push("/customer-appointment");
-      history.go();
+      // history.go();
     } else {
       history.push("/");
     }
