@@ -22,6 +22,8 @@ class BusinessProfileBank extends Component {
     this.state = {
       formModel: [],
       typeBank: [],
+      logo: "",
+      name: "",
       typeAccount: [],
       editButton: false,
       showModalError: false,
@@ -36,11 +38,72 @@ class BusinessProfileBank extends Component {
       this.handleGetTypeBank();
       (async () => {
         await this.handleGetData();
+        this.handleGetBusiness();
       })();
     } catch (error) {
       console.log(error);
     }
   }
+
+  handleGetBusiness = async () => {
+    try {
+      const tk = sessionStorage.getItem("tk");
+      var headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tk}`,
+      };
+
+      let linkDocumentsApi =
+        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusiness";
+
+      const rspApi = await axios
+        .get(linkDocumentsApi, {
+          headers: headers,
+        })
+        .then((response) => {
+          if (response.data.response === "true") {
+            const { data } = response.data;
+            sessionStorage.setItem("tradename", data[0].name);
+            sessionStorage.setItem("logo", data[0].logo);
+          } else {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Usted no está autorizado para ver esta información",
+            });
+          }
+          return response;
+        })
+        .catch((error) => {
+          const { status } = error.response;
+          if (status === 401) {
+            sessionStorage.removeItem("tk");
+            sessionStorage.removeItem("logo");
+            sessionStorage.removeItem("logged");
+            sessionStorage.removeItem("workflow");
+            sessionStorage.removeItem("tradename");
+            sessionStorage.removeItem("info");
+            sessionStorage.removeItem("id");
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Sesión expirada, porfavor vuelva a iniciar sesión",
+              isLoading: false,
+            });
+          } else {
+            this.setState({
+              showModalError: true,
+              disclaimerModal:
+                "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            });
+          }
+        });
+      return rspApi;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   handleGetData = async () => {
     try {
@@ -64,6 +127,8 @@ class BusinessProfileBank extends Component {
             console.log(data);
             this.setState({
               formModel: data,
+              logo: data[0].logo,
+              name: data[0].name,
             });
 
             this.handleGetTypeAccount(this.state.formModel[0].idBank);
@@ -317,6 +382,80 @@ class BusinessProfileBank extends Component {
     this.props.history.go();
   };
 
+  handleAttach = (e) => {
+    let file = e.target.files[0];
+    let ext = file.name.split(".").pop();
+    // console.log(name);
+    // console.log(file);
+    // console.log(ext);
+
+    if (ext === "jpg" || ext === "png") {
+      const sizeFile = file.size;
+      if (sizeFile < 1048576) {
+        console.log(sizeFile);
+        this.handleUploadLogoBusiness(file);
+      } else {
+        this.setState({
+          showModalError: true,
+          disclaimerModal: "La foto debe pesar menos de 1mb",
+        });
+      }
+    } else {
+      this.setState({
+        showModalError: true,
+        disclaimerModal: "El archivo debe ser formato .jpg o .png",
+      });
+    }
+  };
+
+  handleUploadLogoBusiness = async (logo) => {
+    let data = new FormData();
+    data.append("file", logo);
+    for (var key of data.entries()) {
+      console.log(key[0] + ", " + key[1]);
+    }
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+    let linkEditApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/uploadLogoBusiness";
+
+    const rspApi = axios
+      .post(linkEditApi, data, {
+        headers: headers,
+      })
+      .then((response) => {
+        console.log(response.data.response);
+
+        if (response.data.response === "true") {
+          this.props.history.go();
+        }
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 401) {
+          this.setState({
+            showModalError: true,
+            unableText: "Su sesión ha expirado. Vuelva a intentarlo.",
+            forceRedirect: true,
+          });
+        } else {
+          this.setState({
+            showModalError: true,
+            disclaimerModal:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            isLoading: false,
+          });
+        }
+      });
+
+    return rspApi;
+  };
+
   render() {
     return (
       <>
@@ -345,6 +484,35 @@ class BusinessProfileBank extends Component {
         <div className="header-profile-container">
           <div className="header-profile">
             <img src={sessionStorage.getItem("logo")} alt="test" />
+            <div
+              style={{
+                marginTop: "10px",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              <label
+                id="foto"
+                style={{
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+              >
+                Cambiar foto
+                <input
+                  id="foto"
+                  name="foto"
+                  type="file"
+                  onChange={this.handleAttach}
+                  style={{ display: "none" }}
+                />
+              </label>
+              <span>*Max 1mb</span>
+            </div>
+            <div style={{ marginTop: "5px" }}>
+              <span>Tamaño recomendado: 300 x 250 pixeles</span>
+            </div>
             <div className="title">
               <p>{sessionStorage.getItem("tradename")}</p>
             </div>

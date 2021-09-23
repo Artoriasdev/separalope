@@ -384,8 +384,12 @@ const Navbar = () => {
                       textTransform: "none",
                     }}
                   >
-                    <h2>sepáralo pe</h2>
-                    <h2 style={{ fontFamily: "unset" }}>!</h2>
+                    <h2 style={{ margin: "0", padding: "0" }}>sepáralo pe</h2>
+                    <h2
+                      style={{ fontFamily: "unset", margin: "0", padding: "0" }}
+                    >
+                      !
+                    </h2>
                   </Button>
                   <div className={classes.grow} />
                   <div className={classes.sectionDesktop}>
@@ -515,8 +519,12 @@ const Navbar = () => {
                       textTransform: "none",
                     }}
                   >
-                    <h2>sepáralo pe</h2>
-                    <h2 style={{ fontFamily: "unset" }}>!</h2>
+                    <h2 style={{ margin: "0", padding: "0" }}>sepáralo pe</h2>
+                    <h2
+                      style={{ fontFamily: "unset", margin: "0", padding: "0" }}
+                    >
+                      !
+                    </h2>
                   </Button>
                   <div className={classes.grow} />
                   <div className={classes.sectionDesktop}>

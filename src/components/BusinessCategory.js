@@ -19,6 +19,12 @@ class BusinessCategory extends Component {
   }
 
   componentDidMount() {
+    if (localStorage.getItem("re") === "true") {
+      setTimeout(() => {
+        this.props.history.go();
+        localStorage.removeItem("re");
+      }, 500);
+    }
     try {
       const tk = sessionStorage.getItem("tk");
       var headers = {
@@ -80,14 +86,6 @@ class BusinessCategory extends Component {
       console.log(error);
     }
   }
-
-  // componentDidMount() {
-  //   try {
-  //     this.handleGetCategorys();
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
 
   handleGetCategorys = () => {
     var headers = {

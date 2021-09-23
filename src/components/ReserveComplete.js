@@ -7,41 +7,14 @@ import {
   TableCell,
   Button,
 } from "@material-ui/core";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 
 export const ReserveComplete = (props) => {
   const history = useHistory();
-  const [price, setPrice] = useState(0);
 
-  useEffect(() => {
-    handlePrecio();
-  });
-
-  const handlePrecio = () => {
-    const id = props.match.params.id;
-    var headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: ``,
-    };
-
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesById/${id}`;
-
-    const rspApi = axios
-      .get(linkDocumentsApi, {
-        headers: headers,
-      })
-      .then((response) => {
-        const { price } = response.data.data[0];
-
-        setPrice(price);
-
-        return response;
-      });
-    return rspApi;
-  };
+  const { message } = JSON.parse(localStorage.getItem("data"));
+  const { data } = JSON.parse(localStorage.getItem("data"));
 
   const handleRedirect = () => {
     if (sessionStorage.getItem("logged") === "true") {
@@ -56,7 +29,7 @@ export const ReserveComplete = (props) => {
     <div className="page-container" style={{ padding: 0 }}>
       <div className="confirm-page">
         <div className="content-container" style={{ maxWidth: "600px" }}>
-          <h1>¡Gracias por confirmar tu clase!</h1>
+          <h1>¡Gracias por reservar tu cita!</h1>
           <p
             style={{
               width: "62%",
@@ -65,33 +38,32 @@ export const ReserveComplete = (props) => {
               textAlign: "justify",
             }}
           >
-            Se te ha enviado un correo con la información de tu clase, para
-            continuar debes hacer la transferencia bancaria de
+            Con el siguiente código{" "}
+            <p
+              style={{
+                color: "#5829dd",
+                display: "inline-block",
+                margin: "0",
+                paddin: "0",
+              }}
+            >
+              {message}
+            </p>{" "}
+            confirmamos que tu reserva ha sido satisfactoria. Para continuar
+            debes hacer la transferencia bancaria a
           </p>
-          <div className="precio-container">
+          {/* <div className="precio-container">
             <div className="precio">S/. {price}</div>
-          </div>
-          <p
-            style={{
-              margin: "0 auto",
-              padding: 0,
-              width: "62%",
-              textAlign: "justify",
-            }}
-          >
-            Luego no olvides enviar tu voucher con tus datos personales a
-          </p>
-          <span className="correo font-p">sepáralope@sepáralo.pe</span>
+          </div> */}
+
           <TableContainer className="table-reserva">
             <Table sx={{ minWidth: 650 }}>
               <TableHead className="table-head">
                 <TableRow>
                   <TableCell className="font-tittle">
-                    Cuenta de ahorros soles Banco Scotiabank
+                    Cuenta de ahorros soles Banco Interbank
                   </TableCell>
-                  <TableCell className="font-tittle">
-                    SEPÁRALOPE.PE S.A.
-                  </TableCell>
+                  <TableCell className="font-tittle">M16 S.A.C.</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -99,21 +71,113 @@ export const ReserveComplete = (props) => {
                   <TableCell className="font">
                     Número de cuenta: 00033876487348723
                   </TableCell>
-                  <TableCell className="font">RUC: 84756834768437</TableCell>
+                  <TableCell className="font">RUC: 20601855471</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className="font">
-                    Código interbancario (CCI): 00033876487348723789898
+                    Número de cuenta interbancario (CCI):
+                    00033876487348723789898
                   </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
+          <p
+            style={{
+              margin: "20px auto 0 auto",
+              padding: 0,
+              width: "62%",
+              textAlign: "justify",
+            }}
+          >
+            Luego no olvides enviar tu voucher con tus datos personales a
+          </p>
+          <div className="precio-container" style={{ margin: "20px 0" }}>
+            <div
+              className="precio"
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: "bold",
+              }}
+            >
+              contacto@separalo.pe
+            </div>
+          </div>
+
+          <div style={{ margin: "20px 0" }}>
+            <p
+              style={{
+                color: "#5829dd",
+                textAlign: "left",
+              }}
+            >
+              Información de tu reserva:
+            </p>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div>
+                  <p>Nombre del servicio</p>
+                  <p style={{ fontWeight: "bold" }}>{data[0].titleService}</p>
+                </div>
+                <div>
+                  <p>Categoría</p>
+                  <p style={{ fontWeight: "bold" }}>{data[0].nameCategory}</p>
+                </div>
+              </div>
+              <hr
+                style={{
+                  color: "#ffdd00",
+                  width: "0",
+                  borderLeft: "1px solid #ffdd00",
+                }}
+              />
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div>
+                  <p>Fecha de su cita</p>
+                  <p style={{ fontWeight: "bold" }}>
+                    {data[0].dateReservation}
+                  </p>
+                </div>
+                <div>
+                  <p>Hora de su cita</p>
+                  <p style={{ fontWeight: "bold" }}>
+                    {data[0].timeReservation}
+                  </p>
+                </div>
+              </div>
+              <hr
+                style={{
+                  color: "#ffdd00",
+                  width: "0",
+                  borderLeft: "1px solid #ffdd00",
+                }}
+              />
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div>
+                  <p>Duración de su cita</p>
+                  <p style={{ fontWeight: "bold" }}>
+                    {data[0].durationReservation}
+                  </p>
+                </div>
+                <div>
+                  <p>Costo por la cita</p>
+                  <p style={{ fontWeight: "bold", color: "#5829dd" }}>
+                    {data[0].price}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
           <span className="mensaje">
             Una vez enviado el voucher de pago, se le enviará un mensaje a su
-            correo electrónico confirmando su pago, el mismo día de su sesión le
-            enviaremos un mensaje SMS, recuerde estar unos minutos antes de su
-            sesión.
+            correo electrónico confirmando su pago, el mismo día de su cita le
+            enviaremos un mensaje SMS, recuerde estar unos minutos antes.
           </span>
           <Button
             size="large"

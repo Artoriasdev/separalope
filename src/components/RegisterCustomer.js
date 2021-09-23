@@ -5,7 +5,16 @@ import { Component } from "react";
 
 import { handleRegexDisable } from "../utils/utilitaries";
 
-import { TextField, MenuItem, Backdrop, Modal, Fade } from "@material-ui/core";
+import {
+  TextField,
+  MenuItem,
+  Backdrop,
+  Modal,
+  Fade,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+} from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { Button } from "@material-ui/core";
 import {
@@ -15,6 +24,7 @@ import {
 } from "../utils/constants";
 import { EMAIL_REGEXP } from "../utils/regexp";
 import FullPageLoader from "./FullPageLoader";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 class RegisterCustomer extends Component {
   constructor(props) {
@@ -26,6 +36,8 @@ class RegisterCustomer extends Component {
       disclaimerModal: "",
       response: "",
       isLoading: false,
+      show: false,
+      show2: false,
     };
   }
 
@@ -218,6 +230,17 @@ class RegisterCustomer extends Component {
         }, 500);
       }
     }
+  };
+
+  handleShowPassword = () => {
+    this.setState({
+      show: !this.state.show,
+    });
+  };
+  handleShowPassword2 = () => {
+    this.setState({
+      show2: !this.state.show2,
+    });
   };
 
   render() {
@@ -512,7 +535,7 @@ class RegisterCustomer extends Component {
 
                   <div className="files">
                     <div className="txt-left">
-                      <TextField
+                      {/* <TextField
                         name="contraseña"
                         type="password"
                         className="TxtField"
@@ -528,10 +551,37 @@ class RegisterCustomer extends Component {
                           marginBottom: "5px",
                         }}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      /> */}
+                      <OutlinedInput
+                        name="contraseña"
+                        fullWidth
+                        required
+                        type={this.state.show ? "text" : "password"}
+                        value={values.contraseña}
+                        error={errors.contraseña && touched.contraseña}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={this.handleShowPassword}
+                              edge="end"
+                            >
+                              {this.state.show ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        style={{ marginBottom: "5px" }}
+                        placeholder="Contraseña"
                       />
                     </div>
                     <div className="txt-right">
-                      <TextField
+                      {/* <TextField
                         name="repContraseña"
                         type="password"
                         className="TxtField"
@@ -547,6 +597,32 @@ class RegisterCustomer extends Component {
                           marginBottom: "5px",
                         }}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      /> */}
+                      <OutlinedInput
+                        name="repContraseña"
+                        fullWidth
+                        required
+                        type={this.state.show ? "text" : "password"}
+                        value={values.repContraseña}
+                        error={errors.repContraseña && touched.repContraseña}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={this.handleShowPassword2}
+                              edge="end"
+                            >
+                              {this.state.show2 ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        placeholder="Contraseña"
                       />
                     </div>
                   </div>

@@ -182,7 +182,7 @@ class HomePage extends Component {
               <h1>Nuestras categorías</h1>
 
               <h3 className="register__subtitle">
-                son 100% seguras vía internet en la comodidad de tu hogar <br />{" "}
+                Son 100% seguras vía internet en la comodidad de tu hogar <br />{" "}
                 y en el horario que tú decidas.
               </h3>
             </div>
@@ -251,6 +251,90 @@ class HomePage extends Component {
                 )
               )}
           </CarouselItem>
+        </div>
+        <div className="page-container">
+          <div
+            style={{
+              height: "130px",
+              paddingLeft: "50px",
+              paddingRight: "50px",
+            }}
+          >
+            {/* <div style={{ width: "36px", height: "36px" }}>
+              <LogoSVG />
+            </div> */}
+            <div className="home-text">
+              <h1>Nuestras negocios</h1>
+
+              <h3 className="register__subtitle">
+                Al alcance de todos y a tan solo un click
+              </h3>
+            </div>
+            <div className="home-search">
+              <TextField
+                name="search"
+                label="Buscar negocios"
+                id="filled-start-adornment"
+                className="font-p"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                }}
+                variant="outlined"
+              />
+            </div>
+          </div>
+          {/* <CarouselItem
+            swipeable={["mobile"] ? true : false}
+            draggable={false}
+            showDots={false}
+            responsive={responsive}
+            ssr={true} // means to render carousel on server-side.
+            infinite={false}
+            autoPlay={false}
+            // autoPlaySpeed={1000}
+            transitionDuration={500}
+            containerClass="carousel-container"
+            removeArrowOnDeviceType={["mobile"]}
+            deviceType={this.props.deviceType}
+            itemClass="carousel-item-padding-100-px"
+            renderButtonGroupOutside={true}
+            // customRightArrow={<CustomLefttArrow />}
+            customLeftArrow={<CustomLeftArrow />}
+            customRightArrow={<CustomRightArrow />}
+          >
+            {this.state.typeCategorys &&
+              this.state.typeCategorys.map(
+                ({ id, image, name, description }) => (
+                  <div
+                    className="flip-home"
+                    onClick={() => this.handleRedirect(id)}
+                    key={id}
+                  >
+                    <Flippy
+                      flipOnHover={true}
+                      flipOnClick={false}
+                      flipDirection="horizontal"
+                      className="flip-home-container"
+                    >
+                      <FrontSide
+                        className="flip-home-front"
+                        style={{
+                          backgroundImage: `url(${image})`,
+                        }}
+                      ></FrontSide>
+                      <BackSide className="flip-home-back">
+                        <p>{description}</p>
+                      </BackSide>
+                    </Flippy>
+                    <h3>{name}</h3>
+                  </div>
+                )
+              )}
+          </CarouselItem> */}
         </div>
       </div>
     );

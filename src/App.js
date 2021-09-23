@@ -40,6 +40,7 @@ import React from "react";
 import { CookiesBanner } from "./components/CookiesBanner";
 import Complains from "./components/Complains";
 import BusinessReports from "./components/BusinessReports";
+import ScrollToTop from "./components/ScrollToTop";
 // import HomePage from "./pages/Home";
 
 // const MavenProRegular = {
@@ -68,6 +69,7 @@ function App() {
         <StyledGlobal />
         <BrowserRouter>
           {logged ? <NavBarLogged /> : <Navbar />}
+          <ScrollToTop />
           <CookiesBanner />
 
           <Switch>

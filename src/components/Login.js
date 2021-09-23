@@ -1,5 +1,19 @@
-import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
+import {
+  Backdrop,
+  Button,
+  Fade,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  Modal,
+  OutlinedInput,
+  TextField,
+} from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { Calendar } from "@material-ui/pickers";
 import Axios from "axios";
+import classNames from "classnames";
 import { Formik } from "formik";
 import React from "react";
 import { Component } from "react";
@@ -15,6 +29,7 @@ class Login extends Component {
       response: false,
       message: "",
       isLoading: false,
+      show: false,
     };
   }
 
@@ -58,6 +73,7 @@ class Login extends Component {
           sessionStorage.setItem("workflow", LoginModel.workflow);
 
           if (LoginModel.workflow === "B") {
+            localStorage.setItem("re", true);
             setTimeout(() => {
               this.setState({
                 isLoading: false,
@@ -140,6 +156,11 @@ class Login extends Component {
   handleClose = () => {
     this.setState({
       modal: false,
+    });
+  };
+  handleShowPassword = () => {
+    this.setState({
+      show: !this.state.show,
     });
   };
 
@@ -251,7 +272,7 @@ class Login extends Component {
                     </div>
 
                     <div className="files">
-                      <TextField
+                      {/* <TextField
                         name="contraseña"
                         className="TxtField"
                         variant="outlined"
@@ -267,11 +288,48 @@ class Login extends Component {
                           marginTop: "10px",
                           marginBottom: "10px",
                         }}
-                        // inputProps={{
-                        //   maxLength: 9,
-                        // }}
+                        inputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <figure
+                                className={classNames("input__adornment__date")}
+                              >
+                                <Calendar />
+                              </figure>
+                            </InputAdornment>
+                          ),
+                        }}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                      />
+                      /> */}
+                      <FormControl fullWidth variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">
+                          Contraseña
+                        </InputLabel>
+                        <OutlinedInput
+                          name="contraseña"
+                          required
+                          id="outlined-adornment-password"
+                          type={this.state.show ? "text" : "password"}
+                          value={values.contraseña}
+                          onChange={handleChange}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={this.handleShowPassword}
+                                edge="end"
+                              >
+                                {this.state.show ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          label="Contraseña"
+                        />
+                      </FormControl>
                     </div>
 
                     <Button

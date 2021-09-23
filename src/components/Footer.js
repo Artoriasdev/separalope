@@ -51,6 +51,7 @@ const useStyles = makeStyles(() => ({
   sectionMobile: {
     display: "flex",
     flexDirection: "column",
+    textAlign: "center",
     [tema.breakpoints.up("sm")]: {
       display: "none",
     },
@@ -103,6 +104,8 @@ export const Footer = () => {
       history.push("/frequent-questions");
     } else if (id === 2) {
       history.push("/quejas-y-reclamaciones");
+    } else if (id === 3) {
+      history.push("/login/C");
     }
   };
 
@@ -133,6 +136,11 @@ export const Footer = () => {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItem>
+            <button className="font-p" onClick={() => handleModalTerm()}>
+              Términos y condiciones
+            </button>
+          </ListItem>
+          <ListItem>
             <button className="font-p" onClick={handleModalPriv}>
               Políticas de privacidad
             </button>
@@ -142,14 +150,40 @@ export const Footer = () => {
               Preguntas frecuentes
             </button>
           </ListItem>
-          <ListItem>
-            <button className="font-p" onClick={() => handleModalTerm()}>
-              Términos y condiciones
-            </button>
-          </ListItem>
         </List>
       </Collapse>
     </List>
+  );
+
+  const renderMobileHeader = (
+    <>
+      <Grid item>
+        <p className="font-tittle">Contáctanos</p>
+        <p className="text">Celular : 999</p>
+        <p className="text">Correo: contacto@separalo.pe</p>
+      </Grid>
+
+      <div onClick={() => handleRedirect(3)} style={{ cursor: "pointer" }}>
+        <img
+          src="http://www.aymcontadores.com/wp/wp-content/uploads/2015/02/trabaja-con-nosotros.jpg"
+          alt="algo"
+          title="algo"
+          style={{ width: "100%", height: "80px", marginTop: "20px" }}
+        />
+      </div>
+
+      <Grid item>
+        <p className="font-tittle title">Búscanos en</p>
+        <span>
+          <IconButton aria-label="facebook" color="inherit">
+            <Facebook />
+          </IconButton>
+          <IconButton aria-label="facebook" color="inherit">
+            <Instagram />
+          </IconButton>
+        </span>
+      </Grid>
+    </>
   );
 
   return (
@@ -216,24 +250,43 @@ export const Footer = () => {
 
       <AppBar position="static" className="footer">
         <Container maxWidth="lg">
-          <Toolbar>
-            <Grid item>
-              <p className="font-tittle">Contáctanos</p>
-              <p className="text">Celular : 999</p>
-              <p className="text">Correo: aaa@aaa</p>
-            </Grid>
+          <Toolbar className="footer">
+            <div className={classes.sectionDesktop}>
+              <Grid item>
+                <p className="font-tittle">Contáctanos</p>
+                <p className="text">Celular : 999</p>
+                <p className="text">Correo: contacto@separalo.pe</p>
+              </Grid>
+            </div>
             <div className={classes.grow} />
-            <Grid item>
-              <p className="font-tittle title">Búscanos en</p>
-              <span>
-                <IconButton aria-label="facebook" color="inherit">
-                  <Facebook />
-                </IconButton>
-                <IconButton aria-label="facebook" color="inherit">
-                  <Instagram />
-                </IconButton>
-              </span>
-            </Grid>
+            <div className={classes.sectionDesktop}>
+              <div
+                onClick={() => handleRedirect(3)}
+                style={{ cursor: "pointer" }}
+              >
+                <img
+                  src="http://www.aymcontadores.com/wp/wp-content/uploads/2015/02/trabaja-con-nosotros.jpg"
+                  alt="algo"
+                  title="algo"
+                  style={{ width: "100%", height: "80px", marginTop: "20px" }}
+                />
+              </div>
+            </div>
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              <Grid item>
+                <p className="font-tittle title">Búscanos en</p>
+                <span>
+                  <IconButton aria-label="facebook" color="inherit">
+                    <Facebook />
+                  </IconButton>
+                  <IconButton aria-label="facebook" color="inherit">
+                    <Instagram />
+                  </IconButton>
+                </span>
+              </Grid>
+            </div>
+            <div className={classes.sectionMobile}>{renderMobileHeader}</div>
           </Toolbar>
         </Container>
       </AppBar>
@@ -257,26 +310,6 @@ export const Footer = () => {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <button className="font-p" onClick={handleModalPriv}>
-                Políticas de privacidad
-              </button>
-            </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <hr />
-            </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <button className="font-p" onClick={() => handleRedirect(1)}>
-                Preguntas frecuentes
-              </button>
-            </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <hr />
-            </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
               <button className="font-p" onClick={() => handleModalTerm()}>
                 Términos y condiciones
               </button>
@@ -287,8 +320,29 @@ export const Footer = () => {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
+              <button className="font-p" onClick={handleModalPriv}>
+                Políticas de privacidad
+              </button>
+            </div>
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              <hr />
+            </div>
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
               <button className="font-p" onClick={() => handleRedirect(2)}>
                 Libro de reclamaciones
+              </button>
+            </div>
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              <hr />
+            </div>
+            <div className={classes.grow} />
+
+            <div className={classes.sectionDesktop}>
+              <button className="font-p" onClick={() => handleRedirect(1)}>
+                Preguntas frecuentes
               </button>
             </div>
             <div className={classes.sectionMobile}>

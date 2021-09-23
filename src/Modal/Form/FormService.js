@@ -519,7 +519,7 @@ export class FormService extends Component {
             touched,
           }) => (
             <form name="formSubmit" onSubmit={handleSubmit}>
-              <div>
+              <div style={{ marginTop: "20px" }}>
                 <div className="files">
                   <Select
                     value={values.categoria}

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { FormService } from "../Form/FormService";
+import "animate.css";
 export const ModalService = ({
   onKeyDown,
   modalRef,
@@ -15,7 +16,7 @@ export const ModalService = ({
       role="dialog"
       tabIndex="-1"
       aria-modal="true"
-      className="modal-cover "
+      className="modal-cover animate__animated animate__fadeIn"
       onKeyDown={onKeyDown}
     >
       <div className="mini " ref={modalRef}>

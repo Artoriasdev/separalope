@@ -3,7 +3,16 @@ import { Component } from "react";
 import Axios from "axios";
 import { ErrorMessage, Formik } from "formik";
 
-import { TextField, Button, Modal, Fade, Backdrop } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Modal,
+  Fade,
+  Backdrop,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+} from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import { EMAIL_REGEXP } from "../utils/regexp";
 import {
@@ -12,6 +21,7 @@ import {
   E_MINLENGTH,
 } from "../utils/constants";
 import FullPageLoader from "./FullPageLoader";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 class RegisterBusiness extends Component {
   constructor(props) {
@@ -24,6 +34,8 @@ class RegisterBusiness extends Component {
       disclaimerModal: "",
       response: false,
       isLoading: false,
+      show: false,
+      show2: false,
     };
   }
 
@@ -38,13 +50,6 @@ class RegisterBusiness extends Component {
       sessionStorage.getItem("workflow") === "C"
     ) {
       this.props.history.push("/");
-    } else {
-      try {
-        this.handleGetDocuments();
-        this.handleGetCategorys();
-      } catch (e) {
-        console.log(e);
-      }
     }
   }
 
@@ -133,6 +138,18 @@ class RegisterBusiness extends Component {
     }
   };
 
+  handleShowPassword = (id) => {
+    if (id === 1) {
+      this.setState({
+        show: !this.state.show,
+      });
+    } else if (id === 2) {
+      this.setState({
+        show2: !this.state.show2,
+      });
+    }
+  };
+
   render() {
     return (
       <>
@@ -216,26 +233,28 @@ class RegisterBusiness extends Component {
                 BusinessModel.confirmPassword = values.repContraseña;
                 BusinessModel.idCategory = values.categoria;
 
-                (async () => {
-                  const responseSubmit = await this.handleInfoSubmit(
-                    BusinessModel
-                  );
+                console.log(BusinessModel);
 
-                  const { response } = responseSubmit.data;
+                // (async () => {
+                //   const responseSubmit = await this.handleInfoSubmit(
+                //     BusinessModel
+                //   );
 
-                  if (response === "true") {
-                    this.setState({
-                      showModalSucesss: true,
-                      disclaimerModal: "¡Registro grabado satisfactoriamente!",
-                      response: true,
-                      isLoading: false,
-                    });
-                    this.handleLogin(
-                      BusinessModel.email,
-                      BusinessModel.confirmPassword
-                    );
-                  }
-                })();
+                //   const { response } = responseSubmit.data;
+
+                //   if (response === "true") {
+                //     this.setState({
+                //       showModalSucesss: true,
+                //       disclaimerModal: "¡Registro grabado satisfactoriamente!",
+                //       response: true,
+                //       isLoading: false,
+                //     });
+                //     this.handleLogin(
+                //       BusinessModel.email,
+                //       BusinessModel.confirmPassword
+                //     );
+                //   }
+                // })();
               }}
             >
               {({
@@ -331,7 +350,7 @@ class RegisterBusiness extends Component {
 
                   <div className="files">
                     <div className="txt-left">
-                      <TextField
+                      {/* <TextField
                         name="contraseña"
                         type="password"
                         className="TxtField"
@@ -347,10 +366,37 @@ class RegisterBusiness extends Component {
                           marginBottom: "5px",
                         }}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      /> */}
+                      <OutlinedInput
+                        name="contraseña"
+                        fullWidth
+                        required
+                        type={this.state.show ? "text" : "password"}
+                        value={values.contraseña}
+                        error={errors.contraseña && touched.contraseña}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={() => this.handleShowPassword(1)}
+                              edge="end"
+                            >
+                              {this.state.show ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        style={{ marginBottom: "5px" }}
+                        placeholder="Contraseña"
                       />
                     </div>
                     <div className="txt-right">
-                      <TextField
+                      {/* <TextField
                         name="repContraseña"
                         type="password"
                         className="TxtField"
@@ -366,6 +412,32 @@ class RegisterBusiness extends Component {
                           marginBottom: "5px",
                         }}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      /> */}
+                      <OutlinedInput
+                        name="repContraseña"
+                        fullWidth
+                        required
+                        type={this.state.show2 ? "text" : "password"}
+                        value={values.repContraseña}
+                        error={errors.repContraseña && touched.repContraseña}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={() => this.handleShowPassword(2)}
+                              edge="end"
+                            >
+                              {this.state.show2 ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        placeholder="Contraseña"
                       />
                     </div>
                   </div>

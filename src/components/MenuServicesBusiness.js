@@ -120,7 +120,7 @@ class MenuServicesBusiness extends Component {
                       onClick={() => this.handleRedirect(title, id)}
                       fullWidth
                     >
-                      Reservar cita
+                      Separar cita
                     </Button>
                   </BackSide>
                 </Flippy>

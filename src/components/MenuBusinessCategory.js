@@ -130,11 +130,12 @@ class MenuBusinessCategory extends Component {
                     className="btn_card"
                     style={{
                       margin: "0.5px 0",
+                      textTransform: "none",
                     }}
                     fullWidth
                     onClick={() => this.handleRedirect(id)}
                   >
-                    Ver negocios
+                    Ver servicios
                   </Button>
                 </Card>
               ))}

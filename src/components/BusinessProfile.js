@@ -21,6 +21,8 @@ class BusinessProfile extends Component {
     super(props);
     this.state = {
       typeData: [],
+      logo: "",
+      name: "",
       edit: false,
       showModalError: false,
       showModalSuccess: false,
@@ -62,10 +64,14 @@ class BusinessProfile extends Component {
         .then((response) => {
           if (response.data.response === "true") {
             const { data } = response.data;
+            console.log(data);
             sessionStorage.setItem("tradename", data[0].name);
             this.setState({
               typeData: data,
+              logo: data[0].logo,
+              name: data[0].name,
             });
+            sessionStorage.setItem("logo", this.state.typeData[0].logo);
 
             const Formik = this.form;
             Formik.setFieldValue("nombreCompañia", this.state.typeData[0].name);
@@ -172,7 +178,6 @@ class BusinessProfile extends Component {
     this.props.history.go();
   };
 
-  //componentDidMount ,handlers
   handleRedirect = () => {
     this.props.history.push("/business/profile");
   };
@@ -193,6 +198,80 @@ class BusinessProfile extends Component {
     sessionStorage.removeItem("tradename");
     sessionStorage.removeItem("logo");
     this.props.history.go(this.props.history.push("/"));
+  };
+
+  handleAttach = (e) => {
+    let file = e.target.files[0];
+    let ext = file.name.split(".").pop();
+    // console.log(name);
+    // console.log(file);
+    // console.log(ext);
+
+    if (ext === "jpg" || ext === "png") {
+      const sizeFile = file.size;
+      if (sizeFile < 1048576) {
+        console.log(sizeFile);
+        this.handleUploadLogoBusiness(file);
+      } else {
+        this.setState({
+          showModalError: true,
+          disclaimerModal: "La foto debe pesar menos de 1mb",
+        });
+      }
+    } else {
+      this.setState({
+        showModalError: true,
+        disclaimerModal: "El archivo debe ser formato .jpg o .png",
+      });
+    }
+  };
+
+  handleUploadLogoBusiness = async (logo) => {
+    let data = new FormData();
+    data.append("file", logo);
+    for (var key of data.entries()) {
+      console.log(key[0] + ", " + key[1]);
+    }
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+    let linkEditApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/uploadLogoBusiness";
+
+    const rspApi = axios
+      .post(linkEditApi, data, {
+        headers: headers,
+      })
+      .then((response) => {
+        console.log(response.data.response);
+
+        if (response.data.response === "true") {
+          this.props.history.go();
+        }
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 401) {
+          this.setState({
+            showModalError: true,
+            unableText: "Su sesión ha expirado. Vuelva a intentarlo.",
+            forceRedirect: true,
+          });
+        } else {
+          this.setState({
+            showModalError: true,
+            disclaimerModal:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            isLoading: false,
+          });
+        }
+      });
+
+    return rspApi;
   };
 
   render() {
@@ -222,9 +301,38 @@ class BusinessProfile extends Component {
 
         <div className="header-profile-container">
           <div className="header-profile">
-            <img src={sessionStorage.getItem("logo")} alt="test" />
+            <img src={this.state.logo} alt="test" />
+            <div
+              style={{
+                marginTop: "10px",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              <label
+                id="foto"
+                style={{
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+              >
+                Cambiar foto
+                <input
+                  id="foto"
+                  name="foto"
+                  type="file"
+                  onChange={this.handleAttach}
+                  style={{ display: "none" }}
+                />
+              </label>
+              <span>*Max 1mb</span>
+            </div>
+            <div style={{ marginTop: "5px" }}>
+              <span>Tamaño recomendado: 300 x 250 pixeles</span>
+            </div>
             <div className="title">
-              <p>{sessionStorage.getItem("tradename")}</p>
+              <p>{this.state.name}</p>
             </div>
             <div className="button-container">
               <div>
@@ -333,7 +441,7 @@ class BusinessProfile extends Component {
                       name="nombreCompañia"
                       className="TxtField"
                       variant="outlined"
-                      placeholder="Nombre de la compañía"
+                      label="Nombre de la compañía"
                       fullWidth
                       value={values.nombreCompañia}
                       error={errors.nombreCompañia && touched.nombreCompañia}
@@ -352,7 +460,7 @@ class BusinessProfile extends Component {
                       name="nombreComercial"
                       className="TxtField"
                       variant="outlined"
-                      placeholder="Nombre comercial de la compañía"
+                      label="Nombre comercial"
                       fullWidth
                       value={values.nombreComercial}
                       error={errors.nombreComercial && touched.nombreComercial}
@@ -373,7 +481,7 @@ class BusinessProfile extends Component {
                       name="numeroDocumento"
                       className="TxtField"
                       variant="outlined"
-                      placeholder="RUC"
+                      label="RUC"
                       fullWidth
                       value={values.numeroDocumento}
                       error={errors.numeroDocumento && touched.numeroDocumento}
@@ -397,7 +505,7 @@ class BusinessProfile extends Component {
                       name="correo"
                       className="TxtField"
                       variant="outlined"
-                      placeholder="Correo de la empresa"
+                      label="Correo de la empresa"
                       fullWidth
                       value={values.correo}
                       error={errors.correo && touched.correo}

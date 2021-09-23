@@ -100,6 +100,15 @@ class ReserveAppointmentInvited extends Component {
         // console.log(data);
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
     return rspApi;
   };
@@ -128,6 +137,15 @@ class ReserveAppointmentInvited extends Component {
         // console.log(data);
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
     return rspApi;
   };
@@ -161,6 +179,7 @@ class ReserveAppointmentInvited extends Component {
       })
       .then((response) => {
         const { data } = response;
+        localStorage.setItem("data", JSON.stringify(data));
         this.setState({ isLoading: true });
 
         if (data.response === "false") {
@@ -171,6 +190,15 @@ class ReserveAppointmentInvited extends Component {
           });
         }
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
 
     return rspApi;
