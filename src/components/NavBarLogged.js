@@ -17,7 +17,7 @@ import { useHistory } from "react-router-dom";
 // import { LogoSVG } from "../assets/images/svg";
 import axios from "axios";
 import MoreIcon from "@material-ui/icons/MoreVert";
-
+import LogoSVG from "../assets/images/logo01.svg";
 const useStyles = makeStyles((theme) => ({
   tab: {
     minHeight: "2.75rem",
@@ -384,12 +384,17 @@ const Navbar = () => {
                       textTransform: "none",
                     }}
                   >
-                    <h2 style={{ margin: "0", padding: "0" }}>sepáralo pe</h2>
+                    <img
+                      src={LogoSVG}
+                      alt="logo"
+                      style={{ width: "190px", height: "55px" }}
+                    />
+                    {/* <h2 style={{ margin: "0", padding: "0" }}>sepáralo pe</h2>
                     <h2
                       style={{ fontFamily: "unset", margin: "0", padding: "0" }}
                     >
                       !
-                    </h2>
+                    </h2> */}
                   </Button>
                   <div className={classes.grow} />
                   <div className={classes.sectionDesktop}>
@@ -519,12 +524,17 @@ const Navbar = () => {
                       textTransform: "none",
                     }}
                   >
-                    <h2 style={{ margin: "0", padding: "0" }}>sepáralo pe</h2>
+                    <img
+                      src={LogoSVG}
+                      alt="logo"
+                      style={{ width: "190px", height: "55px" }}
+                    />
+                    {/* <h2 style={{ margin: "0", padding: "0" }}>sepáralo pe</h2>
                     <h2
                       style={{ fontFamily: "unset", margin: "0", padding: "0" }}
                     >
                       !
-                    </h2>
+                    </h2> */}
                   </Button>
                   <div className={classes.grow} />
                   <div className={classes.sectionDesktop}>

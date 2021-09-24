@@ -17,6 +17,7 @@ import axios from "axios";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import { AccountCircle } from "@material-ui/icons";
+import LogoSVG from "../assets/images/logo01.svg";
 // import { LogoSVG } from "../assets/images/svg";
 
 const useStyles = makeStyles((theme) => ({
@@ -247,8 +248,13 @@ const Navbar = () => {
                 textTransform: "none",
               }}
             >
-              <h2>sepáralo pe</h2>
-              <h2 style={{ fontFamily: "unset" }}>!</h2>
+              <img
+                src={LogoSVG}
+                alt="logo"
+                style={{ width: "190px", height: "55px" }}
+              />
+              {/* <h2>sepáralo pe</h2>
+              <h2 style={{ fontFamily: "unset" }}>!</h2> */}
             </Button>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>

@@ -73,7 +73,6 @@ class Login extends Component {
           sessionStorage.setItem("workflow", LoginModel.workflow);
 
           if (LoginModel.workflow === "B") {
-            localStorage.setItem("re", true);
             setTimeout(() => {
               this.setState({
                 isLoading: false,
