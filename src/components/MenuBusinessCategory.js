@@ -4,8 +4,9 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
-import { Button } from "@material-ui/core";
+import { Button, InputAdornment, TextField } from "@material-ui/core";
 import Banner from "./BannerCategory";
+import { Search } from "@material-ui/icons";
 
 class MenuBusinessCategory extends Component {
   constructor(props) {
@@ -105,7 +106,31 @@ class MenuBusinessCategory extends Component {
           description={this.state.category.description}
         />
         <div className="page-container" style={{ margin: "0 auto" }}>
-          <h1>Nuestros negocios</h1>
+          <div style={{ height: "200px", margin: "auto" }}>
+            <div className="home-text">
+              <h1>Nuestras negocios</h1>
+
+              <h3 className="register__subtitle">
+                Al alcance de todos y a tan solo un click
+              </h3>
+            </div>
+            <div className="home-search">
+              <TextField
+                name="search"
+                label="Buscar negocios"
+                id="filled-start-adornment"
+                className="font-p"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                }}
+                variant="outlined"
+              />
+            </div>
+          </div>
 
           <div className="flip-container">
             {this.state.typeBusiness &&

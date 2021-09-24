@@ -105,7 +105,7 @@ export const Footer = () => {
     } else if (id === 2) {
       history.push("/quejas-y-reclamaciones");
     } else if (id === 3) {
-      history.push("/login/C");
+      history.push("/login/B");
     }
   };
 
