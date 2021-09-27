@@ -14,11 +14,15 @@ class PasswordRestore extends Component {
   }
 
   componentDidMount() {
-    try {
-      const Formik = this.form;
-      Formik.setFieldValue("correo", localStorage.getItem("correo"));
-    } catch (e) {
-      console.log(e);
+    if (sessionStorage.getItem("tk") === null) {
+      try {
+        const Formik = this.form;
+        Formik.setFieldValue("correo", localStorage.getItem("correo"));
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      this.props.history.push("/");
     }
   }
 

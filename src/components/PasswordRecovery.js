@@ -14,6 +14,12 @@ class PasswordRecovery extends Component {
     };
   }
 
+  componentDidMount() {
+    if (sessionStorage.getItem("tk") !== null) {
+      this.props.history.push("/");
+    }
+  }
+
   handleRecovery = async (RecoveryModel) => {
     var headers = {
       "Content-Type": "application/json",

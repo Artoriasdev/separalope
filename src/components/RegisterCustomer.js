@@ -591,6 +591,7 @@ class RegisterCustomer extends Component {
                         name="contraseña"
                         fullWidth
                         required
+                        autoComplete="off"
                         type={this.state.show ? "text" : "password"}
                         value={values.contraseña}
                         error={errors.contraseña && touched.contraseña}
@@ -637,6 +638,7 @@ class RegisterCustomer extends Component {
                         name="repContraseña"
                         fullWidth
                         required
+                        autoComplete="off"
                         type={this.state.show ? "text" : "password"}
                         value={values.repContraseña}
                         error={errors.repContraseña && touched.repContraseña}

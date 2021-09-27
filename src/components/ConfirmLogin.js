@@ -2,6 +2,11 @@ import { Button } from "@material-ui/core";
 import React, { Component } from "react";
 
 class ConfirmLogin extends Component {
+  componentDidMount() {
+    if (sessionStorage.getItem("logged") === "true") {
+      this.props.history.push("/");
+    }
+  }
   handleRedirect = () => {
     this.props.history.push("/register/customer");
     localStorage.setItem("reserve", true);

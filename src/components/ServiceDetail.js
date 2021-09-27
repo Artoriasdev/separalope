@@ -50,14 +50,17 @@ class ServiceDetail extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.match.params.value);
-    try {
-      this.handleGetCategorys();
-      this.handleGetHours();
-      this.handleGetAttention();
-      this.handleGetServiceForEdit();
-    } catch (e) {
-      console.log(e);
+    if (sessionStorage.getItem("workflow") === "B") {
+      try {
+        this.handleGetCategorys();
+        this.handleGetHours();
+        this.handleGetAttention();
+        this.handleGetServiceForEdit();
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      this.props.history.push("/");
     }
   }
 

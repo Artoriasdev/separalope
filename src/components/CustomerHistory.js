@@ -27,10 +27,17 @@ class CustomerHistory extends Component {
   }
 
   componentDidMount() {
-    try {
-      this.handleGetReservationHistoryByCustomer();
-    } catch (error) {
-      console.log(error);
+    if (
+      sessionStorage.getItem("logged") === "true" &&
+      sessionStorage.getItem("workflow") === "C"
+    ) {
+      try {
+        this.handleGetReservationHistoryByCustomer();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      this.props.history.push("/");
     }
   }
 

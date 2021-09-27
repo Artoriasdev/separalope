@@ -34,7 +34,6 @@ class BusinessReports extends Component {
         })
         .then((response) => {
           if (response.data.response === "true") {
-            console.log("");
           } else {
             this.setState({
               showModalError: true,

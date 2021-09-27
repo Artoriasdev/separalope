@@ -14,6 +14,12 @@ class ServiceAppointment extends Component {
     };
   }
 
+  componentDidMount() {
+    if (sessionStorage.getItem("workflow") !== "B") {
+      this.props.history.push("/");
+    }
+  }
+
   handleChange = (event, newValue) => {
     this.setState({ value: newValue });
   };

@@ -27,10 +27,17 @@ class CustomerAppointment extends Component {
   }
 
   componentDidMount() {
-    try {
-      this.handleGetReservationByCustomer();
-    } catch (error) {
-      console.log(error);
+    if (
+      sessionStorage.getItem("logged") === "true" &&
+      sessionStorage.getItem("workflow") === "C"
+    ) {
+      try {
+        this.handleGetReservationByCustomer();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      this.props.history.push("/");
     }
   }
 

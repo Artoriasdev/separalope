@@ -29,13 +29,17 @@ class ReserveAppointment extends Component {
   }
 
   componentDidMount() {
-    try {
-      this.handleGetCustomer();
-      this.handleGetServicesById();
-      this.handleGetAvailableDateService();
-      this.handleGetAvailableScheduleService();
-    } catch (error) {
-      console.log(error);
+    if (sessionStorage.getItem("workflow") === "C") {
+      try {
+        this.handleGetCustomer();
+        this.handleGetServicesById();
+        this.handleGetAvailableDateService();
+        this.handleGetAvailableScheduleService();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      this.props.history.push("/");
     }
   }
 

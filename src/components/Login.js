@@ -307,6 +307,7 @@ class Login extends Component {
                         <OutlinedInput
                           name="contraseña"
                           required
+                          autoComplete="off"
                           id="outlined-adornment-password"
                           type={this.state.show ? "text" : "password"}
                           value={values.contraseña}
