@@ -233,7 +233,7 @@ const Navbar = () => {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
-      style={{ maxWidth: "80%", textAlign: "center" }}
+      style={{ maxWidth: "320px", textAlign: "center" }}
     >
       {name ? (
         <>
@@ -245,7 +245,7 @@ const Navbar = () => {
               backgroundColor: anchorEl ? "#5829dd" : "transparent",
               color: anchorEl ? "white" : "black",
               textTransform: "capitalize",
-              width: "200px",
+              width: "250px",
             }}
           >
             {name}

@@ -5,20 +5,70 @@ import FutureAppointments from "../Nav Tabs/Appointment Tabs/FutureAppointments"
 import PastAppointments from "../Nav Tabs/Appointment Tabs/PastAppointments";
 import { TabPanel } from "../Nav Tabs/TabPanel";
 import { NavigateNext } from "@material-ui/icons";
+import axios from "axios";
 
 class ServiceAppointment extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: 0,
+      title: "",
     };
   }
 
   componentDidMount() {
     if (sessionStorage.getItem("workflow") !== "B") {
       this.props.history.push("/");
+    } else {
+      this.handleGetServiceForEdit();
     }
   }
+
+  handleGetServiceForEdit = () => {
+    const tk = sessionStorage.getItem("tk");
+    const id = this.props.match.params.id;
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+
+    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServiceForEdit/${id}`;
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+
+        this.setState({
+          title: data[0].title,
+        });
+
+        console.log(this.state.title);
+
+        return response;
+      })
+      .catch((error) => {
+        console.log(error.response);
+        if (error.response.status === 401) {
+          sessionStorage.removeItem("tk");
+          sessionStorage.removeItem("logo");
+          sessionStorage.removeItem("logged");
+          sessionStorage.removeItem("workflow");
+          sessionStorage.removeItem("tradename");
+          sessionStorage.removeItem("info");
+          sessionStorage.removeItem("id");
+          this.setState({
+            modal: true,
+            message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+            isLoading: false,
+          });
+        }
+      });
+    return rspApi;
+  };
 
   handleChange = (event, newValue) => {
     this.setState({ value: newValue });
@@ -64,55 +114,53 @@ class ServiceAppointment extends Component {
           >
             Mis Servicios
           </Link>
-          <Link
-            color="textSecondary"
-            href="/business/profile"
-            // onClick={handleClick}
-          >
-            Titulo
-          </Link>
+          <Link color="textSecondary">{this.state.title}</Link>
         </Breadcrumbs>
         <div className="header-profile-container">
           <div className="header-profile">
-            <div>
-              <button
-                onClick={this.handleRedirectService}
-                className="button_ref"
-                style={{ textDecoration: "none" }}
-              >
-                Detalles servicios
-              </button>
-            </div>
-            <div className="button">
-              <button
-                onClick={this.handleRedirectAppointment}
-                className="button_ref"
-                style={{ textDecoration: "none" }}
-              >
-                Citas agendadas
-              </button>
+            <div className="button-container">
+              <div>
+                <button
+                  onClick={this.handleRedirectService}
+                  className="button_ref"
+                  style={{ textDecoration: "none" }}
+                >
+                  Detalles servicios
+                </button>
+              </div>
+              <div className="button">
+                <button
+                  onClick={this.handleRedirectAppointment}
+                  className="button_ref"
+                  style={{ textDecoration: "none" }}
+                >
+                  Citas agendadas
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        <div style={{ width: "50%", margin: "3% auto" }}>
-          <AppBar position="static" className="btn-primary">
+        <div className="appointment-service-container">
+          <AppBar position="static" style={{ backgroundColor: "transparent" }}>
             <Tabs
               variant="fullWidth"
               value={this.state.value}
               onChange={this.handleChange}
               aria-label="nav tabs example"
+              indicatorColor="primary"
+              style={{ color: "black" }}
             >
               <LinkTab
                 label="Citas pendientes"
                 href="/appointments"
                 className="font-p"
-                style={{ textTransform: "none" }}
+                style={{ textTransform: "none", fontWeight: "bold" }}
               />
               <LinkTab
                 label="Citas pasadas"
                 href="past"
                 className="font-p"
-                style={{ textTransform: "none" }}
+                style={{ textTransform: "none", fontWeight: "bold" }}
               />
             </Tabs>
           </AppBar>

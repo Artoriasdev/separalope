@@ -515,6 +515,23 @@ button {
   border: none;
 }
 
+.tittle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  button {
+    height: 35px;
+    margin-left: 10px !important;
+    @media (max-width: 500px) {
+      margin-left: 0 !important;
+    }
+  }
+}
+
 .files {
   display: flex;
   .input {
@@ -1469,4 +1486,12 @@ button {
 }
 .animate__animated.animate__fadeIn {
   --animate-duration: 0.5s;
+}
+
+.appointment-service-container {
+  width: 50%;
+  margin: 3% auto;
+  @include mobile {
+    width: 90%;
+  }
 }

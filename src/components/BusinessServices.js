@@ -152,7 +152,7 @@ class BusinessServices extends Component {
             aria-label="breadcrumb"
             className="font"
           >
-            <Link color="inherit" href="/" color="textPrimary">
+            <Link href="/" color="textPrimary">
               Inicio
             </Link>
             <Link

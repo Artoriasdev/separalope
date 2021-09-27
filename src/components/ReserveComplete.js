@@ -33,7 +33,7 @@ export const ReserveComplete = () => {
     <div className="page-container" style={{ padding: 0 }}>
       <div className="confirm-page">
         <div className="content-container" style={{ maxWidth: "600px" }}>
-          <img src={Logo} style={{ maxWidth: "300px" }} />
+          <img src={Logo} alt="sepáralo pe" style={{ maxWidth: "300px" }} />
           <h1>¡Gracias por reservar tu cita!</h1>
           <p
             style={{

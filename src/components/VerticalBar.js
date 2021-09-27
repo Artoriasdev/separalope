@@ -50,7 +50,7 @@ const VerticalBar = (props) => {
     "rgba(255, 159, 64, 0.2)",
   ];
 
-  useEffect(() => {
+  const handleChange = () => {
     if (props.fecha === 1) {
       setLabels(dias);
       setNumbers(numbersDias);
@@ -63,8 +63,7 @@ const VerticalBar = (props) => {
       setLabels(meses);
       setNumbers(numbersMeses);
     }
-  }, [props.fecha]);
-
+  };
   var v = 0;
   for (var i = 0; i < 12; i++) {
     numbersMeses.push(Math.random() * 100);
@@ -91,6 +90,9 @@ const VerticalBar = (props) => {
       backgroundColor.push(colors[i]);
     }
   }
+  useEffect(() => {
+    handleChange();
+  }, [props.fecha]);
 
   const data = {
     labels: labels,

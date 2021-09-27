@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import CookieConsent, {
-  getCookieConsentValue,
-  Cookies,
-} from "react-cookie-consent";
+import CookieConsent, { Cookies } from "react-cookie-consent";
 import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
@@ -60,7 +57,7 @@ const AccordionDetails = withStyles((theme) => ({
 
 export const CookiesBanner = () => {
   const [cookie, setCookie] = useState(false);
-  // console.log(getCookieConsentValue("acceptCookies"));
+
   return (
     <div>
       <CookieConsent

@@ -427,45 +427,35 @@ class ServiceDetail extends Component {
             >
               Mis Servicios
             </Link>
-            <Link
-              color="textSecondary"
-              href="/business/profile"
-              // onClick={handleClick}
-            >
-              {this.state.title}
-            </Link>
+            <Link color="textSecondary">{this.state.title}</Link>
           </Breadcrumbs>
           <div className="header-profile-container">
             <div className="header-profile">
-              <div>
-                <button
-                  onClick={this.handleRedirectService}
-                  className="button_ref"
-                  style={{ textDecoration: "none" }}
-                >
-                  Detalles servicios
-                </button>
-              </div>
-              <div className="button">
-                <button
-                  onClick={this.handleRedirectAppointment}
-                  className="button_ref"
-                  style={{ textDecoration: "none" }}
-                >
-                  Citas agendadas
-                </button>
+              <div className="button-container">
+                <div>
+                  <button
+                    onClick={this.handleRedirectService}
+                    className="button_ref"
+                    style={{ textDecoration: "none" }}
+                  >
+                    Detalles servicios
+                  </button>
+                </div>
+                <div className="button">
+                  <button
+                    onClick={this.handleRedirectAppointment}
+                    className="button_ref"
+                    style={{ textDecoration: "none" }}
+                  >
+                    Citas agendadas
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
           <div style={{ width: "50%", margin: "3% auto" }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
+            <div className="tittle">
               <h1>Detalles</h1>
               <Button
                 size="large"
@@ -473,11 +463,6 @@ class ServiceDetail extends Component {
                 color="secondary"
                 className="btn-primary"
                 onClick={this.handleRedirect}
-                style={{
-                  height: "35px",
-                  verticalAlign: "middle",
-                  marginLeft: "10px",
-                }}
               >
                 Agregar cita
               </Button>
@@ -799,101 +784,88 @@ class ServiceDetail extends Component {
                       </Select>
                     </div>
                     <div className="files">
-                      <TextField
-                        name="servicio"
-                        className="TxtField"
-                        variant="outlined"
-                        fullWidth
-                        required
-                        placeholder="Servicio"
-                        value={values.servicio}
-                        error={errors.servicio && touched.servicio}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        style={{
-                          marginRight: "5px",
-                          marginBottom: "5px",
-                          marginTop: "5px",
-                        }}
-                        // inputProps={{
-                        //   maxLength: 9,
-                        // }}
-                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                      />
-                      <Select
-                        value={values.hora}
-                        error={errors.hora && touched.hora}
-                        name="hora"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                        variant="outlined"
-                        fullWidth
-                        style={{
-                          marginLeft: "5px",
-                          marginBottom: "5px",
-                          marginTop: "5px",
-                        }}
-                        displayEmpty
-                      >
-                        <MenuItem disabled value={""}>
-                          Duración
-                        </MenuItem>
-                        {this.state.horas &&
-                          this.state.horas.map(({ id, value }) => (
-                            <MenuItem key={id} value={id}>
-                              {value}
-                            </MenuItem>
-                          ))}
-                      </Select>
+                      <div className="txt-left">
+                        <TextField
+                          name="servicio"
+                          className="TxtField"
+                          variant="outlined"
+                          required
+                          fullWidth
+                          placeholder="Servicio"
+                          value={values.servicio}
+                          error={errors.servicio && touched.servicio}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          // inputProps={{
+                          //   maxLength: 9,
+                          // }}
+                          onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                        />
+                      </div>
+                      <div className="txt-right">
+                        <Select
+                          value={values.hora}
+                          error={errors.hora && touched.hora}
+                          name="hora"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          required
+                          fullWidth
+                          variant="outlined"
+                          displayEmpty
+                        >
+                          <MenuItem disabled value={""}>
+                            Duración
+                          </MenuItem>
+                          {this.state.horas &&
+                            this.state.horas.map(({ id, value }) => (
+                              <MenuItem key={id} value={id}>
+                                {value}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </div>
                     </div>
                     <div className="files">
-                      <TextField
-                        name="descripcion"
-                        className="TxtField"
-                        variant="outlined"
-                        fullWidth
-                        required
-                        placeholder="Descripción"
-                        value={values.descripcion}
-                        error={errors.descripcion && touched.descripcion}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        style={{
-                          marginRight: "5px",
-                          marginBottom: "5px",
-                          marginTop: "5px",
-                        }}
-                        multiline
-                        minRows={4}
-                        maxRows={5}
-                        inputProps={{
-                          maxLength: 255,
-                        }}
-                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                      />
-
-                      <TextField
-                        name="precio"
-                        className="TxtField"
-                        variant="outlined"
-                        fullWidth
-                        required
-                        placeholder="Precio"
-                        value={values.precio}
-                        error={errors.precio && touched.precio}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        style={{
-                          marginLeft: "5px",
-                          marginBottom: "5px",
-                          marginTop: "5px",
-                        }}
-                        // inputProps={{
-                        //   maxLength: 9,
-                        // }}
-                        onInput={handleRegexDisable("[0-9.]")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                      />
+                      <div className="txt-left">
+                        <TextField
+                          name="descripcion"
+                          className="TxtField"
+                          variant="outlined"
+                          fullWidth
+                          required
+                          placeholder="Descripción"
+                          value={values.descripcion}
+                          error={errors.descripcion && touched.descripcion}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          multiline
+                          minRows={4}
+                          maxRows={5}
+                          inputProps={{
+                            maxLength: 255,
+                          }}
+                          onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                        />
+                      </div>
+                      <div className="txt-right">
+                        <TextField
+                          name="precio"
+                          className="TxtField"
+                          variant="outlined"
+                          fullWidth
+                          required
+                          placeholder="Precio"
+                          value={values.precio}
+                          error={errors.precio && touched.precio}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          // inputProps={{
+                          //   maxLength: 9,
+                          // }}
+                          onInput={handleRegexDisable("[0-9.]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                        />
+                      </div>
                     </div>
                     <TableContainer
                       style={{

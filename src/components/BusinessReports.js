@@ -113,12 +113,12 @@ class BusinessReports extends Component {
             aria-label="breadcrumb"
             className="font"
           >
-            <Link color="inherit" href="/" color="textPrimary">
+            <Link href="/" color="textPrimary">
               Inicio
             </Link>
             <Link
               color="textSecondary"
-              href="/business/profile"
+              href="/business/reports"
               // onClick={handleClick}
             >
               Mis Reportes

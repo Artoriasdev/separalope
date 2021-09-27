@@ -304,7 +304,7 @@ class BusinessProfile extends Component {
           className="font"
           style={{ margin: "30px" }}
         >
-          <Link color="inherit" href="/" color="textPrimary">
+          <Link href="/" color="textPrimary">
             Inicio
           </Link>
           <Link

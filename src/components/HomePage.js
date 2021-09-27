@@ -14,7 +14,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
-import { ArrowLeftSVG, ArrowRightSVG, LogoSVG } from "../assets/images/svg";
+import { ArrowLeftSVG, ArrowRightSVG } from "../assets/images/svg";
 // import FullPageLoader from "./FullPageLoader";
 
 const responsive = {
