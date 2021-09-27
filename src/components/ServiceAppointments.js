@@ -1,9 +1,10 @@
-import { AppBar, Tabs } from "@material-ui/core";
+import { AppBar, Breadcrumbs, Link, Tabs } from "@material-ui/core";
 import React, { Component } from "react";
 import { LinkTab } from "../Nav Tabs/LinkTab";
 import FutureAppointments from "../Nav Tabs/Appointment Tabs/FutureAppointments";
 import PastAppointments from "../Nav Tabs/Appointment Tabs/PastAppointments";
 import { TabPanel } from "../Nav Tabs/TabPanel";
+import { NavigateNext } from "@material-ui/icons";
 
 class ServiceAppointment extends Component {
   constructor(props) {
@@ -19,18 +20,52 @@ class ServiceAppointment extends Component {
 
   handleRedirectService = () => {
     this.props.history.push(
-      `/business/services/details/${this.props.match.params.id}`
+      `/business/services/details/${this.props.match.params.id}/${this.props.match.params.value}/${this.props.match.params.category}`
     );
   };
 
   handleRedirectAppointment = () => {
     this.props.history.push(
-      `/business/services/appointment/${this.props.match.params.id}`
+      `/business/services/appointment/${this.props.match.params.id}/${this.props.match.params.value}/${this.props.match.params.category}`
     );
+  };
+
+  handleClick = () => {
+    if (this.props.match.params.value === "1") {
+      this.props.history.push("/business/services");
+    } else if (this.props.match.params.value === "2") {
+      this.props.history.push(
+        `/business/services-category/${this.props.match.params.category}`
+      );
+    }
   };
   render() {
     return (
       <div className="page-container" style={{ padding: "0", width: "100%" }}>
+        <Breadcrumbs
+          separator={<NavigateNext fontSize="medium" />}
+          aria-label="breadcrumb"
+          className="font"
+          style={{ marginLeft: "50px" }}
+        >
+          <Link href="/" color="textPrimary">
+            Inicio
+          </Link>
+          <Link
+            color="textPrimary"
+            onClick={this.handleClick}
+            style={{ cursor: "pointer" }}
+          >
+            Mis Servicios
+          </Link>
+          <Link
+            color="textSecondary"
+            href="/business/profile"
+            // onClick={handleClick}
+          >
+            Titulo
+          </Link>
+        </Breadcrumbs>
         <div className="header-profile-container">
           <div className="header-profile">
             <div>

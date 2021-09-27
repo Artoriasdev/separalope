@@ -1,11 +1,11 @@
 import React from "react";
 import { Component } from "react";
 import { ErrorMessage, Formik } from "formik";
-import { Button, TextField } from "@material-ui/core";
+import { Breadcrumbs, Button, Link, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import axios from "axios";
-import { PowerSettingsNew, Save } from "@material-ui/icons";
+import { NavigateNext, PowerSettingsNew, Save } from "@material-ui/icons";
 import ModalError from "./ModalError";
 import ModalSucess from "./ModalSucess";
 import { EMAIL_REGEXP } from "../utils/regexp";
@@ -298,6 +298,30 @@ class BusinessProfile extends Component {
             />
           </React.Fragment>
         </ModalSucess>
+        <Breadcrumbs
+          separator={<NavigateNext fontSize="medium" />}
+          aria-label="breadcrumb"
+          className="font"
+          style={{ margin: "30px" }}
+        >
+          <Link color="inherit" href="/" color="textPrimary">
+            Inicio
+          </Link>
+          <Link
+            color="textPrimary"
+            href="/business/profile"
+            // onClick={handleClick}
+          >
+            Mi Perfil
+          </Link>
+          <Link
+            color="textSecondary"
+            href="/business/profile"
+            // onClick={handleClick}
+          >
+            Datos de la empresa
+          </Link>
+        </Breadcrumbs>
 
         <div className="header-profile-container">
           <div className="header-profile">

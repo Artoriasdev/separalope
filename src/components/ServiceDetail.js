@@ -12,7 +12,10 @@ import {
   TextField,
   Backdrop,
   Fade,
+  Breadcrumbs,
+  Link,
 } from "@material-ui/core";
+import { NavigateNext } from "@material-ui/icons";
 import axios from "axios";
 import { Formik } from "formik";
 import React from "react";
@@ -30,6 +33,7 @@ class ServiceDetail extends Component {
       horarios: [],
       service: [],
       err: {},
+      title: "",
       lunes: false,
       martes: false,
       miercoles: false,
@@ -46,6 +50,7 @@ class ServiceDetail extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.match.params.value);
     try {
       this.handleGetCategorys();
       this.handleGetHours();
@@ -154,6 +159,7 @@ class ServiceDetail extends Component {
 
         this.setState({
           service: data,
+          title: data[0].title,
         });
         Formik.setFieldValue("categoria", this.state.service[0].idCategory);
         Formik.setFieldValue("servicio", this.state.service[0].title);
@@ -335,13 +341,13 @@ class ServiceDetail extends Component {
 
   handleRedirectService = () => {
     this.props.history.push(
-      `/business/services/details/${this.props.match.params.id}`
+      `/business/services/details/${this.props.match.params.id}/${this.props.match.params.value}/${this.props.match.params.category}`
     );
   };
 
   handleRedirectAppointment = () => {
     this.props.history.push(
-      `/business/services/appointment/${this.props.match.params.id}`
+      `/business/services/appointment/${this.props.match.params.id}/${this.props.match.params.value}/${this.props.match.params.category}`
     );
   };
 
@@ -355,6 +361,19 @@ class ServiceDetail extends Component {
       this.props.history.push("/");
       this.props.history.go();
     }
+  };
+
+  handleClick = () => {
+    if (this.props.match.params.value === "1") {
+      this.props.history.push("/business/services");
+    } else if (this.props.match.params.value === "2") {
+      this.props.history.push(
+        `/business/services-category/${this.props.match.params.category}`
+      );
+    }
+  };
+  handleRedirect = () => {
+    this.props.history.push(`/reserve/invited/${this.props.match.params.id}`);
   };
 
   render() {
@@ -389,6 +408,30 @@ class ServiceDetail extends Component {
           </Fade>
         </Modal>
         <div className="page-container" style={{ padding: "0", width: "100%" }}>
+          <Breadcrumbs
+            separator={<NavigateNext fontSize="medium" />}
+            aria-label="breadcrumb"
+            className="font"
+            style={{ marginLeft: "50px" }}
+          >
+            <Link href="/" color="textPrimary">
+              Inicio
+            </Link>
+            <Link
+              color="textPrimary"
+              onClick={this.handleClick}
+              style={{ cursor: "pointer" }}
+            >
+              Mis Servicios
+            </Link>
+            <Link
+              color="textSecondary"
+              href="/business/profile"
+              // onClick={handleClick}
+            >
+              {this.state.title}
+            </Link>
+          </Breadcrumbs>
           <div className="header-profile-container">
             <div className="header-profile">
               <div>
@@ -413,7 +456,29 @@ class ServiceDetail extends Component {
           </div>
 
           <div style={{ width: "50%", margin: "3% auto" }}>
-            <h1>Detalles</h1>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <h1>Detalles</h1>
+              <Button
+                size="large"
+                variant="contained"
+                color="secondary"
+                className="btn-primary"
+                onClick={this.handleRedirect}
+                style={{
+                  height: "35px",
+                  verticalAlign: "middle",
+                  marginLeft: "10px",
+                }}
+              >
+                Agregar cita
+              </Button>
+            </div>
 
             <Formik
               ref={(ref) => (this.form = ref)}

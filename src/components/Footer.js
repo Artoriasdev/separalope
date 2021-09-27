@@ -21,6 +21,7 @@ import {
   Instagram,
   ExpandLess,
   ExpandMore,
+  Twitter,
 } from "@material-ui/icons";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -159,8 +160,10 @@ export const Footer = () => {
     <>
       <Grid item>
         <p className="font-tittle">Contáctanos</p>
-        <p className="text">Celular : 999</p>
-        <p className="text">Correo: contacto@separalo.pe</p>
+        <p className="text">Celular : +51 989777887</p>
+        <p className="text" style={{ marginTop: "5px" }}>
+          Correo: contacto@separalo.pe
+        </p>
       </Grid>
 
       <div onClick={() => handleRedirect(3)} style={{ cursor: "pointer" }}>
@@ -178,8 +181,11 @@ export const Footer = () => {
           <IconButton aria-label="facebook" color="inherit">
             <Facebook />
           </IconButton>
-          <IconButton aria-label="facebook" color="inherit">
+          <IconButton aria-label="instagram" color="inherit">
             <Instagram />
+          </IconButton>
+          <IconButton aria-label="twitter" color="inherit">
+            <Twitter />
           </IconButton>
         </span>
       </Grid>
@@ -254,8 +260,10 @@ export const Footer = () => {
             <div className={classes.sectionDesktop}>
               <Grid item>
                 <p className="font-tittle">Contáctanos</p>
-                <p className="text">Celular : 999</p>
-                <p className="text">Correo: contacto@separalo.pe</p>
+                <p className="text">Celular : +51 989777887</p>
+                <p className="text" style={{ marginTop: "5px" }}>
+                  Correo: contacto@separalo.pe
+                </p>
               </Grid>
             </div>
             <div className={classes.grow} />
@@ -280,8 +288,11 @@ export const Footer = () => {
                   <IconButton aria-label="facebook" color="inherit">
                     <Facebook />
                   </IconButton>
-                  <IconButton aria-label="facebook" color="inherit">
+                  <IconButton aria-label="instagram" color="inherit">
                     <Instagram />
+                  </IconButton>
+                  <IconButton aria-label="twitter" color="inherit">
+                    <Twitter />
                   </IconButton>
                 </span>
               </Grid>

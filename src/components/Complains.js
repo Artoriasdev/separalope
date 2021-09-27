@@ -126,11 +126,31 @@ class Complains extends Component {
     }
     if (formField === "numDocumento") {
       const { tipoDocumento } = formik.state.values;
-      let maxLengthInput = 8;
-      if (tipoDocumento === "01") maxLengthInput = 8;
-      if (tipoDocumento === "04" || tipoDocumento === "07") maxLengthInput = 12;
+      let maxLengthInput;
+      let minLengthInput;
+      let valor = "[0-9]";
+      const id = this.state.typeDocs.find(
+        (arreglo) => arreglo.id === tipoDocumento
+      );
+      if (id === undefined) {
+        this.setState({
+          modal: true,
+          message: "Porfavor elija el Tipo de documento",
+        });
+      } else {
+        maxLengthInput = id.maxLength;
+        minLengthInput = id.minLength;
+      }
+
+      if (tipoDocumento === "04" || tipoDocumento === "07") {
+        valor = "";
+      } else {
+        valor = "[0-9]";
+      }
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
-      formik.setFieldValue(formField, value.toUpperCase(), true);
+      formik.setFieldValue("minLengthValue", minLengthInput, true);
+      formik.setFieldValue("ingreso", valor, true);
+      formik.setFieldValue(formField, value, true);
     }
   };
   handleComplaintChange = (e) => {
@@ -246,10 +266,18 @@ class Complains extends Component {
                 categoria: "",
                 descripcion: "",
                 maxLengthValue: 8,
+                minLengthValue: 1,
+                ingreso: "",
               }}
               validate={(values) => {
-                const { numDocumento, correo, celular, maxLengthValue } =
-                  values;
+                const {
+                  numDocumento,
+                  correo,
+                  celular,
+                  maxLengthValue,
+                  tipoDocumento,
+                  minLengthValue,
+                } = values;
 
                 let errors = {};
                 if (!correo) {
@@ -261,7 +289,20 @@ class Complains extends Component {
                 }
                 if (!numDocumento) {
                   errors.numDocumento = "";
-                } else if (numDocumento.length < maxLengthValue) {
+                } else if (
+                  tipoDocumento === "04" &&
+                  numDocumento.length < minLengthValue
+                ) {
+                  errors.numDocumento = `*El número de documento debe tener un minimo de ${minLengthValue} dígitos`;
+                } else if (
+                  tipoDocumento === "07" &&
+                  numDocumento.length < minLengthValue
+                ) {
+                  errors.numDocumento = `*El número de documento debe tener un minimo de ${minLengthValue} dígitos`;
+                } else if (
+                  tipoDocumento === "01" &&
+                  numDocumento.length < maxLengthValue
+                ) {
                   errors.numDocumento = `*El número de documento debe ser de ${maxLengthValue} dígitos`;
                 }
 
@@ -440,7 +481,7 @@ class Complains extends Component {
                           inputProps={{
                             maxLength: values.maxLengthValue,
                           }}
-                          onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                          onInput={handleRegexDisable(values.ingreso)} // TODO haz el manejo correcto con NUMBER_REGEXP
                         />
                         <ErrorMessage
                           className="error bottom"

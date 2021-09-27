@@ -127,7 +127,7 @@ class BusinessCategory extends Component {
 
   render() {
     return (
-      <div className="page-container">
+      <div className="page-container" style={{ padding: "0" }}>
         <ModalError
           show={this.state.showModalError}
           closeCallback={this.toggleModalError}
@@ -144,11 +144,11 @@ class BusinessCategory extends Component {
             aria-label="breadcrumb"
             className="font"
           >
-            <Link color="inherit" href="/">
+            <Link color="inherit" href="/" color="textPrimary">
               Inicio
             </Link>
             <Link
-              color="textPrimary"
+              color="textSecondary"
               href="/business/category"
               // onClick={handleClick}
             >

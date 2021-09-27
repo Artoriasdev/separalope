@@ -1,8 +1,9 @@
-import { MenuItem, Select } from "@material-ui/core";
+import { Breadcrumbs, Link, MenuItem, Select } from "@material-ui/core";
 import axios from "axios";
 import React, { Component } from "react";
 import VerticalBar from "./VerticalBar";
 import ModalError from "./ModalError";
+import { NavigateNext } from "@material-ui/icons";
 
 class BusinessReports extends Component {
   constructor(props) {
@@ -108,6 +109,22 @@ class BusinessReports extends Component {
           </React.Fragment>
         </ModalError>
         <div className="page-container" style={{ padding: 0 }}>
+          <Breadcrumbs
+            separator={<NavigateNext fontSize="medium" />}
+            aria-label="breadcrumb"
+            className="font"
+          >
+            <Link color="inherit" href="/" color="textPrimary">
+              Inicio
+            </Link>
+            <Link
+              color="textSecondary"
+              href="/business/profile"
+              // onClick={handleClick}
+            >
+              Mis Reportes
+            </Link>
+          </Breadcrumbs>
           <h1>Mis reportes</h1>
           <h3 className="register__subtitle">
             Estos son los reportes obtenidos hasta la fecha <br />

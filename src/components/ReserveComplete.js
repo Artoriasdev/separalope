@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useHistory } from "react-router-dom";
+import Logo from "../assets/images/logo-separalo@3x.svg";
 
 export const ReserveComplete = () => {
   const history = useHistory();
@@ -17,7 +18,10 @@ export const ReserveComplete = () => {
   const { data } = JSON.parse(localStorage.getItem("data"));
 
   const handleRedirect = () => {
-    if (sessionStorage.getItem("logged") === "true") {
+    if (
+      sessionStorage.getItem("logged") === "true" &&
+      sessionStorage.getItem("workflow") === "C"
+    ) {
       history.push("/customer-appointment");
       // history.go();
     } else {
@@ -29,6 +33,7 @@ export const ReserveComplete = () => {
     <div className="page-container" style={{ padding: 0 }}>
       <div className="confirm-page">
         <div className="content-container" style={{ maxWidth: "600px" }}>
+          <img src={Logo} style={{ maxWidth: "300px" }} />
           <h1>¡Gracias por reservar tu cita!</h1>
           <p
             style={{

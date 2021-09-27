@@ -97,17 +97,29 @@ class RegisterCustomer extends Component {
     }
     if (formField === "nroDocumento") {
       const { documentos } = formik.state.values;
-      let maxLengthInput = 8;
+      let maxLengthInput;
+      let minLengthInput;
       let valor = "[0-9]";
-      if (documentos === "01") {
-        maxLengthInput = 8;
+      const id = this.state.typeDocs.find(
+        (arreglo) => arreglo.id === documentos
+      );
+      if (id === undefined) {
+        this.setState({
+          showModalSucesss: true,
+          disclaimerModal: "Porfavor elija el Tipo de documento",
+        });
+      } else {
+        maxLengthInput = id.maxLength;
+        minLengthInput = id.minLength;
+      }
+
+      if (documentos === "04" || documentos === "07") {
+        valor = "";
+      } else {
         valor = "[0-9]";
       }
-      if (documentos === "04" || documentos === "07") {
-        maxLengthInput = 12;
-        valor = "";
-      }
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
+      formik.setFieldValue("minLengthValue", minLengthInput, true);
       formik.setFieldValue("ingreso", valor, true);
       formik.setFieldValue(formField, value, true);
     }
@@ -291,11 +303,18 @@ class RegisterCustomer extends Component {
                 documentos: "",
                 nroDocumento: "",
                 maxLengthValue: 8,
+                minLengthValue: 1,
                 ingreso: "[0-9]",
               }}
               validate={(values) => {
-                const { correo, celular, nroDocumento, maxLengthValue } =
-                  values;
+                const {
+                  correo,
+                  celular,
+                  nroDocumento,
+                  maxLengthValue,
+                  documentos,
+                  minLengthValue,
+                } = values;
 
                 let errors = {};
 
@@ -306,7 +325,20 @@ class RegisterCustomer extends Component {
                 }
                 if (!nroDocumento) {
                   errors.nroDocumento = "";
-                } else if (nroDocumento.length < maxLengthValue) {
+                } else if (
+                  documentos === "04" &&
+                  nroDocumento.length < minLengthValue
+                ) {
+                  errors.nroDocumento = `*El número de documento debe tener un minimo de ${minLengthValue} dígitos`;
+                } else if (
+                  documentos === "07" &&
+                  nroDocumento.length < minLengthValue
+                ) {
+                  errors.nroDocumento = `*El número de documento debe tener un minimo de ${minLengthValue} dígitos`;
+                } else if (
+                  documentos === "01" &&
+                  nroDocumento.length < maxLengthValue
+                ) {
                   errors.nroDocumento = `*El número de documento debe ser de ${maxLengthValue} dígitos`;
                 }
 
@@ -475,7 +507,10 @@ class RegisterCustomer extends Component {
                         error={errors.nroDocumento && touched.nroDocumento}
                         onBlur={handleBlur}
                         onChange={this.handleDocumentChange}
-                        inputProps={{ maxLength: values.maxLengthValue }}
+                        inputProps={{
+                          maxLength: values.maxLengthValue,
+                          minLength: values.minLengthValue,
+                        }}
                         autoComplete="off"
                         onInput={handleRegexDisable(values.ingreso)} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />

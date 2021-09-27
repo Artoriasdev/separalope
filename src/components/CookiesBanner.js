@@ -60,7 +60,7 @@ const AccordionDetails = withStyles((theme) => ({
 
 export const CookiesBanner = () => {
   const [cookie, setCookie] = useState(false);
-  console.log(getCookieConsentValue("acceptCookies"));
+  // console.log(getCookieConsentValue("acceptCookies"));
   return (
     <div>
       <CookieConsent
@@ -71,7 +71,7 @@ export const CookiesBanner = () => {
         onDecline={() => {
           Cookies.remove("acceptCookies");
           setCookie(true);
-          console.log(cookie);
+          // console.log(cookie);
         }}
         flipButtons
         disableStyles

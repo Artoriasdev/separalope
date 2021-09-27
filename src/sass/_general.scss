@@ -1113,7 +1113,7 @@ button {
     max-width: 30%;
     margin: auto;
     @include mobile {
-      max-width: 100%;
+      width: 100%;
     }
     button {
       width: 40%;

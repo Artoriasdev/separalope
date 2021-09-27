@@ -80,12 +80,12 @@ function App() {
             >
               <Route
                 exact
-                path="/business/services/appointment/:id"
+                path="/business/services/appointment/:id/:value/:category"
                 component={ServiceAppointment}
               />
               <Route
                 exact
-                path="/business/services/details/:id"
+                path="/business/services/details/:id/:value/:category"
                 component={ServiceDetail}
               />
 

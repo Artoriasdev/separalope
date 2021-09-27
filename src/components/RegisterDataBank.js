@@ -29,6 +29,7 @@ class RegisterDataBank extends Component {
       showModalError: false,
       disableButton: false,
       isLoading: false,
+      error: false,
     };
   }
 
@@ -56,6 +57,7 @@ class RegisterDataBank extends Component {
               disclaimerModal:
                 "Usted ya cuenta con datos bancarios <br>Redirecionandolo...",
               disableButton: true,
+              error: true,
             });
             setTimeout(() => {
               this.props.history.push("/business/profile");
@@ -66,15 +68,16 @@ class RegisterDataBank extends Component {
               disclaimerModal:
                 "Usted no esta autorizado para ver esta información",
               disableButton: true,
+              error: true,
             });
             setTimeout(() => {
               this.props.history.push("/login/B");
             }, 3000);
           } else {
-            this.handleInfoSubmit();
-            this.handleGetTypeBank();
-            this.handleGetTypeAccount();
           }
+          this.handleInfoSubmit();
+          this.handleGetTypeBank();
+          this.handleGetTypeAccount();
           return response;
         })
         .catch((error) => {
@@ -91,6 +94,7 @@ class RegisterDataBank extends Component {
               showModalError: true,
               disclaimerModal:
                 "Sesión expirada, porfavor vuelva a iniciar sesión",
+              error: true,
             });
             setTimeout(() => {
               this.props.history.push("/login/B");
@@ -100,6 +104,7 @@ class RegisterDataBank extends Component {
               showModalError: true,
               disclaimerModal:
                 "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+              error: true,
             });
           }
         });
@@ -217,12 +222,19 @@ class RegisterDataBank extends Component {
     if (formField === "numeroCuenta") {
       const { tipoId } = formik.state.values;
       formik.setFieldValue(formField, value, true);
+      let maxLengthInput;
 
       const id = this.state.typeAccount.find(
         (arreglo) => arreglo.id === tipoId
       );
-
-      let maxLengthInput = id.length;
+      if (id === undefined) {
+        this.setState({
+          showModalError: true,
+          disclaimerModal: "Porfavor elija primero el banco y/o tipo de cuenta",
+        });
+      } else {
+        maxLengthInput = id.length;
+      }
       console.log(maxLengthInput);
 
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
@@ -241,7 +253,7 @@ class RegisterDataBank extends Component {
     this.setState({
       showModalError: false,
     });
-    this.props.history.push("/login/B");
+    if (this.state.error === true) this.props.history.push("/login/B");
   };
 
   render() {

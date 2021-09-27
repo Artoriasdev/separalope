@@ -125,11 +125,11 @@ class BusinessServices extends Component {
   };
 
   handleEdit = (id) => {
-    this.props.history.push(`/business/services/details/${id}`);
+    this.props.history.push(`/business/services/details/${id}/1/0`);
   };
 
   handleAppointment = (id) => {
-    this.props.history.push(`/business/services/appointment/${id}`);
+    this.props.history.push(`/business/services/appointment/${id}/1/0`);
   };
 
   render() {
@@ -152,11 +152,11 @@ class BusinessServices extends Component {
             aria-label="breadcrumb"
             className="font"
           >
-            <Link color="inherit" href="/">
+            <Link color="inherit" href="/" color="textPrimary">
               Inicio
             </Link>
             <Link
-              color="textPrimary"
+              color="textSecondary"
               href="/business/services"
               // onClick={handleClick}
             >

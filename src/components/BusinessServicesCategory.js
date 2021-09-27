@@ -23,6 +23,7 @@ class BusinessServicesCategory extends Component {
       triggerText: "Agregar servicio",
       disclaimerModal: "",
       showModalError: false,
+      typeCategorys: [],
     };
   }
 
@@ -44,6 +45,7 @@ class BusinessServicesCategory extends Component {
         .then((response) => {
           if (response.data.response === "true") {
             this.handleGetList();
+            this.handleGetCategorys();
           } else {
             this.setState({
               showModalError: true,
@@ -82,6 +84,41 @@ class BusinessServicesCategory extends Component {
       console.log(error);
     }
   }
+  handleGetCategorys = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
+
+    const rspApi = Axios.get(linkDocumentsApi, {
+      headers: headers,
+    })
+      .then((response) => {
+        const { data } = response.data;
+        const category = data.find(
+          (id) => id.id === JSON.parse(this.props.match.params.value)
+        );
+        console.log(category);
+        this.setState({
+          typeCategorys: category,
+        });
+
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
+      });
+    return rspApi;
+  };
 
   handleGetList = () => {
     const id = sessionStorage.getItem("id");
@@ -132,11 +169,15 @@ class BusinessServicesCategory extends Component {
   };
 
   handleEdit = (id) => {
-    this.props.history.push(`/business/services/details/${id}`);
+    this.props.history.push(
+      `/business/services/details/${id}/2/${this.props.match.params.value}`
+    );
   };
 
   handleAppointment = (id) => {
-    this.props.history.push(`/business/services/appointment/${id}`);
+    this.props.history.push(
+      `/business/services/appointment/${id}/2/${this.props.match.params.value}`
+    );
   };
 
   render() {
@@ -164,10 +205,17 @@ class BusinessServicesCategory extends Component {
             </Link>
             <Link
               color="textPrimary"
-              href="/business/services"
+              href={`/business/services-category/${this.props.match.params.value}`}
               // onClick={handleClick}
             >
               Mis servicios
+            </Link>
+            <Link
+              color="textPrimary"
+              href={`/business/services-category/${this.props.match.params.value}`}
+              // onClick={handleClick}
+            >
+              {this.state.typeCategorys.name}
             </Link>
           </Breadcrumbs>
           <h1>Mis servicios</h1>
