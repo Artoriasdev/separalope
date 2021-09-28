@@ -27,8 +27,7 @@ class BusinessCategory extends Component {
         Authorization: `Bearer ${tk}`,
       };
 
-      let linkDocumentsApi =
-        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusiness";
+      let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/business/getBusiness`;
 
       const rspApi = Axios.get(linkDocumentsApi, {
         headers: headers,
@@ -88,8 +87,7 @@ class BusinessCategory extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/category/getCategories`;
 
     const rspApi = Axios.get(linkDocumentsApi, {
       headers: headers,

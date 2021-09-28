@@ -49,7 +49,7 @@ class CustomerHistory extends Component {
       Authorization: `Bearer ${tk}`,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getReservationHistoryByCustomer`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/reservation/getReservationHistoryByCustomer`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {

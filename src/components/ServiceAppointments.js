@@ -33,7 +33,7 @@ class ServiceAppointment extends Component {
       Authorization: `Bearer ${tk}`,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServiceForEdit/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/service/getServiceForEdit/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {

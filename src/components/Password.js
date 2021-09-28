@@ -33,8 +33,7 @@ class Password extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/user/passwordChange";
+    let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/user/passwordChange`;
 
     const rspApi = axios
       .post(linkEditApi, passwordModel, {

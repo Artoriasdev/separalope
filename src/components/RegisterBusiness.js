@@ -59,8 +59,7 @@ class RegisterBusiness extends Component {
       Accept: "application/json",
       Authorization: "",
     };
-    let linkRegisterApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/registerBusiness";
+    let linkRegisterApi = `${process.env.REACT_APP_PATH_SERVICE}/business/registerBusiness`;
 
     const rspApi = Axios.post(linkRegisterApi, BusinessModel, {
       headers: headers,
@@ -89,8 +88,7 @@ class RegisterBusiness extends Component {
       Accept: "application/json",
       Authorization: "",
     };
-    let linkLoginApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/user/authenticate";
+    let linkLoginApi = `${process.env.REACT_APP_PATH_SERVICE}/user/authenticate`;
 
     var LoginModel = {
       username: username,

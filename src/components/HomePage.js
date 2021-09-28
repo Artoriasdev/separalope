@@ -88,8 +88,7 @@ class HomePage extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/category/getCategories`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {

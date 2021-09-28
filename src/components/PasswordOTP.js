@@ -33,8 +33,7 @@ class PasswordOTP extends Component {
       Accept: "application/json",
       Authorization: "",
     };
-    let linkLoginApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/user/validatePasswordRecovery";
+    let linkLoginApi = `${process.env.REACT_APP_PATH_SERVICE}/user/validatePasswordRecovery`;
 
     const rspApi = axios
       .post(linkLoginApi, RecoveryModel, {

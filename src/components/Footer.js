@@ -83,7 +83,7 @@ export const Footer = () => {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getTermsAndConditions`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTermsAndConditions`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {

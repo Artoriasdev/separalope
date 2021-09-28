@@ -42,8 +42,7 @@ class RegisterDataBank extends Component {
         Authorization: `Bearer ${tk}`,
       };
 
-      let linkDocumentsApi =
-        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusinessBankData";
+      let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/business/getBusinessBankData`;
 
       const rspApi = axios
         .get(linkDocumentsApi, {
@@ -75,7 +74,7 @@ class RegisterDataBank extends Component {
             }, 3000);
           } else {
           }
-          this.handleInfoSubmit();
+
           this.handleGetTypeBank();
           this.handleGetTypeAccount();
           return response;
@@ -126,8 +125,7 @@ class RegisterDataBank extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkRegisterApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/registerBusinessBankData";
+    let linkRegisterApi = `${process.env.REACT_APP_PATH_SERVICE}/business/registerBusinessBankData`;
 
     const rspApi = Axios.post(linkRegisterApi, BankModel, {
       headers: headers,
@@ -157,8 +155,7 @@ class RegisterDataBank extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getBanks";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getBanks`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -184,7 +181,7 @@ class RegisterDataBank extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getBanksAccountType/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getBanksAccountType/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -235,7 +232,6 @@ class RegisterDataBank extends Component {
       } else {
         maxLengthInput = id.length;
       }
-      console.log(maxLengthInput);
 
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
       formik.setFieldValue(formField, value.toUpperCase(), true);
@@ -362,8 +358,6 @@ class RegisterDataBank extends Component {
                   });
                 }
               })();
-
-              // aqui los getter y handler
             }}
           >
             {({

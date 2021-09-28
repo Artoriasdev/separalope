@@ -51,8 +51,7 @@ class Login extends Component {
       Accept: "application/json",
       Authorization: "",
     };
-    let linkLoginApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/user/authenticate";
+    let linkLoginApi = `${process.env.REACT_APP_PATH_SERVICE}/user/authenticate`;
 
     const rspApi = Axios.post(linkLoginApi, LoginModel, {
       headers: headers,

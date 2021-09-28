@@ -32,8 +32,7 @@ class PasswordRestore extends Component {
       Accept: "application/json",
       Authorization: "",
     };
-    let linkLoginApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/user/passwordRestore";
+    let linkLoginApi = `${process.env.REACT_APP_PATH_SERVICE}/user/passwordRestore`;
 
     const rspApi = axios
       .post(linkLoginApi, RecoveryModel, {

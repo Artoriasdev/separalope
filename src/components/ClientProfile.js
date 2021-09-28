@@ -48,8 +48,7 @@ class ClientProfile extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getDocumentTypes";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getDocumentTypes`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -76,8 +75,7 @@ class ClientProfile extends Component {
         Authorization: `Bearer ${tk}`,
       };
 
-      let linkDocumentsApi =
-        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/getCustomer";
+      let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/customer/getCustomer`;
 
       const rspApi = await axios
         .get(linkDocumentsApi, {
@@ -149,8 +147,7 @@ class ClientProfile extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/updateCustomer";
+    let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/customer/updateCustomer`;
 
     const rspApi = axios
       .put(linkEditApi, dataModel, {

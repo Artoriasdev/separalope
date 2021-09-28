@@ -61,8 +61,7 @@ class BusinessProfileBank extends Component {
         Authorization: `Bearer ${tk}`,
       };
 
-      let linkDocumentsApi =
-        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusiness";
+      let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/business/getBusiness`;
 
       const rspApi = await axios
         .get(linkDocumentsApi, {
@@ -121,8 +120,7 @@ class BusinessProfileBank extends Component {
         Authorization: `Bearer ${tk}`,
       };
 
-      let linkDocumentsApi =
-        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusinessBankData";
+      let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/business/getBusinessBankData`;
 
       const rspApi = await axios
         .get(linkDocumentsApi, {
@@ -134,29 +132,29 @@ class BusinessProfileBank extends Component {
             console.log(data);
             this.setState({
               formModel: data,
-              logo: data[0].logo,
-              name: data[0].name,
             });
-
-            this.handleGetTypeAccount(this.state.formModel[0].idBank);
-            const Formik = this.form;
-            Formik.setFieldValue(
-              "numeroCuenta",
-              this.state.formModel[0].accountNumber
-            );
-            Formik.setFieldValue(
-              "numeroInterbancario",
-              this.state.formModel[0].interbankAccountNumber
-            );
-            Formik.setFieldValue(
-              "correoBancario",
-              this.state.formModel[0].email
-            );
-            Formik.setFieldValue("bancoId", this.state.formModel[0].idBank);
-            Formik.setFieldValue(
-              "tipoId",
-              this.state.formModel[0].idAccountType
-            );
+            console.log(this.state.formModel);
+            if (data !== undefined) {
+              this.handleGetTypeAccount(this.state.formModel[0].idBank);
+              const Formik = this.form;
+              Formik.setFieldValue(
+                "numeroCuenta",
+                this.state.formModel[0].accountNumber
+              );
+              Formik.setFieldValue(
+                "numeroInterbancario",
+                this.state.formModel[0].interbankAccountNumber
+              );
+              Formik.setFieldValue(
+                "correoBancario",
+                this.state.formModel[0].email
+              );
+              Formik.setFieldValue("bancoId", this.state.formModel[0].idBank);
+              Formik.setFieldValue(
+                "tipoId",
+                this.state.formModel[0].idAccountType
+              );
+            }
           } else {
             this.setState({
               showModalError: true,
@@ -167,8 +165,8 @@ class BusinessProfileBank extends Component {
           return response;
         })
         .catch((error) => {
-          const { status } = error.response;
-          if (status === 401) {
+          console.log(error);
+          if (error.response.status === 401) {
             sessionStorage.removeItem("tk");
             sessionStorage.removeItem("logo");
             sessionStorage.removeItem("logged");
@@ -656,8 +654,6 @@ class BusinessProfileBank extends Component {
               (async () => {
                 await this.handleEditData(bankModel);
               })();
-
-              // aqui los getter y handler
             }}
           >
             {({

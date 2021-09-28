@@ -54,8 +54,7 @@ class BusinessProfile extends Component {
         Authorization: `Bearer ${tk}`,
       };
 
-      let linkDocumentsApi =
-        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/getBusiness";
+      let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/business/getBusiness`;
 
       const rspApi = await axios
         .get(linkDocumentsApi, {
@@ -129,8 +128,7 @@ class BusinessProfile extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/updateBusiness";
+    let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/business/updateBusiness`;
 
     const rspApi = axios
       .put(linkEditApi, dataModel, {
@@ -238,8 +236,7 @@ class BusinessProfile extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/uploadLogoBusiness";
+    let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/business/uploadLogoBusiness`;
 
     const rspApi = axios
       .post(linkEditApi, data, {

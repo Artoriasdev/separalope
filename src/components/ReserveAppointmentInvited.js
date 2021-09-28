@@ -49,7 +49,7 @@ class ReserveAppointmentInvited extends Component {
       Authorization: ``,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesById/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/service/getServicesById/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -85,7 +85,7 @@ class ReserveAppointmentInvited extends Component {
       Authorization: ``,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getAvailableDateService/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/reservation/getAvailableDateService/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -121,7 +121,7 @@ class ReserveAppointmentInvited extends Component {
       Authorization: ``,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getAvailableScheduleService/${id}/${date}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/reservation/getAvailableScheduleService/${id}/${date}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -170,8 +170,7 @@ class ReserveAppointmentInvited extends Component {
       Authorization: ``,
     };
 
-    let linkRegisterApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/registerReservationInvited";
+    let linkRegisterApi = `${process.env.REACT_APP_PATH_SERVICE}/reservation/registerReservationInvited`;
 
     const rspApi = axios
       .post(linkRegisterApi, reserveModel, {

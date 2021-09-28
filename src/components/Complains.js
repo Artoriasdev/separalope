@@ -55,8 +55,7 @@ class Complains extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getDocumentTypes";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getDocumentTypes`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -88,7 +87,7 @@ class Complains extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/complaint/getCategoryComplaint/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/complaint/getCategoryComplaint/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -172,8 +171,7 @@ class Complains extends Component {
       Authorization: ``,
     };
 
-    let linkRegisterApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/complaint/registerComplaint";
+    let linkRegisterApi = `${process.env.REACT_APP_PATH_SERVICE}/complaint/registerComplaint`;
 
     const rspApi = axios
       .post(linkRegisterApi, complainModel, {
@@ -188,7 +186,7 @@ class Complains extends Component {
         if (data.response === "false") {
           this.setState({
             modal: true,
-            message: data.message,
+            message: `Su solicitud fue registrada correctamente`,
             isLoading: false,
           });
         }

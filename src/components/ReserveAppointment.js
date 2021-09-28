@@ -52,8 +52,7 @@ class ReserveAppointment extends Component {
         Authorization: `Bearer ${tk}`,
       };
 
-      let linkDocumentsApi =
-        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/getCustomer";
+      let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/customer/getCustomer`;
 
       const rspApi = await axios
         .get(linkDocumentsApi, {
@@ -115,7 +114,7 @@ class ReserveAppointment extends Component {
       Authorization: ``,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesById/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/service/getServicesById/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -159,7 +158,7 @@ class ReserveAppointment extends Component {
       Authorization: ``,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getAvailableDateService/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/reservation/getAvailableDateService/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -194,7 +193,7 @@ class ReserveAppointment extends Component {
       Authorization: ``,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getAvailableScheduleService/${id}/${date}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/reservation/getAvailableScheduleService/${id}/${date}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -241,8 +240,7 @@ class ReserveAppointment extends Component {
       Authorization: `Bearer ${tk}`,
     };
 
-    let linkRegisterApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/registerReservation";
+    let linkRegisterApi = `${process.env.REACT_APP_PATH_SERVICE}/reservation/registerReservation`;
 
     const rspApi = axios
       .post(linkRegisterApi, reserveModel, {

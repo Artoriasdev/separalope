@@ -71,8 +71,7 @@ class ServiceDetail extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/category/getCategories`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -97,8 +96,7 @@ class ServiceDetail extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getHoursDurationService";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/service/getHoursDurationService`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -122,8 +120,7 @@ class ServiceDetail extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getHoursAttentionService";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/service/getHoursAttentionService`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -150,7 +147,7 @@ class ServiceDetail extends Component {
       Authorization: `Bearer ${tk}`,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServiceForEdit/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/service/getServiceForEdit/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -316,8 +313,7 @@ class ServiceDetail extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/editService";
+    let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/service/editService`;
 
     const rspApi = axios
       .put(linkEditApi, dataModel, {

@@ -37,7 +37,7 @@ class MenuServicesBusiness extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesByBusinessAndCategory/${id}/${cat}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/service/getServicesByBusinessAndCategory/${id}/${cat}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
