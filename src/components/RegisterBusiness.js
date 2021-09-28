@@ -235,26 +235,26 @@ class RegisterBusiness extends Component {
 
                 console.log(BusinessModel);
 
-                // (async () => {
-                //   const responseSubmit = await this.handleInfoSubmit(
-                //     BusinessModel
-                //   );
+                (async () => {
+                  const responseSubmit = await this.handleInfoSubmit(
+                    BusinessModel
+                  );
 
-                //   const { response } = responseSubmit.data;
+                  const { response } = responseSubmit.data;
 
-                //   if (response === "true") {
-                //     this.setState({
-                //       showModalSucesss: true,
-                //       disclaimerModal: "¡Registro grabado satisfactoriamente!",
-                //       response: true,
-                //       isLoading: false,
-                //     });
-                //     this.handleLogin(
-                //       BusinessModel.email,
-                //       BusinessModel.confirmPassword
-                //     );
-                //   }
-                // })();
+                  if (response === "true") {
+                    this.setState({
+                      showModalSucesss: true,
+                      disclaimerModal: "¡Registro grabado satisfactoriamente!",
+                      response: true,
+                      isLoading: false,
+                    });
+                    this.handleLogin(
+                      BusinessModel.email,
+                      BusinessModel.confirmPassword
+                    );
+                  }
+                })();
               }}
             >
               {({
