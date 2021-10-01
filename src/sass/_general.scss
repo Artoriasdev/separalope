@@ -1512,3 +1512,7 @@ button {
     width: auto !important;
   }
 }
+
+.animate__animated.animate__slideInUp {
+  --animate-duration: 0.5s;
+}

@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Backdrop, Button, Fade, Modal } from "@material-ui/core";
 import axios from "axios";
 import React, { Component } from "react";
 import { BackSide, Flippy, FrontSide } from "react-flippy";
@@ -13,6 +13,8 @@ class MenuServicesBusiness extends Component {
       typeCategorys: [],
       business: "",
       image: "",
+      modal: false,
+      message: "",
     };
   }
 
@@ -56,6 +58,14 @@ class MenuServicesBusiness extends Component {
         console.log(data);
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Es posible que su negocio buscado no se encuentre dentro de esta categoría",
+        });
       });
 
     return rspApi;
@@ -69,9 +79,43 @@ class MenuServicesBusiness extends Component {
     }
   };
 
+  handleClose = () => {
+    this.setState({
+      modal: false,
+    });
+    this.props.history.goBack();
+  };
+
   render() {
     return (
       <>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
+        >
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
         <Banner negocio={this.state.business} imagen={this.state.image} />
 
         <div style={{ padding: "50px 0 0 0 ", width: "80%", margin: " auto" }}>
