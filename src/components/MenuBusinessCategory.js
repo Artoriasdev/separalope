@@ -81,7 +81,7 @@ class MenuBusinessCategory extends Component {
 
     clearTimeout(this.searchInterval);
     this.searchInterval = setTimeout(() => {
-      if (value.length > 3) {
+      if (value.length > 2) {
         var headers = {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -106,7 +106,7 @@ class MenuBusinessCategory extends Component {
           });
 
         return responseEmp;
-      } else if (value.length <= 4) {
+      } else if (value.length <= 3) {
         this.setState({
           enterprises: [],
         });
