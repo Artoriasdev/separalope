@@ -81,6 +81,54 @@ class HomePage extends Component {
     }
   }
 
+  // handleChangeEnterprise = async (e) => {
+  //   const { value, name } = e.target;
+
+  //   this.setState({
+  //     identificadorName: name,
+  //   });
+
+  //   clearTimeout(this.searchInterval);
+  //   this.searchInterval = setTimeout(() => {
+  //     if (value.length > 3) {
+  //       var headers = {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //         Authorization: ``,
+  //       };
+
+  //       // let empresaApi = `${process.env.REACT_APP_PATH_SERVICE}/generico/empresa/${value}`;
+
+  //       const responseEmp = axios.get(empresaApi, {
+  //         headers: headers,
+  //       }).then((response) => {
+  //         const { data } = response.data;
+
+  //         this.setState({
+  //           enterprises: data,
+  //         });
+
+  //         return response;
+  //       });
+
+  //       return responseEmp;
+  //     } else if (value.length <= 4) {
+  //       this.setState({
+  //         enterprises: [],
+  //         ruc: "",
+  //         address: "",
+  //       });
+  //       return false;
+  //     } else {
+  //       this.setState({
+  //         enterprises: [],
+  //       });
+
+  //       return false;
+  //     }
+  //   }, 2000);
+  // };
+
   handleGetCategorys = () => {
     var headers = {
       "Content-Type": "application/json",
@@ -191,6 +239,7 @@ class HomePage extends Component {
                 label="Buscar categoría"
                 id="filled-start-adornment"
                 className="font-p"
+                autoComplete="off"
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">

@@ -46,6 +46,8 @@ class ServiceDetail extends Component {
       modal: false,
       response: false,
       message: "",
+      deleteService: false,
+      deleted: false,
     };
   }
 
@@ -350,12 +352,69 @@ class ServiceDetail extends Component {
     );
   };
 
-  handleClose = () => {
+  handleDeleteService = () => {
+    setTimeout(() => {
+      const tk = sessionStorage.getItem("tk");
+      console.log("consume service");
+      var headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tk}`,
+      };
+
+      let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/service/deleteService/${this.props.match.params.id}`;
+
+      const rspApi = axios
+        .get(linkDocumentsApi, {
+          headers: headers,
+        })
+        .then((response) => {
+          if (response.data.response === "true") {
+            this.setState({
+              modal: true,
+              message: response.data.message,
+              deleteService: false,
+              deleted: true,
+            });
+          } else if (response.data.response === "false") {
+            this.setState({
+              modal: true,
+              message: response.data.message,
+              deleteService: false,
+            });
+          }
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.setState({
+            modal: true,
+            message: "Ha ocurrido un error",
+            deleteService: false,
+          });
+        });
+      return rspApi;
+    }, 1000);
+  };
+
+  handleClose = (key) => {
     this.setState({
       modal: false,
     });
     if (this.state.response === true) {
       this.props.history.go();
+    } else if (key === 1) {
+      this.handleDeleteService();
+    } else if (key === 2) {
+      this.setState({ deleteService: false });
+    } else if (this.state.deleted === true) {
+      if (this.props.match.params.value === "1") {
+        this.props.history.push("/business/services");
+      } else if (this.props.match.params.value === "2") {
+        this.props.history.push(
+          `/business/services-category/${this.props.match.params.category}`
+        );
+      }
     } else {
       this.props.history.push("/");
       this.props.history.go();
@@ -373,6 +432,13 @@ class ServiceDetail extends Component {
   };
   handleRedirect = () => {
     this.props.history.push(`/reserve/invited/${this.props.match.params.id}`);
+  };
+  handleDelete = () => {
+    this.setState({
+      modal: true,
+      message: "¿Desea borrar el servicio actual?",
+      deleteService: true,
+    });
   };
 
   render() {
@@ -394,15 +460,38 @@ class ServiceDetail extends Component {
           <Fade in={this.state.modal}>
             <div className="modal-message-container">
               <p>{this.state.message}</p>
-              <Button
-                size="large"
-                color="primary"
-                variant="contained"
-                className="btn-primary"
-                onClick={this.handleClose}
-              >
-                Aceptar
-              </Button>
+              {this.state.deleteService ? (
+                <>
+                  <Button
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                    className="btn-primary"
+                    onClick={() => this.handleClose(1)}
+                  >
+                    Aceptar
+                  </Button>
+                  <Button
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                    className="btn-primary"
+                    onClick={() => this.handleClose(2)}
+                  >
+                    Rechazar
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  size="large"
+                  color="primary"
+                  variant="contained"
+                  className="btn-primary"
+                  onClick={() => this.handleClose(3)}
+                >
+                  Aceptar
+                </Button>
+              )}
             </div>
           </Fade>
         </Modal>
@@ -461,6 +550,15 @@ class ServiceDetail extends Component {
                 onClick={this.handleRedirect}
               >
                 Agregar cita
+              </Button>
+              <Button
+                size="large"
+                variant="contained"
+                color="secondary"
+                className="btn-primary"
+                onClick={this.handleDelete}
+              >
+                Eliminar servicio
               </Button>
             </div>
 

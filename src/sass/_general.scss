@@ -1127,7 +1127,7 @@ button {
   min-height: 70vh;
   width: 100%;
   .content-container {
-    max-width: 30%;
+    width: 30%;
     margin: auto;
     @include mobile {
       width: 100%;
@@ -1493,5 +1493,22 @@ button {
   margin: 3% auto;
   @include mobile {
     width: 90%;
+  }
+}
+
+.autocomplete {
+  position: absolute;
+  // width: 70%;
+  width: 198px;
+  z-index: 2;
+  // margin: 0px 1%;
+  background-color: white;
+  overflow: hidden;
+
+  li {
+    visibility: visible !important;
+    position: initial !important;
+    display: block !important;
+    width: auto !important;
   }
 }

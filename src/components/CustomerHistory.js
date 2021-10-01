@@ -61,11 +61,7 @@ class CustomerHistory extends Component {
         this.setState({
           appointments: data,
         });
-        if (response.data.response === "true") {
-          setTimeout(() => {
-            this.setState({ isLoading: false });
-          }, 1000);
-        }
+
         console.log(data);
 
         return response;

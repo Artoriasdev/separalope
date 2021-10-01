@@ -4,9 +4,16 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
-import { Button, InputAdornment, TextField } from "@material-ui/core";
+import {
+  Button,
+  InputAdornment,
+  MenuItem,
+  Paper,
+  TextField,
+} from "@material-ui/core";
 import Banner from "./BannerCategory";
 import { Search } from "@material-ui/icons";
+import "animate.css";
 
 class MenuBusinessCategory extends Component {
   constructor(props) {
@@ -15,8 +22,12 @@ class MenuBusinessCategory extends Component {
     this.state = {
       typeBusiness: [],
       category: [],
+      identificadorName: "",
+      enterprises: [],
     };
   }
+
+  searchInterval = 0;
 
   componentDidMount() {
     if (sessionStorage.getItem("workflow") === "B") {
@@ -61,6 +72,55 @@ class MenuBusinessCategory extends Component {
     return rspApi;
   };
 
+  handleGetBusinessByFilter = async (e) => {
+    const { value, name } = e.target;
+    this.setState({
+      identificadorName: name,
+    });
+    console.log(this.state.identificadorName, this.state.enterprises);
+
+    clearTimeout(this.searchInterval);
+    this.searchInterval = setTimeout(() => {
+      if (value.length > 3) {
+        var headers = {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: ``,
+        };
+
+        let empresaApi = `${process.env.REACT_APP_PATH_SERVICE}/business/getBusinessByFilter/${value}`;
+
+        const responseEmp = axios
+          .get(empresaApi, {
+            headers: headers,
+          })
+          .then((response) => {
+            const { data } = response.data;
+            console.log(data);
+
+            this.setState({
+              enterprises: data,
+            });
+
+            return response;
+          });
+
+        return responseEmp;
+      } else if (value.length <= 4) {
+        this.setState({
+          enterprises: [],
+        });
+        return false;
+      } else {
+        this.setState({
+          enterprises: [],
+        });
+
+        return false;
+      }
+    }, 2000);
+  };
+
   handleGetCategorys = () => {
     var headers = {
       "Content-Type": "application/json",
@@ -83,7 +143,7 @@ class MenuBusinessCategory extends Component {
         this.setState({
           category: category,
         });
-        console.log(category);
+        // console.log(category);
 
         return response;
       });
@@ -118,7 +178,10 @@ class MenuBusinessCategory extends Component {
                 name="search"
                 label="Buscar negocios"
                 id="filled-start-adornment"
+                autoComplete="off"
                 className="font-p"
+                variant="outlined"
+                onChange={(e) => this.handleGetBusinessByFilter(e)}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -126,8 +189,22 @@ class MenuBusinessCategory extends Component {
                     </InputAdornment>
                   ),
                 }}
-                variant="outlined"
               />
+              {this.state.identificadorName === "search" && (
+                <Paper className="autocomplete">
+                  {this.state.enterprises.map(({ id, tradeName }) => (
+                    <MenuItem
+                      className="animate__animated animate__slideInUp"
+                      onClick={(e) => {
+                        this.handleRedirect(id);
+                      }}
+                      key={id}
+                    >
+                      {tradeName}
+                    </MenuItem>
+                  ))}
+                </Paper>
+              )}
             </div>
           </div>
 
