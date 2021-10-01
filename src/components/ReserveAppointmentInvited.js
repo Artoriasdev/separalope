@@ -25,6 +25,7 @@ class ReserveAppointmentInvited extends Component {
     this.state = {
       serviceData: [],
       dateData: [],
+      hourData: [],
       modal: false,
       response: false,
       message: "",
@@ -533,6 +534,7 @@ class ReserveAppointmentInvited extends Component {
                             Elige la fecha disponible
                           </span>
                         </MenuItem>
+
                         {this.state.dateData &&
                           this.state.dateData.map(({ keyDate, valueDate }) => (
                             <MenuItem key={keyDate} value={keyDate}>
@@ -565,12 +567,20 @@ class ReserveAppointmentInvited extends Component {
                       <MenuItem disabled value={""}>
                         <span className="empty--option">Elige el horario</span>
                       </MenuItem>
-                      {this.state.hourData &&
+                      {this.state.hourData.length === 0 ? (
+                        <MenuItem disabled value={" "}>
+                          <span className="empty--option">
+                            Horarios no disponibles
+                          </span>
+                        </MenuItem>
+                      ) : (
+                        this.state.hourData &&
                         this.state.hourData.map(({ keyTime, valueTime }) => (
                           <MenuItem key={keyTime} value={keyTime}>
                             {valueTime}
                           </MenuItem>
-                        ))}
+                        ))
+                      )}
                     </Select>
                   </div>
 

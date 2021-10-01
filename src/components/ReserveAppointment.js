@@ -20,6 +20,7 @@ class ReserveAppointment extends Component {
       customerData: [],
       serviceData: [],
       dateData: [],
+      hourData: [],
       date: "",
       modal: false,
       response: false,
@@ -535,12 +536,20 @@ class ReserveAppointment extends Component {
                       <MenuItem disabled value={""}>
                         <span className="empty--option">Elige el horario</span>
                       </MenuItem>
-                      {this.state.hourData &&
+                      {this.state.hourData.length === 0 ? (
+                        <MenuItem disabled value={" "}>
+                          <span className="empty--option">
+                            Horarios no disponibles
+                          </span>
+                        </MenuItem>
+                      ) : (
+                        this.state.hourData &&
                         this.state.hourData.map(({ keyTime, valueTime }) => (
                           <MenuItem key={keyTime} value={keyTime}>
                             {valueTime}
                           </MenuItem>
-                        ))}
+                        ))
+                      )}
                     </Select>
                   </div>
 
