@@ -108,85 +108,87 @@ class PasswordRecovery extends Component {
         </Modal>
         <div
           className="page-container"
-          style={{ width: "30%", margin: "11%  auto", padding: "0" }}
+          style={{ margin: "11%  auto", padding: "0" }}
         >
-          {this.props.match.params.value === "C" ? (
-            <h3 className="register__subtitle">Soy un cliente</h3>
-          ) : (
-            <h3 className="register__subtitle">Doy un servicio</h3>
-          )}
-          <h1>Olvidaste tu contraseña</h1>
-          <div style={{ textAlign: "center" }}>
-            <Formik
-              ref={(ref) => (this.form = ref)}
-              initialValues={{
-                correo: "",
-              }}
-              validate={{}}
-              onSubmit={(values, { setSubmitting }) => {
-                setSubmitting(false);
-                const RecoveryModel = {
-                  email: "",
-                  workflow: "",
-                };
+          <div className="login">
+            {this.props.match.params.value === "C" ? (
+              <h3 className="register__subtitle">Soy un cliente</h3>
+            ) : (
+              <h3 className="register__subtitle">Doy un servicio</h3>
+            )}
+            <h1>Olvidaste tu contraseña</h1>
+            <div style={{ textAlign: "center" }}>
+              <Formik
+                ref={(ref) => (this.form = ref)}
+                initialValues={{
+                  correo: "",
+                }}
+                validate={{}}
+                onSubmit={(values, { setSubmitting }) => {
+                  setSubmitting(false);
+                  const RecoveryModel = {
+                    email: "",
+                    workflow: "",
+                  };
 
-                RecoveryModel.email = values.correo;
-                RecoveryModel.workflow = this.props.match.params.value;
+                  RecoveryModel.email = values.correo;
+                  RecoveryModel.workflow = this.props.match.params.value;
 
-                (async () => {
-                  await this.handleRecovery(RecoveryModel);
-                })();
-              }}
-            >
-              {({
-                values,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-                errors,
-                touched,
-              }) => (
-                <form name="formLogin" onSubmit={handleSubmit}>
-                  <div className="files">
-                    <TextField
-                      type="email"
-                      name="correo"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Ingrese su correo electrónico"
-                      required
-                      value={values.correo}
-                      error={errors.correo && touched.correo}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      fullWidth
+                  (async () => {
+                    await this.handleRecovery(RecoveryModel);
+                  })();
+                }}
+              >
+                {({
+                  values,
+                  handleBlur,
+                  handleChange,
+                  handleSubmit,
+                  isSubmitting,
+                  errors,
+                  touched,
+                }) => (
+                  <form name="formLogin" onSubmit={handleSubmit}>
+                    <div className="files">
+                      <TextField
+                        type="email"
+                        name="correo"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Ingrese su correo electrónico"
+                        required
+                        value={values.correo}
+                        error={errors.correo && touched.correo}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        fullWidth
+                        style={{
+                          marginBottom: "10px",
+                        }}
+                        // inputProps={{
+                        //   maxLength: 9,
+                        // }}
+                      />
+                    </div>
+
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="contained"
+                      className="btn-primary"
                       style={{
-                        marginBottom: "10px",
+                        width: "80%",
+                        margin: "10px auto",
+                        textTransform: "capitalize",
                       }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                    />
-                  </div>
-
-                  <Button
-                    size="large"
-                    color="primary"
-                    variant="contained"
-                    className="btn-primary"
-                    style={{
-                      width: "80%",
-                      margin: "10px auto",
-                      textTransform: "capitalize",
-                    }}
-                    type="submit"
-                  >
-                    Enviar
-                  </Button>
-                </form>
-              )}
-            </Formik>
+                      type="submit"
+                    >
+                      Enviar
+                    </Button>
+                  </form>
+                )}
+              </Formik>
+            </div>
           </div>
         </div>
       </>

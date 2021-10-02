@@ -539,7 +539,7 @@ class ServiceDetail extends Component {
             </div>
           </div>
 
-          <div style={{ width: "50%", margin: "3% auto" }}>
+          <div className="service-detail-container">
             <div className="tittle">
               <h1>Detalles</h1>
               <Button

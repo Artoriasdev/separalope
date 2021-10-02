@@ -103,138 +103,136 @@ class PasswordRestore extends Component {
         </Modal>
         <div
           className="page-container"
-          style={{ width: "30%", margin: "11%  auto", padding: "0" }}
+          style={{ margin: "11%  auto", padding: "0" }}
         >
-          {this.props.match.params.value === "C" ? (
-            <h3 className="register__subtitle">Soy un cliente</h3>
-          ) : (
-            <h3 className="register__subtitle">Doy un servicio</h3>
-          )}
-          <h1>Restaurar contraseña</h1>
-          <div style={{ textAlign: "center" }}>
-            <Formik
-              ref={(ref) => (this.form = ref)}
-              initialValues={{
-                correo: "",
-                contraseña: "",
-                repetirContraseña: "",
-              }}
-              validate={{}}
-              onSubmit={(values, { setSubmitting }) => {
-                setSubmitting(false);
-                const RecoveryModel = {
-                  email: "",
-                  workflow: "",
-                  newPassword: "",
-                  confirmNewPassword: "",
-                };
+          <div className="login">
+            {this.props.match.params.value === "C" ? (
+              <h3 className="register__subtitle">Soy un cliente</h3>
+            ) : (
+              <h3 className="register__subtitle">Doy un servicio</h3>
+            )}
+            <h1>Restaurar contraseña</h1>
+            <div style={{ textAlign: "center" }}>
+              <Formik
+                ref={(ref) => (this.form = ref)}
+                initialValues={{
+                  correo: "",
+                  contraseña: "",
+                  repetirContraseña: "",
+                }}
+                validate={{}}
+                onSubmit={(values, { setSubmitting }) => {
+                  setSubmitting(false);
+                  const RecoveryModel = {
+                    email: "",
+                    workflow: "",
+                    newPassword: "",
+                    confirmNewPassword: "",
+                  };
 
-                RecoveryModel.email = values.correo;
-                RecoveryModel.newPassword = values.contraseña;
-                RecoveryModel.confirmNewPassword = values.repetirContraseña;
-                RecoveryModel.workflow = this.props.match.params.value;
+                  RecoveryModel.email = values.correo;
+                  RecoveryModel.newPassword = values.contraseña;
+                  RecoveryModel.confirmNewPassword = values.repetirContraseña;
+                  RecoveryModel.workflow = this.props.match.params.value;
 
-                (async () => {
-                  await this.handleRecovery(RecoveryModel);
-                })();
-              }}
-            >
-              {({
-                values,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-                errors,
-                touched,
-              }) => (
-                <form name="formLogin" onSubmit={handleSubmit}>
-                  <div className="files">
-                    <TextField
-                      type="email"
-                      name="correo"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Correo electronico"
-                      value={values.correo}
-                      required
-                      error={errors.correo && touched.correo}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
+                  (async () => {
+                    await this.handleRecovery(RecoveryModel);
+                  })();
+                }}
+              >
+                {({
+                  values,
+                  handleBlur,
+                  handleChange,
+                  handleSubmit,
+                  isSubmitting,
+                  errors,
+                  touched,
+                }) => (
+                  <form name="formLogin" onSubmit={handleSubmit}>
+                    <div className="files">
+                      <TextField
+                        type="email"
+                        name="correo"
+                        className="TxtField"
+                        variant="outlined"
+                        label="Correo electronico"
+                        value={values.correo}
+                        required
+                        error={errors.correo && touched.correo}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        fullWidth
+                        style={{
+                          marginTop: "10px",
+                          marginBottom: "10px",
+                        }}
+                        // inputProps={{
+                        //   maxLength: 9,
+                        // }}
+                      />
+                    </div>
+                    <div className="files">
+                      <div className="txt-left">
+                        <TextField
+                          name="contraseña"
+                          className="TxtField"
+                          variant="outlined"
+                          placeholder="Ingresa tu nueva contraseña"
+                          required
+                          fullWidth
+                          value={values.contraseña}
+                          error={errors.contraseña && touched.contraseña}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          type={this.state.viewPassword ? "text" : "password"}
+
+                          // inputProps={{
+                          //   maxLength: 9,
+                          // }}
+                        />
+                      </div>
+                      <div className="txt-right">
+                        <TextField
+                          name="repetirContraseña"
+                          className="TxtField"
+                          variant="outlined"
+                          placeholder="Repite tu nueva contraseña"
+                          value={values.repetirContraseña}
+                          required
+                          fullWidth
+                          error={
+                            errors.repetirContraseña &&
+                            touched.repetirContraseña
+                          }
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          type={this.state.viewPassword ? "text" : "password"}
+
+                          // inputProps={{
+                          //   maxLength: 9,
+                          // }}
+                        />
+                      </div>
+                    </div>
+
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="contained"
+                      className="btn-primary"
                       style={{
-                        marginTop: "10px",
-                        marginBottom: "10px",
-                        width: "49.4444444%",
+                        width: "80%",
+                        margin: "10px auto",
                       }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                    />
-                  </div>
-                  <div className="files">
-                    <TextField
-                      name="contraseña"
-                      className="TxtField"
-                      variant="outlined"
-                      placeholder="Ingresa tu nueva contraseña"
-                      required
-                      fullWidth
-                      value={values.contraseña}
-                      error={errors.contraseña && touched.contraseña}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type={this.state.viewPassword ? "text" : "password"}
-                      style={{
-                        marginTop: "10px",
-                        marginRight: "5px",
-                        marginBottom: "15px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                    />
-                    <TextField
-                      name="repetirContraseña"
-                      className="TxtField"
-                      variant="outlined"
-                      placeholder="Repite tu nueva contraseña"
-                      value={values.repetirContraseña}
-                      required
-                      fullWidth
-                      error={
-                        errors.repetirContraseña && touched.repetirContraseña
-                      }
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type={this.state.viewPassword ? "text" : "password"}
-                      style={{
-                        marginTop: "10px",
-
-                        marginLeft: "5px",
-                        marginBottom: "20px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                    />
-                  </div>
-
-                  <Button
-                    size="large"
-                    color="primary"
-                    variant="contained"
-                    className="btn-primary"
-                    style={{
-                      width: "80%",
-                      margin: "10px auto",
-                    }}
-                    type="submit"
-                  >
-                    Enviar
-                  </Button>
-                </form>
-              )}
-            </Formik>
+                      type="submit"
+                    >
+                      Enviar
+                    </Button>
+                  </form>
+                )}
+              </Formik>
+            </div>
           </div>
         </div>
       </>

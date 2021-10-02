@@ -628,8 +628,9 @@ button {
   // padding: 50px;
   padding: 25px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
+  max-width: 1000px;
   border-radius: 4px;
-  width: 70vh;
+  width: 50%;
   display: flex;
   flex-direction: column;
   // width: 70%;
@@ -638,7 +639,7 @@ button {
   /* This just a default width */
   @include mobile {
     padding: 30px;
-    width: auto;
+    width: 100%;
   }
 }
 
@@ -1515,4 +1516,11 @@ button {
 
 .animate__animated.animate__slideInUp {
   --animate-duration: 0.5s;
+}
+.service-detail-container {
+  width: 50%;
+  margin: 3% auto;
+  @include mobile {
+    width: 90%;
+  }
 }

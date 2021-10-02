@@ -178,10 +178,18 @@ export const Footer = () => {
       <Grid item>
         <p className="font-tittle title">Búscanos en</p>
         <span>
-          <IconButton aria-label="facebook" color="inherit">
+          <IconButton
+            aria-label="facebook"
+            color="inherit"
+            style={{ marginRight: "10px" }}
+          >
             <Facebook />
           </IconButton>
-          <IconButton aria-label="instagram" color="inherit">
+          <IconButton
+            aria-label="instagram"
+            color="inherit"
+            style={{ marginRight: "10px" }}
+          >
             <Instagram />
           </IconButton>
           <IconButton aria-label="twitter" color="inherit">
@@ -285,10 +293,18 @@ export const Footer = () => {
               <Grid item>
                 <p className="font-tittle title">Búscanos en</p>
                 <span>
-                  <IconButton aria-label="facebook" color="inherit">
+                  <IconButton
+                    aria-label="facebook"
+                    color="inherit"
+                    style={{ marginRight: "10px" }}
+                  >
                     <Facebook />
                   </IconButton>
-                  <IconButton aria-label="instagram" color="inherit">
+                  <IconButton
+                    aria-label="instagram"
+                    color="inherit"
+                    style={{ marginRight: "10px" }}
+                  >
                     <Instagram />
                   </IconButton>
                   <IconButton aria-label="twitter" color="inherit">

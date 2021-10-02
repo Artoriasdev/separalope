@@ -85,6 +85,7 @@ class Login extends Component {
               this.props.history.push(`/reserve/${localStorage.getItem("id")}`);
               localStorage.removeItem("reserve");
               localStorage.removeItem("id");
+              this.props.history.go();
             } else {
               setTimeout(() => {
                 this.setState({

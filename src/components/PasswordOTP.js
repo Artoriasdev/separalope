@@ -15,7 +15,7 @@ class PasswordOTP extends Component {
   }
 
   componentDidMount() {
-    if (sessionStorage.getItem("tk") !== null) {
+    if (sessionStorage.getItem("tk") === null) {
       try {
         const Formik = this.form;
         Formik.setFieldValue("correo", localStorage.getItem("correo"));
@@ -104,108 +104,108 @@ class PasswordOTP extends Component {
         </Modal>
         <div
           className="page-container"
-          style={{ width: "30%", margin: "11%  auto", padding: "0" }}
+          style={{ margin: "11%  auto", padding: "0" }}
         >
-          {this.props.match.params.value === "C" ? (
-            <h3 className="register__subtitle">Soy un cliente</h3>
-          ) : (
-            <h3 className="register__subtitle">Doy un servicio</h3>
-          )}
-          <h1>Olvidaste tu contraseña</h1>
-          <div style={{ textAlign: "center" }}>
-            <Formik
-              ref={(ref) => (this.form = ref)}
-              initialValues={{
-                correo: "",
-                otp: "",
-              }}
-              validate={{}}
-              onSubmit={(values, { setSubmitting }) => {
-                setSubmitting(false);
-                const RecoveryModel = {
-                  email: "",
-                  workflow: "",
+          <div className="login">
+            {this.props.match.params.value === "C" ? (
+              <h3 className="register__subtitle">Soy un cliente</h3>
+            ) : (
+              <h3 className="register__subtitle">Doy un servicio</h3>
+            )}
+            <h1>Olvidaste tu contraseña</h1>
+            <div style={{ textAlign: "center" }}>
+              <Formik
+                ref={(ref) => (this.form = ref)}
+                initialValues={{
+                  correo: "",
                   otp: "",
-                };
+                }}
+                validate={{}}
+                onSubmit={(values, { setSubmitting }) => {
+                  setSubmitting(false);
+                  const RecoveryModel = {
+                    email: "",
+                    workflow: "",
+                    otp: "",
+                  };
 
-                RecoveryModel.email = values.correo;
-                RecoveryModel.otp = values.otp;
-                RecoveryModel.workflow = this.props.match.params.value;
+                  RecoveryModel.email = values.correo;
+                  RecoveryModel.otp = values.otp;
+                  RecoveryModel.workflow = this.props.match.params.value;
 
-                (async () => {
-                  await this.handleRecovery(RecoveryModel);
-                })();
-              }}
-            >
-              {({
-                values,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-                errors,
-                touched,
-              }) => (
-                <form name="formLogin" onSubmit={handleSubmit}>
-                  <div className="files">
-                    <TextField
-                      type="email"
-                      name="correo"
-                      className="TxtField"
-                      variant="outlined"
-                      label="Ingrese su correo electrónico"
-                      value={values.correo}
-                      required
-                      error={errors.correo && touched.correo}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      fullWidth
+                  (async () => {
+                    await this.handleRecovery(RecoveryModel);
+                  })();
+                }}
+              >
+                {({
+                  values,
+                  handleBlur,
+                  handleChange,
+                  handleSubmit,
+                  isSubmitting,
+                  errors,
+                  touched,
+                }) => (
+                  <form name="formLogin" onSubmit={handleSubmit}>
+                    <div className="files">
+                      <div className="txt-left">
+                        <TextField
+                          type="email"
+                          name="correo"
+                          className="TxtField"
+                          variant="outlined"
+                          label="Ingrese su correo electrónico"
+                          value={values.correo}
+                          required
+                          error={errors.correo && touched.correo}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          fullWidth
+
+                          // inputProps={{
+                          //   maxLength: 9,
+                          // }}
+                        />
+                      </div>
+                      <div className="txt-right">
+                        <TextField
+                          name="otp"
+                          className="TxtField"
+                          variant="outlined"
+                          placeholder="Ingrese su código"
+                          value={values.otp}
+                          error={errors.otp && touched.otp}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          required
+                          fullWidth
+
+                          // inputProps={{
+                          //   maxLength: 9,
+                          // }}
+                        />
+                      </div>
+                    </div>
+                    <div className="files"></div>
+
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="contained"
+                      className="btn-primary"
                       style={{
-                        marginBottom: "10px",
-                        marginRight: "5px",
+                        width: "80%",
+                        margin: "10px auto",
                       }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                    />
-                    <TextField
-                      name="otp"
-                      className="TxtField"
-                      variant="outlined"
-                      placeholder="Ingrese su código"
-                      value={values.otp}
-                      error={errors.otp && touched.otp}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      required
-                      fullWidth
-                      style={{
-                        marginBottom: "10px",
-                        marginLeft: "5px",
-                      }}
-                      // inputProps={{
-                      //   maxLength: 9,
-                      // }}
-                    />
-                  </div>
-                  <div className="files"></div>
-
-                  <Button
-                    size="large"
-                    color="primary"
-                    variant="contained"
-                    className="btn-primary"
-                    style={{
-                      width: "80%",
-                      margin: "10px auto",
-                    }}
-                    type="submit"
-                  >
-                    Enviar
-                  </Button>
-                </form>
-              )}
-            </Formik>
+                      type="submit"
+                    >
+                      Enviar
+                    </Button>
+                  </form>
+                )}
+              </Formik>
+            </div>
           </div>
         </div>
       </>

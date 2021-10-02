@@ -549,101 +549,88 @@ export class FormService extends Component {
                   </Select>
                 </div>
                 <div className="files">
-                  <TextField
-                    name="servicio"
-                    className="TxtField"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    placeholder="Servicio"
-                    value={values.servicio}
-                    error={errors.servicio && touched.servicio}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginRight: "5px",
-                      marginBottom: "5px",
-                      marginTop: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-                  <Select
-                    value={values.hora}
-                    error={errors.hora && touched.hora}
-                    name="hora"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    required
-                    variant="outlined"
-                    fullWidth
-                    style={{
-                      marginLeft: "5px",
-                      marginBottom: "5px",
-                      marginTop: "5px",
-                    }}
-                    displayEmpty
-                  >
-                    <MenuItem disabled value={""}>
-                      Duración
-                    </MenuItem>
-                    {this.state.horas &&
-                      this.state.horas.map(({ id, value }) => (
-                        <MenuItem key={id} value={id}>
-                          {value}
-                        </MenuItem>
-                      ))}
-                  </Select>
+                  <div className="txt-left">
+                    <TextField
+                      name="servicio"
+                      className="TxtField"
+                      variant="outlined"
+                      fullWidth
+                      required
+                      placeholder="Servicio"
+                      value={values.servicio}
+                      error={errors.servicio && touched.servicio}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
+                  <div className="txt-right">
+                    <Select
+                      value={values.hora}
+                      error={errors.hora && touched.hora}
+                      name="hora"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required
+                      variant="outlined"
+                      fullWidth
+                      displayEmpty
+                    >
+                      <MenuItem disabled value={""}>
+                        Duración
+                      </MenuItem>
+                      {this.state.horas &&
+                        this.state.horas.map(({ id, value }) => (
+                          <MenuItem key={id} value={id}>
+                            {value}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </div>
                 </div>
                 <div className="files">
-                  <TextField
-                    name="descripcion"
-                    className="TxtField"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    placeholder="Descripción"
-                    value={values.descripcion}
-                    error={errors.descripcion && touched.descripcion}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginRight: "5px",
-                      marginBottom: "5px",
-                      marginTop: "5px",
-                    }}
-                    multiline
-                    minRows={4}
-                    maxRows={5}
-                    inputProps={{
-                      maxLength: 255,
-                    }}
-                    onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
-
-                  <TextField
-                    name="precio"
-                    className="TxtField"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    placeholder="Precio"
-                    value={values.precio}
-                    error={errors.precio && touched.precio}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    style={{
-                      marginLeft: "5px",
-                      marginBottom: "5px",
-                      marginTop: "5px",
-                    }}
-                    // inputProps={{
-                    //   maxLength: 9,
-                    // }}
-                    onInput={handleRegexDisable("[0-9.]")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                  />
+                  <div className="txt-left">
+                    <TextField
+                      name="descripcion"
+                      className="TxtField"
+                      variant="outlined"
+                      fullWidth
+                      required
+                      placeholder="Descripción"
+                      value={values.descripcion}
+                      error={errors.descripcion && touched.descripcion}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      multiline
+                      minRows={4}
+                      maxRows={5}
+                      inputProps={{
+                        maxLength: 255,
+                      }}
+                      onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
+                  <div className="txt-right">
+                    <TextField
+                      name="precio"
+                      className="TxtField"
+                      variant="outlined"
+                      fullWidth
+                      required
+                      placeholder="Precio"
+                      value={values.precio}
+                      error={errors.precio && touched.precio}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      // inputProps={{
+                      //   maxLength: 9,
+                      // }}
+                      onInput={handleRegexDisable("[0-9.]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                    />
+                  </div>
                 </div>
                 <TableContainer
                   style={{
