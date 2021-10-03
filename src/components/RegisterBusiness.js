@@ -383,9 +383,9 @@ class RegisterBusiness extends Component {
                               edge="end"
                             >
                               {this.state.show ? (
-                                <VisibilityOff />
-                              ) : (
                                 <Visibility />
+                              ) : (
+                                <VisibilityOff />
                               )}
                             </IconButton>
                           </InputAdornment>
@@ -430,9 +430,9 @@ class RegisterBusiness extends Component {
                               edge="end"
                             >
                               {this.state.show2 ? (
-                                <VisibilityOff />
-                              ) : (
                                 <Visibility />
+                              ) : (
+                                <VisibilityOff />
                               )}
                             </IconButton>
                           </InputAdornment>

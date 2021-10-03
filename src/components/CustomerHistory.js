@@ -132,7 +132,7 @@ class CustomerHistory extends Component {
         <div className="page-container" style={{ padding: "0" }}>
           <div className="appointment-container">
             <Event fontSize="large" style={{ margin: "0 5px 0 0" }} />
-            <h1>Mis citas confirmadas</h1>
+            <h1>Mi historial de citas</h1>
           </div>
           <TableContainer className="table">
             <Table sx={{ minWidth: 650 }}>

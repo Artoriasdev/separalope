@@ -67,6 +67,7 @@ class Complains extends Component {
         this.setState({
           typeDocs: data,
         });
+        console.log(data);
 
         return response;
       })
@@ -119,6 +120,23 @@ class Complains extends Component {
     const formField = e.target.name;
     const formik = this.form;
 
+    if (formField === "tipoCliente") {
+      formik.setFieldValue(formField, value, true);
+      formik.setFieldValue("tipoDocumento", "", false);
+      formik.setFieldValue("numDocumento", "", false);
+      if (value === "C") {
+        this.handleGetDocuments();
+      } else if (value === "B") {
+        this.setState({
+          typeDocs: [
+            { id: "08", descriptionLarge: "RUC", minLength: 11, maxLength: 11 },
+          ],
+        });
+      } else if (value === "U") {
+        this.handleGetDocuments();
+      }
+    }
+
     if (formField === "tipoDocumento") {
       formik.setFieldValue(formField, value, true);
       formik.setFieldValue("numDocumento", "", false);
@@ -150,6 +168,7 @@ class Complains extends Component {
       formik.setFieldValue("minLengthValue", minLengthInput, true);
       formik.setFieldValue("ingreso", valor, true);
       formik.setFieldValue(formField, value, true);
+      console.log(maxLengthInput, minLengthInput);
     }
   };
   handleComplaintChange = (e) => {
@@ -302,6 +321,11 @@ class Complains extends Component {
                   numDocumento.length < maxLengthValue
                 ) {
                   errors.numDocumento = `*El número de documento debe ser de ${maxLengthValue} dígitos`;
+                } else if (
+                  tipoDocumento === "08" &&
+                  numDocumento.length < maxLengthValue
+                ) {
+                  errors.numDocumento = `*El número de documento debe ser de ${maxLengthValue} dígitos`;
                 }
 
                 if (!celular) {
@@ -411,7 +435,7 @@ class Complains extends Component {
                           name="tipoCliente"
                           displayEmpty
                           required
-                          onChange={handleChange}
+                          onChange={this.handleDocumentChange}
                           onBlur={handleBlur}
                         >
                           <MenuItem disabled value={""}>

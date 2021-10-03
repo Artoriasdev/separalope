@@ -180,7 +180,7 @@ class Password extends Component {
                   {this.state.viewPassword ? (
                     <Button
                       variant="contained"
-                      startIcon={<VisibilityOff />}
+                      startIcon={<Visibility />}
                       color="primary"
                       className="btn-primary"
                       style={{ marginBottom: "10px" }}
@@ -191,7 +191,7 @@ class Password extends Component {
                   ) : (
                     <Button
                       variant="contained"
-                      startIcon={<Visibility />}
+                      startIcon={<VisibilityOff />}
                       color="primary"
                       className="btn-primary"
                       style={{ marginBottom: "10px" }}

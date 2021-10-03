@@ -28,6 +28,7 @@ class BusinessProfile extends Component {
       showModalSuccess: false,
       disclaimerModal: "",
       isLoading: false,
+      forceRedirect: false,
     };
   }
   handleEdit = () => {
@@ -107,6 +108,7 @@ class BusinessProfile extends Component {
               disclaimerModal:
                 "Sesión expirada, porfavor vuelva a iniciar sesión",
               isLoading: false,
+              forceRedirect: true,
             });
           } else {
             this.setState({
@@ -149,13 +151,29 @@ class BusinessProfile extends Component {
         return response;
       })
       .catch((error) => {
-        console.log(error);
-        this.setState({
-          showModalError: true,
-          disclaimerModal:
-            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
-          isLoading: false,
-        });
+        const { status } = error.response;
+        if (status === 401) {
+          sessionStorage.removeItem("tk");
+          sessionStorage.removeItem("logo");
+          sessionStorage.removeItem("logged");
+          sessionStorage.removeItem("workflow");
+          sessionStorage.removeItem("tradename");
+          sessionStorage.removeItem("info");
+          sessionStorage.removeItem("id");
+          this.setState({
+            showModalError: true,
+            disclaimerModal:
+              "Sesión expirada, porfavor vuelva a iniciar sesión",
+            isLoading: false,
+            forceRedirect: true,
+          });
+        } else {
+          this.setState({
+            showModalError: true,
+            disclaimerModal:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          });
+        }
       });
 
     return rspApi;
@@ -165,8 +183,10 @@ class BusinessProfile extends Component {
     this.setState({
       showModalError: false,
     });
-    this.props.history.push("/login/B");
-    this.props.history.go();
+    if (this.state.forceRedirect === true) {
+      this.props.history.push("/login/B");
+      this.props.history.go();
+    }
   };
 
   toggleModalSuccess = () => {

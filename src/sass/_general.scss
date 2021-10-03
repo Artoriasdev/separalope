@@ -1128,10 +1128,14 @@ button {
   min-height: 70vh;
   width: 100%;
   .content-container {
-    width: 30%;
+    width: 600px;
     margin: auto;
     @include mobile {
       width: 100%;
+      img {
+        width: 100%;
+        max-width: 350px;
+      }
     }
     button {
       width: 40%;
@@ -1198,6 +1202,7 @@ button {
     img {
       border-radius: 50%;
       max-width: 150px;
+      max-height: 150px;
     }
     .title {
       margin-top: 20px;

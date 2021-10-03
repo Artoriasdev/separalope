@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import Logo from "../assets/images/logo-separalo@3x.svg";
+// import Logo from "../assets/images/separalo-logo-for-email.svg";
 
 export const ReserveComplete = () => {
   const history = useHistory();
@@ -33,7 +33,11 @@ export const ReserveComplete = () => {
     <div className="page-container" style={{ padding: 0 }}>
       <div className="confirm-page">
         <div className="content-container" style={{ maxWidth: "600px" }}>
-          <img src={Logo} alt="sepáralo pe" style={{ maxWidth: "300px" }} />
+          <img
+            src="https://elasticbeanstalk-us-east-2-257249679707.s3.us-east-2.amazonaws.com/internal-api/branding/separalo-logo-for-email.png"
+            alt="¡logo separalo.pe!"
+            style={{ maxHeight: "1000000px" }}
+          />
           <h1>¡Gracias por reservar tu cita!</h1>
           <p
             style={{
@@ -74,14 +78,14 @@ export const ReserveComplete = () => {
               <TableBody>
                 <TableRow>
                   <TableCell className="font">
-                    Número de cuenta: 00033876487348723
+                    Número de cuenta: 200 300 3123 799
                   </TableCell>
                   <TableCell className="font">RUC: 20601855471</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className="font">
-                    Número de cuenta interbancario (CCI):
-                    00033876487348723789898
+                    Número de cuenta interbancario (CCI): 003 200 003 003 123
+                    799 30
                   </TableCell>
                 </TableRow>
               </TableBody>

@@ -218,6 +218,7 @@ class RegisterDataBank extends Component {
     }
     if (formField === "numeroCuenta") {
       const { tipoId } = formik.state.values;
+      const { bancoId } = formik.state.values;
       formik.setFieldValue(formField, value, true);
       let maxLengthInput;
 
@@ -230,7 +231,11 @@ class RegisterDataBank extends Component {
           disclaimerModal: "Porfavor elija primero el banco y/o tipo de cuenta",
         });
       } else {
-        maxLengthInput = id.length;
+        if (bancoId === 5) {
+          maxLengthInput = "";
+        } else {
+          maxLengthInput = id.length;
+        }
       }
 
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
@@ -291,7 +296,7 @@ class RegisterDataBank extends Component {
               numeroCuenta: "",
               numeroInterbancario: "",
               correoBancario: "",
-              maxLengthValue: 10,
+              maxLengthValue: "",
             }}
             validate={(values) => {
               const {

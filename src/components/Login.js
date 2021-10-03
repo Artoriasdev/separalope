@@ -318,9 +318,9 @@ class Login extends Component {
                                 edge="end"
                               >
                                 {this.state.show ? (
-                                  <VisibilityOff />
-                                ) : (
                                   <Visibility />
+                                ) : (
+                                  <VisibilityOff />
                                 )}
                               </IconButton>
                             </InputAdornment>

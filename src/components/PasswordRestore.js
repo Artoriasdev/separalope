@@ -1,4 +1,14 @@
-import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
+import {
+  Backdrop,
+  Button,
+  Fade,
+  IconButton,
+  InputAdornment,
+  Modal,
+  OutlinedInput,
+  TextField,
+} from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import axios from "axios";
 import { Formik } from "formik";
 import React, { Component } from "react";
@@ -10,6 +20,8 @@ class PasswordRestore extends Component {
       modal: false,
       response: false,
       message: "",
+      show: false,
+      show2: false,
     };
   }
 
@@ -68,6 +80,18 @@ class PasswordRestore extends Component {
     if (this.state.response === true) {
       this.props.history.push(`/login/${this.props.match.params.value}`);
       localStorage.removeItem("correo");
+    }
+  };
+
+  handleShowPassword = (id) => {
+    if (id === 1) {
+      this.setState({
+        show: !this.state.show,
+      });
+    } else if (id === 2) {
+      this.setState({
+        show2: !this.state.show2,
+      });
     }
   };
 
@@ -174,7 +198,7 @@ class PasswordRestore extends Component {
                     </div>
                     <div className="files">
                       <div className="txt-left">
-                        <TextField
+                        {/* <TextField
                           name="contraseña"
                           className="TxtField"
                           variant="outlined"
@@ -190,10 +214,38 @@ class PasswordRestore extends Component {
                           // inputProps={{
                           //   maxLength: 9,
                           // }}
+                        /> */}
+                        <OutlinedInput
+                          name="contraseña"
+                          fullWidth
+                          required
+                          autoComplete="off"
+                          type={this.state.show ? "text" : "password"}
+                          value={values.contraseña}
+                          error={errors.contraseña && touched.contraseña}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => this.handleShowPassword(1)}
+                                edge="end"
+                              >
+                                {this.state.show ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          style={{ marginBottom: "5px" }}
+                          placeholder="Contraseña"
                         />
                       </div>
                       <div className="txt-right">
-                        <TextField
+                        {/* <TextField
                           name="repetirContraseña"
                           className="TxtField"
                           variant="outlined"
@@ -212,6 +264,36 @@ class PasswordRestore extends Component {
                           // inputProps={{
                           //   maxLength: 9,
                           // }}
+                        /> */}
+                        <OutlinedInput
+                          name="repetirContraseña"
+                          fullWidth
+                          required
+                          autoComplete="off"
+                          type={this.state.show2 ? "text" : "password"}
+                          value={values.repetirContraseña}
+                          error={
+                            errors.repetirContraseña &&
+                            touched.repetirContraseña
+                          }
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => this.handleShowPassword(2)}
+                                edge="end"
+                              >
+                                {this.state.show2 ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          placeholder="Repite tu nueva contraseña"
                         />
                       </div>
                     </div>

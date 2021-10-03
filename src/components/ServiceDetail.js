@@ -441,6 +441,99 @@ class ServiceDetail extends Component {
     });
   };
 
+  handleHour = (e) => {
+    const value = e.target.value;
+    const formField = e.target.name;
+    const formik = this.form;
+
+    if (formField === "horarioAtencion.lunesHoraFinal") {
+      const { lunesHoraInicio } = formik.state.values.horarioAtencion;
+      if (value > lunesHoraInicio) {
+        this.setState({
+          err: {},
+          lunes: false,
+        });
+      }
+      formik.setFieldValue(formField, value, true);
+    }
+    if (formField === "horarioAtencion.martesHoraFinal") {
+      const { martesHoraInicio } = formik.state.values.horarioAtencion;
+      if (value > martesHoraInicio) {
+        this.setState({
+          err: {},
+          martes: false,
+        });
+      }
+      formik.setFieldValue(formField, value, true);
+    }
+    if (formField === "horarioAtencion.miercolesHoraFinal") {
+      const { miercolesHoraInicio } = formik.state.values.horarioAtencion;
+      if (value > miercolesHoraInicio) {
+        this.setState({
+          err: {},
+          miercoles: false,
+        });
+      }
+      formik.setFieldValue(formField, value, true);
+    }
+    if (formField === "horarioAtencion.juevesHoraFinal") {
+      const { juevesHoraInicio } = formik.state.values.horarioAtencion;
+      if (value > juevesHoraInicio) {
+        this.setState({
+          err: {},
+          jueves: false,
+        });
+      }
+      formik.setFieldValue(formField, value, true);
+    }
+    if (formField === "horarioAtencion.viernesHoraFinal") {
+      const { viernesHoraInicio } = formik.state.values.horarioAtencion;
+      if (value > viernesHoraInicio) {
+        this.setState({
+          err: {},
+          viernes: false,
+        });
+      }
+      formik.setFieldValue(formField, value, true);
+    }
+    if (formField === "horarioAtencion.sabadoHoraFinal") {
+      const { sabadoHoraInicio } = formik.state.values.horarioAtencion;
+      if (value > sabadoHoraInicio) {
+        this.setState({
+          err: {},
+          sabado: false,
+        });
+      }
+      formik.setFieldValue(formField, value, true);
+    }
+    if (formField === "horarioAtencion.domingoHoraFinal") {
+      const { domingoHoraInicio } = formik.state.values.horarioAtencion;
+      if (value > domingoHoraInicio) {
+        this.setState({
+          err: {},
+          domingo: false,
+        });
+      }
+      formik.setFieldValue(formField, value, true);
+    }
+  };
+
+  handlePrice = (e) => {
+    let val = e.target.value;
+    const formField = e.target.name;
+    const formik = this.form;
+    console.log(val);
+    if (val.startsWith(" ")) {
+      formik.setFieldValue(formField, "", true);
+    } else if (isNaN(val)) {
+      formik.setFieldValue(formField, "", true);
+    } else {
+      // is A Number
+      val = val >= 0 ? val : "";
+      formik.setFieldValue(formField, val, true);
+    }
+  };
+
   render() {
     return (
       <>
@@ -587,7 +680,21 @@ class ServiceDetail extends Component {
                   domingoHoraFinal: "",
                 },
               }}
-              validate={{}}
+              validate={(values) => {
+                const { horarioAtencion } = values;
+
+                let errors = {};
+
+                if (
+                  horarioAtencion.lunesHoraFinal.length <
+                  horarioAtencion.lunesHoraInicio.length
+                ) {
+                  errors.horarioAtencion =
+                    "Horario final no menor al horario inicial";
+                }
+
+                return errors;
+              }}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 const formModel = {
@@ -945,6 +1052,7 @@ class ServiceDetail extends Component {
                       <div className="txt-right">
                         <TextField
                           name="precio"
+                          type="text"
                           className="TxtField"
                           variant="outlined"
                           fullWidth
@@ -953,11 +1061,8 @@ class ServiceDetail extends Component {
                           value={values.precio}
                           error={errors.precio && touched.precio}
                           onBlur={handleBlur}
-                          onChange={handleChange}
-                          // inputProps={{
-                          //   maxLength: 9,
-                          // }}
-                          onInput={handleRegexDisable("[0-9.]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                          onChange={this.handlePrice}
+                          onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                         />
                       </div>
                     </div>
@@ -1031,7 +1136,7 @@ class ServiceDetail extends Component {
                                 value={values.horarioAtencion.lunesHoraFinal}
                                 error={this.state.lunes}
                                 name="horarioAtencion.lunesHoraFinal"
-                                onChange={handleChange}
+                                onChange={this.handleHour}
                                 onBlur={handleBlur}
                                 variant="outlined"
                                 fullWidth
@@ -1091,7 +1196,7 @@ class ServiceDetail extends Component {
                                 value={values.horarioAtencion.martesHoraFinal}
                                 error={this.state.martes}
                                 name="horarioAtencion.martesHoraFinal"
-                                onChange={handleChange}
+                                onChange={this.handleHour}
                                 onBlur={handleBlur}
                                 variant="outlined"
                                 fullWidth
@@ -1156,7 +1261,7 @@ class ServiceDetail extends Component {
                                 }
                                 error={this.state.miercoles}
                                 name="horarioAtencion.miercolesHoraFinal"
-                                onChange={handleChange}
+                                onChange={this.handleHour}
                                 onBlur={handleBlur}
                                 variant="outlined"
                                 fullWidth
@@ -1216,7 +1321,7 @@ class ServiceDetail extends Component {
                                 value={values.horarioAtencion.juevesHoraFinal}
                                 error={this.state.jueves}
                                 name="horarioAtencion.juevesHoraFinal"
-                                onChange={handleChange}
+                                onChange={this.handleHour}
                                 onBlur={handleBlur}
                                 variant="outlined"
                                 fullWidth
@@ -1276,7 +1381,7 @@ class ServiceDetail extends Component {
                                 value={values.horarioAtencion.viernesHoraFinal}
                                 error={this.state.viernes}
                                 name="horarioAtencion.viernesHoraFinal"
-                                onChange={handleChange}
+                                onChange={this.handleHour}
                                 onBlur={handleBlur}
                                 variant="outlined"
                                 fullWidth
@@ -1336,7 +1441,7 @@ class ServiceDetail extends Component {
                                 value={values.horarioAtencion.sabadoHoraFinal}
                                 error={this.state.sabado}
                                 name="horarioAtencion.sabadoHoraFinal"
-                                onChange={handleChange}
+                                onChange={this.handleHour}
                                 onBlur={handleBlur}
                                 variant="outlined"
                                 fullWidth
@@ -1396,7 +1501,7 @@ class ServiceDetail extends Component {
                                 value={values.horarioAtencion.domingoHoraFinal}
                                 error={this.state.domingo}
                                 name="horarioAtencion.domingoHoraFinal"
-                                onChange={handleChange}
+                                onChange={this.handleHour}
                                 onBlur={handleBlur}
                                 variant="outlined"
                                 fullWidth

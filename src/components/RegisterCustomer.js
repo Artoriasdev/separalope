@@ -14,6 +14,11 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
+  FormControlLabel,
+  Checkbox,
+  Dialog,
+  DialogContent,
+  DialogActions,
 } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { Button } from "@material-ui/core";
@@ -38,6 +43,9 @@ class RegisterCustomer extends Component {
       isLoading: false,
       show: false,
       show2: false,
+      checked: false,
+      termsModal: false,
+      terms: [],
     };
   }
 
@@ -55,6 +63,7 @@ class RegisterCustomer extends Component {
     } else {
       try {
         this.handleGetDocuments();
+        this.handleGetTerms();
       } catch (e) {
         console.log(e);
       }
@@ -222,6 +231,30 @@ class RegisterCustomer extends Component {
     }
   };
 
+  handleGetTerms = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTermsAndConditions`;
+
+    const rspApi = Axios.get(linkDocumentsApi, {
+      headers: headers,
+    }).then((response) => {
+      const { data } = response.data;
+      console.log(data);
+
+      this.setState({
+        terms: data,
+      });
+
+      return response;
+    });
+    return rspApi;
+  };
+
   toggleModalSuccess = () => {
     this.setState({
       showModalSucesss: false,
@@ -240,15 +273,45 @@ class RegisterCustomer extends Component {
     }
   };
 
-  handleShowPassword = () => {
-    this.setState({
-      show: !this.state.show,
-    });
+  handleShowPassword = (id) => {
+    if (id === 1) {
+      this.setState({
+        show: !this.state.show,
+      });
+    } else if (id === 2) {
+      this.setState({
+        show2: !this.state.show2,
+      });
+    }
   };
-  handleShowPassword2 = () => {
-    this.setState({
-      show2: !this.state.show2,
-    });
+
+  handleCheck = () => {
+    const Formik = this.form;
+    if (this.state.checked === true) {
+      this.setState({
+        checked: false,
+      });
+      Formik.setFieldValue("checkbox", false, true);
+    } else if (this.state.checked === false) {
+      this.setState({
+        termsModal: true,
+      });
+    }
+  };
+
+  handleTerms = (id) => {
+    const Formik = this.form;
+    if (id === 1) {
+      this.setState({
+        checked: true,
+        termsModal: false,
+      });
+      Formik.setFieldValue("checkbox", true, true);
+    } else if (id === 2) {
+      this.setState({
+        termsModal: false,
+      });
+    }
   };
 
   render() {
@@ -283,6 +346,46 @@ class RegisterCustomer extends Component {
           </Fade>
         </Modal>
 
+        <Dialog
+          open={this.state.termsModal}
+          onClose={() => this.handleTerms(2)}
+          scroll="paper"
+        >
+          {this.state.terms.map(({ id, value }) => (
+            <DialogContent key={id}>
+              <div dangerouslySetInnerHTML={{ __html: value }} />
+            </DialogContent>
+          ))}
+          <DialogActions style={{ justifyContent: "center" }}>
+            <Button
+              className="font-p btn-primary"
+              color="primary"
+              onClick={() => this.handleTerms(1)}
+              variant="contained"
+              style={{
+                margin: "5px 5px 3px 0",
+                width: "30%",
+                textTransform: "capitalize",
+              }}
+            >
+              Aceptar
+            </Button>
+            <Button
+              className="font-p btn-primary"
+              color="primary"
+              onClick={() => this.handleTerms(2)}
+              variant="contained"
+              style={{
+                margin: "5px 0 3px 5px",
+                width: "30%",
+                textTransform: "capitalize",
+              }}
+            >
+              Rechazar
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <div className="page-container">
           <div className="login">
             <h3 className="register__subtitle">Soy un cliente</h3>
@@ -301,6 +404,7 @@ class RegisterCustomer extends Component {
                 maxLengthValue: 8,
                 minLengthValue: 1,
                 ingreso: "[0-9]",
+                checkbox: false,
               }}
               validate={(values) => {
                 const {
@@ -310,6 +414,7 @@ class RegisterCustomer extends Component {
                   maxLengthValue,
                   documentos,
                   minLengthValue,
+                  checkbox,
                 } = values;
 
                 let errors = {};
@@ -369,6 +474,12 @@ class RegisterCustomer extends Component {
                   errors.celular =
                     "*El número de celular debe tener 9 dígitos.";
                 }
+
+                if (checkbox === false) {
+                  errors.checkbox =
+                    "*Desbes aceptar los términos y condiciones";
+                }
+
                 return errors;
               }}
               onSubmit={(values, { setSubmitting }) => {
@@ -597,13 +708,13 @@ class RegisterCustomer extends Component {
                           <InputAdornment position="end">
                             <IconButton
                               aria-label="toggle password visibility"
-                              onClick={this.handleShowPassword}
+                              onClick={() => this.handleShowPassword(1)}
                               edge="end"
                             >
                               {this.state.show ? (
-                                <VisibilityOff />
-                              ) : (
                                 <Visibility />
+                              ) : (
+                                <VisibilityOff />
                               )}
                             </IconButton>
                           </InputAdornment>
@@ -635,7 +746,7 @@ class RegisterCustomer extends Component {
                         fullWidth
                         required
                         autoComplete="off"
-                        type={this.state.show ? "text" : "password"}
+                        type={this.state.show2 ? "text" : "password"}
                         value={values.repContraseña}
                         error={errors.repContraseña && touched.repContraseña}
                         onChange={handleChange}
@@ -644,21 +755,37 @@ class RegisterCustomer extends Component {
                           <InputAdornment position="end">
                             <IconButton
                               aria-label="toggle password visibility"
-                              onClick={this.handleShowPassword2}
+                              onClick={() => this.handleShowPassword(2)}
                               edge="end"
                             >
                               {this.state.show2 ? (
-                                <VisibilityOff />
-                              ) : (
                                 <Visibility />
+                              ) : (
+                                <VisibilityOff />
                               )}
                             </IconButton>
                           </InputAdornment>
                         }
-                        placeholder="Contraseña"
+                        placeholder="Repetir contraseña"
                       />
                     </div>
                   </div>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="checkbox"
+                        checked={this.state.checked}
+                        onChange={this.handleCheck}
+                        color="primary"
+                      />
+                    }
+                    label="Términos y condiciones"
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="checkbox"
+                    component="div"
+                  />
 
                   <Button
                     size="large"

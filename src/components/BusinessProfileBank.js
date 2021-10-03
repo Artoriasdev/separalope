@@ -37,6 +37,7 @@ class BusinessProfileBank extends Component {
       showModalSuccess: false,
       disclaimerModal: "",
       isLoading: false,
+      forceRedirect: false,
     };
   }
 
@@ -96,6 +97,7 @@ class BusinessProfileBank extends Component {
               disclaimerModal:
                 "Sesión expirada, porfavor vuelva a iniciar sesión",
               isLoading: false,
+              forceRedirect: true,
             });
           } else {
             this.setState({
@@ -179,6 +181,7 @@ class BusinessProfileBank extends Component {
               disclaimerModal:
                 "Sesión expirada, porfavor vuelva a iniciar sesión",
               isLoading: false,
+              forceRedirect: true,
             });
           } else {
             this.setState({
@@ -282,17 +285,32 @@ class BusinessProfileBank extends Component {
     }
     if (formField === "numeroCuenta") {
       const { tipoId } = formik.state.values;
+      const { bancoId } = formik.state.values;
       formik.setFieldValue(formField, value, true);
+      let maxLengthInput;
 
       const id = this.state.typeAccount.find(
         (arreglo) => arreglo.id === tipoId
       );
 
-      let maxLengthInput = id.length;
+      if (id === undefined) {
+        this.setState({
+          showModalError: true,
+          disclaimerModal: "Porfavor elija primero el banco y/o tipo de cuenta",
+        });
+      } else {
+        if (bancoId === 5) {
+          maxLengthInput = "";
+        } else {
+          maxLengthInput = id.length;
+        }
+      }
+
       console.log(maxLengthInput);
 
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
       formik.setFieldValue(formField, value.toUpperCase(), true);
+      console.log(bancoId);
     }
   };
 
@@ -330,13 +348,29 @@ class BusinessProfileBank extends Component {
         return response;
       })
       .catch((error) => {
-        console.log(error);
-        this.setState({
-          showModalError: true,
-          disclaimerModal:
-            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
-          isLoading: false,
-        });
+        const { status } = error.response;
+        if (status === 401) {
+          sessionStorage.removeItem("tk");
+          sessionStorage.removeItem("logo");
+          sessionStorage.removeItem("logged");
+          sessionStorage.removeItem("workflow");
+          sessionStorage.removeItem("tradename");
+          sessionStorage.removeItem("info");
+          sessionStorage.removeItem("id");
+          this.setState({
+            showModalError: true,
+            disclaimerModal:
+              "Sesión expirada, porfavor vuelva a iniciar sesión",
+            isLoading: false,
+            forceRedirect: true,
+          });
+        } else {
+          this.setState({
+            showModalError: true,
+            disclaimerModal:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          });
+        }
       });
 
     return rspApi;
@@ -376,8 +410,10 @@ class BusinessProfileBank extends Component {
     this.setState({
       showModalError: false,
     });
-    this.props.history.push("/login/B");
-    this.props.history.go();
+    if (this.state.forceRedirect === true) {
+      this.props.history.push("/login/B");
+      this.props.history.go();
+    }
   };
 
   toggleModalSuccess = () => {
@@ -598,7 +634,7 @@ class BusinessProfileBank extends Component {
               correoBancario: "",
               bancoId: "",
               tipoId: "",
-              maxLengthValue: 10,
+              maxLengthValue: "",
             }}
             validate={(values) => {
               const {

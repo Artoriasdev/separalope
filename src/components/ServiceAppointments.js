@@ -151,13 +151,13 @@ class ServiceAppointment extends Component {
               style={{ color: "black" }}
             >
               <LinkTab
-                label="Citas pendientes"
+                label="Citas confirmadas"
                 href="/appointments"
                 className="font-p"
                 style={{ textTransform: "none", fontWeight: "bold" }}
               />
               <LinkTab
-                label="Citas pasadas"
+                label="Historial de citas"
                 href="past"
                 className="font-p"
                 style={{ textTransform: "none", fontWeight: "bold" }}

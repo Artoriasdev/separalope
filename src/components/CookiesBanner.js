@@ -91,7 +91,7 @@ export const CookiesBanner = () => {
           {console.log(cookie)}
           <CookieConsent
             location="bottom"
-            buttonText="Aceptar"
+            buttonText="Si, acepto todas"
             enableDeclineButton
             declineButtonText="Solo las funcionales"
             flipButtons
