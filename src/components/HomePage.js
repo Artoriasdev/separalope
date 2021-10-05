@@ -3,6 +3,7 @@ import Carousel from "../components/Carousel";
 import CarouselItem from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
+import "animate.css";
 
 import axios from "axios";
 import {
@@ -10,7 +11,9 @@ import {
   Button,
   Fade,
   InputAdornment,
+  MenuItem,
   Modal,
+  Paper,
   TextField,
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
@@ -29,7 +32,7 @@ const responsive = {
     slidesToSlide: 3, // optional, default to 1.
   },
   mobile: {
-    breakpoint: { max: 1100, min: 0 },
+    breakpoint: { max: 1200, min: 0 },
     items: 1,
     slidesToSlide: 1, // optional, default to 1.
   },
@@ -61,9 +64,12 @@ class HomePage extends Component {
 
     this.state = {
       typeCategorys: [],
+      enterprises: [],
       isLoading: false,
       modal: false,
       message: "",
+      list: false,
+      identificadorName: "",
     };
   }
 
@@ -80,54 +86,6 @@ class HomePage extends Component {
       }
     }
   }
-
-  // handleChangeEnterprise = async (e) => {
-  //   const { value, name } = e.target;
-
-  //   this.setState({
-  //     identificadorName: name,
-  //   });
-
-  //   clearTimeout(this.searchInterval);
-  //   this.searchInterval = setTimeout(() => {
-  //     if (value.length > 3) {
-  //       var headers = {
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json",
-  //         Authorization: ``,
-  //       };
-
-  //       // let empresaApi = `${process.env.REACT_APP_PATH_SERVICE}/generico/empresa/${value}`;
-
-  //       const responseEmp = axios.get(empresaApi, {
-  //         headers: headers,
-  //       }).then((response) => {
-  //         const { data } = response.data;
-
-  //         this.setState({
-  //           enterprises: data,
-  //         });
-
-  //         return response;
-  //       });
-
-  //       return responseEmp;
-  //     } else if (value.length <= 4) {
-  //       this.setState({
-  //         enterprises: [],
-  //         ruc: "",
-  //         address: "",
-  //       });
-  //       return false;
-  //     } else {
-  //       this.setState({
-  //         enterprises: [],
-  //       });
-
-  //       return false;
-  //     }
-  //   }, 2000);
-  // };
 
   handleGetCategorys = () => {
     var headers = {
@@ -172,8 +130,61 @@ class HomePage extends Component {
     return rspApi;
   };
 
+  handleGetBusinessByFilter = async (e) => {
+    const { value, name } = e.target;
+    this.setState({
+      identificadorName: name,
+    });
+    console.log(this.state.identificadorName, this.state.enterprises);
+
+    setTimeout(() => {
+      if (value.length > 2) {
+        var headers = {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: ``,
+        };
+
+        let empresaApi = `${process.env.REACT_APP_PATH_SERVICE}/business/getBusinessByFilter/${value}`;
+
+        const responseEmp = axios
+          .get(empresaApi, {
+            headers: headers,
+          })
+          .then((response) => {
+            const { data } = response.data;
+            console.log(data);
+
+            this.setState({
+              enterprises: data,
+            });
+
+            return response;
+          })
+          .catch((error) => {
+            console.log(error);
+            this.setState({
+              modal: true,
+              message:
+                "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            });
+          });
+
+        return responseEmp;
+      } else if (value.length < 3) {
+        this.setState({
+          enterprises: [],
+        });
+      }
+    }, 1000);
+  };
+
   handleRedirect = (id) => {
     this.props.history.push(`/services-menu/${id}`);
+  };
+
+  handleRedirectBusiness = (id, category) => {
+    this.props.history.push(`/services-menu-category/${id}/${category}`);
   };
 
   handleClose = () => {
@@ -299,6 +310,56 @@ class HomePage extends Component {
                 )
               )}
           </CarouselItem>
+          <div
+            style={{
+              height: "130px",
+              paddingLeft: "50px",
+              paddingRight: "50px",
+            }}
+          >
+            <div className="home-text">
+              <h1>Nuestras negocios</h1>
+
+              <h3 className="register__subtitle">
+                Al alcance de todos y a tan solo un click
+              </h3>
+            </div>
+            <div className="home-search">
+              <TextField
+                name="search"
+                label="Buscar negocios"
+                id="filled-start-adornment"
+                autoComplete="off"
+                className="font-p"
+                variant="outlined"
+                onChange={(e) => this.handleGetBusinessByFilter(e)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              {this.state.identificadorName === "search" && (
+                <Paper className="autocomplete">
+                  {this.state.enterprises.map(
+                    ({ id, tradeName, idCategory }) => (
+                      <MenuItem
+                        // className="animate__animated animate__slideInUp"
+                        onClick={(e) => {
+                          this.handleRedirectBusiness(id, idCategory);
+                        }}
+                        key={id}
+                      >
+                        {tradeName}
+                      </MenuItem>
+                    )
+                  )}
+                </Paper>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     );

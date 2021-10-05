@@ -27,8 +27,6 @@ class MenuBusinessCategory extends Component {
     };
   }
 
-  searchInterval = 0;
-
   componentDidMount() {
     if (sessionStorage.getItem("workflow") === "B") {
       this.props.history.push("/business/category");
@@ -60,6 +58,7 @@ class MenuBusinessCategory extends Component {
       })
       .then((response) => {
         const { data } = response.data;
+        console.log(data);
 
         this.setState({
           typeBusiness: data,
@@ -78,9 +77,7 @@ class MenuBusinessCategory extends Component {
       identificadorName: name,
     });
     console.log(this.state.identificadorName, this.state.enterprises);
-
-    clearTimeout(this.searchInterval);
-    this.searchInterval = setTimeout(() => {
+    setTimeout(() => {
       if (value.length > 2) {
         var headers = {
           "Content-Type": "application/json",
