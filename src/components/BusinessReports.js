@@ -1,8 +1,16 @@
-import { Breadcrumbs, Link, MenuItem, Select } from "@material-ui/core";
+import {
+  Backdrop,
+  Breadcrumbs,
+  Button,
+  Fade,
+  Link,
+  MenuItem,
+  Modal,
+  Select,
+} from "@material-ui/core";
 import axios from "axios";
 import React, { Component } from "react";
 import VerticalBar from "./VerticalBar";
-import ModalError from "./ModalError";
 import { NavigateNext } from "@material-ui/icons";
 
 class BusinessReports extends Component {
@@ -11,8 +19,9 @@ class BusinessReports extends Component {
     this.state = {
       fecha: 1,
       ventas: 1,
-      disclaimerModal: "",
-      showModalError: false,
+      message: "",
+      modal: false,
+      forceRedirect: false,
     };
   }
 
@@ -35,9 +44,8 @@ class BusinessReports extends Component {
           if (response.data.response === "true") {
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Usted no esta autorizado para ver esta información",
+              modal: true,
+              message: "Usted no esta autorizado para ver esta información",
             });
           }
 
@@ -54,14 +62,14 @@ class BusinessReports extends Component {
             sessionStorage.removeItem("info");
             sessionStorage.removeItem("id");
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Sesión expirada, porfavor vuelva a iniciar sesión",
+              modal: true,
+              message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+              forceRedirect: true,
             });
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
+              modal: true,
+              message:
                 "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
             });
           }
@@ -86,26 +94,45 @@ class BusinessReports extends Component {
     }
   };
 
-  toggleModalError = () => {
+  handleClose = () => {
     this.setState({
-      showModalError: false,
+      modal: false,
     });
-    this.props.history.push("/login/B");
-    this.props.history.go();
+    if (this.props.history.forceRedirect === true) {
+      this.props.history.push("/login/B");
+      this.props.history.go();
+    }
   };
   render() {
     return (
       <>
-        <ModalError
-          show={this.state.showModalError}
-          closeCallback={this.toggleModalError}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
         >
-          <React.Fragment>
-            <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalError>
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
         <div className="page-container" style={{ padding: 0 }}>
           <Breadcrumbs
             separator={<NavigateNext fontSize="medium" />}

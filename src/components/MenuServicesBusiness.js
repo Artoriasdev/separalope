@@ -53,9 +53,6 @@ class MenuServicesBusiness extends Component {
           business: data[0].tradenameBusiness,
           image: data[0].logoBusiness,
         });
-        console.log(this.state.business);
-        console.log(this.state.image);
-        console.log(data);
 
         return response;
       })
@@ -64,7 +61,7 @@ class MenuServicesBusiness extends Component {
         this.setState({
           modal: true,
           message:
-            "Es posible que su negocio buscado no se encuentre dentro de esta categoría",
+            "Es posible que este negocio no tenga servicios dentro de esta categoría",
         });
       });
 

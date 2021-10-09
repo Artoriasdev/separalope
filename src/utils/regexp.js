@@ -1,5 +1,4 @@
-export const EMAIL_REGEXP =
-  /^(([a-zA-Z0-9]+((\.|_|-)[a-zA-Z0-9]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+export const EMAIL_REGEXP = /[^@]+@[^@]+\.[^@]+/;
 export const NUMBER_REGEXP = /[0-9]/;
 export const NUMBER_START_REGEXP = /^[9]/;
 

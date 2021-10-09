@@ -69,6 +69,11 @@ class PasswordRestore extends Component {
       })
       .catch(({ response }) => {
         console.log(response.data.message);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
     return rspApi;
   };

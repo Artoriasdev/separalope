@@ -37,6 +37,9 @@ class Complains extends Component {
       modal: false,
       message: "",
       response: false,
+      customer: [],
+      business: [],
+      noCustomer: [],
     };
   }
 
@@ -64,8 +67,18 @@ class Complains extends Component {
       .then((response) => {
         const { data } = response.data;
 
+        const custome = data.filter(
+          (element) => element.descriptionLarge !== "RUC"
+        );
+        const busines = data.filter(
+          (element) => element.descriptionLarge === "RUC"
+        );
+
         this.setState({
-          typeDocs: data,
+          typeDocs: custome,
+          customer: custome,
+          business: busines,
+          noCustomer: custome,
         });
         console.log(data);
 
@@ -125,15 +138,17 @@ class Complains extends Component {
       formik.setFieldValue("tipoDocumento", "", false);
       formik.setFieldValue("numDocumento", "", false);
       if (value === "C") {
-        this.handleGetDocuments();
+        this.setState({
+          typeDocs: this.state.customer,
+        });
       } else if (value === "B") {
         this.setState({
-          typeDocs: [
-            { id: "08", descriptionLarge: "RUC", minLength: 11, maxLength: 11 },
-          ],
+          typeDocs: this.state.business,
         });
       } else if (value === "U") {
-        this.handleGetDocuments();
+        this.setState({
+          typeDocs: this.state.noCustomer,
+        });
       }
     }
 
@@ -285,6 +300,7 @@ class Complains extends Component {
                 maxLengthValue: 8,
                 minLengthValue: 1,
                 ingreso: "",
+                codigoReserva: "",
               }}
               validate={(values) => {
                 const {
@@ -306,26 +322,8 @@ class Complains extends Component {
                 }
                 if (!numDocumento) {
                   errors.numDocumento = "";
-                } else if (
-                  tipoDocumento === "04" &&
-                  numDocumento.length < minLengthValue
-                ) {
+                } else if (numDocumento.length < minLengthValue) {
                   errors.numDocumento = `*El número de documento debe tener un minimo de ${minLengthValue} dígitos`;
-                } else if (
-                  tipoDocumento === "07" &&
-                  numDocumento.length < minLengthValue
-                ) {
-                  errors.numDocumento = `*El número de documento debe tener un minimo de ${minLengthValue} dígitos`;
-                } else if (
-                  tipoDocumento === "01" &&
-                  numDocumento.length < maxLengthValue
-                ) {
-                  errors.numDocumento = `*El número de documento debe ser de ${maxLengthValue} dígitos`;
-                } else if (
-                  tipoDocumento === "08" &&
-                  numDocumento.length < maxLengthValue
-                ) {
-                  errors.numDocumento = `*El número de documento debe ser de ${maxLengthValue} dígitos`;
                 }
 
                 if (!celular) {
@@ -377,6 +375,7 @@ class Complains extends Component {
                   requestType: "",
                   requestCategory: "",
                   requestDetail: "",
+                  codeReservation: "",
                 };
 
                 complainModel.clientType = values.tipoCliente;
@@ -470,14 +469,20 @@ class Complains extends Component {
                               Tipo de documento
                             </span>
                           </MenuItem>
-                          {this.state.typeDocs &&
+                          {values.tipoCliente === "" ? (
+                            this.state.typeDocs &&
                             this.state.typeDocs.map(
                               ({ id, descriptionLarge }) => (
                                 <MenuItem key={id} value={id}>
                                   {descriptionLarge}
                                 </MenuItem>
                               )
-                            )}
+                            )
+                          ) : (
+                            <MenuItem disabled value={""}>
+                              <span className="empty--option">Seleccione</span>
+                            </MenuItem>
+                          )}
                         </Select>
                       </div>
                       <div
@@ -669,6 +674,26 @@ class Complains extends Component {
                         </MuiThemeProvider>
                       </div>
                       <div className="files">
+                        <TextField
+                          name="codigoReserva"
+                          className="TxtField"
+                          variant="outlined"
+                          placeholder="Código de la reserva (Opcional)"
+                          value={values.codigoReserva}
+                          error={errors.codigoReserva && touched.codigoReserva}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          autoComplete="off"
+                          fullWidth
+                          style={{
+                            marginTop: "10px",
+                            marginBottom: "10px",
+                          }}
+                          inputProps={{}}
+                          onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                        />
+                      </div>
+                      <div className="files">
                         <Select
                           style={{
                             backgroundColor: "white",
@@ -725,6 +750,7 @@ class Complains extends Component {
                             )}
                         </Select>
                       </div>
+
                       <div className="files">
                         <TextField
                           name="descripcion"
@@ -762,7 +788,6 @@ class Complains extends Component {
                     style={{
                       margin: "10px auto",
                       textTransform: "capitalize",
-                      width: "40%",
                       display: "flex",
                     }}
                     type="submit"

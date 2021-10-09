@@ -725,13 +725,12 @@ export class FormService extends Component {
                 </div>
                 <TableContainer
                   style={{
-                    width: "99.9%",
                     borderRadius: "10px 10px",
                     margin: "10px 0",
                   }}
                   className="modal-table"
                 >
-                  <Table sx={{ minWidth: 650 }}>
+                  <Table>
                     <TableHead
                       style={{
                         background: "#f3f3f3",
@@ -741,13 +740,13 @@ export class FormService extends Component {
                         <TableCell className="font-tittle">Día</TableCell>
                         <TableCell
                           className="font-tittle"
-                          style={{ textAlign: "center" }}
+                          style={{ textAlign: "center", minWidth: "50px" }}
                         >
                           Inicio
                         </TableCell>
                         <TableCell
                           className="font-tittle"
-                          style={{ textAlign: "center" }}
+                          style={{ textAlign: "center", minWidth: "50px" }}
                         >
                           Fin
                         </TableCell>

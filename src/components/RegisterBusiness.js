@@ -12,6 +12,11 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  FormControlLabel,
+  Checkbox,
 } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import { EMAIL_REGEXP } from "../utils/regexp";
@@ -36,6 +41,9 @@ class RegisterBusiness extends Component {
       isLoading: false,
       show: false,
       show2: false,
+      checked: false,
+      termsModal: false,
+      terms: [],
     };
   }
 
@@ -50,6 +58,8 @@ class RegisterBusiness extends Component {
       sessionStorage.getItem("workflow") === "C"
     ) {
       this.props.history.push("/");
+    } else {
+      this.handleGetTerms();
     }
   }
 
@@ -63,21 +73,30 @@ class RegisterBusiness extends Component {
 
     const rspApi = Axios.post(linkRegisterApi, BusinessModel, {
       headers: headers,
-    }).then((response) => {
-      const { data } = response;
-      this.setState({
-        isLoading: true,
-      });
+    })
+      .then((response) => {
+        const { data } = response;
+        this.setState({
+          isLoading: true,
+        });
 
-      if (data.response === "false") {
+        if (data.response === "false") {
+          this.setState({
+            showModalSucesss: true,
+            disclaimerModal: data.message,
+            isLoading: false,
+          });
+        }
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
         this.setState({
           showModalSucesss: true,
-          disclaimerModal: data.message,
-          isLoading: false,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
         });
-      }
-      return response;
-    });
+      });
 
     return rspApi;
   };
@@ -118,6 +137,40 @@ class RegisterBusiness extends Component {
     return rspApi;
   };
 
+  handleGetTerms = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTemplates/3`;
+
+    const rspApi = Axios.get(linkDocumentsApi, {
+      headers: headers,
+    })
+      .then((response) => {
+        const { data } = response.data;
+        console.log(data);
+
+        this.setState({
+          terms: data,
+        });
+
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          errorTerms: true,
+        });
+      });
+    return rspApi;
+  };
+
   toggleModalSuccess = () => {
     this.setState({
       showModalSucesss: false,
@@ -144,6 +197,35 @@ class RegisterBusiness extends Component {
     } else if (id === 2) {
       this.setState({
         show2: !this.state.show2,
+      });
+    }
+  };
+
+  handleCheck = () => {
+    const Formik = this.form;
+    if (this.state.checked === true) {
+      this.setState({
+        checked: false,
+      });
+      Formik.setFieldValue("checkbox", false, true);
+    } else if (this.state.checked === false) {
+      this.setState({
+        termsModal: true,
+      });
+    }
+  };
+
+  handleTerms = (id) => {
+    const Formik = this.form;
+    if (id === 1) {
+      this.setState({
+        checked: true,
+        termsModal: false,
+      });
+      Formik.setFieldValue("checkbox", true, true);
+    } else if (id === 2) {
+      this.setState({
+        termsModal: false,
       });
     }
   };
@@ -179,6 +261,45 @@ class RegisterBusiness extends Component {
             </div>
           </Fade>
         </Modal>
+        <Dialog
+          open={this.state.termsModal}
+          onClose={() => this.handleTerms(2)}
+          scroll="paper"
+        >
+          {this.state.terms.map(({ id, value }) => (
+            <DialogContent key={id}>
+              <div dangerouslySetInnerHTML={{ __html: value }} />
+            </DialogContent>
+          ))}
+          <DialogActions style={{ justifyContent: "center" }}>
+            <Button
+              className="font-p btn-primary"
+              color="primary"
+              onClick={() => this.handleTerms(1)}
+              variant="contained"
+              style={{
+                margin: "5px 5px 3px 0",
+                width: "30%",
+                textTransform: "capitalize",
+              }}
+            >
+              Aceptar
+            </Button>
+            <Button
+              className="font-p btn-primary"
+              color="primary"
+              onClick={() => this.handleTerms(2)}
+              variant="contained"
+              style={{
+                margin: "5px 0 3px 5px",
+                width: "30%",
+                textTransform: "capitalize",
+              }}
+            >
+              Rechazar
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <div className="page-container">
           <div className="login">
@@ -193,9 +314,10 @@ class RegisterBusiness extends Component {
                 correo: "",
                 contraseña: "",
                 repContraseña: "",
+                checkbox: false,
               }}
               validate={(values) => {
-                const { nroDocumento, correo } = values;
+                const { nroDocumento, correo, checkbox } = values;
 
                 let errors = {};
 
@@ -209,6 +331,11 @@ class RegisterBusiness extends Component {
                 } else if (correo.length < E_MINLENGTH) {
                   errors.correo = EMAIL_MINLENGTH;
                 }
+
+                if (checkbox === false) {
+                  errors.checkbox = "Debes aceptar los términos y condiciones";
+                }
+
                 return errors;
               }}
               onSubmit={(values, { setSubmitting }) => {
@@ -231,8 +358,6 @@ class RegisterBusiness extends Component {
                 BusinessModel.confirmPassword = values.repContraseña;
                 BusinessModel.idCategory = values.categoria;
 
-                console.log(BusinessModel);
-
                 (async () => {
                   const responseSubmit = await this.handleInfoSubmit(
                     BusinessModel
@@ -243,7 +368,7 @@ class RegisterBusiness extends Component {
                   if (response === "true") {
                     this.setState({
                       showModalSucesss: true,
-                      disclaimerModal: "¡Registro grabado satisfactoriamente!",
+                      disclaimerModal: responseSubmit.data.message,
                       response: true,
                       isLoading: false,
                     });
@@ -441,6 +566,23 @@ class RegisterBusiness extends Component {
                       />
                     </div>
                   </div>
+
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="checkbox"
+                        checked={this.state.checked}
+                        onChange={this.handleCheck}
+                        color="primary"
+                      />
+                    }
+                    label="Términos y condiciones"
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="checkbox"
+                    component="div"
+                  />
 
                   <Button
                     size="large"

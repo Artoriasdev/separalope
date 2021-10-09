@@ -45,6 +45,7 @@ class RegisterCustomer extends Component {
       show2: false,
       checked: false,
       termsModal: false,
+      errorTerms: false,
       terms: [],
     };
   }
@@ -81,16 +82,30 @@ class RegisterCustomer extends Component {
 
     const rspApi = Axios.get(linkDocumentsApi, {
       headers: headers,
-    }).then((response) => {
-      const { data } = response.data;
-      console.log(data);
+    })
+      .then((response) => {
+        const { data } = response.data;
+        console.log(data);
+        const element = data.filter(
+          (element) => element.descriptionLarge !== "RUC"
+        );
 
-      this.setState({
-        typeDocs: data,
+        console.log(element);
+
+        this.setState({
+          typeDocs: element,
+        });
+
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          showModalSucesss: true,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
-
-      return response;
-    });
     return rspApi;
   };
 
@@ -144,21 +159,30 @@ class RegisterCustomer extends Component {
 
     const rspApi = Axios.post(linkRegisterApi, CustomerModel, {
       headers: headers,
-    }).then((response) => {
-      const { data } = response;
-      this.setState({
-        isLoading: true,
-      });
+    })
+      .then((response) => {
+        const { data } = response;
+        this.setState({
+          isLoading: true,
+        });
 
-      if (data.response === "false") {
+        if (data.response === "false") {
+          this.setState({
+            showModalSucesss: true,
+            disclaimerModal: data.message,
+            isLoading: false,
+          });
+        }
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
         this.setState({
           showModalSucesss: true,
-          disclaimerModal: data.message,
-          isLoading: false,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
         });
-      }
-      return response;
-    });
+      });
 
     return rspApi;
   };
@@ -238,20 +262,30 @@ class RegisterCustomer extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTermsAndConditions`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTemplates/2`;
 
     const rspApi = Axios.get(linkDocumentsApi, {
       headers: headers,
-    }).then((response) => {
-      const { data } = response.data;
-      console.log(data);
+    })
+      .then((response) => {
+        const { data } = response.data;
+        // console.log(data);
 
-      this.setState({
-        terms: data,
+        this.setState({
+          terms: data,
+        });
+
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          showModalSucesss: true,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          errorTerms: true,
+        });
       });
-
-      return response;
-    });
     return rspApi;
   };
 
@@ -270,6 +304,8 @@ class RegisterCustomer extends Component {
           this.props.history.go();
         }, 500);
       }
+    } else if (this.state.errorTerms === true) {
+      this.props.history.push("/");
     }
   };
 
@@ -312,6 +348,14 @@ class RegisterCustomer extends Component {
         termsModal: false,
       });
     }
+  };
+
+  handleMayus = (e) => {
+    const value = e.target.value;
+    const formField = e.target.name;
+    const formik = this.form;
+
+    formik.setFieldValue(formField, value.toUpperCase(), true);
   };
 
   render() {
@@ -504,18 +548,19 @@ class RegisterCustomer extends Component {
                 CustomerModel.password = values.contraseña;
                 CustomerModel.confirmPassword = values.repContraseña;
 
+                console.log(CustomerModel);
+
                 (async () => {
                   const responseSubmit = await this.handleInfoSubmit(
                     CustomerModel
                   );
-
                   const { response } = responseSubmit.data;
-
                   if (response === "true") {
+                    console.log(response);
                     this.setState({
                       isLoading: false,
                       showModalSucesss: true,
-                      disclaimerModal: "¡Registro grabado satisfactoriamente!",
+                      disclaimerModal: responseSubmit.data.message,
                       response: true,
                     });
                     this.handleLogin(
@@ -548,7 +593,7 @@ class RegisterCustomer extends Component {
                         value={values.nombre}
                         error={errors.nombre && touched.nombre}
                         onBlur={handleBlur}
-                        onChange={handleChange}
+                        onChange={this.handleMayus}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
                     </div>
@@ -564,7 +609,7 @@ class RegisterCustomer extends Component {
                         value={values.apellido}
                         error={errors.apellido && touched.apellido}
                         onBlur={handleBlur}
-                        onChange={handleChange}
+                        onChange={this.handleMayus}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
                     </div>

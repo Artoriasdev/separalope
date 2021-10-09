@@ -1,6 +1,10 @@
 import {
+  Backdrop,
   Breadcrumbs,
+  Button,
+  Fade,
   Link,
+  Modal,
   Table,
   TableBody,
   TableCell,
@@ -21,8 +25,10 @@ class BusinessServices extends Component {
     this.state = {
       dataList: [],
       triggerText: "Agregar servicio",
-      disclaimerModal: "",
-      showModalError: false,
+      message: "",
+      modal: false,
+      forceRedirect: false,
+      response: false,
     };
   }
 
@@ -45,9 +51,9 @@ class BusinessServices extends Component {
             this.handleGetList();
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Usted no esta autorizado para ver esta información",
+              modal: true,
+              message: "Usted no esta autorizado para ver esta información",
+              forceRedirect: true,
             });
           }
 
@@ -64,14 +70,14 @@ class BusinessServices extends Component {
             sessionStorage.removeItem("info");
             sessionStorage.removeItem("id");
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Sesión expirada, porfavor vuelva a iniciar sesión",
+              modal: true,
+              message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+              forceRedirect: true,
             });
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
+              modal: true,
+              message:
                 "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
             });
           }
@@ -90,13 +96,14 @@ class BusinessServices extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getServicesByBusiness/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/service/getServicesByBusiness/${id}`;
 
     const rspApi = Axios.get(linkDocumentsApi, {
       headers: headers,
     })
       .then((response) => {
         const { data } = response.data;
+        console.log(data);
 
         this.setState({
           dataList: data,
@@ -107,20 +114,22 @@ class BusinessServices extends Component {
       .catch((error) => {
         console.log(error);
         this.setState({
-          showModalError: true,
-          disclaimerModal:
+          modal: true,
+          message:
             "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
         });
       });
     return rspApi;
   };
 
-  toggleModalError = () => {
+  handleClose = () => {
     this.setState({
-      showModalError: false,
+      modal: false,
     });
-    this.props.history.push("/login/B");
-    this.props.history.go();
+    if (this.state.forceRedirect === true) {
+      this.props.history.push("/login/B");
+      this.props.history.go();
+    }
   };
 
   handleEdit = (id) => {
@@ -134,16 +143,33 @@ class BusinessServices extends Component {
   render() {
     return (
       <>
-        <ModalError
-          show={this.state.showModalError}
-          closeCallback={this.toggleModalError}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
         >
-          <React.Fragment>
-            <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalError>
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
 
         <div className="page-container" style={{ padding: "0" }}>
           <Breadcrumbs
@@ -176,6 +202,7 @@ class BusinessServices extends Component {
                 <TableRow>
                   <TableCell className="font-tittle">Servicio</TableCell>
                   <TableCell className="font-tittle">Descripción</TableCell>
+                  <TableCell className="font-tittle">Categoría</TableCell>
                   <TableCell className="font-tittle">Duración</TableCell>
                   <TableCell className="font-tittle" width="12%">
                     Precio
@@ -197,12 +224,14 @@ class BusinessServices extends Component {
                     duration,
                     currencySymbol,
                     price,
+                    category,
                   }) => (
                     <TableRow key={id}>
                       <TableCell className="font">{title}</TableCell>
-                      <TableCell className="font" width="30%">
+                      <TableCell className="font" width="25%">
                         {description}
                       </TableCell>
+                      <TableCell className="font">{category}</TableCell>
                       <TableCell className="font">{duration}</TableCell>
                       <TableCell className="font">
                         {currencySymbol + " " + price}

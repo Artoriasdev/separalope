@@ -1,6 +1,10 @@
 import {
+  Backdrop,
   Breadcrumbs,
+  Button,
+  Fade,
   Link,
+  Modal,
   Table,
   TableBody,
   TableCell,
@@ -13,7 +17,6 @@ import Axios from "axios";
 import React from "react";
 import { Component } from "react";
 import Container from "../Modal/Container/ContainerService";
-import ModalError from "./ModalError";
 
 class BusinessServicesCategory extends Component {
   constructor(props) {
@@ -21,9 +24,11 @@ class BusinessServicesCategory extends Component {
     this.state = {
       dataList: [],
       triggerText: "Agregar servicio",
-      disclaimerModal: "",
-      showModalError: false,
+      message: "",
+      modal: false,
       typeCategorys: [],
+      forceRedirect: false,
+      response: false,
     };
   }
 
@@ -47,9 +52,9 @@ class BusinessServicesCategory extends Component {
             this.handleGetCategorys();
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Usted no esta autorizado para ver esta información",
+              modal: true,
+              message: "Usted no esta autorizado para ver esta información",
+              forceRedirect: true,
             });
           }
 
@@ -66,14 +71,14 @@ class BusinessServicesCategory extends Component {
             sessionStorage.removeItem("info");
             sessionStorage.removeItem("id");
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Sesión expirada, porfavor vuelva a iniciar sesión",
+              modal: true,
+              message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+              forceRedirect: true,
             });
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
+              modal: true,
+              message:
                 "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
             });
           }
@@ -146,20 +151,22 @@ class BusinessServicesCategory extends Component {
       .catch((error) => {
         console.log(error);
         this.setState({
-          showModalError: true,
-          disclaimerModal:
+          modal: true,
+          message:
             "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
         });
       });
     return rspApi;
   };
 
-  toggleModalError = () => {
+  handleClose = () => {
     this.setState({
-      showModalError: false,
+      modal: false,
     });
-    this.props.history.push("/login/B");
-    this.props.history.go();
+    if (this.state.forceRedirect === true) {
+      this.props.history.push("/login/B");
+      this.props.history.go();
+    }
   };
 
   handleTemp = () => {
@@ -181,16 +188,33 @@ class BusinessServicesCategory extends Component {
   render() {
     return (
       <>
-        <ModalError
-          show={this.state.showModalError}
-          closeCallback={this.toggleModalError}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
         >
-          <React.Fragment>
-            <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalError>
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
 
         <div className="page-container" style={{ padding: "0" }}>
           <Breadcrumbs
@@ -234,6 +258,7 @@ class BusinessServicesCategory extends Component {
                 <TableRow>
                   <TableCell className="font-tittle">Servicio</TableCell>
                   <TableCell className="font-tittle">Descripcion</TableCell>
+                  <TableCell className="font-tittle">Categoría</TableCell>
                   <TableCell className="font-tittle">Duración</TableCell>
                   <TableCell className="font-tittle" width="12%">
                     Precio
@@ -258,8 +283,11 @@ class BusinessServicesCategory extends Component {
                   }) => (
                     <TableRow key={id}>
                       <TableCell className="font">{title}</TableCell>
-                      <TableCell className="font" width="30%">
+                      <TableCell className="font" width="25%">
                         {description}
+                      </TableCell>
+                      <TableCell className="font">
+                        {this.state.typeCategorys.name}
                       </TableCell>
                       <TableCell className="font">{duration}</TableCell>
                       <TableCell className="font">

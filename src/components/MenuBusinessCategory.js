@@ -5,9 +5,12 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 import {
+  Backdrop,
   Button,
+  Fade,
   InputAdornment,
   MenuItem,
+  Modal,
   Paper,
   TextField,
 } from "@material-ui/core";
@@ -24,6 +27,8 @@ class MenuBusinessCategory extends Component {
       category: [],
       identificadorName: "",
       enterprises: [],
+      modal: false,
+      message: "",
     };
   }
 
@@ -67,6 +72,14 @@ class MenuBusinessCategory extends Component {
         // console.log(data);
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
     return rspApi;
   };
@@ -100,6 +113,13 @@ class MenuBusinessCategory extends Component {
             });
 
             return response;
+          })
+          .catch((error) => {
+            this.setState({
+              modal: true,
+              message:
+                "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            });
           });
 
         return responseEmp;
@@ -143,6 +163,14 @@ class MenuBusinessCategory extends Component {
         // console.log(category);
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
     return rspApi;
   };
@@ -153,16 +181,49 @@ class MenuBusinessCategory extends Component {
     );
   };
 
+  handleClose = () => {
+    this.setState({
+      modal: false,
+    });
+  };
+
   render() {
     return (
       <>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
+        >
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
         <Banner
           image={this.state.category.image}
           name={this.state.category.name}
           description={this.state.category.description}
         />
         <div className="page-container" style={{ margin: "0 auto" }}>
-          <div style={{ height: "200px", margin: "auto" }}>
+          <div className="home-container">
             <div className="home-text">
               <h1>Nuestras negocios</h1>
 

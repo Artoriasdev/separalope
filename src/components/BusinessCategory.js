@@ -2,8 +2,15 @@ import React from "react";
 import { Component } from "react";
 import Axios from "axios";
 import Container from "../Modal/Container/Container";
-import { Breadcrumbs, Button, Link, TextField } from "@material-ui/core";
-import ModalError from "./ModalError";
+import {
+  Backdrop,
+  Breadcrumbs,
+  Button,
+  Fade,
+  Link,
+  Modal,
+  TextField,
+} from "@material-ui/core";
 import { NavigateNext } from "@material-ui/icons";
 
 class BusinessCategory extends Component {
@@ -13,8 +20,8 @@ class BusinessCategory extends Component {
     this.state = {
       typeCategorys: [],
       triggerText: "Agregar categoría",
-      disclaimerModal: "",
-      showModalError: false,
+      message: "",
+      modal: false,
     };
   }
 
@@ -43,9 +50,8 @@ class BusinessCategory extends Component {
             this.handleGetCategorys();
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Usted no esta autorizado para ver esta información",
+              modal: true,
+              message: "Usted no esta autorizado para ver esta información",
             });
           }
 
@@ -62,14 +68,13 @@ class BusinessCategory extends Component {
             sessionStorage.removeItem("info");
             sessionStorage.removeItem("id");
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Sesión expirada, porfavor vuelva a iniciar sesión",
+              modal: true,
+              message: "Sesión expirada, porfavor vuelva a iniciar sesión",
             });
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
+              modal: true,
+              message:
                 "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
             });
           }
@@ -115,9 +120,9 @@ class BusinessCategory extends Component {
     this.props.history.push(`/business/services-category/${id}`);
   };
 
-  toggleModalError = () => {
+  handleClose = () => {
     this.setState({
-      showModalError: false,
+      modal: false,
     });
     this.props.history.push("/login/B");
     this.props.history.go();
@@ -126,16 +131,33 @@ class BusinessCategory extends Component {
   render() {
     return (
       <div className="page-container" style={{ padding: "0" }}>
-        <ModalError
-          show={this.state.showModalError}
-          closeCallback={this.toggleModalError}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
         >
-          <React.Fragment>
-            <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalError>
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
         <div className="category">
           <Breadcrumbs
             separator={<NavigateNext fontSize="medium" />}

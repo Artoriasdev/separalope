@@ -1,13 +1,19 @@
 import React from "react";
 import { Component } from "react";
 import { ErrorMessage, Formik } from "formik";
-import { Button, MenuItem, Select, TextField } from "@material-ui/core";
+import {
+  Backdrop,
+  Button,
+  Fade,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+} from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import axios from "axios";
 import { Save } from "@material-ui/icons";
-import ModalError from "./ModalError";
-import ModalSucess from "./ModalSucess";
 import { EMAIL_REGEXP } from "../utils/regexp";
 import {
   EMAIL_INVALID,
@@ -22,8 +28,10 @@ class ClientProfile extends Component {
       typeData: [],
       typeDocument: [],
       edit: false,
-      showModalError: false,
-      disclaimerModal: "",
+      modal: false,
+      message: "",
+      forceRedirect: false,
+      response: false,
     };
   }
   handleEdit = () => {
@@ -57,11 +65,22 @@ class ClientProfile extends Component {
       .then((response) => {
         const { data } = response.data;
         console.log(data);
+        const element = data.filter(
+          (element) => element.descriptionLarge !== "RUC"
+        );
         this.setState({
-          typeDocument: data,
+          typeDocument: element,
         });
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
       });
     return rspApi;
   };
@@ -105,9 +124,8 @@ class ClientProfile extends Component {
             Formik.setFieldValue("correo", this.state.typeData[0].email);
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Usted no esta autorizado para ver esta información",
+              modal: true,
+              message: "Usted no esta autorizado para ver esta información",
             });
           }
           return response;
@@ -122,14 +140,14 @@ class ClientProfile extends Component {
             sessionStorage.removeItem("info");
             sessionStorage.removeItem("lastName");
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Sesión expirada, porfavor vuelva a iniciar sesión",
+              modal: true,
+              message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+              forceRedirect: true,
             });
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
+              modal: true,
+              message:
                 "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
             });
           }
@@ -157,8 +175,9 @@ class ClientProfile extends Component {
         console.log(response);
         if (response.data.response === "true") {
           this.setState({
-            showModalSuccess: true,
-            disclaimerModal: response.data.message,
+            modal: true,
+            message: response.data.message,
+            response: true,
           });
           sessionStorage.setItem("name", dataModel.name);
           sessionStorage.setItem("lastName", dataModel.lastName);
@@ -166,12 +185,26 @@ class ClientProfile extends Component {
         return response;
       })
       .catch((error) => {
-        console.log(error);
-        this.setState({
-          showModalError: true,
-          disclaimerModal:
-            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
-        });
+        const { status } = error.response;
+        if (status === 401) {
+          sessionStorage.removeItem("tk");
+          sessionStorage.removeItem("logged");
+          sessionStorage.removeItem("workflow");
+          sessionStorage.removeItem("name");
+          sessionStorage.removeItem("info");
+          sessionStorage.removeItem("lastName");
+          this.setState({
+            modal: true,
+            message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+            forceRedirect: true,
+          });
+        } else {
+          this.setState({
+            modal: true,
+            message:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          });
+        }
       });
 
     return rspApi;
@@ -188,36 +221,44 @@ class ClientProfile extends Component {
     }
     if (formField === "numeroDocumento") {
       const { tipoDocumento } = formik.state.values;
+      let maxLengthInput;
+      let minLengthInput;
       let valor = "[0-9]";
-      let maxLengthInput = 8;
-      if (tipoDocumento === "01") {
-        maxLengthInput = 8;
+      const id = this.state.typeDocument.find(
+        (arreglo) => arreglo.id === tipoDocumento
+      );
+      if (id === undefined) {
+        this.setState({
+          modal: true,
+          message: "Porfavor elija el Tipo de documento",
+        });
+      } else {
+        maxLengthInput = id.maxLength;
+        minLengthInput = id.minLength;
+      }
+
+      if (tipoDocumento === "04" || tipoDocumento === "07") {
+        valor = "";
+      } else {
         valor = "[0-9]";
       }
-      if (tipoDocumento === "04" || tipoDocumento === "07") {
-        maxLengthInput = 12;
-        valor = "";
-      }
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
+      formik.setFieldValue("minLengthValue", minLengthInput, true);
       formik.setFieldValue("ingreso", valor, true);
       formik.setFieldValue(formField, value, true);
     }
   };
 
-  toggleModalError = () => {
+  handleClose = () => {
     this.setState({
-      showModalError: false,
+      modal: false,
     });
-    this.props.history.push("/login/C");
-    this.props.history.go();
-  };
-
-  toggleModalSuccess = () => {
-    this.setState({
-      showModalSuccess: false,
-    });
-
-    this.props.history.go();
+    if (this.state.forceRedirect === true) {
+      this.props.history.push("/login/C");
+      this.props.history.go();
+    } else if (this.state.response === true) {
+      this.props.history.go();
+    }
   };
 
   //componentDidMount ,handlers
@@ -232,27 +273,33 @@ class ClientProfile extends Component {
   render() {
     return (
       <>
-        <ModalError
-          show={this.state.showModalError}
-          closeCallback={this.toggleModalError}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
         >
-          <React.Fragment>
-            <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalError>
-
-        <ModalSucess
-          show={this.state.showModalSuccess}
-          closeCallback={this.toggleModalSuccess}
-        >
-          <React.Fragment>
-            <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalSucess>
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
 
         <div className="page-container">
           <div className="login">
@@ -270,11 +317,17 @@ class ClientProfile extends Component {
                 celular: "",
                 correo: "",
                 maxLengthValue: 8,
+                minLengthValue: 1,
                 ingreso: "[0-9]",
               }}
               validate={(values) => {
-                const { numeroDocumento, celular, correo, maxLengthValue } =
-                  values;
+                const {
+                  numeroDocumento,
+                  celular,
+                  correo,
+                  maxLengthValue,
+                  minLengthValue,
+                } = values;
 
                 let errors = {};
 
@@ -285,7 +338,7 @@ class ClientProfile extends Component {
                 }
                 if (!numeroDocumento) {
                   errors.numeroDocumento = "";
-                } else if (numeroDocumento.length < maxLengthValue) {
+                } else if (numeroDocumento.length < minLengthValue) {
                   errors.numeroDocumento = `*El número de documento debe ser de ${maxLengthValue} dígitos`;
                 }
 
@@ -445,7 +498,7 @@ class ClientProfile extends Component {
                         disabled={!this.state.edit}
                         autoComplete="off"
                         inputProps={{
-                          min: "0",
+                          minLength: values.minLengthValue,
                           maxLength: values.maxLengthValue,
                         }}
                         required

@@ -1,20 +1,27 @@
 import React from "react";
 import { Component } from "react";
 import { ErrorMessage, Formik } from "formik";
-import { Breadcrumbs, Button, Link, TextField } from "@material-ui/core";
+import {
+  Backdrop,
+  Breadcrumbs,
+  Button,
+  Fade,
+  Link,
+  Modal,
+  TextField,
+} from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import axios from "axios";
 import { NavigateNext, PowerSettingsNew, Save } from "@material-ui/icons";
-import ModalError from "./ModalError";
-import ModalSucess from "./ModalSucess";
 import { EMAIL_REGEXP } from "../utils/regexp";
 import {
   EMAIL_INVALID,
   EMAIL_MINLENGTH,
   E_MINLENGTH,
 } from "../utils/constants";
-import FullPageLoader from "./FullPageLoader";
+import Blank from "../assets/images/blank-pfp.svg";
+// import FullPageLoader from "./FullPageLoader";
 
 class BusinessProfile extends Component {
   constructor(props) {
@@ -24,11 +31,11 @@ class BusinessProfile extends Component {
       logo: "",
       name: "",
       edit: false,
-      showModalError: false,
-      showModalSuccess: false,
-      disclaimerModal: "",
+      modal: false,
+      message: "",
       isLoading: false,
       forceRedirect: false,
+      response: false,
     };
   }
   handleEdit = () => {
@@ -86,9 +93,9 @@ class BusinessProfile extends Component {
             Formik.setFieldValue("correo", this.state.typeData[0].email);
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Usted no está autorizado para ver esta información",
+              modal: true,
+              message: "Usted no está autorizado para ver esta información",
+              forceRedirect: true,
             });
           }
           return response;
@@ -104,16 +111,15 @@ class BusinessProfile extends Component {
             sessionStorage.removeItem("info");
             sessionStorage.removeItem("id");
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Sesión expirada, porfavor vuelva a iniciar sesión",
+              modal: true,
+              message: "Sesión expirada, porfavor vuelva a iniciar sesión",
               isLoading: false,
               forceRedirect: true,
             });
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
+              modal: true,
+              message:
                 "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
             });
           }
@@ -143,9 +149,10 @@ class BusinessProfile extends Component {
         });
         if (response.data.response === "true") {
           this.setState({
-            showModalSuccess: true,
-            disclaimerModal: response.data.message,
+            modal: true,
+            message: response.data.message,
             isLoading: false,
+            response: true,
           });
         }
         return response;
@@ -161,16 +168,15 @@ class BusinessProfile extends Component {
           sessionStorage.removeItem("info");
           sessionStorage.removeItem("id");
           this.setState({
-            showModalError: true,
-            disclaimerModal:
-              "Sesión expirada, porfavor vuelva a iniciar sesión",
+            modal: true,
+            message: "Sesión expirada, porfavor vuelva a iniciar sesión",
             isLoading: false,
             forceRedirect: true,
           });
         } else {
           this.setState({
-            showModalError: true,
-            disclaimerModal:
+            modal: true,
+            message:
               "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
           });
         }
@@ -179,21 +185,16 @@ class BusinessProfile extends Component {
     return rspApi;
   };
 
-  toggleModalError = () => {
+  handleClose = () => {
     this.setState({
-      showModalError: false,
+      modal: false,
     });
     if (this.state.forceRedirect === true) {
       this.props.history.push("/login/B");
       this.props.history.go();
+    } else if (this.state.response === true) {
+      this.props.history.go();
     }
-  };
-
-  toggleModalSuccess = () => {
-    this.setState({
-      showModalSuccess: false,
-    });
-    this.props.history.go();
   };
 
   handleRedirect = () => {
@@ -225,21 +226,21 @@ class BusinessProfile extends Component {
     // console.log(file);
     // console.log(ext);
 
-    if (ext === "jpg" || ext === "png") {
+    if (ext === "jpg" || ext === "png" || ext === "jpeg") {
       const sizeFile = file.size;
       if (sizeFile < 1048576) {
         console.log(sizeFile);
         this.handleUploadLogoBusiness(file);
       } else {
         this.setState({
-          showModalError: true,
-          disclaimerModal: "La foto debe pesar menos de 1mb",
+          modal: true,
+          message: "La foto debe pesar menos de 1mb",
         });
       }
     } else {
       this.setState({
-        showModalError: true,
-        disclaimerModal: "El archivo debe ser formato .jpg o .png",
+        modal: true,
+        message: "El archivo debe ser formato .jpg o .png",
       });
     }
   };
@@ -273,15 +274,23 @@ class BusinessProfile extends Component {
       .catch((error) => {
         console.log(error);
         if (error.response.status === 401) {
+          sessionStorage.removeItem("logged");
+          sessionStorage.removeItem("info");
+          sessionStorage.removeItem("workflow");
+          sessionStorage.removeItem("tk");
+          sessionStorage.removeItem("name");
+          sessionStorage.removeItem("id");
+          sessionStorage.removeItem("tradename");
+          sessionStorage.removeItem("logo");
           this.setState({
-            showModalError: true,
+            modal: true,
             unableText: "Su sesión ha expirado. Vuelva a intentarlo.",
             forceRedirect: true,
           });
         } else {
           this.setState({
-            showModalError: true,
-            disclaimerModal:
+            modal: true,
+            message:
               "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
             isLoading: false,
           });
@@ -294,27 +303,33 @@ class BusinessProfile extends Component {
   render() {
     return (
       <>
-        <FullPageLoader isLoading={this.state.isLoading} />
-        <ModalError
-          show={this.state.showModalError}
-          closeCallback={this.toggleModalError}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
         >
-          <React.Fragment>
-            <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalError>
-        <ModalSucess
-          show={this.state.showModalSuccess}
-          closeCallback={this.toggleModalSuccess}
-        >
-          <React.Fragment>
-            <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalSucess>
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
         <Breadcrumbs
           separator={<NavigateNext fontSize="medium" />}
           aria-label="breadcrumb"
@@ -342,7 +357,10 @@ class BusinessProfile extends Component {
 
         <div className="header-profile-container">
           <div className="header-profile">
-            <img src={this.state.logo} alt="test" />
+            <img
+              src={this.state.logo === undefined ? Blank : this.state.logo}
+              alt={this.state.name}
+            />
             <div
               style={{
                 marginTop: "10px",

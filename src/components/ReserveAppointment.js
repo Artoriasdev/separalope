@@ -6,9 +6,14 @@ import {
   Modal,
   Select,
   TextField,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  FormControlLabel,
+  Checkbox,
 } from "@material-ui/core";
 import axios from "axios";
-import { Formik } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import React, { Component } from "react";
 import { handleRegexDisable } from "../utils/utilitaries";
 import FullPageLoader from "./FullPageLoader";
@@ -26,6 +31,10 @@ class ReserveAppointment extends Component {
       response: false,
       message: "",
       isLoading: false,
+      errorTerms: false,
+      checked: false,
+      termsModal: false,
+      terms: [],
     };
   }
 
@@ -36,6 +45,7 @@ class ReserveAppointment extends Component {
         this.handleGetServicesById();
         this.handleGetAvailableDateService();
         this.handleGetAvailableScheduleService();
+        this.handleGetTerms();
       } catch (error) {
         console.log(error);
       }
@@ -202,6 +212,7 @@ class ReserveAppointment extends Component {
       })
       .then((response) => {
         const { data } = response.data;
+        console.log(data);
 
         this.setState({
           hourData: data,
@@ -216,6 +227,41 @@ class ReserveAppointment extends Component {
           modal: true,
           message:
             "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
+      });
+    return rspApi;
+  };
+
+  handleGetTerms = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTemplates/2`;
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+        console.log(data);
+
+        this.setState({
+          terms: data,
+        });
+
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          errorTerms: true,
         });
       });
     return rspApi;
@@ -251,7 +297,16 @@ class ReserveAppointment extends Component {
         const { data } = response;
         localStorage.setItem("data", JSON.stringify(data));
 
-        if (data.response === "false") {
+        if (data.response === "true") {
+          setTimeout(() => {
+            this.setState({
+              modal: true,
+              message: "¡Registro grabado satisfactoriamente!",
+              response: true,
+              isLoading: false,
+            });
+          }, 500);
+        } else if (data.response === "false") {
           this.setState({
             modal: true,
             message: data.message,
@@ -266,6 +321,8 @@ class ReserveAppointment extends Component {
           modal: true,
           message:
             "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          isLoading: false,
+          forceRedirect: true,
         });
       });
 
@@ -278,8 +335,39 @@ class ReserveAppointment extends Component {
     });
     if (this.state.response === true) {
       this.props.history.push(`/reserve-complete`);
+    } else if (this.state.forceRedirect === true) {
+      this.props.history.goBack();
     } else {
       this.props.history.push("/login/C");
+    }
+  };
+
+  handleCheck = () => {
+    const Formik = this.form;
+    if (this.state.checked === true) {
+      this.setState({
+        checked: false,
+      });
+      Formik.setFieldValue("checkbox", false, true);
+    } else if (this.state.checked === false) {
+      this.setState({
+        termsModal: true,
+      });
+    }
+  };
+
+  handleTerms = (id) => {
+    const Formik = this.form;
+    if (id === 1) {
+      this.setState({
+        checked: true,
+        termsModal: false,
+      });
+      Formik.setFieldValue("checkbox", true, true);
+    } else if (id === 2) {
+      this.setState({
+        termsModal: false,
+      });
     }
   };
 
@@ -314,6 +402,46 @@ class ReserveAppointment extends Component {
             </div>
           </Fade>
         </Modal>
+
+        <Dialog
+          open={this.state.termsModal}
+          onClose={() => this.handleTerms(2)}
+          scroll="paper"
+        >
+          {this.state.terms.map(({ id, value }) => (
+            <DialogContent key={id}>
+              <div dangerouslySetInnerHTML={{ __html: value }} />
+            </DialogContent>
+          ))}
+          <DialogActions style={{ justifyContent: "center" }}>
+            <Button
+              className="font-p btn-primary"
+              color="primary"
+              onClick={() => this.handleTerms(1)}
+              variant="contained"
+              style={{
+                margin: "5px 5px 3px 0",
+                width: "30%",
+                textTransform: "capitalize",
+              }}
+            >
+              Aceptar
+            </Button>
+            <Button
+              className="font-p btn-primary"
+              color="primary"
+              onClick={() => this.handleTerms(2)}
+              variant="contained"
+              style={{
+                margin: "5px 0 3px 5px",
+                width: "30%",
+                textTransform: "capitalize",
+              }}
+            >
+              Rechazar
+            </Button>
+          </DialogActions>
+        </Dialog>
         <div className="page-container">
           <div className="login">
             <h1>Reserva tu cita</h1>
@@ -327,8 +455,18 @@ class ReserveAppointment extends Component {
                 precio: "",
                 fechaDisponible: "",
                 horarioDisponible: "",
+                checkbox: false,
               }}
-              // validate={{}}
+              validate={(values) => {
+                const { checkbox } = values;
+                let errors = {};
+
+                if (checkbox === false) {
+                  errors.checkbox = "Debes aceptar los términos y condiciones";
+                }
+
+                return errors;
+              }}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 const reserveModel = {
@@ -346,22 +484,7 @@ class ReserveAppointment extends Component {
                 });
 
                 (async () => {
-                  const responseSubmit = await this.handleInfoSubmit(
-                    reserveModel
-                  );
-
-                  const { response } = responseSubmit.data;
-
-                  if (response === "true") {
-                    setTimeout(() => {
-                      this.setState({
-                        modal: true,
-                        message: "¡Registro grabado satisfactoriamente!",
-                        response: true,
-                        isLoading: false,
-                      });
-                    }, 500);
-                  }
+                  this.handleInfoSubmit(reserveModel);
                 })();
               }}
             >
@@ -552,6 +675,23 @@ class ReserveAppointment extends Component {
                       )}
                     </Select>
                   </div>
+
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="checkbox"
+                        checked={this.state.checked}
+                        onChange={this.handleCheck}
+                        color="primary"
+                      />
+                    }
+                    label="Términos y condiciones"
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="checkbox"
+                    component="div"
+                  />
 
                   <Button
                     size="large"

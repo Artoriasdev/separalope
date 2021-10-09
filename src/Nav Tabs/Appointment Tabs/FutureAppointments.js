@@ -1,4 +1,11 @@
-import { Card, CardContent } from "@material-ui/core";
+import {
+  Backdrop,
+  Button,
+  Card,
+  CardContent,
+  Fade,
+  Modal,
+} from "@material-ui/core";
 import { Event, Person, Schedule, Timer } from "@material-ui/icons";
 import axios from "axios";
 import React, { Component } from "react";
@@ -8,6 +15,9 @@ class FutureAppointments extends Component {
     super(props);
     this.state = {
       appointments: [],
+      modal: false,
+      forceRedirect: false,
+      message: "",
     };
   }
 
@@ -43,48 +53,112 @@ class FutureAppointments extends Component {
         console.log(data);
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 401) {
+          sessionStorage.removeItem("logged");
+          sessionStorage.removeItem("info");
+          sessionStorage.removeItem("workflow");
+          sessionStorage.removeItem("tk");
+          sessionStorage.removeItem("name");
+          sessionStorage.removeItem("id");
+          sessionStorage.removeItem("tradename");
+          sessionStorage.removeItem("logo");
+          this.setState({
+            modal: true,
+            message:
+              "Su sesión ha expirado. Por favor vuelva a iniciar sesión.",
+            forceRedirect: true,
+          });
+        } else {
+          this.setState({
+            modal: true,
+            message:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          });
+        }
       });
     return rspApi;
+  };
+
+  handleClose = () => {
+    this.setState({ modal: false });
+    if (this.state.forceRedirect === true) {
+      this.props.history.push("/");
+      this.props.history.go();
+    }
   };
 
   render() {
     return (
       <div>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={() => this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
+        >
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
         <h1>Citas confirmadas</h1>
-        {this.state.appointments.map(
-          ({
-            titleService,
-            emailCustomer,
-            dateReservation,
-            durationReservation,
-            timeReservation,
-          }) => (
-            <Card
-              style={{
-                width: 275,
-                display: "inline-block",
-                margin: "10px 0 10px 40px",
-              }}
-              variant="elevation"
-              key={titleService}
-            >
-              <CardContent className="font-tittle">{titleService}</CardContent>
-              <hr style={{ width: "80%", margin: "0 auto" }} />
-              <CardContent className="font">
-                <Person /> {emailCustomer}
-              </CardContent>
-              <CardContent className="font">
-                <Event /> {dateReservation}
-              </CardContent>
-              <CardContent className="font">
-                <Timer /> {durationReservation}
-              </CardContent>
-              <CardContent className="font">
-                <Schedule /> {timeReservation}
-              </CardContent>
-            </Card>
-          )
-        )}
+        <div className="appointment-cards">
+          {this.state.appointments.map(
+            ({
+              titleService,
+              emailCustomer,
+              dateReservation,
+              durationReservation,
+              timeReservation,
+            }) => (
+              <Card
+                style={{
+                  width: 275,
+                  display: "inline-block",
+                  margin: "10px 20px 10px 0",
+                }}
+                variant="elevation"
+                key={titleService}
+              >
+                <CardContent className="font-tittle">
+                  {titleService}
+                </CardContent>
+                <hr style={{ width: "80%", margin: "0 auto" }} />
+                <CardContent className="font">
+                  <Person /> {emailCustomer}
+                </CardContent>
+                <CardContent className="font">
+                  <Event /> {dateReservation}
+                </CardContent>
+                <CardContent className="font">
+                  <Timer /> {durationReservation}
+                </CardContent>
+                <CardContent className="font">
+                  <Schedule /> {timeReservation}
+                </CardContent>
+              </Card>
+            )
+          )}
+        </div>
       </div>
     );
   }

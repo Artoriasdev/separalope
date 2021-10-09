@@ -57,7 +57,8 @@ class PasswordRecovery extends Component {
         if (status === 500) {
           this.setState({
             modal: true,
-            message: "A ocurrido un error, por favor vuelva a intentarlo",
+            message:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
           });
         }
       });

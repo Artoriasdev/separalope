@@ -150,6 +150,7 @@ class CustomerAppointment extends Component {
                   <TableCell className="font-tittle">Fecha</TableCell>
                   <TableCell className="font-tittle">Hora</TableCell>
                   <TableCell className="font-tittle">Duracion</TableCell>
+                  <TableCell className="font-tittle">Código</TableCell>
                   <TableCell className="font-tittle">Estado</TableCell>
                 </TableRow>
               </TableHead>
@@ -164,6 +165,7 @@ class CustomerAppointment extends Component {
                     timeReservation,
                     durationReservation,
                     state,
+                    codeReservation,
                   }) => (
                     <TableRow key={titleService}>
                       <TableCell className="font">{titleService}</TableCell>
@@ -175,6 +177,7 @@ class CustomerAppointment extends Component {
                       <TableCell className="font">
                         {durationReservation}
                       </TableCell>
+                      <TableCell className="font">{codeReservation} </TableCell>
                       <TableCell className="font">{state}</TableCell>
                     </TableRow>
                   )

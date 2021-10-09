@@ -2,10 +2,13 @@ import React from "react";
 import { Component } from "react";
 import { ErrorMessage, Formik } from "formik";
 import {
+  Backdrop,
   Breadcrumbs,
   Button,
+  Fade,
   Link,
   MenuItem,
+  Modal,
   Select,
   TextField,
 } from "@material-ui/core";
@@ -13,8 +16,6 @@ import { handleRegexDisable } from "../utils/utilitaries";
 import Edit from "@material-ui/icons/Edit";
 import { NavigateNext, PowerSettingsNew, Save } from "@material-ui/icons";
 import axios from "axios";
-import ModalError from "./ModalError";
-import ModalSucess from "./ModalSucess";
 import { EMAIL_REGEXP } from "../utils/regexp";
 import {
   EMAIL_INVALID,
@@ -22,6 +23,7 @@ import {
   E_MINLENGTH,
 } from "../utils/constants";
 import FullPageLoader from "./FullPageLoader";
+import Blank from "../assets/images/blank-pfp.svg";
 
 class BusinessProfileBank extends Component {
   constructor(props) {
@@ -33,11 +35,11 @@ class BusinessProfileBank extends Component {
       name: "",
       typeAccount: [],
       editButton: false,
-      showModalError: false,
-      showModalSuccess: false,
-      disclaimerModal: "",
+      modal: false,
+      message: "",
       isLoading: false,
       forceRedirect: false,
+      response: false,
     };
   }
 
@@ -71,13 +73,15 @@ class BusinessProfileBank extends Component {
         .then((response) => {
           if (response.data.response === "true") {
             const { data } = response.data;
-            sessionStorage.setItem("tradename", data[0].name);
-            sessionStorage.setItem("logo", data[0].logo);
+            this.setState({
+              logo: data[0].logo,
+              name: data[0].name,
+            });
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Usted no está autorizado para ver esta información",
+              modal: true,
+              message: "Usted no está autorizado para ver esta información",
+              forceRedirect: true,
             });
           }
           return response;
@@ -93,16 +97,15 @@ class BusinessProfileBank extends Component {
             sessionStorage.removeItem("info");
             sessionStorage.removeItem("id");
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Sesión expirada, porfavor vuelva a iniciar sesión",
+              modal: true,
+              message: "Sesión expirada, porfavor vuelva a iniciar sesión",
               isLoading: false,
               forceRedirect: true,
             });
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
+              modal: true,
+              message:
                 "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
             });
           }
@@ -159,9 +162,9 @@ class BusinessProfileBank extends Component {
             }
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Usted no esta autorizado para ver esta información",
+              modal: true,
+              message: "Usted no esta autorizado para ver esta información",
+              forceRedirect: true,
             });
           }
           return response;
@@ -177,16 +180,15 @@ class BusinessProfileBank extends Component {
             sessionStorage.removeItem("info");
             sessionStorage.removeItem("id");
             this.setState({
-              showModalError: true,
-              disclaimerModal:
-                "Sesión expirada, porfavor vuelva a iniciar sesión",
+              modal: true,
+              message: "Sesión expirada, porfavor vuelva a iniciar sesión",
               isLoading: false,
               forceRedirect: true,
             });
           } else {
             this.setState({
-              showModalError: true,
-              disclaimerModal:
+              modal: true,
+              message:
                 "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
               isLoading: false,
             });
@@ -224,8 +226,8 @@ class BusinessProfileBank extends Component {
       .catch((error) => {
         console.log(error);
         this.setState({
-          showModalError: true,
-          disclaimerModal:
+          modal: true,
+          message:
             "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
           isLoading: false,
         });
@@ -259,8 +261,8 @@ class BusinessProfileBank extends Component {
       .catch((error) => {
         console.log(error);
         this.setState({
-          showModalError: true,
-          disclaimerModal:
+          modal: true,
+          message:
             "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
           isLoading: false,
         });
@@ -277,17 +279,20 @@ class BusinessProfileBank extends Component {
       formik.setFieldValue(formField, value, true);
       formik.setFieldValue("tipoId", "", true);
       formik.setFieldValue("numeroCuenta", "", true);
+      formik.setFieldValue("numeroInterbancario", "", true);
       this.handleGetTypeAccount(value);
     }
     if (formField === "tipoId") {
       formik.setFieldValue(formField, value, true);
       formik.setFieldValue("numeroCuenta", "", true);
+      formik.setFieldValue("numeroInterbancario", "", true);
     }
     if (formField === "numeroCuenta") {
       const { tipoId } = formik.state.values;
       const { bancoId } = formik.state.values;
       formik.setFieldValue(formField, value, true);
       let maxLengthInput;
+      let minLengthInput;
 
       const id = this.state.typeAccount.find(
         (arreglo) => arreglo.id === tipoId
@@ -295,20 +300,18 @@ class BusinessProfileBank extends Component {
 
       if (id === undefined) {
         this.setState({
-          showModalError: true,
-          disclaimerModal: "Porfavor elija primero el banco y/o tipo de cuenta",
+          modal: true,
+          message: "Porfavor elija primero el banco y/o tipo de cuenta",
         });
       } else {
-        if (bancoId === 5) {
-          maxLengthInput = "";
-        } else {
-          maxLengthInput = id.length;
-        }
+        minLengthInput = id.minLength;
+        maxLengthInput = id.maxLength;
       }
 
-      console.log(maxLengthInput);
+      console.log(maxLengthInput, minLengthInput);
 
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
+      formik.setFieldValue("minLengthValue", minLengthInput, true);
       formik.setFieldValue(formField, value.toUpperCase(), true);
       console.log(bancoId);
     }
@@ -334,14 +337,15 @@ class BusinessProfileBank extends Component {
         });
         if (response.data.response === "true") {
           this.setState({
-            showModalSuccess: true,
-            disclaimerModal: response.data.message,
+            modal: true,
+            message: response.data.message,
             isLoading: false,
+            response: true,
           });
         } else if (response.data.response === "false") {
           this.setState({
-            showModalSuccess: true,
-            disclaimerModal: response.data.message,
+            modal: true,
+            message: response.data.message,
             isLoading: false,
           });
         }
@@ -358,16 +362,15 @@ class BusinessProfileBank extends Component {
           sessionStorage.removeItem("info");
           sessionStorage.removeItem("id");
           this.setState({
-            showModalError: true,
-            disclaimerModal:
-              "Sesión expirada, porfavor vuelva a iniciar sesión",
+            modal: true,
+            message: "Sesión expirada, porfavor vuelva a iniciar sesión",
             isLoading: false,
             forceRedirect: true,
           });
         } else {
           this.setState({
-            showModalError: true,
-            disclaimerModal:
+            modal: true,
+            message:
               "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
           });
         }
@@ -406,21 +409,16 @@ class BusinessProfileBank extends Component {
     this.props.history.go(this.props.history.push("/"));
   };
 
-  toggleModalError = () => {
+  handleClose = () => {
     this.setState({
-      showModalError: false,
+      modal: false,
     });
     if (this.state.forceRedirect === true) {
       this.props.history.push("/login/B");
       this.props.history.go();
+    } else if (this.state.response === true) {
+      this.props.history.go();
     }
-  };
-
-  toggleModalSuccess = () => {
-    this.setState({
-      showModalSuccess: false,
-    });
-    this.props.history.go();
   };
 
   handleAttach = (e) => {
@@ -430,21 +428,21 @@ class BusinessProfileBank extends Component {
     // console.log(file);
     // console.log(ext);
 
-    if (ext === "jpg" || ext === "png") {
+    if (ext === "jpg" || ext === "png" || ext === "jpeg") {
       const sizeFile = file.size;
       if (sizeFile < 1048576) {
         console.log(sizeFile);
         this.handleUploadLogoBusiness(file);
       } else {
         this.setState({
-          showModalError: true,
-          disclaimerModal: "La foto debe pesar menos de 1mb",
+          modal: true,
+          message: "La foto debe pesar menos de 1mb",
         });
       }
     } else {
       this.setState({
-        showModalError: true,
-        disclaimerModal: "El archivo debe ser formato .jpg o .png",
+        modal: true,
+        message: "El archivo debe ser formato .jpg o .png",
       });
     }
   };
@@ -480,14 +478,14 @@ class BusinessProfileBank extends Component {
         console.log(error);
         if (error.response.status === 401) {
           this.setState({
-            showModalError: true,
+            modal: true,
             unableText: "Su sesión ha expirado. Vuelva a intentarlo.",
             forceRedirect: true,
           });
         } else {
           this.setState({
-            showModalError: true,
-            disclaimerModal:
+            modal: true,
+            message:
               "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
             isLoading: false,
           });
@@ -501,26 +499,33 @@ class BusinessProfileBank extends Component {
     return (
       <>
         <FullPageLoader isLoading={this.state.isLoading} />
-        <ModalError
-          show={this.state.showModalError}
-          closeCallback={this.toggleModalError}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
         >
-          <React.Fragment>
-            <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalError>
-        <ModalSucess
-          show={this.state.showModalSuccess}
-          closeCallback={this.toggleModalSuccess}
-        >
-          <React.Fragment>
-            <div
-              dangerouslySetInnerHTML={{ __html: this.state.disclaimerModal }}
-            />
-          </React.Fragment>
-        </ModalSucess>
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
         <Breadcrumbs
           separator={<NavigateNext fontSize="medium" />}
           aria-label="breadcrumb"
@@ -548,7 +553,10 @@ class BusinessProfileBank extends Component {
 
         <div className="header-profile-container">
           <div className="header-profile">
-            <img src={sessionStorage.getItem("logo")} alt="test" />
+            <img
+              src={this.state.logo === undefined ? Blank : this.state.logo}
+              alt={this.state.name}
+            />
             <div
               style={{
                 marginTop: "10px",
@@ -579,7 +587,7 @@ class BusinessProfileBank extends Component {
               <span>Tamaño recomendado: 300 x 250 pixeles</span>
             </div>
             <div className="title">
-              <p>{sessionStorage.getItem("tradename")}</p>
+              <p>{this.state.name}</p>
             </div>
             <div className="button-container">
               <div>
@@ -619,8 +627,9 @@ class BusinessProfileBank extends Component {
             className="btn-primary"
             startIcon={<Edit />}
             style={{ marginTop: "-14px" }}
-            onClick={this.handleEdit}
-            disabled={this.state.formModel === undefined}
+            onClick={
+              this.state.formModel === undefined ? null : this.handleEdit
+            }
           >
             Editar datos
           </Button>
@@ -635,6 +644,7 @@ class BusinessProfileBank extends Component {
               bancoId: "",
               tipoId: "",
               maxLengthValue: "",
+              minLengthValue: "",
             }}
             validate={(values) => {
               const {
@@ -643,6 +653,7 @@ class BusinessProfileBank extends Component {
                 correoBancario,
                 bancoId,
                 numeroInterbancario,
+                minLengthValue,
               } = values;
 
               let errors = {};
@@ -655,8 +666,8 @@ class BusinessProfileBank extends Component {
 
               if (!numeroCuenta) {
                 errors.numeroCuenta = "";
-              } else if (numeroCuenta.length < maxLengthValue) {
-                errors.numeroCuenta = `El número de cuenta debe tener ${values.maxLengthValue} dígitos`;
+              } else if (numeroCuenta.length < minLengthValue) {
+                errors.numeroCuenta = `El número de cuenta debe tener ${values.minLengthValue} dígitos`;
               } else if (!numeroCuenta.startsWith("0011") && bancoId === 2) {
                 errors.numeroCuenta =
                   "El número de cuenta debe comenzar con 0011";
@@ -664,9 +675,9 @@ class BusinessProfileBank extends Component {
 
               if (!numeroInterbancario) {
                 errors.numeroInterbancario = "";
-              } else if (numeroInterbancario.length < 6) {
+              } else if (numeroInterbancario.length < 1) {
                 errors.numeroInterbancario =
-                  "El número de cuenta interbancaria debe tener un mínimo 6 dígitos";
+                  "El número de cuenta interbancaria debe tener un mínimo 1 dígitos";
               }
 
               return errors;
@@ -713,6 +724,10 @@ class BusinessProfileBank extends Component {
                       style={{
                         cursor: "pointer",
                         textDecoration: "underline",
+                        background: "none",
+                        border: "none",
+                        marginLeft: "-5px",
+                        fontSize: "14px",
                       }}
                     >
                       aquí
@@ -790,6 +805,7 @@ class BusinessProfileBank extends Component {
                       autoComplete="off"
                       inputProps={{
                         maxLength: values.maxLengthValue,
+                        minLength: values.minLengthValue,
                       }}
                       onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />

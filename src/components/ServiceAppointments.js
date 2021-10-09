@@ -1,4 +1,13 @@
-import { AppBar, Breadcrumbs, Link, Tabs } from "@material-ui/core";
+import {
+  AppBar,
+  Backdrop,
+  Breadcrumbs,
+  Button,
+  Fade,
+  Link,
+  Modal,
+  Tabs,
+} from "@material-ui/core";
 import React, { Component } from "react";
 import { LinkTab } from "../Nav Tabs/LinkTab";
 import FutureAppointments from "../Nav Tabs/Appointment Tabs/FutureAppointments";
@@ -13,6 +22,9 @@ class ServiceAppointment extends Component {
     this.state = {
       value: 0,
       title: "",
+      modal: false,
+      message: "",
+      forceRedirect: false,
     };
   }
 
@@ -63,7 +75,13 @@ class ServiceAppointment extends Component {
           this.setState({
             modal: true,
             message: "Sesión expirada, porfavor vuelva a iniciar sesión",
-            isLoading: false,
+            forceRedirect: true,
+          });
+        } else {
+          this.setState({
+            modal: true,
+            message:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
           });
         }
       });
@@ -95,9 +113,45 @@ class ServiceAppointment extends Component {
       );
     }
   };
+  handleClose = () => {
+    this.setState({
+      modal: false,
+    });
+    if (this.state.forceRedirect === true) {
+      this.props.history.push("/");
+      this.props.history.go();
+    }
+  };
   render() {
     return (
       <div className="page-container" style={{ padding: "0", width: "100%" }}>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modal}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          className="modal-container"
+        >
+          <Fade in={this.state.modal}>
+            <div className="modal-message-container">
+              <p>{this.state.message}</p>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn-primary"
+                onClick={this.handleClose}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </Fade>
+        </Modal>
         <Breadcrumbs
           separator={<NavigateNext fontSize="medium" />}
           aria-label="breadcrumb"
@@ -165,10 +219,16 @@ class ServiceAppointment extends Component {
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.value} index={0}>
-            <FutureAppointments id={this.props.match.params.id} />
+            <FutureAppointments
+              id={this.props.match.params.id}
+              history={this.props.history}
+            />
           </TabPanel>
           <TabPanel value={this.state.value} index={1}>
-            <PastAppointments id={this.props.match.params.id} />
+            <PastAppointments
+              id={this.props.match.params.id}
+              history={this.props.history}
+            />
           </TabPanel>
         </div>
       </div>

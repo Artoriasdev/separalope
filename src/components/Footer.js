@@ -83,7 +83,7 @@ export const Footer = () => {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTermsAndConditions`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTemplates/1`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -96,6 +96,9 @@ export const Footer = () => {
         setTerms(data);
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
       });
     return rspApi;
   };
@@ -105,8 +108,6 @@ export const Footer = () => {
       history.push("/frequent-questions");
     } else if (id === 2) {
       history.push("/quejas-y-reclamaciones");
-    } else if (id === 3) {
-      history.push("/login/B");
     }
   };
 
@@ -165,15 +166,6 @@ export const Footer = () => {
           Correo: contacto@separalo.pe
         </p>
       </Grid>
-
-      <div onClick={() => handleRedirect(3)} style={{ cursor: "pointer" }}>
-        <img
-          src="http://www.aymcontadores.com/wp/wp-content/uploads/2015/02/trabaja-con-nosotros.jpg"
-          alt="algo"
-          title="algo"
-          style={{ width: "100%", height: "80px", marginTop: "20px" }}
-        />
-      </div>
 
       <Grid item>
         <p className="font-tittle title">Búscanos en</p>
@@ -275,19 +267,7 @@ export const Footer = () => {
               </Grid>
             </div>
             <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <div
-                onClick={() => handleRedirect(3)}
-                style={{ cursor: "pointer" }}
-              >
-                <img
-                  src="http://www.aymcontadores.com/wp/wp-content/uploads/2015/02/trabaja-con-nosotros.jpg"
-                  alt="algo"
-                  title="algo"
-                  style={{ width: "100%", height: "80px", marginTop: "20px" }}
-                />
-              </div>
-            </div>
+
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <Grid item>

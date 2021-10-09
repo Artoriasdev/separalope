@@ -22,12 +22,12 @@ import { ArrowLeftSVG, ArrowRightSVG } from "../assets/images/svg";
 
 const responsive = {
   desktop: {
-    breakpoint: { max: 3000, min: 1500 },
+    breakpoint: { max: 3000, min: 1700 },
     items: 4,
     slidesToSlide: 4, // optional, default to 1.
   },
   tablet: {
-    breakpoint: { max: 1500, min: 1200 },
+    breakpoint: { max: 1700, min: 1200 },
     items: 3,
     slidesToSlide: 3, // optional, default to 1.
   },
@@ -102,6 +102,7 @@ class HomePage extends Component {
       })
       .then((response) => {
         const { data } = response.data;
+        console.log(data);
         const rsp = response.data.response;
         this.setState({
           isLoading: true,
@@ -183,6 +184,10 @@ class HomePage extends Component {
     this.props.history.push(`/services-menu/${id}`);
   };
 
+  handleRedirectWork = (id) => {
+    this.props.history.push("/register/business");
+  };
+
   handleRedirectBusiness = (id, category) => {
     this.props.history.push(`/services-menu-category/${id}/${category}`);
   };
@@ -226,13 +231,7 @@ class HomePage extends Component {
         {/* <FullPageLoader isLoading={this.state.isLoading} /> */}
         <Carousel />
         <div className="page-container">
-          <div
-            style={{
-              height: "130px",
-              paddingLeft: "50px",
-              paddingRight: "50px",
-            }}
-          >
+          <div className="home-container">
             {/* <div style={{ width: "36px", height: "36px" }}>
               <LogoSVG />
             </div> */}
@@ -242,86 +241,6 @@ class HomePage extends Component {
               <h3 className="register__subtitle">
                 Son 100% seguras vía internet en la comodidad de tu hogar <br />{" "}
                 y en el horario que tú decidas.
-              </h3>
-            </div>
-            <div className="home-search">
-              <TextField
-                name="search"
-                label="Buscar categoría"
-                id="filled-start-adornment"
-                className="font-p"
-                autoComplete="off"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Search />
-                    </InputAdornment>
-                  ),
-                }}
-                variant="outlined"
-              />
-            </div>
-          </div>
-          <CarouselItem
-            swipeable={["mobile"] ? true : false}
-            draggable={false}
-            showDots={false}
-            responsive={responsive}
-            ssr={true} // means to render carousel on server-side.
-            infinite={false}
-            autoPlay={false}
-            // autoPlaySpeed={1000}
-            transitionDuration={500}
-            containerClass="carousel-container"
-            removeArrowOnDeviceType={["mobile"]}
-            deviceType={this.props.deviceType}
-            itemClass="carousel-item-padding-100-px"
-            renderButtonGroupOutside={true}
-            // customRightArrow={<CustomLefttArrow />}
-            customLeftArrow={<CustomLeftArrow />}
-            customRightArrow={<CustomRightArrow />}
-          >
-            {this.state.typeCategorys &&
-              this.state.typeCategorys.map(
-                ({ id, image, name, description }) => (
-                  <div
-                    className="flip-home"
-                    onClick={() => this.handleRedirect(id)}
-                    key={id}
-                  >
-                    <Flippy
-                      flipOnHover={true}
-                      flipOnClick={false}
-                      flipDirection="horizontal"
-                      className="flip-home-container"
-                    >
-                      <FrontSide
-                        className="flip-home-front"
-                        style={{
-                          backgroundImage: `url(${image})`,
-                        }}
-                      ></FrontSide>
-                      <BackSide className="flip-home-back">
-                        <p>{description}</p>
-                      </BackSide>
-                    </Flippy>
-                    <h3>{name}</h3>
-                  </div>
-                )
-              )}
-          </CarouselItem>
-          <div
-            style={{
-              height: "130px",
-              paddingLeft: "50px",
-              paddingRight: "50px",
-            }}
-          >
-            <div className="home-text">
-              <h1>Nuestras negocios</h1>
-
-              <h3 className="register__subtitle">
-                Al alcance de todos y a tan solo un click
               </h3>
             </div>
             <div className="home-search">
@@ -359,6 +278,82 @@ class HomePage extends Component {
                 </Paper>
               )}
             </div>
+          </div>
+          <br />
+          <div className="carousel">
+            <CarouselItem
+              swipeable={["mobile"] ? true : false}
+              draggable={false}
+              showDots={false}
+              responsive={responsive}
+              ssr={true} // means to render carousel on server-side.
+              infinite={false}
+              autoPlay={false}
+              // autoPlaySpeed={1000}
+              transitionDuration={500}
+              containerClass="carousel-container"
+              removeArrowOnDeviceType={["mobile"]}
+              deviceType={this.props.deviceType}
+              itemClass="carousel-item-padding-100-px"
+              renderButtonGroupOutside={true}
+              // customRightArrow={<CustomLefttArrow />}
+              customLeftArrow={<CustomLeftArrow />}
+              customRightArrow={<CustomRightArrow />}
+            >
+              {this.state.typeCategorys &&
+                this.state.typeCategorys.map(
+                  ({ id, image, name, description }) => (
+                    <div
+                      className="flip-home"
+                      onClick={() => this.handleRedirect(id)}
+                      key={id}
+                    >
+                      <Flippy
+                        flipOnHover={true}
+                        flipOnClick={false}
+                        flipDirection="horizontal"
+                        className="flip-home-container"
+                      >
+                        <FrontSide
+                          className="flip-home-front"
+                          style={{
+                            backgroundImage: `url(${image})`,
+                          }}
+                        ></FrontSide>
+                        <BackSide className="flip-home-back">
+                          <div
+                            dangerouslySetInnerHTML={{ __html: description }}
+                          />
+                        </BackSide>
+                      </Flippy>
+                      <h3>{name}</h3>
+                    </div>
+                  )
+                )}
+            </CarouselItem>
+          </div>
+
+          <div
+            onClick={() => this.handleRedirectWork(3)}
+            style={{
+              cursor: "pointer",
+              marginLeft: "50px",
+              marginRight: "50px",
+              textAlign: "center",
+            }}
+          >
+            <img
+              src="https://www.qapaq.pe/wp-content/uploads/2020/06/Trabaja-con-Nosotros-1-51-960x250.png"
+              alt="Trabaja con nosotros"
+              title="Trabaja con nosotros"
+              style={{
+                width: "100%",
+                height: "100%",
+                marginTop: "20px",
+                maxWidth: "1325px",
+                maxHeight: "325px",
+              }}
+            />
           </div>
         </div>
       </div>

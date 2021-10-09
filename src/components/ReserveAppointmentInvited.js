@@ -37,6 +37,7 @@ class ReserveAppointmentInvited extends Component {
       message: "",
       checked: false,
       termsModal: false,
+      errorTerms: false,
     };
   }
 
@@ -191,7 +192,16 @@ class ReserveAppointmentInvited extends Component {
         localStorage.setItem("data", JSON.stringify(data));
         this.setState({ isLoading: true });
 
-        if (data.response === "false") {
+        if (data.response === "true") {
+          setTimeout(() => {
+            this.setState({
+              isLoading: false,
+              modal: true,
+              message: "¡Registro grabado satisfactoriamente!",
+              response: true,
+            });
+          }, 500);
+        } else if (data.response === "false") {
           this.setState({
             modal: true,
             message: data.message,
@@ -220,7 +230,7 @@ class ReserveAppointmentInvited extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTermsAndConditions`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTemplates/2`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -235,6 +245,15 @@ class ReserveAppointmentInvited extends Component {
         });
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          errorTerms: true,
+        });
       });
     return rspApi;
   };
@@ -245,6 +264,8 @@ class ReserveAppointmentInvited extends Component {
     });
     if (this.state.response === true) {
       this.props.history.push(`/reserve-complete`);
+    } else if (this.state.errorTerms === true) {
+      this.props.history.goBack();
     }
   };
 
@@ -440,22 +461,7 @@ class ReserveAppointmentInvited extends Component {
                 reserveModel.reservationTime = values.horarioDisponible;
 
                 (async () => {
-                  const responseSubmit = await this.handleInfoSubmit(
-                    reserveModel
-                  );
-
-                  const { response } = responseSubmit.data;
-
-                  if (response === "true") {
-                    setTimeout(() => {
-                      this.setState({
-                        isLoading: false,
-                        modal: true,
-                        message: "¡Registro grabado satisfactoriamente!",
-                        response: true,
-                      });
-                    }, 500);
-                  }
+                  this.handleInfoSubmit(reserveModel);
                 })();
               }}
             >
