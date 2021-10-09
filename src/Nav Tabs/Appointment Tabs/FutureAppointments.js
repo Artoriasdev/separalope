@@ -6,7 +6,14 @@ import {
   Fade,
   Modal,
 } from "@material-ui/core";
-import { Event, Person, Schedule, Timer } from "@material-ui/icons";
+import {
+  Category,
+  Code,
+  Event,
+  Person,
+  Schedule,
+  Timer,
+} from "@material-ui/icons";
 import axios from "axios";
 import React, { Component } from "react";
 
@@ -129,6 +136,8 @@ class FutureAppointments extends Component {
               dateReservation,
               durationReservation,
               timeReservation,
+              category,
+              codeReservation,
             }) => (
               <Card
                 style={{
@@ -154,6 +163,12 @@ class FutureAppointments extends Component {
                 </CardContent>
                 <CardContent className="font">
                   <Schedule /> {timeReservation}
+                </CardContent>
+                <CardContent className="font">
+                  <Category /> {category}
+                </CardContent>
+                <CardContent className="font">
+                  <Code /> {codeReservation}
                 </CardContent>
               </Card>
             )
