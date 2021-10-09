@@ -469,7 +469,7 @@ class Complains extends Component {
                               Tipo de documento
                             </span>
                           </MenuItem>
-                          {values.tipoCliente === "" ? (
+                          {values.tipoCliente !== "" ? (
                             this.state.typeDocs &&
                             this.state.typeDocs.map(
                               ({ id, descriptionLarge }) => (
