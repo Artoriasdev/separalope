@@ -76,14 +76,14 @@ export const Footer = () => {
     handleGetTerms();
   }, []);
 
-  const handleGetTerms = () => {
+  const handleGetTerms = (id) => {
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: "",
     };
 
-    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTemplates/1`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTemplates/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -114,16 +114,17 @@ export const Footer = () => {
   const [term, setTerm] = useState(false);
   const [priv, setPriv] = useState(false);
 
-  const handleModalPriv = () => {
-    setPriv(true);
-  };
-  const handleModalTerm = () => {
+  // const handleModalPriv = () => {
+  //   setPriv(true);
+  // };
+  const handleModalTerm = (id) => {
+    handleGetTerms(id);
     setTerm(true);
   };
 
   const handleClose = () => {
     setTerm(false);
-    setPriv(false);
+    // setPriv(false);
   };
 
   const renderMobileMenu = (
@@ -138,12 +139,12 @@ export const Footer = () => {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItem>
-            <button className="font-p" onClick={() => handleModalTerm()}>
+            <button className="font-p" onClick={() => handleModalTerm(1)}>
               Términos y condiciones
             </button>
           </ListItem>
           <ListItem>
-            <button className="font-p" onClick={handleModalPriv}>
+            <button className="font-p" onClick={() => handleModalTerm(4)}>
               Políticas de privacidad
             </button>
           </ListItem>
@@ -194,43 +195,6 @@ export const Footer = () => {
 
   return (
     <div className="footer-container">
-      <Dialog open={priv} onClose={handleClose}>
-        <DialogTitle style={{ textAlign: "center" }}>
-          <h2 style={{ margin: "0", color: "#5829dd" }} className="font-p">
-            Políticas de privacidad
-          </h2>
-        </DialogTitle>
-        <DialogContent>
-          <p
-            className="font"
-            style={{ margin: "0 0 10px 0", textAlign: "justify" }}
-          >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In egestas
-            leo sit amet ornare luctus. Phasellus sem sapien, ultrices sed nisi
-            eget, dignissim ullamcorper urna. Suspendisse at quam sem. Integer a
-            facilisis metus, ut vestibulum nulla. Sed non mi vitae lectus mollis
-            facilisis non sed neque. Curabitur semper augue id odio porta
-            mollis. Donec consequat tincidunt turpis vitae rhoncus. Proin
-            lacinia sollicitudin tempor. Vestibulum molestie blandit maximus.
-            Donec cursus ipsum id neque porta consequat.
-          </p>
-          <DialogActions style={{ justifyContent: "center" }}>
-            <Button
-              className="font-p btn-primary"
-              color="primary"
-              onClick={handleClose}
-              variant="contained"
-              style={{
-                width: "30%",
-                textTransform: "capitalize",
-              }}
-            >
-              Salir
-            </Button>
-          </DialogActions>
-        </DialogContent>
-      </Dialog>
-
       <Dialog open={term} onClose={handleClose} scroll="paper">
         {terms.map(({ id, value }) => (
           <DialogContent key={id}>
@@ -309,7 +273,7 @@ export const Footer = () => {
         <Container maxWidth="lg">
           <Toolbar className="footer">
             <div className={classes.sectionDesktop}>
-              <p className="p">Copyright © 2021 separalope</p>
+              <p className="p">Copyright © 2021 Separalope</p>
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
@@ -317,7 +281,7 @@ export const Footer = () => {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <button className="font-p" onClick={() => handleModalTerm()}>
+              <button className="font-p" onClick={() => handleModalTerm(1)}>
                 Términos y condiciones
               </button>
             </div>
@@ -327,7 +291,7 @@ export const Footer = () => {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <button className="font-p" onClick={handleModalPriv}>
+              <button className="font-p" onClick={() => handleModalTerm(4)}>
                 Políticas de privacidad
               </button>
             </div>
@@ -353,7 +317,7 @@ export const Footer = () => {
               </button>
             </div>
             <div className={classes.sectionMobile}>
-              <p className="p">Copyright © 2021 separalope</p>
+              <p className="p">Copyright © 2021 Separalope</p>
               <button
                 className="font-p"
                 onClick={() => handleRedirect(2)}

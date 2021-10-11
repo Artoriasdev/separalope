@@ -16,7 +16,7 @@ function Project(props) {
       <div className="content">
         <div className="title">
           <h2>{props.name}</h2>
-          <p>{props.description}</p>
+          <div dangerouslySetInnerHTML={{ __html: props.description }} />
         </div>
       </div>
     </Paper>

@@ -51,7 +51,7 @@ class MenuServicesBusiness extends Component {
         this.setState({
           typeCategorys: data,
           business: data[0].tradenameBusiness,
-          image: data[0].logoBusiness,
+          image: data[0].imageBig,
         });
 
         return response;

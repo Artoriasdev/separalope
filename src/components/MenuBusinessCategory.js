@@ -160,7 +160,7 @@ class MenuBusinessCategory extends Component {
         this.setState({
           category: category,
         });
-        // console.log(category);
+        console.log(category);
 
         return response;
       })
@@ -218,7 +218,7 @@ class MenuBusinessCategory extends Component {
           </Fade>
         </Modal>
         <Banner
-          image={this.state.category.image}
+          image={this.state.category.imageBig}
           name={this.state.category.name}
           description={this.state.category.description}
         />

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   tab: {
     minHeight: "2.75rem",
     color: "white",
-    textTransform: "capitalize",
+    textTransform: "none",
     padding: "6px 8px",
     opacity: 1,
     minWidth: "100px",

@@ -239,8 +239,8 @@ class HomePage extends Component {
               <h1>Nuestras categorías</h1>
 
               <h3 className="register__subtitle">
-                Son 100% seguras vía internet en la comodidad de tu hogar <br />{" "}
-                y en el horario que tú decidas.
+                Encuentra el servicio que estás buscando y sepáralo donde estés
+                con toda seguridad
               </h3>
             </div>
             <div className="home-search">
