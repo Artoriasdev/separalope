@@ -273,7 +273,7 @@ export const Footer = () => {
         <Container maxWidth="lg">
           <Toolbar className="footer">
             <div className={classes.sectionDesktop}>
-              <p className="p">Copyright © 2021 Separalope</p>
+              <p className="p">Copyright © 2021 separalo.pe</p>
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>

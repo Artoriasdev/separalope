@@ -134,8 +134,8 @@ class MenuServicesBusiness extends Component {
                       }}
                     >
                       <h3>{title}</h3>
-                      <RatingService rate={2} />
-                      <p className="text">Precio unitario</p>
+                      <RatingService rate={5} /><span><br></br></span>
+                      <p className="text">Precio</p>
                       <div className="price">
                         {currencySymbol} {price}
                       </div>

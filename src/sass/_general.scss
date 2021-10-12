@@ -898,10 +898,11 @@ button {
       background-color: #232323 !important;
       border-radius: 4px;
       div {
-        text-align: justify;
+        text-align: unset;
         padding-left: 13px;
         padding-right: 13px;
-        display: flex !important;
+        //display: flex !important;
+        display: grid !important;
         height: 100% !important;
         justify-content: center !important;
         align-items: center !important;
