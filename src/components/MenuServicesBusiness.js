@@ -47,6 +47,7 @@ class MenuServicesBusiness extends Component {
       })
       .then((response) => {
         const { data } = response.data;
+        console.log(data);
 
         this.setState({
           typeCategorys: data,
@@ -134,7 +135,10 @@ class MenuServicesBusiness extends Component {
                       }}
                     >
                       <h3>{title}</h3>
-                      <RatingService rate={5} /><span><br></br></span>
+                      <RatingService rate={5} />
+                      <span>
+                        <br></br>
+                      </span>
                       <p className="text">Precio</p>
                       <div className="price">
                         {currencySymbol} {price}

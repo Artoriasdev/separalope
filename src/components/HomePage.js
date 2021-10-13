@@ -286,7 +286,7 @@ class HomePage extends Component {
               draggable={false}
               showDots={false}
               responsive={responsive}
-              ssr={true} // means to render carousel on server-side.
+              // ssr={true} // means to render carousel on server-side.
               infinite={false}
               autoPlay={false}
               // autoPlaySpeed={1000}

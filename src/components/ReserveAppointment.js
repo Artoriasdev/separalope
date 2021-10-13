@@ -438,7 +438,7 @@ class ReserveAppointment extends Component {
                 textTransform: "capitalize",
               }}
             >
-              Rechazar
+              Cancelar
             </Button>
           </DialogActions>
         </Dialog>

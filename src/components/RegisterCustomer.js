@@ -26,8 +26,12 @@ import {
   EMAIL_INVALID,
   EMAIL_MINLENGTH,
   E_MINLENGTH,
+  MATCH,
+  PASSN_MINLENGTH,
+  PASS_INVALID,
+  PASS_MINLENGTH,
 } from "../utils/constants";
-import { EMAIL_REGEXP } from "../utils/regexp";
+import { EMAIL_REGEXP, PASSWORD_REGEXP } from "../utils/regexp";
 import FullPageLoader from "./FullPageLoader";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
@@ -425,7 +429,7 @@ class RegisterCustomer extends Component {
                 textTransform: "capitalize",
               }}
             >
-              Rechazar
+              Cancelar
             </Button>
           </DialogActions>
         </Dialog>
@@ -459,6 +463,8 @@ class RegisterCustomer extends Component {
                   documentos,
                   minLengthValue,
                   checkbox,
+                  contraseña,
+                  repContraseña,
                 } = values;
 
                 let errors = {};
@@ -517,6 +523,24 @@ class RegisterCustomer extends Component {
                 } else if (celular.length < 9) {
                   errors.celular =
                     "*El número de celular debe tener 9 dígitos.";
+                }
+
+                if (!contraseña) {
+                  errors.contraseña = "";
+                } else if (!PASSWORD_REGEXP.test(contraseña)) {
+                  errors.contraseña = PASS_INVALID;
+                } else if (contraseña.length < PASSN_MINLENGTH) {
+                  errors.contraseña = PASS_MINLENGTH;
+                }
+
+                if (!repContraseña) {
+                  errors.repContraseña = "";
+                } else if (!PASSWORD_REGEXP.test(repContraseña)) {
+                  errors.repContraseña = PASS_INVALID;
+                } else if (repContraseña.length < PASSN_MINLENGTH) {
+                  errors.repContraseña = PASS_MINLENGTH;
+                } else if (contraseña !== repContraseña) {
+                  errors.repContraseña = MATCH;
                 }
 
                 if (checkbox === false) {
@@ -764,8 +788,12 @@ class RegisterCustomer extends Component {
                             </IconButton>
                           </InputAdornment>
                         }
-                        style={{ marginBottom: "5px" }}
                         placeholder="Contraseña"
+                      />
+                      <ErrorMessage
+                        className="error"
+                        name="contraseña"
+                        component="div"
                       />
                     </div>
                     <div className="txt-right">
@@ -812,6 +840,11 @@ class RegisterCustomer extends Component {
                           </InputAdornment>
                         }
                         placeholder="Repetir contraseña"
+                      />
+                      <ErrorMessage
+                        className="error"
+                        name="repContraseña"
+                        component="div"
                       />
                     </div>
                   </div>

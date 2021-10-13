@@ -39,13 +39,13 @@ class Banner extends Component {
   render() {
     return (
       <div
-        className="banner-container"
+        className="banner-container-business"
         style={{
           backgroundImage: `url(${this.props.imagen})`,
           backgroundSize: "100% 100%",
         }}
       >
-        <div className="carousel-background">
+        <div className="carousel-background-business">
           <Carousel
             className="SecondExample"
             autoPlay={this.state.autoPlay}

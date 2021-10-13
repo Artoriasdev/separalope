@@ -1,11 +1,18 @@
 import React from "react";
 import { Component } from "react";
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 
 import { Save, Visibility, VisibilityOff } from "@material-ui/icons";
 import axios from "axios";
+import { PASSWORD_REGEXP } from "../utils/regexp";
+import {
+  MATCH,
+  PASSN_MINLENGTH,
+  PASS_INVALID,
+  PASS_MINLENGTH,
+} from "../utils/constants";
 
 class Password extends Component {
   constructor(props) {
@@ -137,7 +144,30 @@ class Password extends Component {
                 cambiarContraseña: "",
                 repetirContraseña: "",
               }}
-              validate={{}}
+              validate={(values) => {
+                const { cambiarContraseña, repetirContraseña } = values;
+                let errors = {};
+
+                if (!cambiarContraseña) {
+                  errors.cambiarContraseña = "";
+                } else if (cambiarContraseña.length < PASSN_MINLENGTH) {
+                  errors.cambiarContraseña = PASS_MINLENGTH;
+                } else if (!PASSWORD_REGEXP.test(cambiarContraseña)) {
+                  errors.cambiarContraseña = PASS_INVALID;
+                }
+
+                if (!repetirContraseña) {
+                  errors.repetirContraseña = "";
+                } else if (!PASSWORD_REGEXP.test(repetirContraseña)) {
+                  errors.repetirContraseña = PASS_INVALID;
+                } else if (repetirContraseña.length < PASSN_MINLENGTH) {
+                  errors.repetirContraseña = PASS_MINLENGTH;
+                } else if (cambiarContraseña !== repetirContraseña) {
+                  errors.repetirContraseña = MATCH;
+                }
+
+                return errors;
+              }}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 const dataModel = {
@@ -225,6 +255,11 @@ class Password extends Component {
                       // }}
                       onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
+                    <ErrorMessage
+                      className="error"
+                      name="contraseña"
+                      component="div"
+                    />
                   </div>
 
                   <div className="files">
@@ -245,6 +280,11 @@ class Password extends Component {
                         type={this.state.viewPassword ? "text" : "password"}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
+                      <ErrorMessage
+                        className="error"
+                        name="cambiarContraseña"
+                        component="div"
+                      />
                     </div>
 
                     <div className="txt-right">
@@ -263,6 +303,11 @@ class Password extends Component {
                         required
                         type={this.state.viewPassword ? "text" : "password"}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                      <ErrorMessage
+                        className="error"
+                        name="repetirContraseña"
+                        component="div"
                       />
                     </div>
                   </div>

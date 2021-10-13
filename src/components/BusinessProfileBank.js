@@ -675,7 +675,7 @@ class BusinessProfileBank extends Component {
 
               if (!numeroInterbancario) {
                 errors.numeroInterbancario = "";
-              } else if (numeroInterbancario.length < 1) {
+              } else if (numeroInterbancario.length < 20) {
                 errors.numeroInterbancario =
                   "El número de cuenta interbancaria debe tener un mínimo 1 dígitos";
               }
@@ -851,7 +851,7 @@ class BusinessProfileBank extends Component {
                       name="correoBancario"
                       className="TxtField"
                       variant="outlined"
-                      label="Correo bancario"
+                      label="Correo de confirmación"
                       fullWidth
                       disabled={!this.state.editButton}
                       autoComplete="off"

@@ -161,6 +161,9 @@ const Navbar = () => {
         setInfo(data);
 
         return response;
+      })
+      .catch((error) => {
+        console.log(error);
       });
     return rspApi;
   };

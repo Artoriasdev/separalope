@@ -58,8 +58,8 @@ export const ReserveComplete = () => {
             >
               {message}
             </p>{" "}
-            confirmamos que tu reserva ha sido satisfactoria. Para continuar
-            debes hacer la transferencia bancaria a
+            confirmamos que hemos separado tu cita. Para continuar debes hacer
+            la transferencia bancaria.
           </p>
           {/* <div className="precio-container">
             <div className="precio">S/. {price}</div>
@@ -99,7 +99,7 @@ export const ReserveComplete = () => {
               textAlign: "justify",
             }}
           >
-            Luego no olvides enviar tu voucher con tus datos personales a
+            Tu cita quedará confirmada cuando envíes tu voucher a:
           </p>
           <div className="precio-container" style={{ margin: "20px 0" }}>
             <div
@@ -109,7 +109,7 @@ export const ReserveComplete = () => {
                 fontWeight: "bold",
               }}
             >
-              contacto@separalo.pe
+              reservas@separalo.pe
             </div>
           </div>
 
@@ -120,7 +120,7 @@ export const ReserveComplete = () => {
                 textAlign: "left",
               }}
             >
-              Información de tu reserva:
+              Información de cita:
             </p>
             <div
               style={{
@@ -184,9 +184,8 @@ export const ReserveComplete = () => {
             </div>
           </div>
           <span className="mensaje">
-            Una vez enviado el voucher de pago, se le enviará un mensaje a su
-            correo electrónico confirmando su pago, el mismo día de su cita le
-            enviaremos un mensaje SMS, recuerde estar unos minutos antes.
+            Una vez que hayas pagado notificaremos al negocio. Recuerda
+            presentarte al local 10 minutos antes de tu cita.
           </span>
           <Button
             size="large"

@@ -1,6 +1,8 @@
 export const EMAIL_REGEXP = /[^@]+@[^@]+\.[^@]+/;
 export const NUMBER_REGEXP = /[0-9]/;
 export const NUMBER_START_REGEXP = /^[9]/;
+export const PASSWORD_REGEXP =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[\w\W]{8,}$/;
 
 export const CODE_REGEXP = /^PR08[0-9]+$/;
 

@@ -10,8 +10,15 @@ import {
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import axios from "axios";
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import React, { Component } from "react";
+import {
+  MATCH,
+  PASSN_MINLENGTH,
+  PASS_INVALID,
+  PASS_MINLENGTH,
+} from "../utils/constants";
+import { PASSWORD_REGEXP } from "../utils/regexp";
 
 class PasswordRestore extends Component {
   constructor(props) {
@@ -149,7 +156,29 @@ class PasswordRestore extends Component {
                   contraseña: "",
                   repetirContraseña: "",
                 }}
-                validate={{}}
+                validate={(values) => {
+                  const { contraseña, repetirContraseña } = values;
+                  let errors = {};
+
+                  if (!contraseña) {
+                    errors.contraseña = "";
+                  } else if (!PASSWORD_REGEXP.test(contraseña)) {
+                    errors.contraseña = PASS_INVALID;
+                  } else if (contraseña.length < PASSN_MINLENGTH) {
+                    errors.contraseña = PASS_MINLENGTH;
+                  }
+                  if (!repetirContraseña) {
+                    errors.repetirContraseña = "";
+                  } else if (!PASSWORD_REGEXP.test(repetirContraseña)) {
+                    errors.repetirContraseña = PASS_INVALID;
+                  } else if (repetirContraseña.length < PASSN_MINLENGTH) {
+                    errors.repetirContraseña = PASS_MINLENGTH;
+                  } else if (contraseña !== repetirContraseña) {
+                    errors.repetirContraseña = MATCH;
+                  }
+
+                  return errors;
+                }}
                 onSubmit={(values, { setSubmitting }) => {
                   setSubmitting(false);
                   const RecoveryModel = {
@@ -245,8 +274,12 @@ class PasswordRestore extends Component {
                               </IconButton>
                             </InputAdornment>
                           }
-                          style={{ marginBottom: "5px" }}
                           placeholder="Contraseña"
+                        />
+                        <ErrorMessage
+                          className="error"
+                          name="contraseña"
+                          component="div"
                         />
                       </div>
                       <div className="txt-right">
@@ -299,6 +332,11 @@ class PasswordRestore extends Component {
                             </InputAdornment>
                           }
                           placeholder="Repite tu nueva contraseña"
+                        />
+                        <ErrorMessage
+                          className="error"
+                          name="repetirContraseña"
+                          component="div"
                         />
                       </div>
                     </div>

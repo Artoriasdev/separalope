@@ -787,51 +787,6 @@ button {
   font-size: 15px !important;
 }
 
-// Carousel Style
-.SecondExample {
-  width: 100%;
-
-  .Project {
-    // position: relative;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-    padding: 20px;
-    display: flex;
-    flex-shrink: 0;
-    text-align: center;
-
-    h1 {
-      font-size: calc(16px + (300 - 16) * (100vw - 200px) / (2400 - 200));
-      margin: 0;
-      padding: 0;
-    }
-
-    p {
-      font-size: calc(12px + (24 - 12) * (100vw - 200px) / (2400 - 200));
-    }
-
-    h2 {
-      font-size: calc(12px + (60 - 16) * (100vw - 200px) / (2400 - 200));
-      color: #ffdd00;
-    }
-
-    * {
-      color: white;
-    }
-
-    .CheckButton {
-      color: white;
-
-      font-size: 25px;
-      border: 3px solid #ffdd00;
-      text-transform: capitalize;
-
-      // transition: 200ms;
-    }
-  }
-}
-
 .flip-container {
   width: 100%;
   text-align: center;
@@ -869,6 +824,7 @@ button {
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      padding: 0 10px;
     }
   }
 }
@@ -898,11 +854,11 @@ button {
       background-color: #232323 !important;
       border-radius: 4px;
       div {
-        text-align: unset;
+        text-align: justify;
         padding-left: 13px;
         padding-right: 13px;
-        //display: flex !important;
-        display: grid !important;
+        display: flex !important;
+        flex-direction: column;
         height: 100% !important;
         justify-content: center !important;
         align-items: center !important;
@@ -1114,10 +1070,55 @@ button {
   }
 }
 
+// Carousel Style
+.SecondExample {
+  width: 100%;
+
+  .Project {
+    // position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    padding: 20px;
+    display: flex;
+    flex-shrink: 0;
+    text-align: center;
+
+    h1 {
+      font-size: calc(16px + (300 - 16) * (100vw - 200px) / (2400 - 200));
+      margin: 0;
+      padding: 0;
+    }
+
+    p {
+      font-size: calc(12px + (24 - 12) * (100vw - 200px) / (2400 - 200));
+    }
+
+    h2 {
+      font-size: calc(12px + (60 - 16) * (100vw - 200px) / (2400 - 200));
+      color: #ffdd00;
+    }
+
+    * {
+      color: white;
+    }
+
+    .CheckButton {
+      color: white;
+
+      font-size: 25px;
+      border: 3px solid #ffdd00;
+      text-transform: capitalize;
+
+      // transition: 200ms;
+    }
+  }
+}
+
 .banner-container {
-  // background-size: 100% 100%;
-  // background-position: center;
-  // background-repeat: no-repeat;
+  background-size: 40%;
+  background-position: center;
+  background-repeat: no-repeat;
   border-bottom: solid 4px #232323;
   .carousel-background {
     background: rgba(0, 0, 0, 0.3);
@@ -1127,10 +1128,38 @@ button {
     width: 90%;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10%;
+    margin-bottom: 5%;
   }
   .title {
-    padding-top: 15vh;
+    padding-top: 5vh;
+    h2 {
+      text-align: left;
+    }
+    div {
+      text-align: left !important;
+      max-width: 600px !important;
+      font-size: calc(12px + (24 - 12) * (100vw - 200px) / (2400 - 200));
+    }
+  }
+}
+
+.banner-container-business {
+  background-size: 40%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-bottom: solid 4px #232323;
+  .carousel-background-business {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .content {
+    height: 100%;
+    width: 90%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 9%;
+  }
+  .title {
+    padding-top: 10vh;
     h2 {
       text-align: left;
     }

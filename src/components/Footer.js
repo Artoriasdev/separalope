@@ -10,7 +10,6 @@ import {
   DialogActions,
   DialogContent,
   createTheme,
-  DialogTitle,
   List,
   ListItem,
   ListItemText,
@@ -22,6 +21,7 @@ import {
   ExpandLess,
   ExpandMore,
   Twitter,
+  LinkedIn,
 } from "@material-ui/icons";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -112,11 +112,7 @@ export const Footer = () => {
   };
 
   const [term, setTerm] = useState(false);
-  const [priv, setPriv] = useState(false);
 
-  // const handleModalPriv = () => {
-  //   setPriv(true);
-  // };
   const handleModalTerm = (id) => {
     handleGetTerms(id);
     setTerm(true);
@@ -124,7 +120,6 @@ export const Footer = () => {
 
   const handleClose = () => {
     setTerm(false);
-    // setPriv(false);
   };
 
   const renderMobileMenu = (
@@ -141,11 +136,6 @@ export const Footer = () => {
           <ListItem>
             <button className="font-p" onClick={() => handleModalTerm(1)}>
               Términos y condiciones
-            </button>
-          </ListItem>
-          <ListItem>
-            <button className="font-p" onClick={() => handleModalTerm(4)}>
-              Políticas de privacidad
             </button>
           </ListItem>
           <ListItem>
@@ -169,12 +159,16 @@ export const Footer = () => {
       </Grid>
 
       <Grid item>
-        <p className="font-tittle title">Búscanos en</p>
+        <p className="font-tittle title" style={{ textAlign: "center" }}>
+          Búscanos en
+        </p>
         <span>
           <IconButton
             aria-label="facebook"
             color="inherit"
             style={{ marginRight: "10px" }}
+            href="https://www.facebook.com/Separalo-pe-114080404377277"
+            target="_blank"
           >
             <Facebook />
           </IconButton>
@@ -182,11 +176,28 @@ export const Footer = () => {
             aria-label="instagram"
             color="inherit"
             style={{ marginRight: "10px" }}
+            href="https://www.instagram.com/separalope/"
+            target="_blank"
           >
             <Instagram />
           </IconButton>
-          <IconButton aria-label="twitter" color="inherit">
+          <IconButton
+            aria-label="twitter"
+            color="inherit"
+            style={{ marginRight: "10px" }}
+            href="https://www.instagram.com/separalope/"
+            target="_blank"
+          >
             <Twitter />
+          </IconButton>
+          <IconButton
+            size="small"
+            aria-label="twitter"
+            color="inherit"
+            href="https://www.linkedin.com/company/separalo-pe/?viewAsMember=true"
+            target="_blank"
+          >
+            <LinkedIn />
           </IconButton>
         </span>
       </Grid>
@@ -235,24 +246,51 @@ export const Footer = () => {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <Grid item>
-                <p className="font-tittle title">Búscanos en</p>
+                <p
+                  className="font-tittle title"
+                  style={{ textAlign: "center" }}
+                >
+                  Búscanos en
+                </p>
                 <span>
                   <IconButton
+                    size="small"
                     aria-label="facebook"
                     color="inherit"
-                    style={{ marginRight: "10px" }}
+                    style={{ marginRight: "15px" }}
+                    href="https://www.facebook.com/Separalo-pe-114080404377277"
+                    target="_blank"
                   >
                     <Facebook />
                   </IconButton>
                   <IconButton
+                    size="small"
                     aria-label="instagram"
                     color="inherit"
-                    style={{ marginRight: "10px" }}
+                    style={{ marginRight: "15px" }}
+                    href="https://www.instagram.com/separalope/"
+                    target="_blank"
                   >
                     <Instagram />
                   </IconButton>
-                  <IconButton aria-label="twitter" color="inherit">
+                  <IconButton
+                    size="small"
+                    aria-label="twitter"
+                    color="inherit"
+                    style={{ marginRight: "15px" }}
+                    href="https://twitter.com/SeparaloPe"
+                    target="_blank"
+                  >
                     <Twitter />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    aria-label="twitter"
+                    color="inherit"
+                    href="https://www.linkedin.com/company/separalo-pe/?viewAsMember=true"
+                    target="_blank"
+                  >
+                    <LinkedIn />
                   </IconButton>
                 </span>
               </Grid>
@@ -283,16 +321,6 @@ export const Footer = () => {
             <div className={classes.sectionDesktop}>
               <button className="font-p" onClick={() => handleModalTerm(1)}>
                 Términos y condiciones
-              </button>
-            </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <hr />
-            </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <button className="font-p" onClick={() => handleModalTerm(4)}>
-                Políticas de privacidad
               </button>
             </div>
             <div className={classes.grow} />

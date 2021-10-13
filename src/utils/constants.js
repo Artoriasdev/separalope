@@ -81,6 +81,11 @@ export const E_MINLENGTH = 3;
 export const EMAIL_INVALID = `El ${EMAIL} no es válido.`;
 export const EMAIL_MINLENGTH = `El ${EMAIL} debe tener mínimo ${E_MINLENGTH} dígitos.`;
 
+export const MATCH = "Las contraseñas no coinciden.";
+export const PASSN_MINLENGTH = 8;
+export const PASS_INVALID = `La contraseña no es válida, debe tener una mayúscula, un número y un caracter especial.`;
+export const PASS_MINLENGTH = `La contraseña debe tener mínimo ${PASSN_MINLENGTH} dígitos.`;
+
 export const ADDRESS = "dirección";
 export const A_MINLENGTH = 3;
 export const ADDRESS_INVALID = `La ${ADDRESS} no es válida.`;

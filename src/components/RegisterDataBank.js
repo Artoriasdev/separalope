@@ -373,7 +373,7 @@ class RegisterDataBank extends Component {
 
                 if (!numeroInterbancario) {
                   errors.numeroInterbancario = "";
-                } else if (numeroInterbancario.length < 1) {
+                } else if (numeroInterbancario.length < 20) {
                   errors.numeroInterbancario =
                     "El número de cuenta debe tener mínimo 1 dígitos";
                 }
@@ -533,7 +533,7 @@ class RegisterDataBank extends Component {
                         name="correoBancario"
                         className="TxtField"
                         variant="outlined"
-                        placeholder="Correo bancario"
+                        placeholder="Correo de confirmación"
                         fullWidth
                         autoComplete="off"
                         value={values.correoBancario}

@@ -19,11 +19,15 @@ import {
   Checkbox,
 } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
-import { EMAIL_REGEXP } from "../utils/regexp";
+import { EMAIL_REGEXP, PASSWORD_REGEXP } from "../utils/regexp";
 import {
   EMAIL_INVALID,
   EMAIL_MINLENGTH,
   E_MINLENGTH,
+  MATCH,
+  PASSN_MINLENGTH,
+  PASS_INVALID,
+  PASS_MINLENGTH,
 } from "../utils/constants";
 import FullPageLoader from "./FullPageLoader";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
@@ -296,7 +300,7 @@ class RegisterBusiness extends Component {
                 textTransform: "capitalize",
               }}
             >
-              Rechazar
+              Cancelar
             </Button>
           </DialogActions>
         </Dialog>
@@ -317,7 +321,13 @@ class RegisterBusiness extends Component {
                 checkbox: false,
               }}
               validate={(values) => {
-                const { nroDocumento, correo, checkbox } = values;
+                const {
+                  nroDocumento,
+                  correo,
+                  checkbox,
+                  contraseña,
+                  repContraseña,
+                } = values;
 
                 let errors = {};
 
@@ -330,6 +340,24 @@ class RegisterBusiness extends Component {
                   errors.correo = EMAIL_INVALID;
                 } else if (correo.length < E_MINLENGTH) {
                   errors.correo = EMAIL_MINLENGTH;
+                }
+
+                if (!contraseña) {
+                  errors.contraseña = "";
+                } else if (!PASSWORD_REGEXP.test(contraseña)) {
+                  errors.contraseña = PASS_INVALID;
+                } else if (contraseña.length < PASSN_MINLENGTH) {
+                  errors.contraseña = PASS_MINLENGTH;
+                }
+
+                if (!repContraseña) {
+                  errors.repContraseña = "";
+                } else if (!PASSWORD_REGEXP.test(repContraseña)) {
+                  errors.repContraseña = PASS_INVALID;
+                } else if (repContraseña.length < PASSN_MINLENGTH) {
+                  errors.repContraseña = PASS_MINLENGTH;
+                } else if (contraseña !== repContraseña) {
+                  errors.repContraseña = MATCH;
                 }
 
                 if (checkbox === false) {
@@ -352,11 +380,9 @@ class RegisterBusiness extends Component {
                 BusinessModel.businessName = values.razon;
                 BusinessModel.tradeName = values.nombre;
                 BusinessModel.email = values.correo;
-                BusinessModel.mobile = values.celular;
                 BusinessModel.documentNumber = values.nroDocumento;
                 BusinessModel.password = values.contraseña;
                 BusinessModel.confirmPassword = values.repContraseña;
-                BusinessModel.idCategory = values.categoria;
 
                 (async () => {
                   const responseSubmit = await this.handleInfoSubmit(
@@ -515,8 +541,12 @@ class RegisterBusiness extends Component {
                             </IconButton>
                           </InputAdornment>
                         }
-                        style={{ marginBottom: "5px" }}
                         placeholder="Contraseña"
+                      />
+                      <ErrorMessage
+                        className="error"
+                        name="contraseña"
+                        component="div"
                       />
                     </div>
                     <div className="txt-right">
@@ -563,6 +593,11 @@ class RegisterBusiness extends Component {
                           </InputAdornment>
                         }
                         placeholder="Contraseña"
+                      />
+                      <ErrorMessage
+                        className="error"
+                        name="repContraseña"
+                        component="div"
                       />
                     </div>
                   </div>
