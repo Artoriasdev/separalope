@@ -327,10 +327,11 @@ export const Footer = () => {
             <div className={classes.sectionDesktop}>
               <hr />
             </div>
+
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <button className="font-p" onClick={() => handleRedirect(2)}>
-                Libro de reclamaciones
+              <button className="font-p" onClick={() => handleRedirect(1)}>
+                Preguntas frecuentes
               </button>
             </div>
             <div className={classes.grow} />
@@ -338,12 +339,12 @@ export const Footer = () => {
               <hr />
             </div>
             <div className={classes.grow} />
-
             <div className={classes.sectionDesktop}>
-              <button className="font-p" onClick={() => handleRedirect(1)}>
-                Preguntas frecuentes
+              <button className="font-p" onClick={() => handleRedirect(2)}>
+                Libro de reclamaciones
               </button>
             </div>
+
             <div className={classes.sectionMobile}>
               <p className="p">Copyright © 2021 Separalope</p>
               <button

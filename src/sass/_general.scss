@@ -857,8 +857,7 @@ button {
         text-align: justify;
         padding-left: 13px;
         padding-right: 13px;
-        display: flex !important;
-        flex-direction: column;
+        display: grid !important;
         height: 100% !important;
         justify-content: center !important;
         align-items: center !important;

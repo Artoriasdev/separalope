@@ -527,18 +527,20 @@ class RegisterCustomer extends Component {
 
                 if (!contraseña) {
                   errors.contraseña = "";
-                } else if (!PASSWORD_REGEXP.test(contraseña)) {
+                } else if (
+                  !PASSWORD_REGEXP.test(contraseña) &&
+                  contraseña.length < PASSN_MINLENGTH
+                ) {
                   errors.contraseña = PASS_INVALID;
-                } else if (contraseña.length < PASSN_MINLENGTH) {
-                  errors.contraseña = PASS_MINLENGTH;
                 }
 
                 if (!repContraseña) {
                   errors.repContraseña = "";
-                } else if (!PASSWORD_REGEXP.test(repContraseña)) {
+                } else if (
+                  !PASSWORD_REGEXP.test(repContraseña) &&
+                  repContraseña.length < PASSN_MINLENGTH
+                ) {
                   errors.repContraseña = PASS_INVALID;
-                } else if (repContraseña.length < PASSN_MINLENGTH) {
-                  errors.repContraseña = PASS_MINLENGTH;
                 } else if (contraseña !== repContraseña) {
                   errors.repContraseña = MATCH;
                 }

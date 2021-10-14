@@ -375,7 +375,7 @@ class RegisterDataBank extends Component {
                   errors.numeroInterbancario = "";
                 } else if (numeroInterbancario.length < 20) {
                   errors.numeroInterbancario =
-                    "El número de cuenta debe tener mínimo 1 dígitos";
+                    "El número de cuenta debe tener mínimo 20 dígitos";
                 }
 
                 return errors;

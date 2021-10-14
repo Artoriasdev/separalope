@@ -162,17 +162,20 @@ class PasswordRestore extends Component {
 
                   if (!contraseña) {
                     errors.contraseña = "";
-                  } else if (!PASSWORD_REGEXP.test(contraseña)) {
+                  } else if (
+                    !PASSWORD_REGEXP.test(contraseña) &&
+                    contraseña.length < PASSN_MINLENGTH
+                  ) {
                     errors.contraseña = PASS_INVALID;
-                  } else if (contraseña.length < PASSN_MINLENGTH) {
-                    errors.contraseña = PASS_MINLENGTH;
                   }
+
                   if (!repetirContraseña) {
                     errors.repetirContraseña = "";
-                  } else if (!PASSWORD_REGEXP.test(repetirContraseña)) {
+                  } else if (
+                    !PASSWORD_REGEXP.test(repetirContraseña) &&
+                    repetirContraseña.length < PASSN_MINLENGTH
+                  ) {
                     errors.repetirContraseña = PASS_INVALID;
-                  } else if (repetirContraseña.length < PASSN_MINLENGTH) {
-                    errors.repetirContraseña = PASS_MINLENGTH;
                   } else if (contraseña !== repetirContraseña) {
                     errors.repetirContraseña = MATCH;
                   }

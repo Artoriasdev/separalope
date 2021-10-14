@@ -150,20 +150,22 @@ class Password extends Component {
 
                 if (!cambiarContraseña) {
                   errors.cambiarContraseña = "";
-                } else if (cambiarContraseña.length < PASSN_MINLENGTH) {
+                } else if (
+                  cambiarContraseña.length < PASSN_MINLENGTH &&
+                  !PASSWORD_REGEXP.test(cambiarContraseña)
+                ) {
                   errors.cambiarContraseña = PASS_MINLENGTH;
-                } else if (!PASSWORD_REGEXP.test(cambiarContraseña)) {
-                  errors.cambiarContraseña = PASS_INVALID;
                 }
 
                 if (!repetirContraseña) {
                   errors.repetirContraseña = "";
                 } else if (!PASSWORD_REGEXP.test(repetirContraseña)) {
                   errors.repetirContraseña = PASS_INVALID;
-                } else if (repetirContraseña.length < PASSN_MINLENGTH) {
+                } else if (
+                  repetirContraseña.length < PASSN_MINLENGTH &&
+                  cambiarContraseña !== repetirContraseña
+                ) {
                   errors.repetirContraseña = PASS_MINLENGTH;
-                } else if (cambiarContraseña !== repetirContraseña) {
-                  errors.repetirContraseña = MATCH;
                 }
 
                 return errors;
