@@ -116,7 +116,10 @@ class MenuServicesBusiness extends Component {
         </Modal>
         <Banner negocio={this.state.business} imagen={this.state.image} />
 
-        <div style={{ padding: "50px 0 0 0 ", width: "80%", margin: " auto" }}>
+        <div
+          className="page-container"
+          style={{ padding: "50px 0 0 0 ", width: "90%", margin: " auto" }}
+        >
           <div className="flip-container">
             {this.state.typeCategorys.map(
               ({ id, title, description, currencySymbol, price, duration }) => (

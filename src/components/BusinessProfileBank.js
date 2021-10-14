@@ -677,7 +677,7 @@ class BusinessProfileBank extends Component {
                 errors.numeroInterbancario = "";
               } else if (numeroInterbancario.length < 20) {
                 errors.numeroInterbancario =
-                  "El número de cuenta interbancaria debe tener un mínimo 20 dígitos";
+                  "El número de cuenta interbancaria debe ser de 20 dígitos";
               }
 
               return errors;

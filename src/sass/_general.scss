@@ -854,7 +854,7 @@ button {
       background-color: #232323 !important;
       border-radius: 4px;
       div {
-        text-align: justify;
+        text-align: left;
         padding-left: 13px;
         padding-right: 13px;
         display: grid !important;
@@ -1076,6 +1076,49 @@ button {
   .Project {
     // position: relative;
     height: 100%;
+    width: 300%;
+    overflow: auto;
+    padding: 20px;
+    display: flex;
+    flex-shrink: 0;
+    text-align: center;
+
+    h1 {
+      font-size: calc(16px + (300 - 16) * (100vw - 200px) / (2400 - 200));
+      margin: 0;
+      padding: 0;
+    }
+
+    p {
+      font-size: calc(12px + (24 - 12) * (100vw - 200px) / (2400 - 200));
+    }
+
+    h2 {
+      font-size: calc(12px + (60 - 16) * (100vw - 200px) / (2400 - 200));
+      color: #ffdd00;
+    }
+
+    * {
+      color: white;
+    }
+
+    .CheckButton {
+      color: white;
+
+      font-size: 25px;
+      border: 3px solid #ffdd00;
+      text-transform: capitalize;
+
+      // transition: 200ms;
+    }
+  }
+}
+.Home-carousel {
+  width: 100%;
+
+  .Project {
+    // position: relative;
+    height: 100%;
     width: 100%;
     overflow: auto;
     padding: 20px;
@@ -1124,7 +1167,7 @@ button {
   }
   .content {
     height: 100%;
-    width: 90%;
+    width: 25%;
     justify-content: center;
     align-items: center;
     margin-bottom: 5%;
@@ -1155,7 +1198,7 @@ button {
     width: 90%;
     justify-content: center;
     align-items: center;
-    margin-bottom: 9%;
+    margin-bottom: 4%;
   }
   .title {
     padding-top: 10vh;

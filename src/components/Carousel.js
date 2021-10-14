@@ -91,7 +91,7 @@ export default class MyProjectsExample extends React.Component {
     return (
       <div style={{ backgroundColor: "#000000" }}>
         <Carousel
-          className="SecondExample"
+          className="Home-carousel"
           autoPlay={this.state.autoPlay}
           animation={this.state.animation}
           indicators={this.state.indicators}

@@ -30,7 +30,7 @@ class Banner extends Component {
       autoPlay: false,
       animation: "none",
       indicators: false,
-      timeout: 500,
+      timeout: 0,
       navButtonsAlwaysVisible: false,
       navButtonsAlwaysInvisible: true,
     };
