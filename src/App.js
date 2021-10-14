@@ -8,39 +8,40 @@ import { StyledRoot, StyledMain } from "./helpers/styled";
 import { StyledGlobal } from "./helpers/styled";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Login from "./components/Login";
-import RegisterCustomer from "./components/RegisterCustomer";
-import RegisterBusiness from "./components/RegisterBusiness";
-import BusinessCategory from "./components/BusinessCategory";
-import BusinessServices from "./components/BusinessServices";
-import BusinessProfile from "./components/BusinessProfile";
-import BussinesProfileBank from "./components/BusinessProfileBank";
-import Password from "./components/Password";
-import RegisterDataBank from "./components/RegisterDataBank";
-import ServiceDetail from "./components/ServiceDetail";
-import ServiceAppointment from "./components/ServiceAppointments";
+import Login from "./pages/Login";
+import RegisterCustomer from "./pages/RegisterCustomer";
+import RegisterBusiness from "./pages/RegisterBusiness";
+import BusinessCategory from "./pages/BusinessCategory";
+import BusinessServices from "./pages/BusinessServices";
+import BusinessProfile from "./pages/BusinessProfile";
+import BussinesProfileBank from "./pages/BusinessProfileBank";
+import Password from "./pages/Password";
+import RegisterDataBank from "./pages/RegisterDataBank";
+import ServiceDetail from "./pages/ServiceDetail";
+import ServiceAppointment from "./pages/ServiceAppointments";
 import NavBarLogged from "./components/NavBarLogged";
-import HomePage from "./components/HomePage";
-import ClientProfile from "./components/ClientProfile";
-import Question from "./components/Question";
-import CustomerAppointment from "./components/CustomerAppointment";
-import CustomerHistory from "./components/CustomerHistory";
-import BusinessServicesCategory from "./components/BusinessServicesCategory";
-import MenuBusinessCategory from "./components/MenuBusinessCategory";
-import MenuServicesBusiness from "./components/MenuServicesBusiness";
-import ReserveAppointment from "./components/ReserveAppointment";
-import ConfirmLogin from "./components/ConfirmLogin";
-import PasswordRecovery from "./components/PasswordRecovery";
-import PasswordOTP from "./components/PasswordOTP";
-import PasswordRestore from "./components/PasswordRestore";
+import HomePage from "./pages/HomePage";
+import ClientProfile from "./pages/ClientProfile";
+import Question from "./pages/Question";
+import CustomerAppointment from "./pages/CustomerAppointment";
+import CustomerHistory from "./pages/CustomerHistory";
+import BusinessServicesCategory from "./pages/BusinessServicesCategory";
+import MenuBusinessCategory from "./pages/MenuBusinessCategory";
+import MenuServicesBusiness from "./pages/MenuServicesBusiness";
+import ReserveAppointment from "./pages/ReserveAppointment";
+import ConfirmLogin from "./pages/ConfirmLogin";
+import PasswordRecovery from "./pages/PasswordRecovery";
+import PasswordOTP from "./pages/PasswordOTP";
+import PasswordRestore from "./pages/PasswordRestore";
 import { Footer } from "./components/Footer";
-import { ReserveComplete } from "./components/ReserveComplete";
-import ReserveAppointmentInvited from "./components/ReserveAppointmentInvited";
+import { ReserveComplete } from "./pages/ReserveComplete";
+import ReserveAppointmentInvited from "./pages/ReserveAppointmentInvited";
 import React from "react";
 import { CookiesBanner } from "./components/CookiesBanner";
-import Complains from "./components/Complains";
-import BusinessReports from "./components/BusinessReports";
+import Complains from "./pages/Complains";
+import BusinessReports from "./pages/BusinessReports";
 import ScrollToTop from "./components/ScrollToTop";
+import { CookiePolicy } from "./pages/CookiePolicy";
 // import HomePage from "./pages/Home";
 
 // const MavenProRegular = {
@@ -203,6 +204,7 @@ function App() {
                 path="/quejas-y-reclamaciones"
                 component={Complains}
               />
+              <Route exact path="/cookie-policy" component={CookiePolicy} />
             </StyledMain>
           </Switch>
           <Footer />

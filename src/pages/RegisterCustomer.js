@@ -1,25 +1,27 @@
-import React from "react";
-import { Component } from "react";
 import Axios from "axios";
 import { ErrorMessage, Formik } from "formik";
+import React from "react";
+import { Component } from "react";
+
+import { handleRegexDisable } from "../utils/utilitaries";
 
 import {
   TextField,
-  Button,
+  MenuItem,
+  Backdrop,
   Modal,
   Fade,
-  Backdrop,
   OutlinedInput,
   InputAdornment,
   IconButton,
-  Dialog,
-  DialogActions,
-  DialogContent,
   FormControlLabel,
   Checkbox,
+  Dialog,
+  DialogContent,
+  DialogActions,
 } from "@material-ui/core";
-import { handleRegexDisable } from "../utils/utilitaries";
-import { EMAIL_REGEXP, PASSWORD_REGEXP } from "../utils/regexp";
+import Select from "@material-ui/core/Select";
+import { Button } from "@material-ui/core";
 import {
   EMAIL_INVALID,
   EMAIL_MINLENGTH,
@@ -29,24 +31,25 @@ import {
   PASS_INVALID,
   PASS_MINLENGTH,
 } from "../utils/constants";
-import FullPageLoader from "./FullPageLoader";
+import { EMAIL_REGEXP, PASSWORD_REGEXP } from "../utils/regexp";
+import FullPageLoader from "../components/FullPageLoader";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-class RegisterBusiness extends Component {
+class RegisterCustomer extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       typeDocs: [],
       typeCategorys: [],
       showModalSucesss: false,
       disclaimerModal: "",
-      response: false,
+      response: "",
       isLoading: false,
       show: false,
       show2: false,
       checked: false,
       termsModal: false,
+      errorTerms: false,
       terms: [],
     };
   }
@@ -63,19 +66,102 @@ class RegisterBusiness extends Component {
     ) {
       this.props.history.push("/");
     } else {
-      this.handleGetTerms();
+      try {
+        this.handleGetDocuments();
+        this.handleGetTerms();
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 
-  handleInfoSubmit = async (BusinessModel) => {
+  handleGetDocuments = () => {
     var headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: "",
     };
-    let linkRegisterApi = `${process.env.REACT_APP_PATH_SERVICE}/business/registerBusiness`;
 
-    const rspApi = Axios.post(linkRegisterApi, BusinessModel, {
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getDocumentTypes`;
+
+    const rspApi = Axios.get(linkDocumentsApi, {
+      headers: headers,
+    })
+      .then((response) => {
+        const { data } = response.data;
+        console.log(data);
+        const element = data.filter(
+          (element) => element.descriptionLarge !== "RUC"
+        );
+
+        console.log(element);
+
+        this.setState({
+          typeDocs: element,
+        });
+
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          showModalSucesss: true,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
+      });
+    return rspApi;
+  };
+
+  handleDocumentChange = (e) => {
+    const value = e.target.value;
+    const formField = e.target.name;
+    const formik = this.form;
+
+    if (formField === "documentos") {
+      formik.setFieldValue(formField, value, true);
+      formik.setFieldValue("nroDocumento", "", false);
+    }
+    if (formField === "nroDocumento") {
+      const { documentos } = formik.state.values;
+      let maxLengthInput;
+      let minLengthInput;
+      let valor = "[0-9]";
+      const id = this.state.typeDocs.find(
+        (arreglo) => arreglo.id === documentos
+      );
+      if (id === undefined) {
+        this.setState({
+          showModalSucesss: true,
+          disclaimerModal: "Porfavor elija el Tipo de documento",
+        });
+      } else {
+        maxLengthInput = id.maxLength;
+        minLengthInput = id.minLength;
+      }
+
+      if (documentos === "04" || documentos === "07") {
+        valor = "";
+      } else {
+        valor = "[0-9]";
+      }
+      formik.setFieldValue("maxLengthValue", maxLengthInput, true);
+      formik.setFieldValue("minLengthValue", minLengthInput, true);
+      formik.setFieldValue("ingreso", valor, true);
+      formik.setFieldValue(formField, value.toUpperCase(), true);
+    }
+  };
+
+  handleInfoSubmit = (CustomerModel) => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkRegisterApi = `${process.env.REACT_APP_PATH_SERVICE}/customer/registerCustomer`;
+
+    const rspApi = Axios.post(linkRegisterApi, CustomerModel, {
       headers: headers,
     })
       .then((response) => {
@@ -116,7 +202,7 @@ class RegisterBusiness extends Component {
     var LoginModel = {
       username: username,
       password: password,
-      workflow: "B",
+      workflow: "C",
     };
 
     const rspApi = Axios.post(linkLoginApi, LoginModel, {
@@ -130,7 +216,8 @@ class RegisterBusiness extends Component {
             "info",
             JSON.stringify(response.data.data.listMenu)
           );
-          sessionStorage.setItem("workflow", "B");
+          sessionStorage.setItem("workflow", "C");
+          this.handleGetDataCustomer();
         }
         console.log(response);
         return response;
@@ -141,6 +228,37 @@ class RegisterBusiness extends Component {
     return rspApi;
   };
 
+  handleGetDataCustomer = () => {
+    try {
+      const tk = sessionStorage.getItem("tk");
+      var headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tk}`,
+      };
+
+      let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/customer/getCustomer`;
+
+      const rspApi = Axios.get(linkDocumentsApi, {
+        headers: headers,
+      })
+        .then((response) => {
+          const { data } = response.data;
+
+          sessionStorage.setItem("name", data[0].name);
+          sessionStorage.setItem("lastName", data[0].lastName);
+
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      return rspApi;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   handleGetTerms = () => {
     var headers = {
       "Content-Type": "application/json",
@@ -148,14 +266,14 @@ class RegisterBusiness extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTemplates/3`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getTemplates/2`;
 
     const rspApi = Axios.get(linkDocumentsApi, {
       headers: headers,
     })
       .then((response) => {
         const { data } = response.data;
-        console.log(data);
+        // console.log(data);
 
         this.setState({
           terms: data,
@@ -166,8 +284,8 @@ class RegisterBusiness extends Component {
       .catch((error) => {
         console.log(error);
         this.setState({
-          modal: true,
-          message:
+          showModalSucesss: true,
+          disclaimerModal:
             "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
           errorTerms: true,
         });
@@ -180,16 +298,18 @@ class RegisterBusiness extends Component {
       showModalSucesss: false,
     });
     if (this.state.response === true) {
-      this.setState({
-        isLoading: true,
-      });
-      setTimeout(() => {
-        this.props.history.push("/business/category");
-        this.props.history.go();
-        this.setState({
-          isLoading: false,
-        });
-      }, 500);
+      if (localStorage.getItem("reserve") === "true") {
+        this.props.history.push(`/reserve/${localStorage.getItem("id")}`);
+        localStorage.removeItem("reserve");
+        localStorage.removeItem("id");
+      } else {
+        setTimeout(() => {
+          this.props.history.push("/");
+          this.props.history.go();
+        }, 500);
+      }
+    } else if (this.state.errorTerms === true) {
+      this.props.history.push("/");
     }
   };
 
@@ -234,6 +354,14 @@ class RegisterBusiness extends Component {
     }
   };
 
+  handleMayus = (e) => {
+    const value = e.target.value;
+    const formField = e.target.name;
+    const formik = this.form;
+
+    formik.setFieldValue(formField, value.toUpperCase(), true);
+  };
+
   render() {
     return (
       <>
@@ -265,6 +393,7 @@ class RegisterBusiness extends Component {
             </div>
           </Fade>
         </Modal>
+
         <Dialog
           open={this.state.termsModal}
           onClose={() => this.handleTerms(2)}
@@ -307,23 +436,32 @@ class RegisterBusiness extends Component {
 
         <div className="page-container">
           <div className="login">
-            <h3 className="register__subtitle">Doy un servicio</h3>
+            <h3 className="register__subtitle">Soy un cliente</h3>
             <h1>Registra tu cuenta</h1>
             <Formik
               ref={(ref) => (this.form = ref)}
               initialValues={{
-                razon: "",
                 nombre: "",
-                nroDocumento: "",
+                apellido: "",
                 correo: "",
+                celular: "",
                 contraseña: "",
                 repContraseña: "",
+                documentos: "",
+                nroDocumento: "",
+                maxLengthValue: 8,
+                minLengthValue: 1,
+                ingreso: "[0-9]",
                 checkbox: false,
               }}
               validate={(values) => {
                 const {
-                  nroDocumento,
                   correo,
+                  celular,
+                  nroDocumento,
+                  maxLengthValue,
+                  documentos,
+                  minLengthValue,
                   checkbox,
                   contraseña,
                   repContraseña,
@@ -331,15 +469,47 @@ class RegisterBusiness extends Component {
 
                 let errors = {};
 
-                if (nroDocumento.length < 11) {
-                  errors.nroDocumento =
-                    "*El número de documento debe ser de 11 dígitos.";
-                }
-
                 if (!EMAIL_REGEXP.test(correo)) {
                   errors.correo = EMAIL_INVALID;
                 } else if (correo.length < E_MINLENGTH) {
                   errors.correo = EMAIL_MINLENGTH;
+                }
+                if (!nroDocumento) {
+                  errors.nroDocumento = "";
+                } else if (nroDocumento.length < minLengthValue) {
+                  errors.nroDocumento = `*El número de documento debe tener un mínimo de ${minLengthValue} dígitos`;
+                }
+
+                if (celular.startsWith("0")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("1")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("2")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("3")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("4")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("5")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("6")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("7")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.startsWith("8")) {
+                  errors.celular =
+                    "*El número de celular debe iniciar con el dígito 9.";
+                } else if (celular.length < 9) {
+                  errors.celular =
+                    "*El número de celular debe tener 9 dígitos.";
                 }
 
                 if (!contraseña) {
@@ -363,46 +533,52 @@ class RegisterBusiness extends Component {
                 }
 
                 if (checkbox === false) {
-                  errors.checkbox = "Debes aceptar los términos y condiciones";
+                  errors.checkbox =
+                    "*Desbes aceptar los términos y condiciones";
                 }
 
                 return errors;
               }}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                const BusinessModel = {
-                  businessName: "",
-                  tradeName: "",
-                  documentNumber: "",
-                  email: "",
-                  password: "",
+                const CustomerModel = {
                   confirmPassword: "",
+                  documentNumber: "",
+                  documentType: "",
+                  email: "",
+                  lastName: "",
+                  mobile: "",
+                  name: "",
+                  password: "",
                 };
 
-                BusinessModel.businessName = values.razon;
-                BusinessModel.tradeName = values.nombre;
-                BusinessModel.email = values.correo;
-                BusinessModel.documentNumber = values.nroDocumento;
-                BusinessModel.password = values.contraseña;
-                BusinessModel.confirmPassword = values.repContraseña;
+                CustomerModel.name = values.nombre;
+                CustomerModel.lastName = values.apellido;
+                CustomerModel.email = values.correo;
+                CustomerModel.mobile = values.celular;
+                CustomerModel.documentType = values.documentos;
+                CustomerModel.documentNumber = values.nroDocumento;
+                CustomerModel.password = values.contraseña;
+                CustomerModel.confirmPassword = values.repContraseña;
+
+                console.log(CustomerModel);
 
                 (async () => {
                   const responseSubmit = await this.handleInfoSubmit(
-                    BusinessModel
+                    CustomerModel
                   );
-
                   const { response } = responseSubmit.data;
-
                   if (response === "true") {
+                    console.log(response);
                     this.setState({
+                      isLoading: false,
                       showModalSucesss: true,
                       disclaimerModal: responseSubmit.data.message,
                       response: true,
-                      isLoading: false,
                     });
                     this.handleLogin(
-                      BusinessModel.email,
-                      BusinessModel.confirmPassword
+                      CustomerModel.email,
+                      CustomerModel.confirmPassword
                     );
                   }
                 })();
@@ -421,32 +597,32 @@ class RegisterBusiness extends Component {
                   <div className="files">
                     <div className="txt-left">
                       <TextField
-                        name="razon"
+                        name="nombre"
                         className="TxtField"
                         variant="outlined"
-                        placeholder="Razón social"
+                        placeholder="Nombres"
                         required
                         fullWidth
-                        value={values.razon}
-                        error={errors.razon && touched.razon}
+                        value={values.nombre}
+                        error={errors.nombre && touched.nombre}
                         onBlur={handleBlur}
-                        onChange={handleChange}
+                        onChange={this.handleMayus}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
                     </div>
 
                     <div className="txt-right">
                       <TextField
-                        name="nombre"
+                        name="apellido"
                         className="TxtField"
                         variant="outlined"
-                        placeholder="Nombre comercial"
+                        placeholder="Apellidos"
                         required
                         fullWidth
-                        value={values.nombre}
-                        error={errors.nombre && touched.nombre}
+                        value={values.apellido}
+                        error={errors.apellido && touched.apellido}
                         onBlur={handleBlur}
-                        onChange={handleChange}
+                        onChange={this.handleMayus}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
                     </div>
@@ -454,35 +630,93 @@ class RegisterBusiness extends Component {
 
                   <div className="files">
                     <div className="txt-left">
+                      <Select
+                        style={{
+                          backgroundColor: "white",
+                        }}
+                        fullWidth
+                        variant="outlined"
+                        value={values.documentos}
+                        error={errors.documentos && touched.documentos}
+                        name="documentos"
+                        displayEmpty
+                        required
+                        onChange={this.handleDocumentChange}
+                        onBlur={handleBlur}
+                      >
+                        <MenuItem disabled value={""}>
+                          <span className="empty--option">
+                            Tipo de documento
+                          </span>
+                        </MenuItem>
+                        {this.state.typeDocs &&
+                          this.state.typeDocs.map(
+                            ({ id, descriptionLarge }) => (
+                              <MenuItem key={id} value={id}>
+                                {descriptionLarge}
+                              </MenuItem>
+                            )
+                          )}
+                      </Select>
+                    </div>
+
+                    <div className="txt-right">
                       <TextField
                         name="nroDocumento"
                         className="TxtField"
                         variant="outlined"
-                        placeholder="RUC"
+                        placeholder="Número de documento"
                         required
                         fullWidth
                         value={values.nroDocumento}
                         error={errors.nroDocumento && touched.nroDocumento}
                         onBlur={handleBlur}
-                        onChange={handleChange}
-                        inputProps={{ maxLength: 11 }}
+                        onChange={this.handleDocumentChange}
+                        inputProps={{
+                          maxLength: values.maxLengthValue,
+                          minLength: values.minLengthValue,
+                        }}
                         autoComplete="off"
-                        onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                        onInput={handleRegexDisable(values.ingreso)} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
                       <ErrorMessage
-                        className="error"
+                        className="error bottom"
                         name="nroDocumento"
                         component="div"
                       />
                     </div>
+                  </div>
 
+                  <div className="files">
+                    <div className="txt-left">
+                      <TextField
+                        name="celular"
+                        className="TxtField"
+                        variant="outlined"
+                        placeholder="Número de celular"
+                        fullWidth
+                        value={values.celular}
+                        error={errors.celular && touched.celular}
+                        required
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        inputProps={{
+                          maxLength: 9,
+                        }}
+                        onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                      <ErrorMessage
+                        className="error bottom"
+                        name="celular"
+                        component="div"
+                      />
+                    </div>
                     <div className="txt-right">
                       <TextField
                         name="correo"
                         className="TxtField"
                         variant="outlined"
                         placeholder="Correo electrónico"
-                        type="email"
                         required
                         fullWidth
                         value={values.correo}
@@ -594,7 +828,7 @@ class RegisterBusiness extends Component {
                             </IconButton>
                           </InputAdornment>
                         }
-                        placeholder="Contraseña"
+                        placeholder="Repetir contraseña"
                       />
                       <ErrorMessage
                         className="error"
@@ -603,7 +837,6 @@ class RegisterBusiness extends Component {
                       />
                     </div>
                   </div>
-
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -628,6 +861,7 @@ class RegisterBusiness extends Component {
                     className="btn-primary"
                     type="submit"
                     fullWidth
+                    disabled={isSubmitting}
                   >
                     Registrar
                   </Button>
@@ -641,4 +875,4 @@ class RegisterBusiness extends Component {
   }
 }
 
-export default RegisterBusiness;
+export default RegisterCustomer;

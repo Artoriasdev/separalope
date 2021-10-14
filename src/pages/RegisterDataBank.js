@@ -2,7 +2,6 @@ import React from "react";
 import { Component } from "react";
 import Axios from "axios";
 import { ErrorMessage, Formik } from "formik";
-import ModalSucess from "./ModalSucess";
 import {
   TextField,
   Button,
@@ -15,14 +14,13 @@ import {
 import { handleRegexDisable } from "../utils/utilitaries";
 import { Save } from "@material-ui/icons";
 import axios from "axios";
-import ModalError from "./ModalError";
 import { EMAIL_REGEXP } from "../utils/regexp";
 import {
   EMAIL_INVALID,
   EMAIL_MINLENGTH,
   E_MINLENGTH,
 } from "../utils/constants";
-import FullPageLoader from "./FullPageLoader";
+import FullPageLoader from "../components/FullPageLoader";
 
 class RegisterDataBank extends Component {
   constructor(props) {

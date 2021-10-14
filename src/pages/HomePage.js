@@ -70,6 +70,7 @@ class HomePage extends Component {
       message: "",
       list: false,
       identificadorName: "",
+      logo: [],
     };
   }
 
@@ -102,21 +103,10 @@ class HomePage extends Component {
       })
       .then((response) => {
         const { data } = response.data;
-        console.log(data);
-        const rsp = response.data.response;
-        this.setState({
-          isLoading: true,
-        });
 
         this.setState({
           typeCategorys: data,
         });
-        if (rsp === "true") {
-          this.setState({
-            isLoading: false,
-          });
-        }
-        // console.log(rsp);
 
         return response;
       })
@@ -154,7 +144,6 @@ class HomePage extends Component {
           })
           .then((response) => {
             const { data } = response.data;
-            console.log(data);
 
             this.setState({
               enterprises: data,
@@ -232,9 +221,13 @@ class HomePage extends Component {
         <Carousel />
         <div className="page-container">
           <div className="home-container">
-            {/* <div style={{ width: "36px", height: "36px" }}>
-              <LogoSVG />
-            </div> */}
+            <div>
+              {this.state.typeCategorys.map(({ id, logo, name }) =>
+                logo !== undefined ? (
+                  <img key={id} id={id} src={logo} alt={name} />
+                ) : null
+              )}
+            </div>
             <div className="home-text">
               <h1>Nuestras categorías</h1>
 

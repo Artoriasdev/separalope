@@ -22,7 +22,7 @@ import {
 } from "../utils/constants";
 import { EMAIL_REGEXP } from "../utils/regexp";
 import { handleRegexDisable } from "../utils/utilitaries";
-import FullPageLoader from "./FullPageLoader";
+import FullPageLoader from "../components/FullPageLoader";
 
 class ReserveAppointmentInvited extends Component {
   constructor(props) {

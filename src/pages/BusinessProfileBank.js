@@ -22,7 +22,7 @@ import {
   EMAIL_MINLENGTH,
   E_MINLENGTH,
 } from "../utils/constants";
-import FullPageLoader from "./FullPageLoader";
+import FullPageLoader from "../components/FullPageLoader";
 import Blank from "../assets/images/blank-pfp.svg";
 
 class BusinessProfileBank extends Component {

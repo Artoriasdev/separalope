@@ -17,7 +17,7 @@ import {
   EMAIL_MINLENGTH,
   E_MINLENGTH,
 } from "../utils/constants";
-import FullPageLoader from "./FullPageLoader";
+import FullPageLoader from "../components/FullPageLoader";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -182,8 +182,7 @@ class Complains extends Component {
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
       formik.setFieldValue("minLengthValue", minLengthInput, true);
       formik.setFieldValue("ingreso", valor, true);
-      formik.setFieldValue(formField, value, true);
-      console.log(maxLengthInput, minLengthInput);
+      formik.setFieldValue(formField, value.toUpperCase(), true);
     }
   };
   handleComplaintChange = (e) => {
@@ -388,6 +387,7 @@ class Complains extends Component {
                 complainModel.requestType = values.tipoSolicitud;
                 complainModel.requestCategory = values.categoria;
                 complainModel.requestDetail = values.descripcion;
+                complainModel.codeReservation = values.codigoReserva;
 
                 (async () => {
                   console.log(complainModel);

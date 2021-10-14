@@ -21,7 +21,7 @@ import { Formik } from "formik";
 import React from "react";
 import { Component } from "react";
 import { handleRegexDisable } from "../utils/utilitaries";
-import FullPageLoader from "./FullPageLoader";
+import FullPageLoader from "../components/FullPageLoader";
 
 class ServiceDetail extends Component {
   constructor(props) {

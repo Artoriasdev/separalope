@@ -83,7 +83,7 @@ export const CookiesBanner = () => {
           Esta página web usa cookies para mejorar la experiencia del usuario.
         </p>
         <p style={{ textAlign: "center" }}>
-          <a href="/">Políticas de cookies</a>
+          <a href="/cookie-policy">Políticas de cookies</a>
         </p>
       </CookieConsent>
       {cookie === true ? (

@@ -159,13 +159,13 @@ class Password extends Component {
 
                 if (!repetirContraseña) {
                   errors.repetirContraseña = "";
-                } else if (!PASSWORD_REGEXP.test(repetirContraseña)) {
-                  errors.repetirContraseña = PASS_INVALID;
                 } else if (
-                  repetirContraseña.length < PASSN_MINLENGTH &&
-                  cambiarContraseña !== repetirContraseña
+                  !PASSWORD_REGEXP.test(repetirContraseña) &&
+                  repetirContraseña.length < PASSN_MINLENGTH
                 ) {
-                  errors.repetirContraseña = PASS_MINLENGTH;
+                  errors.repetirContraseña = PASS_INVALID;
+                } else if (cambiarContraseña !== repetirContraseña) {
+                  errors.repetirContraseña = MATCH;
                 }
 
                 return errors;

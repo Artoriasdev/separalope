@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import React, { Component } from "react";
-import VerticalBar from "./VerticalBar";
+import VerticalBar from "../components/VerticalBar";
 import { NavigateNext } from "@material-ui/icons";
 
 class BusinessReports extends Component {

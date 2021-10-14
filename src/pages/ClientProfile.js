@@ -245,7 +245,7 @@ class ClientProfile extends Component {
       formik.setFieldValue("maxLengthValue", maxLengthInput, true);
       formik.setFieldValue("minLengthValue", minLengthInput, true);
       formik.setFieldValue("ingreso", valor, true);
-      formik.setFieldValue(formField, value, true);
+      formik.setFieldValue(formField, value.toUpperCase(), true);
     }
   };
 
@@ -339,7 +339,7 @@ class ClientProfile extends Component {
                 if (!numeroDocumento) {
                   errors.numeroDocumento = "";
                 } else if (numeroDocumento.length < minLengthValue) {
-                  errors.numeroDocumento = `*El número de documento debe ser de ${maxLengthValue} dígitos`;
+                  errors.numeroDocumento = `*El número de documento debe ser mínimo de ${minLengthValue} dígitos`;
                 }
 
                 if (!celular) {

@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import { BackSide, Flippy, FrontSide } from "react-flippy";
 import { RatingService } from "../helpers/RatingService";
-import Banner from "./BannerBusiness";
+import Banner from "../components/BannerBusiness";
 
 class MenuServicesBusiness extends Component {
   constructor(props) {

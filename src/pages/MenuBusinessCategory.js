@@ -14,7 +14,7 @@ import {
   Paper,
   TextField,
 } from "@material-ui/core";
-import Banner from "./BannerCategory";
+import Banner from "../components/BannerCategory";
 import { Search } from "@material-ui/icons";
 import "animate.css";
 

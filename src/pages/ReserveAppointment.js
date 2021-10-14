@@ -16,7 +16,7 @@ import axios from "axios";
 import { Formik, ErrorMessage } from "formik";
 import React, { Component } from "react";
 import { handleRegexDisable } from "../utils/utilitaries";
-import FullPageLoader from "./FullPageLoader";
+import FullPageLoader from "../components/FullPageLoader";
 
 class ReserveAppointment extends Component {
   constructor(props) {
