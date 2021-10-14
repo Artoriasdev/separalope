@@ -1,6 +1,6 @@
 import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
 import axios from "axios";
-import { Formik } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import React, { Component } from "react";
 
 class PasswordOTP extends Component {
@@ -125,7 +125,18 @@ class PasswordOTP extends Component {
                   correo: "",
                   otp: "",
                 }}
-                validate={{}}
+                validate={(values) => {
+                  const { otp } = values;
+                  let errors = {};
+
+                  if (!otp) {
+                    errors.otp = "";
+                  } else if (otp.length < 5) {
+                    errors.otp = "*El código debe ser mayor a 5 dígitos";
+                  }
+
+                  return errors;
+                }}
                 onSubmit={(values, { setSubmitting }) => {
                   setSubmitting(false);
                   const RecoveryModel = {
@@ -185,14 +196,17 @@ class PasswordOTP extends Component {
                           onChange={handleChange}
                           required
                           fullWidth
-
-                          // inputProps={{
-                          //   maxLength: 9,
-                          // }}
+                          inputProps={{
+                            maxLength: 5,
+                          }}
+                        />
+                        <ErrorMessage
+                          className="error"
+                          name="otp"
+                          component="div"
                         />
                       </div>
                     </div>
-                    <div className="files"></div>
 
                     <Button
                       size="large"

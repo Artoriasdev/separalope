@@ -318,16 +318,11 @@ class ClientProfile extends Component {
                 correo: "",
                 maxLengthValue: 8,
                 minLengthValue: 1,
-                ingreso: "[0-9]",
+                ingreso: "",
               }}
               validate={(values) => {
-                const {
-                  numeroDocumento,
-                  celular,
-                  correo,
-                  maxLengthValue,
-                  minLengthValue,
-                } = values;
+                const { numeroDocumento, celular, correo, minLengthValue } =
+                  values;
 
                 let errors = {};
 
