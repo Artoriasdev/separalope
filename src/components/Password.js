@@ -151,7 +151,7 @@ class Password extends Component {
                 if (!cambiarContraseña) {
                   errors.cambiarContraseña = "";
                 } else if (
-                  cambiarContraseña.length < PASSN_MINLENGTH &&
+                  cambiarContraseña.length < PASSN_MINLENGTH ||
                   !PASSWORD_REGEXP.test(cambiarContraseña)
                 ) {
                   errors.cambiarContraseña = PASS_MINLENGTH;

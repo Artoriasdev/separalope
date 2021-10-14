@@ -528,7 +528,7 @@ class RegisterCustomer extends Component {
                 if (!contraseña) {
                   errors.contraseña = "";
                 } else if (
-                  !PASSWORD_REGEXP.test(contraseña) &&
+                  !PASSWORD_REGEXP.test(contraseña) ||
                   contraseña.length < PASSN_MINLENGTH
                 ) {
                   errors.contraseña = PASS_INVALID;
