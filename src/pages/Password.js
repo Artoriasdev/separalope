@@ -7,12 +7,7 @@ import { handleRegexDisable } from "../utils/utilitaries";
 import { Save, Visibility, VisibilityOff } from "@material-ui/icons";
 import axios from "axios";
 import { PASSWORD_REGEXP } from "../utils/regexp";
-import {
-  MATCH,
-  PASSN_MINLENGTH,
-  PASS_INVALID,
-  PASS_MINLENGTH,
-} from "../utils/constants";
+import { MATCH, PASSN_MINLENGTH, PASS_INVALID } from "../utils/constants";
 
 class Password extends Component {
   constructor(props) {
@@ -154,13 +149,13 @@ class Password extends Component {
                   cambiarContraseña.length < PASSN_MINLENGTH ||
                   !PASSWORD_REGEXP.test(cambiarContraseña)
                 ) {
-                  errors.cambiarContraseña = PASS_MINLENGTH;
+                  errors.cambiarContraseña = PASS_INVALID;
                 }
 
                 if (!repetirContraseña) {
                   errors.repetirContraseña = "";
                 } else if (
-                  !PASSWORD_REGEXP.test(repetirContraseña) &&
+                  !PASSWORD_REGEXP.test(repetirContraseña) ||
                   repetirContraseña.length < PASSN_MINLENGTH
                 ) {
                   errors.repetirContraseña = PASS_INVALID;

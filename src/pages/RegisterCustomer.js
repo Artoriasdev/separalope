@@ -29,7 +29,6 @@ import {
   MATCH,
   PASSN_MINLENGTH,
   PASS_INVALID,
-  PASS_MINLENGTH,
 } from "../utils/constants";
 import { EMAIL_REGEXP, PASSWORD_REGEXP } from "../utils/regexp";
 import FullPageLoader from "../components/FullPageLoader";
@@ -524,7 +523,7 @@ class RegisterCustomer extends Component {
                 if (!repContraseña) {
                   errors.repContraseña = "";
                 } else if (
-                  !PASSWORD_REGEXP.test(repContraseña) &&
+                  !PASSWORD_REGEXP.test(repContraseña) ||
                   repContraseña.length < PASSN_MINLENGTH
                 ) {
                   errors.repContraseña = PASS_INVALID;

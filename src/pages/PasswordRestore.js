@@ -12,12 +12,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import axios from "axios";
 import { ErrorMessage, Formik } from "formik";
 import React, { Component } from "react";
-import {
-  MATCH,
-  PASSN_MINLENGTH,
-  PASS_INVALID,
-  PASS_MINLENGTH,
-} from "../utils/constants";
+import { MATCH, PASSN_MINLENGTH, PASS_INVALID } from "../utils/constants";
 import { PASSWORD_REGEXP } from "../utils/regexp";
 
 class PasswordRestore extends Component {
@@ -172,7 +167,7 @@ class PasswordRestore extends Component {
                   if (!repetirContraseña) {
                     errors.repetirContraseña = "";
                   } else if (
-                    !PASSWORD_REGEXP.test(repetirContraseña) &&
+                    !PASSWORD_REGEXP.test(repetirContraseña) ||
                     repetirContraseña.length < PASSN_MINLENGTH
                   ) {
                     errors.repetirContraseña = PASS_INVALID;

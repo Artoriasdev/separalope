@@ -155,9 +155,6 @@ export const CookiesBanner = () => {
                   los datos de uso que hacen los usuarios del servicio.
                 </AccordionDetails>
               </Accordion>
-              <p style={{ textAlign: "center" }}>
-                <a href="/">Políticas de cookies</a>
-              </p>
             </div>
           </CookieConsent>
         </>
