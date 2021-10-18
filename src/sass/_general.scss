@@ -961,6 +961,15 @@ button {
       width: 100%;
       position: relative !important;
     }
+    @include mobile {
+      margin-top: 5px;
+      h1 {
+        margin-bottom: 0 !important;
+      }
+      h3 {
+        margin-top: 5px !important;
+      }
+    }
   }
   .home-search {
     float: right;
@@ -1173,6 +1182,10 @@ button {
   border-bottom: solid 4px #232323;
   .carousel-background {
     background: rgba(0, 0, 0, 0.3);
+    height: 580px;
+    @include mobile {
+      height: 200px;
+    }
   }
   .content {
     height: 100%;
@@ -1183,6 +1196,11 @@ button {
   }
   .title {
     padding-top: 5vh;
+    padding-left: 50px;
+    @include mobile {
+      padding-top: 0;
+      padding-left: 8px;
+    }
     h2 {
       text-align: left;
     }
