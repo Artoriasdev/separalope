@@ -225,7 +225,7 @@ class MenuBusinessCategory extends Component {
         <div className="page-container" style={{ margin: "0 auto" }}>
           <div className="home-container">
             <div className="home-text">
-              <h1>Nuestras negocios</h1>
+              <h1>Nuestros negocios</h1>
 
               <h3 className="register__subtitle">
                 Al alcance de todos y a tan solo un click
