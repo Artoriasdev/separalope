@@ -957,18 +957,16 @@ button {
   .home-text {
     width: 50%;
     position: absolute;
+    margin-top: 5px;
+    h1 {
+      margin-bottom: 0 !important;
+    }
+    h3 {
+      margin-top: 5px !important;
+    }
     @include tablet {
       width: 100%;
       position: relative !important;
-    }
-    @include mobile {
-      margin-top: 5px;
-      h1 {
-        margin-bottom: 0 !important;
-      }
-      h3 {
-        margin-top: 5px !important;
-      }
     }
   }
   .home-search {
