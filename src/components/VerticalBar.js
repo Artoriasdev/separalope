@@ -51,7 +51,7 @@ const VerticalBar = (props) => {
         if (props.fecha === "D") {
           for (let i = 0; i < data.length; i++) {
             for (let x = 0; x < 1; x++) {
-              labelTest.push(data[i].days[x].nameDay);
+              labelTest.push(data[i].days[x].nameDaySpanish);
               if (props.venta === 1) {
                 numberTest.push(JSON.parse(data[i].days[x].totalQuantityDay));
               } else if (props.venta === 2) {
@@ -65,7 +65,7 @@ const VerticalBar = (props) => {
         } else if (props.fecha === "M") {
           for (let i = 0; i < data.length; i++) {
             for (let x = 0; x < 1; x++) {
-              labelTest.push(data[i].months[x].nameMonth);
+              labelTest.push(data[i].months[x].nameMonthSpanish);
               if (props.venta === 1) {
                 numberTest.push(
                   JSON.parse(data[i].months[x].totalQuantityMonth)
