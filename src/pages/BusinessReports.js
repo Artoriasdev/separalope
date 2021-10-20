@@ -7,6 +7,12 @@ import {
   MenuItem,
   Modal,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@material-ui/core";
 import axios from "axios";
 import React, { Component } from "react";
@@ -17,8 +23,8 @@ class BusinessReports extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fecha: 1,
-      ventas: 1,
+      fecha: "",
+      ventas: 0,
       message: "",
       modal: false,
       forceRedirect: false,
@@ -167,14 +173,14 @@ class BusinessReports extends Component {
                     required
                     variant="outlined"
                     fullWidth
-                    displayEmpty={false}
+                    displayEmpty
                   >
-                    <MenuItem selected={true} disabled value={0}>
-                      Resultados
+                    <MenuItem selected={true} disabled value={""}>
+                      Seleccione
                     </MenuItem>
-                    <MenuItem value={1}>Días</MenuItem>
-                    <MenuItem value={2}>Semanas</MenuItem>
-                    <MenuItem value={3}>Meses</MenuItem>
+                    <MenuItem value={"D"}>Días</MenuItem>
+                    <MenuItem value={"S"}>Semanas</MenuItem>
+                    <MenuItem value={"M"}>Meses</MenuItem>
                   </Select>
                 </div>
                 <div className="txt-right">
@@ -186,9 +192,10 @@ class BusinessReports extends Component {
                     required
                     variant="outlined"
                     fullWidth
+                    displayEmpty
                   >
-                    <MenuItem disabled value={0}>
-                      Tipo
+                    <MenuItem selected={true} disabled value={0}>
+                      Seleccione
                     </MenuItem>
                     <MenuItem value={1}>Servicios</MenuItem>
                     <MenuItem value={2}>Ventas</MenuItem>
@@ -198,6 +205,27 @@ class BusinessReports extends Component {
             </div>
 
             <VerticalBar fecha={this.state.fecha} venta={this.state.ventas} />
+
+            <div className="vertical-bar">
+              <TableContainer className="table">
+                <Table sx={{ minWidth: 650 }}>
+                  <TableHead className="table-head">
+                    <TableRow>
+                      <TableCell className="font-tittle">Local</TableCell>
+                      <TableCell className="font-tittle">Ventas</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font">Nombre Local</TableCell>
+                      <TableCell className="font" width="25%">
+                        S/. Monto
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
           </div>
         </div>
       </>
