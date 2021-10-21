@@ -101,9 +101,9 @@ const VerticalBar = (props) => {
     }
 
     if (props.venta === 1) {
-      setLabel("Servicios dados");
+      setLabel("Cantidad Ventas");
     } else if (props.venta === 2) {
-      setLabel("Cantidad recaudada");
+      setLabel("S/.");
     }
   };
   var v = 0;
