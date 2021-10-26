@@ -28,6 +28,8 @@ class BusinessReports extends Component {
       message: "",
       modal: false,
       forceRedirect: false,
+      listData: [],
+      today: new Date(),
     };
   }
 
@@ -86,6 +88,45 @@ class BusinessReports extends Component {
     }
   }
 
+  handleGetSalesConsolidate = (D) => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${sessionStorage.getItem("tk")}`,
+    };
+    var date =
+      this.state.today.getFullYear() +
+      "-" +
+      (this.state.today.getMonth() + 1) +
+      "-" +
+      this.state.today.getDate();
+
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/report/salesConsolidate/${date}/${D}`;
+
+    const rspApi = axios
+      .get(linkDocumentsApi, {
+        headers: headers,
+      })
+      .then((response) => {
+        const { data } = response.data;
+        this.setState({
+          listData: data,
+        });
+        console.log(data);
+
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          modal: true,
+          message:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
+      });
+    return rspApi;
+  };
+
   handleDocumentChange = (e) => {
     const value = e.target.value;
     const formField = e.target.name;
@@ -93,6 +134,7 @@ class BusinessReports extends Component {
       this.setState({
         fecha: value,
       });
+      this.handleGetSalesConsolidate(value);
     } else if (formField === "venta") {
       this.setState({
         ventas: value,

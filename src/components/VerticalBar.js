@@ -4,6 +4,29 @@ import { Bar } from "react-chartjs-2";
 
 const VerticalBar = (props) => {
   const semanas = ["Semana 1", "Semana 2", "Semana 3", "Semana 4"];
+  const dias = [
+    "Lunes ",
+    "Martes ",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado",
+    "Domingo",
+  ];
+  const meses = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
 
   var today = new Date();
   var date =
@@ -47,44 +70,60 @@ const VerticalBar = (props) => {
       })
       .then((response) => {
         const { data } = response.data;
+        if (data[0].rankOfTime !== undefined) {
+          // console.log("Esta ejecutando");
+          if (props.fecha === "D") {
+            for (let i = 0; i < data.length; i++) {
+              for (let x = 0; x < 1; x++) {
+                labelTest.push(data[i].days[x].nameDaySpanish);
+                if (props.venta === 1) {
+                  numberTest.push(JSON.parse(data[i].days[x].totalQuantityDay));
+                } else if (props.venta === 2) {
+                  numberTest.push(JSON.parse(data[i].days[x].totalMountDay));
+                }
+              }
+            }
+            for (let i = 0; i < 7; i++) {
+              if (!labelTest.includes(dias[i])) {
+                labelTest.splice(i, 0, dias[i]);
+                numberTest.splice(i, 0, 0);
+              }
+            }
+            setLabels(labelTest);
+            setNumbers(numberTest);
+            setTime(data[0].rankOfTime);
+          } else if (props.fecha === "M") {
+            for (let i = 0; i < data.length; i++) {
+              for (let x = 0; x < 1; x++) {
+                labelTest.push(data[i].months[x].nameMonthSpanish);
+                if (props.venta === 1) {
+                  numberTest.push(
+                    JSON.parse(data[i].months[x].totalQuantityMonth)
+                  );
+                } else if (props.venta === 2) {
+                  numberTest.push(
+                    JSON.parse(data[i].months[x].totalMountMonth)
+                  );
+                }
+              }
+            }
+            for (let i = 0; i < 12; i++) {
+              if (!labelTest.includes(meses[i])) {
+                labelTest.splice(i, 0, meses[i]);
+                numberTest.splice(i, 0, 0);
+              }
+            }
+            setLabels(labelTest);
+            setNumbers(numberTest);
+            setTime(data[0].rankOfTime);
+          } else if (props.fecha === "S") {
+            setTime("Octubre");
+          }
 
-        if (props.fecha === "D") {
-          for (let i = 0; i < data.length; i++) {
-            for (let x = 0; x < 1; x++) {
-              labelTest.push(data[i].days[x].nameDaySpanish);
-              if (props.venta === 1) {
-                numberTest.push(JSON.parse(data[i].days[x].totalQuantityDay));
-              } else if (props.venta === 2) {
-                numberTest.push(JSON.parse(data[i].days[x].totalMountDay));
-              }
-            }
-          }
-          setLabels(labelTest);
-          setNumbers(numberTest);
-          setTime(data[0].rankOfTime);
-        } else if (props.fecha === "M") {
-          for (let i = 0; i < data.length; i++) {
-            for (let x = 0; x < 1; x++) {
-              labelTest.push(data[i].months[x].nameMonthSpanish);
-              if (props.venta === 1) {
-                numberTest.push(
-                  JSON.parse(data[i].months[x].totalQuantityMonth)
-                );
-              } else if (props.venta === 2) {
-                numberTest.push(JSON.parse(data[i].months[x].totalMountMonth));
-              }
-            }
-          }
-          setLabels(labelTest);
-          setNumbers(numberTest);
-          setTime(data[0].rankOfTime);
-        } else if (props.fecha === "S") {
-          setTime("Octubre");
+          // console.log(data);
+          // console.log(labelTest);
+          // console.log(numberTest);
         }
-
-        console.log(data);
-        // console.log(labelTest);
-        // console.log(numberTest);
 
         return response;
       })
@@ -92,19 +131,6 @@ const VerticalBar = (props) => {
         console.log(error);
       });
     return rspApi;
-  };
-
-  const handleChange = () => {
-    if (props.fecha === "S") {
-      setLabels(semanas);
-      setNumbers(numbersSemanas);
-    }
-
-    if (props.venta === 1) {
-      setLabel("Cantidad Ventas");
-    } else if (props.venta === 2) {
-      setLabel("S/.");
-    }
   };
   var v = 0;
 
@@ -124,7 +150,6 @@ const VerticalBar = (props) => {
   useEffect(() => {
     if (props.fecha !== "" && props.venta !== 0) {
       handleSales();
-      handleChange();
     }
   }, [props.fecha, props.venta]);
 
@@ -159,11 +184,18 @@ const VerticalBar = (props) => {
   };
   return (
     <div className="vertical-bar">
-      {props.fecha !== "" && props.venta !== 0 ? (
+      {props.fecha !== "" && props.venta !== 0 && labelTest.length !== 0 ? (
         <div
           style={{ textAlign: "center" }}
           dangerouslySetInnerHTML={{
             __html: ` <h3>Mostrando datos en las fechas de</h3> <p>${time}</p> `,
+          }}
+        />
+      ) : props.fecha !== "" && props.venta !== 0 && labelTest.length === 0 ? (
+        <div
+          style={{ textAlign: "center" }}
+          dangerouslySetInnerHTML={{
+            __html: ` <h3>No hay registros para la búsqueda</h3>`,
           }}
         />
       ) : null}

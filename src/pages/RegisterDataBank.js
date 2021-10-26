@@ -57,7 +57,7 @@ class RegisterDataBank extends Component {
           headers: headers,
         })
         .then((response) => {
-          console.log(response.data.data);
+          // console.log(response.data.data);
           if (response.data.data !== undefined) {
             this.setState({
               modal: true,
@@ -136,7 +136,6 @@ class RegisterDataBank extends Component {
             modal: true,
             message: data.message,
             isLoading: false,
-            response: true,
           });
         }
         return response;
@@ -184,7 +183,7 @@ class RegisterDataBank extends Component {
       })
       .then((response) => {
         const { data } = response.data;
-        console.log(data);
+        // console.log(data);
 
         this.setState({
           typeBank: data,
@@ -218,7 +217,7 @@ class RegisterDataBank extends Component {
       })
       .then((response) => {
         const { data } = response.data;
-        console.log(data);
+        // console.log(data);
 
         this.setState({
           typeAccount: data,
@@ -344,7 +343,6 @@ class RegisterDataBank extends Component {
               validate={(values) => {
                 const {
                   numeroCuenta,
-                  maxLengthValue,
                   minLengthValue,
                   correoBancario,
                   bancoId,
@@ -404,6 +402,7 @@ class RegisterDataBank extends Component {
                       isLoading: false,
                       modal: true,
                       message: responseSubmit.data.message,
+                      response: true,
                     });
                   }
                 })();

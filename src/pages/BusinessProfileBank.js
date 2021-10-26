@@ -24,6 +24,7 @@ import {
 } from "../utils/constants";
 import FullPageLoader from "../components/FullPageLoader";
 import Blank from "../assets/images/blank-pfp.svg";
+import "animate.css";
 
 class BusinessProfileBank extends Component {
   constructor(props) {
@@ -716,7 +717,7 @@ class BusinessProfileBank extends Component {
                 <h2 style={{ marginTop: "17.43px" }}>Datos bancarios</h2>
 
                 {this.state.formModel === undefined ? (
-                  <div>
+                  <div className="animate__animated animate__headShake">
                     Usted no cuenta con ningún dato bancario, favor de registrar
                     sus datos{" "}
                     <button
@@ -728,6 +729,7 @@ class BusinessProfileBank extends Component {
                         border: "none",
                         marginLeft: "-5px",
                         fontSize: "14px",
+                        fontWeight: "bold",
                       }}
                     >
                       aquí
