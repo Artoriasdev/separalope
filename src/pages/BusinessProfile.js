@@ -500,7 +500,7 @@ class BusinessProfile extends Component {
                       name="nombreCompañia"
                       className="TxtField"
                       variant="outlined"
-                      label="Nombre de la compañía"
+                      label="Razón Social"
                       fullWidth
                       value={values.nombreCompañia}
                       error={errors.nombreCompañia && touched.nombreCompañia}

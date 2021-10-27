@@ -70,7 +70,7 @@ export const ReserveComplete = () => {
               <TableHead className="table-head">
                 <TableRow>
                   <TableCell className="font-tittle">
-                    Cuenta de ahorros soles Banco Interbank
+                    Cuenta de ahorros soles Banco de Crédito del Perú (BCP)
                   </TableCell>
                   <TableCell className="font-tittle">M16 S.A.C.</TableCell>
                 </TableRow>
@@ -78,14 +78,13 @@ export const ReserveComplete = () => {
               <TableBody>
                 <TableRow>
                   <TableCell className="font">
-                    Número de cuenta: 200 300 3123 799
+                    Número de cuenta: 194-05364837-0-26
                   </TableCell>
                   <TableCell className="font">RUC: 20601855471</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className="font">
-                    Número de cuenta interbancario (CCI): 003 200 003 003 123
-                    799 30
+                    Número de cuenta interbancario (CCI): 002 194 105 36 48 37 026 98
                   </TableCell>
                 </TableRow>
               </TableBody>

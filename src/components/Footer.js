@@ -151,7 +151,7 @@ export const Footer = () => {
     <>
       <Grid item>
         <p className="font-tittle">Contáctanos</p>
-        <p className="text">Celular : +51 989777887</p>
+        <p className="text">Celular : +51 978 731 556</p>
         <p className="text" style={{ marginTop: "5px" }}>
           Correo: contacto@separalo.pe
         </p>
@@ -234,7 +234,7 @@ export const Footer = () => {
             <div className={classes.sectionDesktop}>
               <Grid item>
                 <p className="font-tittle">Contáctanos</p>
-                <p className="text">Celular : +51 989777887</p>
+                <p className="text">Celular : +51 978 731 556</p>
                 <p className="text" style={{ marginTop: "5px" }}>
                   Correo: contacto@separalo.pe
                 </p>

@@ -1215,18 +1215,27 @@ button {
   background-position: center;
   background-repeat: no-repeat;
   border-bottom: solid 4px #232323;
-  .carousel-background-business {
+  .carousel-background {
     background: rgba(0, 0, 0, 0.3);
+    height: 580px;
+    @include mobile {
+      height: 200px;
+    }
   }
   .content {
     height: 100%;
-    width: 90%;
+    width: 25%;
     justify-content: center;
     align-items: center;
-    margin-bottom: 4%;
+    margin-bottom: 5%;
   }
   .title {
-    padding-top: 10vh;
+    padding-top: 5vh;
+    padding-left: 50px;
+    @include mobile {
+      padding-top: 0;
+      padding-left: 8px;
+    }
     h2 {
       text-align: left;
     }
