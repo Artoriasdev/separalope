@@ -221,7 +221,7 @@ class BusinessReports extends Component {
                       Seleccione
                     </MenuItem>
                     <MenuItem value={"D"}>Días</MenuItem>
-                    <MenuItem value={"S"}>Semanas</MenuItem>
+                    {/* <MenuItem value={"S"}>Semanas</MenuItem>  */}
                     <MenuItem value={"M"}>Meses</MenuItem>
                   </Select>
                 </div>
