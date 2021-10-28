@@ -258,12 +258,19 @@ class BusinessReports extends Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <TableRow>
-                      <TableCell className="font">Nombre Local</TableCell>
-                      <TableCell className="font" width="25%">
-                        S/. Monto
-                      </TableCell>
-                    </TableRow>
+                    {this.state.listData &&
+                      this.state.listData.map(
+                        ({ serviceName, mountTotalFormat, mountTotal }) => (
+                          <TableRow key={mountTotal}>
+                            <TableCell className="font">
+                              {serviceName}
+                            </TableCell>
+                            <TableCell className="font">
+                              {mountTotalFormat}
+                            </TableCell>
+                          </TableRow>
+                        )
+                      )}
                   </TableBody>
                 </Table>
               </TableContainer>
