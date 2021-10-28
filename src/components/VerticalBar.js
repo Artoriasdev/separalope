@@ -5,8 +5,8 @@ import { Bar } from "react-chartjs-2";
 const VerticalBar = (props) => {
   const semanas = ["Semana 1", "Semana 2", "Semana 3", "Semana 4"];
   const dias = [
-    "Lunes ",
-    "Martes ",
+    "Lunes",
+    "Martes",
     "Miércoles",
     "Jueves",
     "Viernes",
@@ -70,7 +70,7 @@ const VerticalBar = (props) => {
       })
       .then((response) => {
         const { data } = response.data;
-        if (data[0].rankOfTime !== undefined) {
+        if (data[0] !== undefined) {
           // console.log("Esta ejecutando");
           if (props.fecha === "D") {
             for (let i = 0; i < data.length; i++) {
@@ -97,10 +97,12 @@ const VerticalBar = (props) => {
               for (let x = 0; x < 1; x++) {
                 labelTest.push(data[i].months[x].nameMonthSpanish);
                 if (props.venta === 1) {
+                  setLabel("Cantidad de ventas");
                   numberTest.push(
                     JSON.parse(data[i].months[x].totalQuantityMonth)
                   );
                 } else if (props.venta === 2) {
+                  setLabel("S/.");
                   numberTest.push(
                     JSON.parse(data[i].months[x].totalMountMonth)
                   );
@@ -116,13 +118,18 @@ const VerticalBar = (props) => {
             setLabels(labelTest);
             setNumbers(numberTest);
             setTime(data[0].rankOfTime);
-          } else if (props.fecha === "S") {
-            setTime("Octubre");
           }
+          // else if (props.fecha === "S") {
+          //   setTime("Octubre");
+          // }
 
           // console.log(data);
           // console.log(labelTest);
           // console.log(numberTest);
+        } else if (data[0] === undefined) {
+          setLabels([]);
+          setNumbers([]);
+          setTime("");
         }
 
         return response;
@@ -184,14 +191,14 @@ const VerticalBar = (props) => {
   };
   return (
     <div className="vertical-bar">
-      {props.fecha !== "" && props.venta !== 0 && labelTest.length !== 0 ? (
+      {props.fecha !== "" && props.venta !== 0 && labels.length !== 0 ? (
         <div
           style={{ textAlign: "center" }}
           dangerouslySetInnerHTML={{
             __html: ` <h3>Mostrando datos en las fechas de</h3> <p>${time}</p> `,
           }}
         />
-      ) : props.fecha !== "" && props.venta !== 0 && labelTest.length === 0 ? (
+      ) : props.fecha !== "" && props.venta !== 0 && labels.length === 0 ? (
         <div
           style={{ textAlign: "center" }}
           dangerouslySetInnerHTML={{
