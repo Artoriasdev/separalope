@@ -11,12 +11,21 @@ import {
   DialogActions,
   FormControlLabel,
   Checkbox,
+  withStyles,
 } from "@material-ui/core";
 import axios from "axios";
 import { Formik, ErrorMessage } from "formik";
 import React, { Component } from "react";
 import { handleRegexDisable } from "../utils/utilitaries";
 import FullPageLoader from "../components/FullPageLoader";
+
+const styles = (theme) => ({
+  dialog: {
+    "& .MuiDialog-paperWidthSm": {
+      maxWidth: "700px",
+    },
+  },
+});
 
 class ReserveAppointment extends Component {
   constructor(props) {
@@ -372,6 +381,7 @@ class ReserveAppointment extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <FullPageLoader isLoading={this.state.isLoading} />
@@ -407,6 +417,7 @@ class ReserveAppointment extends Component {
           open={this.state.termsModal}
           onClose={() => this.handleTerms(2)}
           scroll="paper"
+          className={classes.dialog}
         >
           {this.state.terms.map(({ id, value }) => (
             <DialogContent key={id}>
@@ -716,4 +727,4 @@ class ReserveAppointment extends Component {
   }
 }
 
-export default ReserveAppointment;
+export default withStyles(styles)(ReserveAppointment);

@@ -19,6 +19,7 @@ import {
   Dialog,
   DialogContent,
   DialogActions,
+  withStyles,
 } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { Button } from "@material-ui/core";
@@ -33,6 +34,14 @@ import {
 import { EMAIL_REGEXP, PASSWORD_REGEXP } from "../utils/regexp";
 import FullPageLoader from "../components/FullPageLoader";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+
+const styles = (theme) => ({
+  dialog: {
+    "& .MuiDialog-paperWidthSm": {
+      maxWidth: "700px",
+    },
+  },
+});
 
 class RegisterCustomer extends Component {
   constructor(props) {
@@ -362,6 +371,7 @@ class RegisterCustomer extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <>
         <FullPageLoader isLoading={this.state.isLoading} />
@@ -397,6 +407,7 @@ class RegisterCustomer extends Component {
           open={this.state.termsModal}
           onClose={() => this.handleTerms(2)}
           scroll="paper"
+          className={classes.dialog}
         >
           {this.state.terms.map(({ id, value }) => (
             <DialogContent key={id}>
@@ -873,5 +884,4 @@ class RegisterCustomer extends Component {
     );
   }
 }
-
-export default RegisterCustomer;
+export default withStyles(styles)(RegisterCustomer);

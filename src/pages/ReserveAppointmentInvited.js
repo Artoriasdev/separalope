@@ -11,6 +11,7 @@ import {
   Modal,
   Select,
   TextField,
+  withStyles,
 } from "@material-ui/core";
 import axios from "axios";
 import { ErrorMessage, Formik } from "formik";
@@ -23,6 +24,14 @@ import {
 import { EMAIL_REGEXP } from "../utils/regexp";
 import { handleRegexDisable } from "../utils/utilitaries";
 import FullPageLoader from "../components/FullPageLoader";
+
+const styles = (theme) => ({
+  dialog: {
+    "& .MuiDialog-paperWidthSm": {
+      maxWidth: "700px",
+    },
+  },
+});
 
 class ReserveAppointmentInvited extends Component {
   constructor(props) {
@@ -299,6 +308,7 @@ class ReserveAppointmentInvited extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <FullPageLoader isLoading={this.state.isLoading} />
@@ -334,6 +344,7 @@ class ReserveAppointmentInvited extends Component {
           open={this.state.termsModal}
           onClose={() => this.handleTerms(2)}
           scroll="paper"
+          className={classes.dialog}
         >
           {this.state.terms.map(({ id, value }) => (
             <DialogContent key={id}>
@@ -741,4 +752,4 @@ class ReserveAppointmentInvited extends Component {
   }
 }
 
-export default ReserveAppointmentInvited;
+export default withStyles(styles)(ReserveAppointmentInvited);

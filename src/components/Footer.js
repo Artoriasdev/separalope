@@ -57,6 +57,11 @@ const useStyles = makeStyles(() => ({
       display: "none",
     },
   },
+  dialog: {
+    "& .MuiDialog-paperWidthSm": {
+      maxWidth: "700px",
+    },
+  },
 }));
 
 export const Footer = () => {
@@ -205,7 +210,12 @@ export const Footer = () => {
 
   return (
     <div className="footer-container">
-      <Dialog open={term} onClose={handleClose} scroll="paper">
+      <Dialog
+        open={term}
+        onClose={handleClose}
+        scroll="paper"
+        className={classes.dialog}
+      >
         {terms.map(({ id, value }) => (
           <DialogContent key={id}>
             <div dangerouslySetInnerHTML={{ __html: value }} />

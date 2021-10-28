@@ -17,6 +17,7 @@ import {
   DialogContent,
   FormControlLabel,
   Checkbox,
+  withStyles,
 } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import { EMAIL_REGEXP, PASSWORD_REGEXP } from "../utils/regexp";
@@ -30,6 +31,14 @@ import {
 } from "../utils/constants";
 import FullPageLoader from "../components/FullPageLoader";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+
+const styles = (theme) => ({
+  dialog: {
+    "& .MuiDialog-paperWidthSm": {
+      maxWidth: "700px",
+    },
+  },
+});
 
 class RegisterBusiness extends Component {
   constructor(props) {
@@ -234,6 +243,7 @@ class RegisterBusiness extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <>
         <FullPageLoader isLoading={this.state.isLoading} />
@@ -268,6 +278,7 @@ class RegisterBusiness extends Component {
           open={this.state.termsModal}
           onClose={() => this.handleTerms(2)}
           scroll="paper"
+          className={classes.dialog}
         >
           {this.state.terms.map(({ id, value }) => (
             <DialogContent key={id}>
@@ -640,4 +651,4 @@ class RegisterBusiness extends Component {
   }
 }
 
-export default RegisterBusiness;
+export default withStyles(styles)(RegisterBusiness);
