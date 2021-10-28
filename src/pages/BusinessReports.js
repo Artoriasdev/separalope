@@ -253,7 +253,7 @@ class BusinessReports extends Component {
                 <Table sx={{ minWidth: 650 }}>
                   <TableHead className="table-head">
                     <TableRow>
-                      <TableCell className="font-tittle">Local</TableCell>
+                      <TableCell className="font-tittle">Servicio</TableCell>
                       <TableCell className="font-tittle">Ventas</TableCell>
                     </TableRow>
                   </TableHead>
