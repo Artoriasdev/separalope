@@ -30,6 +30,7 @@ class BusinessReports extends Component {
       forceRedirect: false,
       listData: [],
       today: new Date(),
+      textoVentas: "Cantidad",
     };
   }
 
@@ -139,6 +140,15 @@ class BusinessReports extends Component {
       this.setState({
         ventas: value,
       });
+      if (value === 1) {
+        this.setState({
+          textoVentas: "Cantidad",
+        });
+      } else if (value === 2) {
+        this.setState({
+          textoVentas: "Ventas",
+        });
+      }
     }
   };
 
@@ -254,19 +264,33 @@ class BusinessReports extends Component {
                   <TableHead className="table-head">
                     <TableRow>
                       <TableCell className="font-tittle">Servicio</TableCell>
-                      <TableCell className="font-tittle">Ventas</TableCell>
+                      <TableCell className="font-tittle">
+                        {this.state.textoVentas}
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {this.state.listData &&
                       this.state.listData.map(
-                        ({ serviceName, mountTotalFormat, mountTotal }) => (
+                        ({
+                          serviceName,
+                          mountTotalFormat,
+                          mountTotal,
+                          quantityService,
+                        }) => (
                           <TableRow key={mountTotal}>
                             <TableCell className="font">
-                              {serviceName}
+                              {this.state.fecha !== "" &&
+                              this.state.ventas !== 0
+                                ? serviceName
+                                : null}
                             </TableCell>
                             <TableCell className="font">
-                              {mountTotalFormat}
+                              {this.state.ventas === 1
+                                ? quantityService
+                                : this.state.ventas === 2
+                                ? mountTotalFormat
+                                : null}
                             </TableCell>
                           </TableRow>
                         )
