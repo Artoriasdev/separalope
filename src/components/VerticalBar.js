@@ -77,8 +77,10 @@ const VerticalBar = (props) => {
               for (let x = 0; x < 1; x++) {
                 labelTest.push(data[i].days[x].nameDaySpanish);
                 if (props.venta === 1) {
+                  setLabel("Cantidad de ventas");
                   numberTest.push(JSON.parse(data[i].days[x].totalQuantityDay));
                 } else if (props.venta === 2) {
+                  setLabel("S/.");
                   numberTest.push(JSON.parse(data[i].days[x].totalMountDay));
                 }
               }
