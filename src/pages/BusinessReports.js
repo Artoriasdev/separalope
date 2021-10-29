@@ -239,7 +239,7 @@ class BusinessReports extends Component {
                     <MenuItem selected={true} disabled value={0}>
                       Seleccione
                     </MenuItem>
-                    <MenuItem value={1}>Servicios</MenuItem>
+                    <MenuItem value={1}>Cantidad</MenuItem>
                     <MenuItem value={2}>Ventas</MenuItem>
                   </Select>
                 </div>
