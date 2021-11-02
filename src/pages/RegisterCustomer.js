@@ -469,8 +469,6 @@ class RegisterCustomer extends Component {
                   correo,
                   celular,
                   nroDocumento,
-                  maxLengthValue,
-                  documentos,
                   minLengthValue,
                   checkbox,
                   contraseña,

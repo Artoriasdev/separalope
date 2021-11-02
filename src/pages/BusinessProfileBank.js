@@ -650,7 +650,6 @@ class BusinessProfileBank extends Component {
             validate={(values) => {
               const {
                 numeroCuenta,
-                maxLengthValue,
                 correoBancario,
                 bancoId,
                 numeroInterbancario,

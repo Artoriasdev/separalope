@@ -302,14 +302,8 @@ class Complains extends Component {
                 codigoReserva: "",
               }}
               validate={(values) => {
-                const {
-                  numDocumento,
-                  correo,
-                  celular,
-                  maxLengthValue,
-                  tipoDocumento,
-                  minLengthValue,
-                } = values;
+                const { numDocumento, correo, celular, minLengthValue } =
+                  values;
 
                 let errors = {};
                 if (!correo) {
