@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 
 const VerticalBar = (props) => {
-  const semanas = ["Semana 1", "Semana 2", "Semana 3", "Semana 4"];
+  // const semanas = ["Semana 1", "Semana 2", "Semana 3", "Semana 4"];
   const dias = [
     "Lunes",
     "Martes",
@@ -37,7 +37,7 @@ const VerticalBar = (props) => {
   const [numbers, setNumbers] = useState([]);
   const backgroundColor = [];
   const [label, setLabel] = useState("");
-  const numbersSemanas = [5, 8, 4, 6];
+  // const numbersSemanas = [5, 8, 4, 6];
   var labelTest = [];
   var numberTest = [];
   const colors = [
@@ -70,19 +70,18 @@ const VerticalBar = (props) => {
       })
       .then((response) => {
         const { data } = response.data;
-        if (data[0] !== undefined) {
+        console.log(data);
+        if (data.rankOfTime !== undefined) {
           // console.log("Esta ejecutando");
           if (props.fecha === "D") {
-            for (let i = 0; i < data.length; i++) {
-              for (let x = 0; x < 1; x++) {
-                labelTest.push(data[i].days[x].nameDaySpanish);
-                if (props.venta === 1) {
-                  setLabel("Cantidad de ventas");
-                  numberTest.push(JSON.parse(data[i].days[x].totalQuantityDay));
-                } else if (props.venta === 2) {
-                  setLabel("S/.");
-                  numberTest.push(JSON.parse(data[i].days[x].totalMountDay));
-                }
+            for (let i = 0; i < data.listDays.length; i++) {
+              labelTest.push(data.listDays[i].nameDaySpanish);
+              if (props.venta === 1) {
+                setLabel("Cantidad de ventas");
+                numberTest.push(JSON.parse(data.listDays[i].totalQuantityDay));
+              } else if (props.venta === 2) {
+                setLabel("S/.");
+                numberTest.push(JSON.parse(data.listDays[i].totalMountDay));
               }
             }
             for (let i = 0; i < 7; i++) {
@@ -93,22 +92,18 @@ const VerticalBar = (props) => {
             }
             setLabels(labelTest);
             setNumbers(numberTest);
-            setTime(data[0].rankOfTime);
+            setTime(data.rankOfTime);
           } else if (props.fecha === "M") {
-            for (let i = 0; i < data.length; i++) {
-              for (let x = 0; x < 1; x++) {
-                labelTest.push(data[i].months[x].nameMonthSpanish);
-                if (props.venta === 1) {
-                  setLabel("Cantidad de ventas");
-                  numberTest.push(
-                    JSON.parse(data[i].months[x].totalQuantityMonth)
-                  );
-                } else if (props.venta === 2) {
-                  setLabel("S/.");
-                  numberTest.push(
-                    JSON.parse(data[i].months[x].totalMountMonth)
-                  );
-                }
+            for (let i = 0; i < data.listMonths.length; i++) {
+              labelTest.push(data.listMonths[i].nameMonthSpanish);
+              if (props.venta === 1) {
+                setLabel("Cantidad de ventas");
+                numberTest.push(
+                  JSON.parse(data.listMonths[i].totalQuantityMonth)
+                );
+              } else if (props.venta === 2) {
+                setLabel("S/.");
+                numberTest.push(JSON.parse(data.listMonths[i].totalMountMonth));
               }
             }
             for (let i = 0; i < 12; i++) {
@@ -119,7 +114,7 @@ const VerticalBar = (props) => {
             }
             setLabels(labelTest);
             setNumbers(numberTest);
-            setTime(data[0].rankOfTime);
+            setTime(data.rankOfTime);
           }
           // else if (props.fecha === "S") {
           //   setTime("Octubre");
@@ -128,7 +123,7 @@ const VerticalBar = (props) => {
           // console.log(data);
           // console.log(labelTest);
           // console.log(numberTest);
-        } else if (data[0] === undefined) {
+        } else if (data.listDays === undefined) {
           setLabels([]);
           setNumbers([]);
           setTime("");
