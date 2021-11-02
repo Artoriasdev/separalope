@@ -173,10 +173,6 @@ class HomePage extends Component {
     this.props.history.push(`/services-menu/${id}`);
   };
 
-  handleRedirectWork = (id) => {
-    this.props.history.push("/register/business");
-  };
-
   handleRedirectBusiness = (id, category) => {
     this.props.history.push(`/services-menu-category/${id}/${category}`);
   };
@@ -326,13 +322,15 @@ class HomePage extends Component {
             </CarouselItem>
           </div>
 
-          <div
-            onClick={() => this.handleRedirectWork(3)}
+          <a
+            href="https://wa.link/oki91a"
+            target="_blank"
             style={{
               cursor: "pointer",
               marginLeft: "50px",
               marginRight: "50px",
-              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
             }}
           >
             <img
@@ -347,7 +345,7 @@ class HomePage extends Component {
                 maxHeight: "325px",
               }}
             />
-          </div>
+          </a>
         </div>
       </div>
     );
