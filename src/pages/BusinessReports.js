@@ -7,12 +7,6 @@ import {
   MenuItem,
   Modal,
   Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
 } from "@material-ui/core";
 import axios from "axios";
 import React, { Component } from "react";
@@ -30,6 +24,7 @@ class BusinessReports extends Component {
       forceRedirect: false,
       listData: [],
       today: new Date(),
+      date: "",
       textoVentas: "Cantidad",
     };
   }
@@ -86,47 +81,11 @@ class BusinessReports extends Component {
       return rspApi;
     } catch (error) {
       console.log(error);
+      this.setState({
+        listData: [],
+      });
     }
   }
-
-  handleGetSalesConsolidate = (D) => {
-    var headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${sessionStorage.getItem("tk")}`,
-    };
-    var date =
-      this.state.today.getFullYear() +
-      "-" +
-      (this.state.today.getMonth() + 1) +
-      "-" +
-      this.state.today.getDate();
-
-    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/report/salesConsolidate/${date}/${D}`;
-
-    const rspApi = axios
-      .get(linkDocumentsApi, {
-        headers: headers,
-      })
-      .then((response) => {
-        const { data } = response.data;
-        this.setState({
-          listData: data,
-        });
-        console.log(data);
-
-        return response;
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({
-          modal: true,
-          message:
-            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
-        });
-      });
-    return rspApi;
-  };
 
   handleDocumentChange = (e) => {
     const value = e.target.value;
@@ -135,7 +94,8 @@ class BusinessReports extends Component {
       this.setState({
         fecha: value,
       });
-      this.handleGetSalesConsolidate(value);
+
+      console.log(this.state.date);
     } else if (formField === "venta") {
       this.setState({
         ventas: value,
@@ -156,7 +116,7 @@ class BusinessReports extends Component {
     this.setState({
       modal: false,
     });
-    if (this.props.history.forceRedirect === true) {
+    if (this.state.forceRedirect === true) {
       this.props.history.push("/login/B");
       this.props.history.go();
     }
@@ -256,49 +216,11 @@ class BusinessReports extends Component {
               </div>
             </div>
 
-            <VerticalBar fecha={this.state.fecha} venta={this.state.ventas} />
-
-            <div className="vertical-bar">
-              <TableContainer className="table">
-                <Table sx={{ minWidth: 650 }}>
-                  <TableHead className="table-head">
-                    <TableRow>
-                      <TableCell className="font-tittle">Servicio</TableCell>
-                      <TableCell className="font-tittle">
-                        {this.state.textoVentas}
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {this.state.listData &&
-                      this.state.listData.map(
-                        ({
-                          serviceName,
-                          mountTotalFormat,
-                          mountTotal,
-                          quantityService,
-                        }) => (
-                          <TableRow key={mountTotal}>
-                            <TableCell className="font">
-                              {this.state.fecha !== "" &&
-                              this.state.ventas !== 0
-                                ? serviceName
-                                : null}
-                            </TableCell>
-                            <TableCell className="font">
-                              {this.state.ventas === 1
-                                ? quantityService
-                                : this.state.ventas === 2
-                                ? mountTotalFormat
-                                : null}
-                            </TableCell>
-                          </TableRow>
-                        )
-                      )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </div>
+            <VerticalBar
+              fecha={this.state.fecha}
+              venta={this.state.ventas}
+              handleDate={this.handleDate}
+            />
           </div>
         </div>
       </>
