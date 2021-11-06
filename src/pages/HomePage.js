@@ -325,6 +325,7 @@ class HomePage extends Component {
           <a
             href="https://wa.link/oki91a"
             target="_blank"
+            rel="noreferrer"
             style={{
               cursor: "pointer",
               marginLeft: "50px",
