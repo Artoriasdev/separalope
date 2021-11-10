@@ -15,17 +15,14 @@ import {
   ListItemText,
   Collapse,
 } from "@material-ui/core";
-import {
-  Facebook,
-  Instagram,
-  ExpandLess,
-  ExpandMore,
-  Twitter,
-  LinkedIn,
-} from "@material-ui/icons";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Facebook from "../assets/images/icon-fb.png";
+import Instagram from "../assets/images/icon-ig.png";
+import Twitter from "../assets/images/icon-tw.png";
+import LinkedIn from "../assets/images/icon-in.png";
 
 const tema = createTheme({
   breakpoints: {
