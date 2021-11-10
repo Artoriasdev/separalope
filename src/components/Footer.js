@@ -15,16 +15,13 @@ import {
   ListItemText,
   Collapse,
 } from "@material-ui/core";
-import {
-  Facebook,
-  Instagram,
-  ExpandLess,
-  ExpandMore,
-  Twitter,
-  LinkedIn,
-} from "@material-ui/icons";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Facebook from "../assets/images/icon-fb.png";
+import Instragram from "../assets/images/icon-ig.png";
+import Twitter from "../assets/images/icon-tw.png";
+import LinkedIn from "../assets/images/icon-in.png";
 import { useHistory } from "react-router-dom";
 
 const tema = createTheme({
@@ -156,10 +153,10 @@ export const Footer = () => {
     <>
       <Grid item>
         <p className="font-tittle">Contáctanos</p>
-        <p className="text">Celular : +51 978 731 556</p>
-        <p className="text" style={{ marginTop: "5px" }}>
+        <p className="text" style={{ marginBottom: "5px" }}>
           Correo: contacto@separalo.pe
         </p>
+        <p className="text">Celular : +51 978 731 556</p>
       </Grid>
 
       <Grid item>
@@ -174,7 +171,7 @@ export const Footer = () => {
             href="https://www.facebook.com/Separalo-pe-114080404377277"
             target="_blank"
           >
-            <Facebook />
+            <img src={Facebook} alt="facebook" />
           </IconButton>
           <IconButton
             aria-label="instagram"
@@ -183,7 +180,7 @@ export const Footer = () => {
             href="https://www.instagram.com/separalope/"
             target="_blank"
           >
-            <Instagram />
+            <img src={Instragram} alt="Instragram" />
           </IconButton>
           <IconButton
             aria-label="twitter"
@@ -192,7 +189,7 @@ export const Footer = () => {
             href="https://www.instagram.com/separalope/"
             target="_blank"
           >
-            <Twitter />
+            <img src={Twitter} alt="Twitter" />
           </IconButton>
           <IconButton
             size="small"
@@ -201,7 +198,7 @@ export const Footer = () => {
             href="https://www.linkedin.com/company/separalo-pe/?viewAsMember=true"
             target="_blank"
           >
-            <LinkedIn />
+            <img src={LinkedIn} alt="LinkedIn" />
           </IconButton>
         </span>
       </Grid>
@@ -244,10 +241,10 @@ export const Footer = () => {
             <div className={classes.sectionDesktop}>
               <Grid item>
                 <p className="font-tittle">Contáctanos</p>
-                <p className="text">Celular : +51 978 731 556</p>
-                <p className="text" style={{ marginTop: "5px" }}>
+                <p className="text" style={{ marginBottom: "5px" }}>
                   Correo: contacto@separalo.pe
                 </p>
+                <p className="text">Celular : +51 978 731 556</p>
               </Grid>
             </div>
             <div className={classes.grow} />
@@ -270,7 +267,7 @@ export const Footer = () => {
                     href="https://www.facebook.com/Separalo-pe-114080404377277"
                     target="_blank"
                   >
-                    <Facebook />
+                    <img src={Facebook} alt="facebook" />
                   </IconButton>
                   <IconButton
                     size="small"
@@ -280,7 +277,7 @@ export const Footer = () => {
                     href="https://www.instagram.com/separalope/"
                     target="_blank"
                   >
-                    <Instagram />
+                    <img src={Instragram} alt="Instragram" />
                   </IconButton>
                   <IconButton
                     size="small"
@@ -290,7 +287,7 @@ export const Footer = () => {
                     href="https://twitter.com/SeparaloPe"
                     target="_blank"
                   >
-                    <Twitter />
+                    <img src={Twitter} alt="Twitter" />
                   </IconButton>
                   <IconButton
                     size="small"
@@ -299,7 +296,7 @@ export const Footer = () => {
                     href="https://www.linkedin.com/company/separalo-pe/?viewAsMember=true"
                     target="_blank"
                   >
-                    <LinkedIn />
+                    <img src={LinkedIn} alt="LinkedIn" />
                   </IconButton>
                 </span>
               </Grid>
