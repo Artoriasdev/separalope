@@ -11,12 +11,21 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  withStyles,
 } from "@material-ui/core";
 import { NavigateNext } from "@material-ui/icons";
 import Axios from "axios";
 import React from "react";
 import { Component } from "react";
 import Container from "../Modal/Container/ContainerService";
+
+const styles = (theme) => ({
+  renderMobile: {
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  },
+});
 
 class BusinessServicesCategory extends Component {
   constructor(props) {
@@ -186,6 +195,7 @@ class BusinessServicesCategory extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <>
         <Modal
@@ -257,7 +267,9 @@ class BusinessServicesCategory extends Component {
               <TableHead className="table-head">
                 <TableRow>
                   <TableCell className="font-tittle">Servicio</TableCell>
-                  <TableCell className="font-tittle">Descripcion</TableCell>
+                  <TableCell className={`${classes.renderMobile} font-tittle`}>
+                    Descripcion
+                  </TableCell>
                   <TableCell className="font-tittle">Categoría</TableCell>
                   <TableCell className="font-tittle">Duración</TableCell>
                   <TableCell className="font-tittle" width="12%">
@@ -283,7 +295,10 @@ class BusinessServicesCategory extends Component {
                   }) => (
                     <TableRow key={id}>
                       <TableCell className="font">{title}</TableCell>
-                      <TableCell className="font" width="25%">
+                      <TableCell
+                        className={`${classes.renderMobile} font`}
+                        width="25%"
+                      >
                         {description}
                       </TableCell>
                       <TableCell className="font">
@@ -321,4 +336,4 @@ class BusinessServicesCategory extends Component {
   }
 }
 
-export default BusinessServicesCategory;
+export default withStyles(styles)(BusinessServicesCategory);
