@@ -64,11 +64,15 @@ const StyledMenu = withStyles()((props) => (
     getContentAnchorEl={null}
     anchorOrigin={{
       vertical: "bottom",
-      horizontal: "center",
+      horizontal: "right",
     }}
     transformOrigin={{
       vertical: "top",
-      horizontal: "center",
+      horizontal: "right",
+    }}
+    style={{
+      maxWidth: window.innerWidth < 960 ? "210px" : "250px",
+      marginLeft: window.innerWidth < 960 ? "12px" : "0",
     }}
     {...props}
   />
@@ -79,12 +83,13 @@ const StyledMenuSettings = withStyles()((props) => (
     getContentAnchorEl={null}
     anchorOrigin={{
       vertical: "bottom",
-      horizontal: "center",
+      horizontal: "right",
     }}
     transformOrigin={{
       vertical: "top",
-      horizontal: "center",
+      horizontal: "right",
     }}
+    style={{ marginLeft: "12px", maxWidth: "210px" }}
     {...props}
   />
 ));
@@ -230,24 +235,39 @@ const Navbar = () => {
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      className="list"
       id={mobileMenuId}
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
-      style={{ maxWidth: "320px", textAlign: "center" }}
+      style={{
+        maxWidth: "210px",
+        textAlign: "center",
+        marginLeft: "12px",
+      }}
     >
       {name ? (
         <>
           <Button
-            endIcon={<ArrowDropDown style={{ fontSize: "25px" }} />}
-            className="font buttonHeader "
+            endIcon={
+              <ArrowDropDown
+                style={{
+                  fontSize: "18px",
+                  marginTop: "-5px",
+                  marginLeft: "-10px",
+                }}
+              />
+            }
+            className="font-p"
             onClick={handleClick}
             style={{
               backgroundColor: anchorEl ? "#5829dd" : "transparent",
               color: anchorEl ? "white" : "black",
-              textTransform: "capitalize",
-              width: "250px",
+              width: "210px",
+              borderRadius: "0",
+              marginLeft: "-15px",
+              fontSize: "12px",
             }}
           >
             {name}
@@ -272,16 +292,19 @@ const Navbar = () => {
             ))}
           </StyledMenu>
           <Button
-            className="font  buttonHeader"
+            className="font-p"
             onClick={handleClick2}
             style={{
               backgroundColor: anchorEl2 ? "#5829dd" : "transparent",
               color: anchorEl2 ? "white" : "black",
               textTransform: "capitalize",
-              width: "0",
+              width: "100%",
+              borderRadius: "0",
+              fontSize: "12px",
+              margin: "0",
             }}
           >
-            <Settings />
+            <Settings style={{ fontSize: "18px" }} />
           </Button>
           <StyledMenuSettings
             id="customized-menu"
@@ -290,7 +313,10 @@ const Navbar = () => {
             open={Boolean(anchorEl2)}
             onClose={handleClose2}
           >
-            <MenuItem className="menuItem" onClick={() => handleRedirect(7)}>
+            <MenuItem
+              className="menuItemClient"
+              onClick={() => handleRedirect(7)}
+            >
               <ListItemText primary="Cambiar contraseña" />
             </MenuItem>
             <MenuItem onClick={() => handleRedirect(8)}>
@@ -347,7 +373,7 @@ const Navbar = () => {
               backgroundColor: anchorEl ? "#5829dd" : "transparent",
               color: anchorEl ? "white" : "black",
               textTransform: "capitalize",
-              width: "0",
+              width: "150px",
             }}
           >
             <Settings />
@@ -359,7 +385,10 @@ const Navbar = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={() => handleRedirect(7)}>
+            <MenuItem
+              style={{ marginRight: "10px" }}
+              onClick={() => handleRedirect(7)}
+            >
               <ListItemText primary="Cambiar contraseña" />
             </MenuItem>
             <MenuItem onClick={handleLogout}>
@@ -472,8 +501,15 @@ const Navbar = () => {
                       aria-haspopup="true"
                       onClick={handleMobileMenuOpen}
                       color="black"
+                      style={{
+                        marginLeft: "20px",
+                        marginRight: "-20px",
+                        paddingLeft: "0",
+                        paddingRight: "0",
+                      }}
                     >
-                      <MoreIcon color="black" />
+                      <p style={{ fontSize: "16px", color: "black" }}>{name}</p>
+                      <MoreIcon />
                     </IconButton>
                   </div>
                 </Toolbar>
