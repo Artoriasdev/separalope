@@ -183,7 +183,7 @@ button {
   margin: 0 auto;
   padding: 0;
   @include desktop {
-    width: 80% !important;
+    width: 90% !important;
   }
 }
 
@@ -1402,6 +1402,12 @@ button {
   }
 }
 
+.form > button {
+  @include tablet {
+    margin-bottom: 10px;
+  }
+}
+
 .table {
   width: 90% !important;
   border-radius: 10px 10px !important;
@@ -1703,5 +1709,11 @@ button {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+}
+
+.list {
+  ul {
+    padding: 0 !important;
   }
 }

@@ -84,7 +84,7 @@ export const ReserveComplete = () => {
                 </TableRow>
                 <TableRow>
                   <TableCell className="font">
-                    Número de cuenta interbancario (CCI): 002 194 105 36 48 37 026 98
+                    Código interbancario (CCI): 002 194 105 36 48 37 026 98
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -119,7 +119,7 @@ export const ReserveComplete = () => {
                 textAlign: "left",
               }}
             >
-              Información de cita:
+              Información de tu cita:
             </p>
             <div
               style={{

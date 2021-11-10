@@ -111,6 +111,7 @@ class ReserveAppointment extends Component {
               modal: true,
               message: "Sesión expirada, porfavor vuelva a iniciar sesión",
               isLoading: false,
+              forceRedirect: true,
             });
           } else {
             this.setState({
@@ -331,7 +332,6 @@ class ReserveAppointment extends Component {
           message:
             "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
           isLoading: false,
-          forceRedirect: true,
         });
       });
 
@@ -345,8 +345,6 @@ class ReserveAppointment extends Component {
     if (this.state.response === true) {
       this.props.history.push(`/reserve-complete`);
     } else if (this.state.forceRedirect === true) {
-      this.props.history.goBack();
-    } else {
       this.props.history.push("/login/C");
     }
   };
