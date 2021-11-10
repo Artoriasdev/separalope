@@ -171,7 +171,7 @@ export const Footer = () => {
             href="https://www.facebook.com/Separalo-pe-114080404377277"
             target="_blank"
           >
-            <Facebook />
+            <img src={Facebook} alt="Facebook" />
           </IconButton>
           <IconButton
             aria-label="instagram"
@@ -180,7 +180,7 @@ export const Footer = () => {
             href="https://www.instagram.com/separalope/"
             target="_blank"
           >
-            <Instagram />
+            <img src={Instagram} alt="Instagram" />
           </IconButton>
           <IconButton
             aria-label="twitter"
@@ -189,7 +189,7 @@ export const Footer = () => {
             href="https://www.instagram.com/separalope/"
             target="_blank"
           >
-            <Twitter />
+            <img src={Twitter} alt="Twitter" />
           </IconButton>
           <IconButton
             size="small"
@@ -198,7 +198,7 @@ export const Footer = () => {
             href="https://www.linkedin.com/company/separalo-pe/?viewAsMember=true"
             target="_blank"
           >
-            <LinkedIn />
+            <img src={LinkedIn} alt="LinkedIn" />
           </IconButton>
         </span>
       </Grid>
@@ -267,7 +267,7 @@ export const Footer = () => {
                     href="https://www.facebook.com/Separalo-pe-114080404377277"
                     target="_blank"
                   >
-                    <Facebook />
+                    <img src={Facebook} alt="Facebook" />
                   </IconButton>
                   <IconButton
                     size="small"
@@ -277,7 +277,7 @@ export const Footer = () => {
                     href="https://www.instagram.com/separalope/"
                     target="_blank"
                   >
-                    <Instagram />
+                    <img src={Instagram} alt="Instagram" />
                   </IconButton>
                   <IconButton
                     size="small"
@@ -287,7 +287,7 @@ export const Footer = () => {
                     href="https://twitter.com/SeparaloPe"
                     target="_blank"
                   >
-                    <Twitter />
+                    <img src={Twitter} alt="Twitter" />
                   </IconButton>
                   <IconButton
                     size="small"
@@ -296,7 +296,7 @@ export const Footer = () => {
                     href="https://www.linkedin.com/company/separalo-pe/?viewAsMember=true"
                     target="_blank"
                   >
-                    <LinkedIn />
+                    <img src={LinkedIn} alt="LinkedIn" />
                   </IconButton>
                 </span>
               </Grid>
