@@ -176,7 +176,7 @@ class BusinessCategory extends Component {
             </Link>
           </Breadcrumbs>
           <h1>Categorías</h1>
-          <div>
+          {/* <div>
             <h3
               style={{ marginTop: "30px", marginBottom: "5px" }}
               className="register__subtitle"
@@ -202,7 +202,7 @@ class BusinessCategory extends Component {
             >
               Buscar
             </Button>
-          </div>
+          </div> */}
 
           <Container
             triggerText={this.state.triggerText}
