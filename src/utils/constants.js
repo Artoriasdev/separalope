@@ -95,8 +95,8 @@ export const C_MINLENGTH = 12;
 export const CUSPP_INVALID = `El ${CUSPP} no es válido.`;
 export const CUSPP_MINLENGTH = `El ${CUSPP} debe tener ${C_MINLENGTH} dígitos.`;
 
-export const COMERCIAL_NAME = "NOMBRE COMERCIAL";
-export const BUSINESS_NAME = "NOMBRE DE LA EMPRESA";
+export const COMERCIAL_NAME = "Separalo";
+export const BUSINESS_NAME = "Separalo.pe";
 
 export const OBJApi = {
   apellidoMaterno: "",
