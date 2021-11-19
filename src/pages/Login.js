@@ -28,6 +28,7 @@ class Login extends Component {
       message: "",
       isLoading: false,
       show: false,
+      workflow: this.props.match.params.value,
     };
   }
 
@@ -42,6 +43,17 @@ class Login extends Component {
       sessionStorage.getItem("workflow") === "C"
     ) {
       this.props.history.push("/");
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.workflow !== this.props.match.params.value) {
+      const Formik = this.form;
+      Formik.setFieldValue("correo", "");
+      Formik.setFieldValue("contraseña", "");
+      this.setState({
+        workflow: this.props.match.params.value,
+      });
     }
   }
 
