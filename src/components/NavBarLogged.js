@@ -224,7 +224,6 @@ const Navbar = () => {
     sessionStorage.removeItem("name");
     sessionStorage.removeItem("id");
     sessionStorage.removeItem("tradename");
-    sessionStorage.removeItem("logo");
     sessionStorage.removeItem("lastName");
     localStorage.removeItem("name");
     history.go(history.push("/"));
