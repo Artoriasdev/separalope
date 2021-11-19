@@ -18,6 +18,8 @@ import {
   FormControlLabel,
   Checkbox,
   withStyles,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import { EMAIL_REGEXP, PASSWORD_REGEXP } from "../utils/regexp";
@@ -71,6 +73,7 @@ class RegisterBusiness extends Component {
     ) {
       this.props.history.push("/");
     } else {
+      this.handleGetDocuments();
       this.handleGetTerms();
     }
   }
@@ -181,6 +184,83 @@ class RegisterBusiness extends Component {
         });
       });
     return rspApi;
+  };
+
+  handleGetDocuments = () => {
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "",
+    };
+
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getDocumentTypes`;
+
+    const rspApi = Axios.get(linkDocumentsApi, {
+      headers: headers,
+    })
+      .then((response) => {
+        const { data } = response.data;
+        console.log(data);
+        const element = data.filter(
+          (element) => element.descriptionLarge !== "RUC"
+        );
+
+        console.log(element);
+
+        this.setState({
+          typeDocs: element,
+        });
+
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          showModalSucesss: true,
+          disclaimerModal:
+            "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        });
+      });
+    return rspApi;
+  };
+
+  handleDocumentChange = (e) => {
+    const value = e.target.value;
+    const formField = e.target.name;
+    const formik = this.form;
+
+    if (formField === "documentos") {
+      formik.setFieldValue(formField, value, true);
+      formik.setFieldValue("numDocumento", "", false);
+    }
+    if (formField === "numDocumento") {
+      const { documentos } = formik.state.values;
+      let maxLengthInput;
+      let minLengthInput;
+      let valor = "[0-9]";
+      const id = this.state.typeDocs.find(
+        (arreglo) => arreglo.id === documentos
+      );
+      if (id === undefined) {
+        this.setState({
+          showModalSucesss: true,
+          disclaimerModal: "Porfavor elija el Tipo de documento",
+        });
+      } else {
+        maxLengthInput = id.maxLength;
+        minLengthInput = id.minLength;
+      }
+
+      if (documentos === "04" || documentos === "07") {
+        valor = "";
+      } else {
+        valor = "[0-9]";
+      }
+      formik.setFieldValue("maxLengthValue", maxLengthInput, true);
+      formik.setFieldValue("minLengthValue", minLengthInput, true);
+      formik.setFieldValue("ingreso", valor, true);
+      formik.setFieldValue(formField, value.toUpperCase(), true);
+    }
   };
 
   toggleModalSuccess = () => {
@@ -329,6 +409,12 @@ class RegisterBusiness extends Component {
                 contraseña: "",
                 repContraseña: "",
                 checkbox: false,
+                nombres: "",
+                apellidos: "",
+                documentos: "",
+                numDocumento: "",
+                maxLengthValue: 8,
+                minLengthValue: 8,
               }}
               validate={(values) => {
                 const {
@@ -337,6 +423,8 @@ class RegisterBusiness extends Component {
                   checkbox,
                   contraseña,
                   repContraseña,
+                  numDocumento,
+                  minLengthValue,
                 } = values;
 
                 let errors = {};
@@ -350,6 +438,12 @@ class RegisterBusiness extends Component {
                   errors.correo = EMAIL_INVALID;
                 } else if (correo.length < E_MINLENGTH) {
                   errors.correo = EMAIL_MINLENGTH;
+                }
+
+                if (!numDocumento) {
+                  errors.numDocumento = "";
+                } else if (numDocumento.length < minLengthValue) {
+                  errors.numDocumento = `*El número de documento debe tener un mínimo de ${minLengthValue} dígitos`;
                 }
 
                 if (!contraseña) {
@@ -387,6 +481,10 @@ class RegisterBusiness extends Component {
                   email: "",
                   password: "",
                   confirmPassword: "",
+                  legalRepresentativeName: "",
+                  legalRepresentativeLastName: "",
+                  legalRepresentativeDocumentType: "",
+                  legalRepresentativeDocumentNumber: "",
                 };
 
                 BusinessModel.businessName = values.razon;
@@ -395,6 +493,12 @@ class RegisterBusiness extends Component {
                 BusinessModel.documentNumber = values.nroDocumento;
                 BusinessModel.password = values.contraseña;
                 BusinessModel.confirmPassword = values.repContraseña;
+                BusinessModel.legalRepresentativeName = values.nombres;
+                BusinessModel.legalRepresentativeLastName = values.apellidos;
+                BusinessModel.legalRepresentativeDocumentType =
+                  values.documentos;
+                BusinessModel.legalRepresentativeDocumentNumber =
+                  values.numDocumento;
 
                 (async () => {
                   const responseSubmit = await this.handleInfoSubmit(
@@ -429,7 +533,7 @@ class RegisterBusiness extends Component {
               }) => (
                 <form name="formRegister" onSubmit={handleSubmit}>
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="razon"
                         className="TxtField"
@@ -445,7 +549,7 @@ class RegisterBusiness extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="nombre"
                         className="TxtField"
@@ -463,7 +567,7 @@ class RegisterBusiness extends Component {
                   </div>
 
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="nroDocumento"
                         className="TxtField"
@@ -486,7 +590,7 @@ class RegisterBusiness extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="correo"
                         className="TxtField"
@@ -510,24 +614,7 @@ class RegisterBusiness extends Component {
                   </div>
 
                   <div className="files">
-                    <div className="txt-left">
-                      {/* <TextField
-                        name="contraseña"
-                        type="password"
-                        className="TxtField"
-                        variant="outlined"
-                        placeholder="Contraseña"
-                        required
-                        fullWidth
-                        value={values.contraseña}
-                        error={errors.contraseña && touched.contraseña}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        style={{
-                          marginBottom: "5px",
-                        }}
-                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                      /> */}
+                    <div className="txt-left-nomid">
                       <OutlinedInput
                         name="contraseña"
                         fullWidth
@@ -561,24 +648,7 @@ class RegisterBusiness extends Component {
                         component="div"
                       />
                     </div>
-                    <div className="txt-right">
-                      {/* <TextField
-                        name="repContraseña"
-                        type="password"
-                        className="TxtField"
-                        variant="outlined"
-                        placeholder="Repetir contraseña"
-                        required
-                        fullWidth
-                        value={values.repContraseña}
-                        error={errors.repContraseña && touched.repContraseña}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        style={{
-                          marginBottom: "5px",
-                        }}
-                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                      /> */}
+                    <div className="txt-right-nomid">
                       <OutlinedInput
                         name="repContraseña"
                         fullWidth
@@ -609,6 +679,104 @@ class RegisterBusiness extends Component {
                       <ErrorMessage
                         className="error"
                         name="repContraseña"
+                        component="div"
+                      />
+                    </div>
+                  </div>
+                  <h3>Representante legal</h3>
+                  <div className="files">
+                    <div className="txt-left-nomid">
+                      <TextField
+                        name="nombres"
+                        type="text"
+                        className="TxtField"
+                        variant="outlined"
+                        placeholder="Nombres"
+                        required
+                        fullWidth
+                        value={values.nombres}
+                        error={errors.nombres && touched.nombres}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        style={{
+                          marginBottom: "5px",
+                        }}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+                    <div className="txt-right-nomid">
+                      <TextField
+                        name="apellidos"
+                        type="text"
+                        className="TxtField"
+                        variant="outlined"
+                        placeholder="Apellidos"
+                        required
+                        fullWidth
+                        value={values.apellidos}
+                        error={errors.apellidos && touched.apellidos}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        style={{
+                          marginBottom: "5px",
+                        }}
+                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                    </div>
+                  </div>
+                  <div className="files">
+                    <div className="txt-left-nomid">
+                      <Select
+                        style={{
+                          backgroundColor: "white",
+                        }}
+                        fullWidth
+                        variant="outlined"
+                        value={values.documentos}
+                        error={errors.documentos && touched.documentos}
+                        name="documentos"
+                        displayEmpty
+                        required
+                        onChange={this.handleDocumentChange}
+                        onBlur={handleBlur}
+                      >
+                        <MenuItem disabled value={""}>
+                          <span className="empty--option">
+                            Tipo de documento
+                          </span>
+                        </MenuItem>
+                        {this.state.typeDocs &&
+                          this.state.typeDocs.map(
+                            ({ id, descriptionLarge }) => (
+                              <MenuItem key={id} value={id}>
+                                {descriptionLarge}
+                              </MenuItem>
+                            )
+                          )}
+                      </Select>
+                    </div>
+                    <div className="txt-right-nomid">
+                      <TextField
+                        name="numDocumento"
+                        className="TxtField"
+                        variant="outlined"
+                        placeholder="Número de documento"
+                        required
+                        fullWidth
+                        value={values.numDocumento}
+                        error={errors.numDocumento && touched.numDocumento}
+                        onBlur={handleBlur}
+                        onChange={this.handleDocumentChange}
+                        inputProps={{
+                          maxLength: values.maxLengthValue,
+                          minLength: values.minLengthValue,
+                        }}
+                        autoComplete="off"
+                        onInput={handleRegexDisable(values.ingreso)} // TODO haz el manejo correcto con NUMBER_REGEXP
+                      />
+                      <ErrorMessage
+                        className="error bottom"
+                        name="numDocumento"
                         component="div"
                       />
                     </div>
