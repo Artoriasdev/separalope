@@ -118,9 +118,19 @@ class BusinessData extends Component {
             );
             Formik.setFieldValue("correo", this.state.typeData[0].email);
             Formik.setFieldValue("direccion", this.state.typeData[0].address);
-            Formik.setFieldValue("distrito", this.state.typeData[0].district);
-            Formik.setFieldValue("provincia", this.state.typeData[0].province);
-            this.handleGetDistrics(this.state.typeData[0].province);
+            if (this.state.typeData[0].province === undefined) {
+              Formik.setFieldValue("provincia", "");
+              Formik.setFieldValue("distrito", "");
+            } else {
+              Formik.setFieldValue(
+                "provincia",
+                this.state.typeData[0].province
+              );
+              Formik.setFieldValue("distrito", this.state.typeData[0].district);
+
+              this.handleGetDistrics(this.state.typeData[0].province);
+            }
+
             Formik.setFieldValue(
               "tarjeta",
               this.state.typeData[0].cardDescription
@@ -762,6 +772,7 @@ class BusinessData extends Component {
                     variant="outlined"
                     label="Correo de la empresa"
                     fullWidth
+                    required
                     value={values.correo}
                     error={errors.correo && touched.correo}
                     onBlur={handleBlur}
@@ -781,6 +792,7 @@ class BusinessData extends Component {
                     className="TxtField"
                     variant="outlined"
                     label="Dirección"
+                    required
                     fullWidth
                     value={values.direccion}
                     error={errors.direccion && touched.direccion}
@@ -961,6 +973,7 @@ class BusinessData extends Component {
                     label="Descripción de la tarjeta"
                     placeholder="Max. 200 caracteres"
                     multiline
+                    required
                     minRows={4}
                     fullWidth
                     value={values.tarjeta}
@@ -982,6 +995,7 @@ class BusinessData extends Component {
                     label="Descripción del negocio"
                     placeholder="Max. 500 caracteres"
                     multiline
+                    required
                     minRows={4}
                     fullWidth
                     value={values.descripcion}
@@ -1005,6 +1019,7 @@ class BusinessData extends Component {
                     variant="outlined"
                     label="Nombres"
                     fullWidth
+                    required
                     value={values.nombres}
                     error={errors.nombres && touched.nombres}
                     onBlur={handleBlur}
@@ -1023,6 +1038,7 @@ class BusinessData extends Component {
                     variant="outlined"
                     label="Apellidos"
                     fullWidth
+                    required
                     value={values.apellidos}
                     error={errors.apellidos && touched.apellidos}
                     onBlur={handleBlur}
@@ -1066,7 +1082,7 @@ class BusinessData extends Component {
                     name="numDocumento"
                     className="TxtField"
                     variant="outlined"
-                    placeholder="Número de documento"
+                    label="Número de documento"
                     required
                     disabled={!this.state.edit}
                     fullWidth
