@@ -18,10 +18,10 @@ import {
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import { ArrowLeftSVG, ArrowRightSVG } from "../assets/images/svg";
-import trb1 from "../assets/images/trabaja con nosotros 1325 x 267.jpg";
 import trb2 from "../assets/images/trabaja con nosotros 1325 x 325.jpg";
-import trb3 from "../assets/images/Transforma tu negocio 273 x 236.jpg";
 import trb4 from "../assets/images/Transforma tu negocio 273 x 271.jpg";
+// import trb1 from "../assets/images/trabaja con nosotros 1325 x 267.jpg";
+// import trb3 from "../assets/images/Transforma tu negocio 273 x 236.jpg";
 // import FullPageLoader from "./FullPageLoader";
 
 const responsive = {

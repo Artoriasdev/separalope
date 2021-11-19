@@ -260,7 +260,7 @@ class Password extends Component {
                   </div>
 
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="cambiarContraseña"
                         className="TxtField"
@@ -284,7 +284,7 @@ class Password extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="repetirContraseña"
                         className="TxtField"

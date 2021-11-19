@@ -165,7 +165,7 @@ class PasswordOTP extends Component {
                 }) => (
                   <form name="formLogin" onSubmit={handleSubmit}>
                     <div className="files">
-                      <div className="txt-left">
+                      <div className="txt-left-nomid">
                         <TextField
                           type="email"
                           name="correo"
@@ -184,7 +184,7 @@ class PasswordOTP extends Component {
                           // }}
                         />
                       </div>
-                      <div className="txt-right">
+                      <div className="txt-right-nomid">
                         <TextField
                           name="otp"
                           className="TxtField"

@@ -411,7 +411,7 @@ class ClientProfile extends Component {
               }) => (
                 <form name="formData" onSubmit={handleSubmit}>
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="nombre"
                         className="TxtField"
@@ -432,7 +432,7 @@ class ClientProfile extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="apellido"
                         className="TxtField"
@@ -451,7 +451,7 @@ class ClientProfile extends Component {
                     </div>
                   </div>
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <Select
                         value={values.tipoDocumento}
                         error={errors.tipoDocumento && touched.tipoDocumento}
@@ -477,7 +477,7 @@ class ClientProfile extends Component {
                       </Select>
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="numeroDocumento"
                         className="TxtField"
@@ -507,7 +507,7 @@ class ClientProfile extends Component {
                     </div>
                   </div>
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="celular"
                         className="TxtField"
@@ -529,7 +529,7 @@ class ClientProfile extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="correo"
                         className="TxtField"

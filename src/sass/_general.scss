@@ -548,8 +548,19 @@ button {
   }
 }
 
+.Input {
+  input[type="text"] {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+  }
+  input[type="text"]:focus {
+    outline: none;
+  }
+}
+
 .files {
   display: flex;
+  justify-content: space-between;
   .input {
     padding-right: 50px;
   }
@@ -557,11 +568,37 @@ button {
     .button {
       position: relative !important;
     }
-
     flex-direction: column;
     justify-content: center;
   }
   .txt-left {
+    flex-direction: column;
+    width: 30%;
+    margin: 5px 5px 5px 0;
+    @include mobile {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+  .txt-mid {
+    flex-direction: column;
+    width: 30%;
+    margin: 5px 5px 5px 5px;
+    @include mobile {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+  .txt-right {
+    flex-direction: column;
+    width: 30%;
+    margin: 5px 0 5px 5px;
+    @include mobile {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+  .txt-left-nomid {
     flex-direction: column;
     width: 50%;
     margin: 5px 5px 5px 0;
@@ -570,7 +607,7 @@ button {
       margin: 5px 0;
     }
   }
-  .txt-right {
+  .txt-right-nomid {
     flex-direction: column;
     width: 50%;
     margin: 5px 0 5px 5px;
@@ -579,6 +616,62 @@ button {
       margin: 5px 0;
     }
   }
+  .txt-right-nomid-bank {
+    flex-direction: column;
+    width: 65%;
+    margin: 5px 0 5px 5px;
+    @include mobile {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+  .txt-quarter {
+    flex-direction: column;
+    width: 20%;
+    margin: 5px 5px 5px 5px;
+    @include mobile {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    width: 65.5%;
+    @include mobile {
+      width: 100%;
+    }
+    .content {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      @include mobile {
+        flex-wrap: wrap;
+      }
+      .txt-mid-content {
+        flex-direction: column;
+        width: 45.7%;
+        margin: 5px 0 5px 6px;
+        @include mobile {
+          width: 100%;
+          margin: 5px 0;
+        }
+      }
+      .txt-right-content {
+        flex-direction: column;
+        width: 45.8%;
+        margin: 5px 0 5px 0;
+        @include mobile {
+          width: 100%;
+          margin: 5px 0;
+        }
+      }
+    }
+  }
+}
+
+.files > button {
+  min-width: 200px;
 }
 
 .card {
@@ -1402,8 +1495,45 @@ button {
   }
 }
 
+.profile-container {
+  max-width: 1550px;
+  margin: auto;
+  hr {
+    width: 85%;
+    @include mobile {
+      width: 90%;
+    }
+  }
+}
+
+.form-profile {
+  display: flex;
+  width: 85%;
+  margin: auto;
+  justify-content: space-between;
+  @include tablet {
+    margin-left: 6vw;
+    width: 90%;
+    display: inline-block;
+  }
+  h1 {
+    color: #5829dd;
+    @include tablet {
+      margin-bottom: 10px;
+    }
+  }
+}
+
 .form > button {
   @include tablet {
+    margin-bottom: 10px;
+  }
+}
+.form-profile > button {
+  margin-top: 18px;
+  max-height: 35px !important;
+  @include tablet {
+    margin-top: 0;
     margin-bottom: 10px;
   }
 }
@@ -1671,6 +1801,13 @@ button {
 
 .appointment-service-container {
   width: 50%;
+  margin: 3% auto;
+  @include mobile {
+    width: 90%;
+  }
+}
+.business-profile-container {
+  width: 85%;
   margin: 3% auto;
   @include mobile {
     width: 90%;

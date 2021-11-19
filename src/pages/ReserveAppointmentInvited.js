@@ -487,7 +487,7 @@ class ReserveAppointmentInvited extends Component {
               }) => (
                 <form name="formRegister" onSubmit={handleSubmit}>
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="nombre"
                         className="TxtField"
@@ -506,7 +506,7 @@ class ReserveAppointmentInvited extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="apellido"
                         className="TxtField"
@@ -526,7 +526,7 @@ class ReserveAppointmentInvited extends Component {
                     </div>
                   </div>
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="correo"
                         className="TxtField"
@@ -549,7 +549,7 @@ class ReserveAppointmentInvited extends Component {
                         component="div"
                       />
                     </div>
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="celular"
                         className="TxtField"
@@ -578,7 +578,7 @@ class ReserveAppointmentInvited extends Component {
                   </div>
 
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="servicio"
                         className="TxtField"
@@ -597,7 +597,7 @@ class ReserveAppointmentInvited extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="duracion"
                         type="text"
@@ -619,7 +619,7 @@ class ReserveAppointmentInvited extends Component {
                   </div>
 
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="precio"
                         type="text"
@@ -639,7 +639,7 @@ class ReserveAppointmentInvited extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <Select
                         style={{
                           width: "100%",

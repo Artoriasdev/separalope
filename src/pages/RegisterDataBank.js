@@ -285,7 +285,7 @@ class RegisterDataBank extends Component {
       modal: false,
     });
     if (this.state.response === true) {
-      this.props.history.push("/business/profile/bank");
+      this.props.history.push("/business/profile");
     } else if (this.state.forceRedirect === true) {
       this.props.history.push("/business/profile");
     } else if (this.state.homeRedirect === true) {
@@ -447,7 +447,7 @@ class RegisterDataBank extends Component {
                     </Select>
                   </div>
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <Select
                         value={values.tipoId}
                         error={errors.tipoId && touched.tipoId}
@@ -470,7 +470,7 @@ class RegisterDataBank extends Component {
                           ))}
                       </Select>
                     </div>
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="numeroCuenta"
                         className="TxtField"
@@ -497,7 +497,7 @@ class RegisterDataBank extends Component {
                     </div>
                   </div>
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="numeroInterbancario"
                         className="TxtField"
@@ -525,7 +525,7 @@ class RegisterDataBank extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="correoBancario"
                         className="TxtField"

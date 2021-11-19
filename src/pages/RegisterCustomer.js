@@ -603,7 +603,7 @@ class RegisterCustomer extends Component {
               }) => (
                 <form name="formRegister" onSubmit={handleSubmit}>
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="nombre"
                         className="TxtField"
@@ -619,7 +619,7 @@ class RegisterCustomer extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="apellido"
                         className="TxtField"
@@ -637,7 +637,7 @@ class RegisterCustomer extends Component {
                   </div>
 
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <Select
                         style={{
                           backgroundColor: "white",
@@ -668,7 +668,7 @@ class RegisterCustomer extends Component {
                       </Select>
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="nroDocumento"
                         className="TxtField"
@@ -696,7 +696,7 @@ class RegisterCustomer extends Component {
                   </div>
 
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="celular"
                         className="TxtField"
@@ -719,7 +719,7 @@ class RegisterCustomer extends Component {
                         component="div"
                       />
                     </div>
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="correo"
                         className="TxtField"
@@ -742,24 +742,7 @@ class RegisterCustomer extends Component {
                   </div>
 
                   <div className="files">
-                    <div className="txt-left">
-                      {/* <TextField
-                        name="contraseña"
-                        type="password"
-                        className="TxtField"
-                        variant="outlined"
-                        placeholder="Contraseña"
-                        required
-                        fullWidth
-                        value={values.contraseña}
-                        error={errors.contraseña && touched.contraseña}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        style={{
-                          marginBottom: "5px",
-                        }}
-                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                      /> */}
+                    <div className="txt-left-nomid">
                       <OutlinedInput
                         name="contraseña"
                         fullWidth
@@ -793,24 +776,7 @@ class RegisterCustomer extends Component {
                         component="div"
                       />
                     </div>
-                    <div className="txt-right">
-                      {/* <TextField
-                        name="repContraseña"
-                        type="password"
-                        className="TxtField"
-                        variant="outlined"
-                        placeholder="Repetir contraseña"
-                        required
-                        fullWidth
-                        value={values.repContraseña}
-                        error={errors.repContraseña && touched.repContraseña}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        style={{
-                          marginBottom: "5px",
-                        }}
-                        onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
-                      /> */}
+                    <div className="txt-right-nomid">
                       <OutlinedInput
                         name="repContraseña"
                         fullWidth

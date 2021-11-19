@@ -13,8 +13,9 @@ import RegisterCustomer from "./pages/RegisterCustomer";
 import RegisterBusiness from "./pages/RegisterBusiness";
 import BusinessCategory from "./pages/BusinessCategory";
 import BusinessServices from "./pages/BusinessServices";
+// import BusinessData from "./pages/BusinessData";
+// import BussinesDataBank from "./pages/BusinessDataBank";
 import BusinessProfile from "./pages/BusinessProfile";
-import BussinesProfileBank from "./pages/BusinessProfileBank";
 import Password from "./pages/Password";
 import RegisterDataBank from "./pages/RegisterDataBank";
 import ServiceDetail from "./pages/ServiceDetail";
@@ -95,15 +96,16 @@ function App() {
                 path="/business/profile"
                 component={BusinessProfile}
               />
+              {/* <Route exact path="/business/profile" component={BusinessData} />
+              <Route
+                exact
+                path="/business/profile/bank"
+                component={BussinesDataBank}
+              /> */}
               <Route
                 exact
                 path="/business/profile/register-data-bank"
                 component={RegisterDataBank}
-              />
-              <Route
-                exact
-                path="/business/profile/bank"
-                component={BussinesProfileBank}
               />
               <Route exact path="/password_change" component={Password} />
               <Route

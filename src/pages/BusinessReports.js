@@ -176,7 +176,7 @@ class BusinessReports extends Component {
           <div>
             <div className="vertical-bar">
               <div className="files">
-                <div className="txt-left">
+                <div className="txt-left-nomid">
                   <p>Resultado por :</p>
                   <Select
                     value={this.state.fecha}
@@ -195,7 +195,7 @@ class BusinessReports extends Component {
                     <MenuItem value={"M"}>Meses</MenuItem>
                   </Select>
                 </div>
-                <div className="txt-right">
+                <div className="txt-right-nomid">
                   <p>Tipo:</p>
                   <Select
                     value={this.state.ventas}

@@ -508,7 +508,7 @@ class ReserveAppointment extends Component {
               }) => (
                 <form name="formRegister" onSubmit={handleSubmit}>
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="correo"
                         className="TxtField"
@@ -525,7 +525,7 @@ class ReserveAppointment extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="celular"
                         className="TxtField"
@@ -549,7 +549,7 @@ class ReserveAppointment extends Component {
                   </div>
 
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="servicio"
                         className="TxtField"
@@ -568,7 +568,7 @@ class ReserveAppointment extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <TextField
                         name="duracion"
                         type="text"
@@ -590,7 +590,7 @@ class ReserveAppointment extends Component {
                   </div>
 
                   <div className="files">
-                    <div className="txt-left">
+                    <div className="txt-left-nomid">
                       <TextField
                         name="precio"
                         type="text"
@@ -613,7 +613,7 @@ class ReserveAppointment extends Component {
                       />
                     </div>
 
-                    <div className="txt-right">
+                    <div className="txt-right-nomid">
                       <Select
                         style={{
                           width: "100%",

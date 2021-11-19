@@ -229,24 +229,7 @@ class PasswordRestore extends Component {
                       />
                     </div>
                     <div className="files">
-                      <div className="txt-left">
-                        {/* <TextField
-                          name="contraseña"
-                          className="TxtField"
-                          variant="outlined"
-                          placeholder="Ingresa tu nueva contraseña"
-                          required
-                          fullWidth
-                          value={values.contraseña}
-                          error={errors.contraseña && touched.contraseña}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          type={this.state.viewPassword ? "text" : "password"}
-
-                          // inputProps={{
-                          //   maxLength: 9,
-                          // }}
-                        /> */}
+                      <div className="txt-left-nomid">
                         <OutlinedInput
                           name="contraseña"
                           fullWidth
@@ -280,27 +263,7 @@ class PasswordRestore extends Component {
                           component="div"
                         />
                       </div>
-                      <div className="txt-right">
-                        {/* <TextField
-                          name="repetirContraseña"
-                          className="TxtField"
-                          variant="outlined"
-                          placeholder="Repite tu nueva contraseña"
-                          value={values.repetirContraseña}
-                          required
-                          fullWidth
-                          error={
-                            errors.repetirContraseña &&
-                            touched.repetirContraseña
-                          }
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          type={this.state.viewPassword ? "text" : "password"}
-
-                          // inputProps={{
-                          //   maxLength: 9,
-                          // }}
-                        /> */}
+                      <div className="txt-right-nomid">
                         <OutlinedInput
                           name="repetirContraseña"
                           fullWidth

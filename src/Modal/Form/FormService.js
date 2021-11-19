@@ -640,7 +640,7 @@ export class FormService extends Component {
                   </Select>
                 </div>
                 <div className="files">
-                  <div className="txt-left">
+                  <div className="txt-left-nomid">
                     <TextField
                       name="servicio"
                       className="TxtField"
@@ -658,7 +658,7 @@ export class FormService extends Component {
                       onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
                   </div>
-                  <div className="txt-right">
+                  <div className="txt-right-nomid">
                     <Select
                       value={values.hora}
                       error={errors.hora && touched.hora}
@@ -683,7 +683,7 @@ export class FormService extends Component {
                   </div>
                 </div>
                 <div className="files">
-                  <div className="txt-left">
+                  <div className="txt-left-nomid">
                     <TextField
                       name="descripcion"
                       className="TxtField"
@@ -704,7 +704,7 @@ export class FormService extends Component {
                       onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />
                   </div>
-                  <div className="txt-right">
+                  <div className="txt-right-nomid">
                     <TextField
                       name="precio"
                       className="TxtField"
