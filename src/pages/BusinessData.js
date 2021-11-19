@@ -60,10 +60,6 @@ class BusinessData extends Component {
   componentDidMount() {
     try {
       (async () => {
-        this.setState({
-          logo: sessionStorage.getItem("logo") || "",
-          banner: sessionStorage.getItem("banner") || "",
-        });
         await this.handleGetData();
         this.handleGetDocuments();
         this.handleGetProvinces();
@@ -122,13 +118,34 @@ class BusinessData extends Component {
               Formik.setFieldValue("provincia", "");
               Formik.setFieldValue("distrito", "");
             } else {
+              this.handleGetDistrics(this.state.typeData[0].province);
+              Formik.setFieldValue("distrito", this.state.typeData[0].district);
               Formik.setFieldValue(
                 "provincia",
                 this.state.typeData[0].province
               );
-              Formik.setFieldValue("distrito", this.state.typeData[0].district);
-
-              this.handleGetDistrics(this.state.typeData[0].province);
+            }
+            if (this.state.typeData[0].logo === undefined) {
+              Formik.setFieldValue("input", "");
+            } else {
+              Formik.setFieldValue(
+                "input",
+                this.state.typeData[0].tradename + " logotipo"
+              );
+              this.setState({
+                logo: this.state.typeData[0].logo,
+              });
+            }
+            if (this.state.typeData[0].imageBig === undefined) {
+              Formik.setFieldValue("banner", "");
+            } else {
+              Formik.setFieldValue(
+                "banner",
+                this.state.typeData[0].tradename + " banner"
+              );
+              this.setState({
+                banner: this.state.typeData[0].imageBig,
+              });
             }
 
             Formik.setFieldValue(
@@ -193,7 +210,14 @@ class BusinessData extends Component {
       console.log(error);
     }
   };
-  handleEditData = async (dataModel) => {
+  handleEditData = async (dataModel, logo, banner) => {
+    let log = new FormData();
+    log.append("request", dataModel);
+    log.append("logo", logo);
+    log.append("banner", banner);
+    for (var key of log.entries()) {
+      console.log(key[0] + ", " + key[1]);
+    }
     const tk = sessionStorage.getItem("tk");
     var headers = {
       "Content-Type": "application/json",
@@ -203,7 +227,7 @@ class BusinessData extends Component {
     let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/business/updateBusiness`;
 
     const rspApi = axios
-      .put(linkEditApi, dataModel, {
+      .put(linkEditApi, log, {
         headers: headers,
       })
       .then((response) => {
@@ -222,28 +246,30 @@ class BusinessData extends Component {
         return response;
       })
       .catch((error) => {
-        const { status } = error.response;
-        if (status === 401) {
-          sessionStorage.removeItem("tk");
-          sessionStorage.removeItem("logo");
-          sessionStorage.removeItem("logged");
-          sessionStorage.removeItem("workflow");
-          sessionStorage.removeItem("tradename");
-          sessionStorage.removeItem("info");
-          sessionStorage.removeItem("id");
-          this.setState({
-            modal: true,
-            message: "Sesión expirada, porfavor vuelva a iniciar sesión",
-            isLoading: false,
-            forceRedirect: true,
-          });
-        } else {
-          this.setState({
-            modal: true,
-            message:
-              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
-          });
-        }
+        const { response } = error;
+        console.log(error);
+        console.log(response);
+        // if (status === 401) {
+        //   sessionStorage.removeItem("tk");
+        //   sessionStorage.removeItem("logo");
+        //   sessionStorage.removeItem("logged");
+        //   sessionStorage.removeItem("workflow");
+        //   sessionStorage.removeItem("tradename");
+        //   sessionStorage.removeItem("info");
+        //   sessionStorage.removeItem("id");
+        //   this.setState({
+        //     modal: true,
+        //     message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+        //     isLoading: false,
+        //     forceRedirect: true,
+        //   });
+        // } else {
+        //   this.setState({
+        //     modal: true,
+        //     message:
+        //       "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+        //   });
+        // }
       });
 
     return rspApi;
@@ -423,32 +449,30 @@ class BusinessData extends Component {
   };
 
   handleRedirect = () => {
-    this.props.history.push("/business/profile");
+    if (this.state.typeData[0].logo !== undefined) {
+      window.open(this.state.typeData[0].logo, "_blank");
+    }
   };
-  handleRedirectBank = () => {
-    this.props.history.push("/business/profile/bank");
-  };
-  handleRedirectPassword = () => {
-    this.props.history.push("/business/profile/password");
+  handleRedirectBanner = () => {
+    if (this.state.typeData[0].imageBig !== undefined) {
+      window.open(this.state.typeData[0].imageBig, "_blank");
+    }
   };
 
   handleAttach = (e) => {
     try {
-      let file = e.target.files[0];
+      var file = this.state.logo;
+      file = e.target.files[0];
       let ext = file.name.split(".").pop();
-      // console.log(file.name);
-      // console.log(file);
-      // console.log(ext);
 
       if (ext === "jpg" || ext === "png" || ext === "jpeg") {
         const sizeFile = file.size;
         if (sizeFile < 1048576) {
+          const Formik = this.form;
+          Formik.setFieldValue("input", file.name);
           this.setState({
-            logo: file.name,
+            logo: file,
           });
-          sessionStorage.setItem("logo", file.name);
-          this.handleUploadLogoBusiness(file);
-          // console.log(sizeFile);
         } else {
           this.setState({
             modal: true,
@@ -467,11 +491,15 @@ class BusinessData extends Component {
   };
 
   handleDelete = () => {
+    const Formik = this.form;
+    Formik.setFieldValue("input", "");
     this.setState({
       logo: "",
     });
   };
   handleBannerDelete = () => {
+    const Formik = this.form;
+    Formik.setFieldValue("banner", "");
     this.setState({
       banner: "",
     });
@@ -486,7 +514,8 @@ class BusinessData extends Component {
   };
   handleAttachBanner = (e) => {
     try {
-      let file = e.target.files[0];
+      let file = "";
+      file = e.target.files[0];
       let ext = file.name.split(".").pop();
       // console.log(file.name);
       // console.log(file);
@@ -495,10 +524,12 @@ class BusinessData extends Component {
       if (ext === "jpg" || ext === "png" || ext === "jpeg") {
         const sizeFile = file.size;
         if (sizeFile < 1048576) {
+          const Formik = this.form;
+          Formik.setFieldValue("banner", file.name);
           this.setState({
-            banner: file.name,
+            banner: file,
           });
-          sessionStorage.setItem("banner", file.name);
+          // sessionStorage.setItem("banner", file.name);
           // this.handleUploadLogoBusiness(file);
           // console.log(sizeFile);
         } else {
@@ -516,61 +547,6 @@ class BusinessData extends Component {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  handleUploadLogoBusiness = async (logo) => {
-    let data = new FormData();
-    data.append("file", logo);
-    for (var key of data.entries()) {
-      console.log(key[0] + ", " + key[1]);
-    }
-    const tk = sessionStorage.getItem("tk");
-    var headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${tk}`,
-    };
-    let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/business/uploadLogoBusiness`;
-
-    const rspApi = axios
-      .post(linkEditApi, data, {
-        headers: headers,
-      })
-      .then((response) => {
-        console.log(response.data.response);
-
-        if (response.data.response === "true") {
-          this.props.history.go();
-        }
-        return response;
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 401) {
-          sessionStorage.removeItem("logged");
-          sessionStorage.removeItem("info");
-          sessionStorage.removeItem("workflow");
-          sessionStorage.removeItem("tk");
-          sessionStorage.removeItem("name");
-          sessionStorage.removeItem("id");
-          sessionStorage.removeItem("tradename");
-          sessionStorage.removeItem("logo");
-          this.setState({
-            modal: true,
-            unableText: "Su sesión ha expirado. Vuelva a intentarlo.",
-            forceRedirect: true,
-          });
-        } else {
-          this.setState({
-            modal: true,
-            message:
-              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
-            isLoading: false,
-          });
-        }
-      });
-
-    return rspApi;
   };
 
   render() {
@@ -621,6 +597,8 @@ class BusinessData extends Component {
             apellidos: "",
             documentos: "",
             numDocumento: "",
+            input: "",
+            banner: "",
             maxLengthValue: 8,
             minLengthValue: 8,
           }}
@@ -682,7 +660,12 @@ class BusinessData extends Component {
             dataModel.legalRepresentativeDocumentNumber = values.numDocumento;
 
             (async () => {
-              await this.handleEditData(dataModel);
+              console.log(dataModel);
+              await this.handleEditData(
+                dataModel,
+                this.state.logo,
+                this.state.banner
+              );
             })();
           }}
         >
@@ -863,25 +846,39 @@ class BusinessData extends Component {
                     <div className="txt-mid-content">
                       <TextField
                         name="input"
-                        className={`${classes.root} Input`}
+                        className={
+                          this.state.edit ? `${classes.root} Input` : null
+                        }
                         variant="outlined"
+                        label="Subir imagen logo"
                         placeholder="Subir imagen logo"
+                        disabled={!this.state.edit}
+                        required
                         onClick={
-                          this.state.logo === "" ? this.handleAttachClick : null
+                          values.input === "" ? this.handleAttachClick : null
                         }
                         fullWidth
                         type="text"
-                        value={this.state.logo}
+                        value={values.input}
                         InputProps={
-                          this.state.logo !== ""
+                          values.input !== ""
                             ? {
                                 startAdornment: (
-                                  <InputAdornment>
-                                    <img src={Image} alt="imagen" />
-                                  </InputAdornment>
+                                  <IconButton
+                                    disabled={!this.state.edit}
+                                    size="small"
+                                    onClick={this.handleRedirect}
+                                  >
+                                    <img
+                                      src={Image}
+                                      alt="imagen"
+                                      style={{ width: "30px" }}
+                                    />
+                                  </IconButton>
                                 ),
                                 endAdornment: (
                                   <IconButton
+                                    disabled={!this.state.edit}
                                     position="end"
                                     size="small"
                                     onClick={this.handleDelete}
@@ -903,6 +900,7 @@ class BusinessData extends Component {
                         id="foto"
                         name="foto"
                         type="file"
+                        // disabled={!this.state.edit}
                         onChange={this.handleAttach}
                         style={{ display: "none" }}
                       />
@@ -910,27 +908,41 @@ class BusinessData extends Component {
                     <div className="txt-right-content">
                       <TextField
                         name="banner"
-                        className={`${classes.root} Input`}
+                        className={
+                          this.state.edit ? `${classes.root} Input` : null
+                        }
                         variant="outlined"
+                        required
+                        label="Imagen Banner"
                         placeholder="Imagen Banner"
+                        disabled={!this.state.edit}
                         fullWidth
                         type="text"
                         onClick={
-                          this.state.banner === ""
+                          values.banner === ""
                             ? this.handleAttachBannerClick
                             : null
                         }
-                        value={this.state.banner}
+                        value={values.banner}
                         InputProps={
-                          this.state.banner !== ""
+                          values.banner !== ""
                             ? {
                                 startAdornment: (
-                                  <InputAdornment>
-                                    <img src={Image} alt="imagen" />
-                                  </InputAdornment>
+                                  <IconButton
+                                    disabled={!this.state.edit}
+                                    size="small"
+                                    onClick={this.handleRedirectBanner}
+                                  >
+                                    <img
+                                      src={Image}
+                                      alt="imagen"
+                                      style={{ width: "30px" }}
+                                    />
+                                  </IconButton>
                                 ),
                                 endAdornment: (
                                   <IconButton
+                                    disabled={!this.state.edit}
                                     position="end"
                                     size="small"
                                     onClick={this.handleBannerDelete}
@@ -941,7 +953,11 @@ class BusinessData extends Component {
                               }
                             : {
                                 endAdornment: (
-                                  <IconButton position="end" size="small">
+                                  <IconButton
+                                    position="end"
+                                    size="small"
+                                    disabled={!this.state.edit}
+                                  >
                                     <img src={Upload} alt="Upload" />
                                   </IconButton>
                                 ),
@@ -952,6 +968,7 @@ class BusinessData extends Component {
                         id="banner"
                         name="baner"
                         type="file"
+                        // disabled={!this.state.edit}
                         onChange={this.handleAttachBanner}
                         style={{ display: "none" }}
                       />
