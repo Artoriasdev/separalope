@@ -5,37 +5,22 @@ import {
   Backdrop,
   Button,
   Fade,
-  IconButton,
-  InputAdornment,
   MenuItem,
   Modal,
   Select,
   TextField,
-  withStyles,
 } from "@material-ui/core";
 import { handleRegexDisable } from "../utils/utilitaries";
 import axios from "axios";
-import { CancelOutlined, Save } from "@material-ui/icons";
+import { Save } from "@material-ui/icons";
 import { EMAIL_REGEXP } from "../utils/regexp";
 import {
   EMAIL_INVALID,
   EMAIL_MINLENGTH,
   E_MINLENGTH,
 } from "../utils/constants";
-import Image from "../assets/images/Vector.svg";
-import Upload from "../assets/images/Upload.svg";
-// import FullPageLoader from "./FullPageLoader";
 
-const styles = (theme) => ({
-  root: {
-    "& .MuiOutlinedInput-input": {
-      cursor: "pointer",
-    },
-    "& .MuiInputBase-input": {
-      cursor: "pointer",
-    },
-  },
-});
+// import FullPageLoader from "./FullPageLoader";
 
 class BusinessData extends Component {
   constructor(props) {
@@ -94,13 +79,10 @@ class BusinessData extends Component {
           if (response.data.response === "true") {
             const { data } = response.data;
             console.log(data);
-            // sessionStorage.setItem("tradename", data[0].name);
+
             this.setState({
               typeData: data,
-              // logo: data[0].logo,
-              // name: data[0].name,
             });
-            // sessionStorage.setItem("logo", this.state.typeData[0].logo);
 
             const Formik = this.form;
             Formik.setFieldValue("nombreCompañia", this.state.typeData[0].name);
@@ -124,28 +106,6 @@ class BusinessData extends Component {
                 "provincia",
                 this.state.typeData[0].province
               );
-            }
-            if (this.state.typeData[0].logo === undefined) {
-              Formik.setFieldValue("input", "");
-            } else {
-              Formik.setFieldValue(
-                "input",
-                this.state.typeData[0].tradename + " logotipo"
-              );
-              this.setState({
-                logo: this.state.typeData[0].logo,
-              });
-            }
-            if (this.state.typeData[0].imageBig === undefined) {
-              Formik.setFieldValue("banner", "");
-            } else {
-              Formik.setFieldValue(
-                "banner",
-                this.state.typeData[0].tradename + " banner"
-              );
-              this.setState({
-                banner: this.state.typeData[0].imageBig,
-              });
             }
 
             Formik.setFieldValue(
@@ -210,14 +170,7 @@ class BusinessData extends Component {
       console.log(error);
     }
   };
-  handleEditData = async (dataModel, logo, banner) => {
-    let log = new FormData();
-    log.append("request", dataModel);
-    log.append("logo", logo);
-    log.append("banner", banner);
-    for (var key of log.entries()) {
-      console.log(key[0] + ", " + key[1]);
-    }
+  handleEditData = async (dataModel) => {
     const tk = sessionStorage.getItem("tk");
     var headers = {
       "Content-Type": "application/json",
@@ -227,11 +180,11 @@ class BusinessData extends Component {
     let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/business/updateBusiness`;
 
     const rspApi = axios
-      .put(linkEditApi, log, {
+      .put(linkEditApi, dataModel, {
         headers: headers,
       })
       .then((response) => {
-        console.log(response.data.response);
+        console.log(response);
         this.setState({
           isLoading: true,
         });
@@ -246,30 +199,28 @@ class BusinessData extends Component {
         return response;
       })
       .catch((error) => {
-        const { response } = error;
-        console.log(error);
-        console.log(response);
-        // if (status === 401) {
-        //   sessionStorage.removeItem("tk");
-        //   sessionStorage.removeItem("logo");
-        //   sessionStorage.removeItem("logged");
-        //   sessionStorage.removeItem("workflow");
-        //   sessionStorage.removeItem("tradename");
-        //   sessionStorage.removeItem("info");
-        //   sessionStorage.removeItem("id");
-        //   this.setState({
-        //     modal: true,
-        //     message: "Sesión expirada, porfavor vuelva a iniciar sesión",
-        //     isLoading: false,
-        //     forceRedirect: true,
-        //   });
-        // } else {
-        //   this.setState({
-        //     modal: true,
-        //     message:
-        //       "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
-        //   });
-        // }
+        const { status } = error.response;
+        if (status === 401) {
+          sessionStorage.removeItem("tk");
+          sessionStorage.removeItem("logo");
+          sessionStorage.removeItem("logged");
+          sessionStorage.removeItem("workflow");
+          sessionStorage.removeItem("tradename");
+          sessionStorage.removeItem("info");
+          sessionStorage.removeItem("id");
+          this.setState({
+            modal: true,
+            message: "Sesión expirada, porfavor vuelva a iniciar sesión",
+            isLoading: false,
+            forceRedirect: true,
+          });
+        } else {
+          this.setState({
+            modal: true,
+            message:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+          });
+        }
       });
 
     return rspApi;
@@ -448,109 +399,7 @@ class BusinessData extends Component {
     }
   };
 
-  handleRedirect = () => {
-    if (this.state.typeData[0].logo !== undefined) {
-      window.open(this.state.typeData[0].logo, "_blank");
-    }
-  };
-  handleRedirectBanner = () => {
-    if (this.state.typeData[0].imageBig !== undefined) {
-      window.open(this.state.typeData[0].imageBig, "_blank");
-    }
-  };
-
-  handleAttach = (e) => {
-    try {
-      var file = this.state.logo;
-      file = e.target.files[0];
-      let ext = file.name.split(".").pop();
-
-      if (ext === "jpg" || ext === "png" || ext === "jpeg") {
-        const sizeFile = file.size;
-        if (sizeFile < 1048576) {
-          const Formik = this.form;
-          Formik.setFieldValue("input", file.name);
-          this.setState({
-            logo: file,
-          });
-        } else {
-          this.setState({
-            modal: true,
-            message: "La foto debe pesar menos de 1mb",
-          });
-        }
-      } else {
-        this.setState({
-          modal: true,
-          message: "El archivo debe ser formato .jpg ,jpeg o .png",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  handleDelete = () => {
-    const Formik = this.form;
-    Formik.setFieldValue("input", "");
-    this.setState({
-      logo: "",
-    });
-  };
-  handleBannerDelete = () => {
-    const Formik = this.form;
-    Formik.setFieldValue("banner", "");
-    this.setState({
-      banner: "",
-    });
-  };
-
-  handleAttachClick = () => {
-    document.querySelector("#foto").click();
-  };
-
-  handleAttachBannerClick = () => {
-    document.querySelector("#banner").click();
-  };
-  handleAttachBanner = (e) => {
-    try {
-      let file = "";
-      file = e.target.files[0];
-      let ext = file.name.split(".").pop();
-      // console.log(file.name);
-      // console.log(file);
-      // console.log(ext);
-
-      if (ext === "jpg" || ext === "png" || ext === "jpeg") {
-        const sizeFile = file.size;
-        if (sizeFile < 1048576) {
-          const Formik = this.form;
-          Formik.setFieldValue("banner", file.name);
-          this.setState({
-            banner: file,
-          });
-          // sessionStorage.setItem("banner", file.name);
-          // this.handleUploadLogoBusiness(file);
-          // console.log(sizeFile);
-        } else {
-          this.setState({
-            modal: true,
-            message: "La foto debe pesar menos de 1mb",
-          });
-        }
-      } else {
-        this.setState({
-          modal: true,
-          message: "El archivo debe ser formato .jpg ,jpeg o .png",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   render() {
-    const { classes } = this.props;
     return (
       <>
         <Modal
@@ -597,8 +446,7 @@ class BusinessData extends Component {
             apellidos: "",
             documentos: "",
             numDocumento: "",
-            input: "",
-            banner: "",
+
             maxLengthValue: 8,
             minLengthValue: 8,
           }}
@@ -661,11 +509,7 @@ class BusinessData extends Component {
 
             (async () => {
               console.log(dataModel);
-              await this.handleEditData(
-                dataModel,
-                this.state.logo,
-                this.state.banner
-              );
+              await this.handleEditData(dataModel);
             })();
           }}
         >
@@ -697,6 +541,7 @@ class BusinessData extends Component {
                     onChange={handleChange}
                     disabled={!this.state.edit}
                     required
+                    style={{ margin: "5px 0" }}
                     // inputProps={{
                     //   maxLength: 9,
                     // }}
@@ -715,6 +560,7 @@ class BusinessData extends Component {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     required
+                    style={{ margin: "5px 0" }}
                     // inputProps={{
                     //   maxLength: 9,
                     // }}
@@ -735,6 +581,7 @@ class BusinessData extends Component {
                     onChange={handleChange}
                     disabled={!this.state.edit}
                     required
+                    style={{ margin: "5px 0" }}
                     inputProps={{
                       maxLength: 11,
                     }}
@@ -769,7 +616,7 @@ class BusinessData extends Component {
                     component="div"
                   />
                 </div>
-                <div className="txt-mid">
+                <div className="txt-right-nomid-bank">
                   <TextField
                     name="direccion"
                     className="TxtField"
@@ -785,7 +632,9 @@ class BusinessData extends Component {
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
                 </div>
-                <div className="txt-right">
+              </div>
+              <div className="files">
+                <div className="txt-left">
                   <Select
                     style={{
                       backgroundColor: "white",
@@ -812,9 +661,7 @@ class BusinessData extends Component {
                       ))}
                   </Select>
                 </div>
-              </div>
-              <div className="files">
-                <div className="txt-left">
+                <div className="txt-mid">
                   <Select
                     style={{
                       backgroundColor: "white",
@@ -841,145 +688,18 @@ class BusinessData extends Component {
                       ))}
                   </Select>
                 </div>
-                <div className="logos">
+                <div className="txt-right"></div>
+                {/* <div className="logos">
                   <div className="content">
-                    <div className="txt-mid-content">
-                      <TextField
-                        name="input"
-                        className={
-                          this.state.edit ? `${classes.root} Input` : null
-                        }
-                        variant="outlined"
-                        label="Subir imagen logo"
-                        placeholder="Subir imagen logo"
-                        disabled={!this.state.edit}
-                        required
-                        onClick={
-                          values.input === "" ? this.handleAttachClick : null
-                        }
-                        fullWidth
-                        type="text"
-                        value={values.input}
-                        InputProps={
-                          values.input !== ""
-                            ? {
-                                startAdornment: (
-                                  <IconButton
-                                    disabled={!this.state.edit}
-                                    size="small"
-                                    onClick={this.handleRedirect}
-                                  >
-                                    <img
-                                      src={Image}
-                                      alt="imagen"
-                                      style={{ width: "30px" }}
-                                    />
-                                  </IconButton>
-                                ),
-                                endAdornment: (
-                                  <IconButton
-                                    disabled={!this.state.edit}
-                                    position="end"
-                                    size="small"
-                                    onClick={this.handleDelete}
-                                  >
-                                    <CancelOutlined />
-                                  </IconButton>
-                                ),
-                              }
-                            : {
-                                endAdornment: (
-                                  <IconButton position="end" size="small">
-                                    <img src={Upload} alt="upload" />
-                                  </IconButton>
-                                ),
-                              }
-                        }
-                      />
-                      <input
-                        id="foto"
-                        name="foto"
-                        type="file"
-                        // disabled={!this.state.edit}
-                        onChange={this.handleAttach}
-                        style={{ display: "none" }}
-                      />
-                    </div>
-                    <div className="txt-right-content">
-                      <TextField
-                        name="banner"
-                        className={
-                          this.state.edit ? `${classes.root} Input` : null
-                        }
-                        variant="outlined"
-                        required
-                        label="Imagen Banner"
-                        placeholder="Imagen Banner"
-                        disabled={!this.state.edit}
-                        fullWidth
-                        type="text"
-                        onClick={
-                          values.banner === ""
-                            ? this.handleAttachBannerClick
-                            : null
-                        }
-                        value={values.banner}
-                        InputProps={
-                          values.banner !== ""
-                            ? {
-                                startAdornment: (
-                                  <IconButton
-                                    disabled={!this.state.edit}
-                                    size="small"
-                                    onClick={this.handleRedirectBanner}
-                                  >
-                                    <img
-                                      src={Image}
-                                      alt="imagen"
-                                      style={{ width: "30px" }}
-                                    />
-                                  </IconButton>
-                                ),
-                                endAdornment: (
-                                  <IconButton
-                                    disabled={!this.state.edit}
-                                    position="end"
-                                    size="small"
-                                    onClick={this.handleBannerDelete}
-                                  >
-                                    <CancelOutlined />
-                                  </IconButton>
-                                ),
-                              }
-                            : {
-                                endAdornment: (
-                                  <IconButton
-                                    position="end"
-                                    size="small"
-                                    disabled={!this.state.edit}
-                                  >
-                                    <img src={Upload} alt="Upload" />
-                                  </IconButton>
-                                ),
-                              }
-                        }
-                      />
-                      <input
-                        id="banner"
-                        name="baner"
-                        type="file"
-                        // disabled={!this.state.edit}
-                        onChange={this.handleAttachBanner}
-                        style={{ display: "none" }}
-                      />
-                    </div>
+                    <div className="txt-mid-content"></div>
+                    <div className="txt-right-content"></div>
                   </div>
                   <p>
                     *Tamaño recomendado para las imágenes: Logotipo: 300 x
                     250px. Banner 1024 x 580px.
                     <br />* Formato en JPG o PNG.
                   </p>
-                </div>
+                </div> */}
               </div>
               <div className="files">
                 <div className="txt-left-nomid">
@@ -1155,4 +875,4 @@ class BusinessData extends Component {
     );
   }
 }
-export default withStyles(styles)(BusinessData);
+export default BusinessData;

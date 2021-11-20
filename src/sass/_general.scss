@@ -574,7 +574,7 @@ button {
   .txt-left {
     flex-direction: column;
     width: 30%;
-    margin: 5px 5px 5px 0;
+    margin: 10px 5px 10px 0;
     @include mobile {
       width: 100%;
       margin: 5px 0;
@@ -583,7 +583,7 @@ button {
   .txt-mid {
     flex-direction: column;
     width: 30%;
-    margin: 5px 5px 5px 5px;
+    margin: 10px 5px 10px 5px;
     @include mobile {
       width: 100%;
       margin: 5px 0;
@@ -592,7 +592,7 @@ button {
   .txt-right {
     flex-direction: column;
     width: 30%;
-    margin: 5px 0 5px 5px;
+    margin: 10px 0 10px 5px;
     @include mobile {
       width: 100%;
       margin: 5px 0;
@@ -601,7 +601,7 @@ button {
   .txt-left-nomid {
     flex-direction: column;
     width: 50%;
-    margin: 5px 5px 5px 0;
+    margin: 15px 5px 10px 0;
     @include mobile {
       width: 100%;
       margin: 5px 0;
@@ -610,7 +610,7 @@ button {
   .txt-right-nomid {
     flex-direction: column;
     width: 50%;
-    margin: 5px 0 5px 5px;
+    margin: 15px 0 10px 5px;
     @include mobile {
       width: 100%;
       margin: 5px 0;
@@ -628,7 +628,7 @@ button {
   .txt-quarter {
     flex-direction: column;
     width: 20%;
-    margin: 5px 5px 5px 5px;
+    margin: 5px 5px 5px 0;
     @include mobile {
       width: 100%;
       margin: 5px 0;
@@ -1340,6 +1340,56 @@ button {
   }
 }
 
+.picture-container {
+  width: 100%;
+  height: 300px;
+}
+.banner-container-profile {
+  cursor: pointer;
+  z-index: 1;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s ease;
+  opacity: 1;
+  background-size: auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  @include mobile {
+    background-size: 90%;
+  }
+}
+.banner-hover {
+  z-index: 3;
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  color: white;
+  margin-top: 80px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.banner-background-hover {
+  transition: 0.5s ease;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.banner-container-profile:hover .banner-background-hover {
+  opacity: 1;
+}
+
+.banner-container-profile:hover .banner-hover {
+  opacity: 1;
+}
+
 .modal-container {
   display: flex;
   align-items: center;
@@ -1808,7 +1858,7 @@ button {
 }
 .business-profile-container {
   width: 85%;
-  margin: 3% auto;
+  margin: 10px auto;
   @include mobile {
     width: 90%;
   }

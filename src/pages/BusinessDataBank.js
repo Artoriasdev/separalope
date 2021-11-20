@@ -386,30 +386,8 @@ class BusinessDataBank extends Component {
     this.setState({ editButton: true });
   };
 
-  handleRedirect = () => {
-    this.props.history.push("/business/profile");
-  };
-  handleRedirectBank = () => {
-    this.props.history.push("/business/profile/bank");
-  };
-  handleRedirectPassword = () => {
-    this.props.history.push("/business/profile/password");
-  };
-
   handleRedirectRegister = () => {
     this.props.history.push("/business/profile/register-data-bank");
-  };
-
-  handleLogout = () => {
-    sessionStorage.removeItem("logged");
-    sessionStorage.removeItem("info");
-    sessionStorage.removeItem("workflow");
-    sessionStorage.removeItem("tk");
-    sessionStorage.removeItem("name");
-    sessionStorage.removeItem("id");
-    sessionStorage.removeItem("tradename");
-    sessionStorage.removeItem("logo");
-    this.props.history.go(this.props.history.push("/"));
   };
 
   handleClose = () => {
@@ -422,80 +400,6 @@ class BusinessDataBank extends Component {
     } else if (this.state.response === true) {
       this.props.history.go();
     }
-  };
-
-  handleAttach = (e) => {
-    let file = e.target.files[0];
-    let ext = file.name.split(".").pop();
-    // console.log(name);
-    // console.log(file);
-    // console.log(ext);
-
-    if (ext === "jpg" || ext === "png" || ext === "jpeg") {
-      const sizeFile = file.size;
-      if (sizeFile < 1048576) {
-        console.log(sizeFile);
-        this.handleUploadLogoBusiness(file);
-      } else {
-        this.setState({
-          modal: true,
-          message: "La foto debe pesar menos de 1mb",
-        });
-      }
-    } else {
-      this.setState({
-        modal: true,
-        message: "El archivo debe ser formato .jpg o .png",
-      });
-    }
-  };
-
-  handleUploadLogoBusiness = async (logo) => {
-    let data = new FormData();
-    data.append("file", logo);
-    for (var key of data.entries()) {
-      console.log(key[0] + ", " + key[1]);
-    }
-    const tk = sessionStorage.getItem("tk");
-    var headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${tk}`,
-    };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/uploadLogoBusiness";
-
-    const rspApi = axios
-      .post(linkEditApi, data, {
-        headers: headers,
-      })
-      .then((response) => {
-        console.log(response.data.response);
-
-        if (response.data.response === "true") {
-          this.props.history.go();
-        }
-        return response;
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 401) {
-          this.setState({
-            modal: true,
-            unableText: "Su sesión ha expirado. Vuelva a intentarlo.",
-            forceRedirect: true,
-          });
-        } else {
-          this.setState({
-            modal: true,
-            message:
-              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
-            isLoading: false,
-          });
-        }
-      });
-
-    return rspApi;
   };
 
   render() {
