@@ -675,7 +675,7 @@ class BusinessDataBank extends Component {
                     variant="contained"
                     color="secondary"
                     type="submit"
-                    className="btn-primary"
+                    className="btn-primary data "
                     startIcon={<Save />}
                     style={{ marginTop: "10px" }}
                   >
@@ -686,12 +686,12 @@ class BusinessDataBank extends Component {
             </form>
           )}
         </Formik>
-        <div className="files" style={{ float: "right" }}>
+        <div className="files" style={{ float: "left" }}>
           <Button
             fullWidth
             variant="contained"
             color="secondary"
-            className="btn-primary"
+            className="btn-primary data "
             style={{ marginTop: "10px" }}
           >
             Regresar

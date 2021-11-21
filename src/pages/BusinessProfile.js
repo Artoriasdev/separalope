@@ -11,7 +11,12 @@ import {
 import React, { Component } from "react";
 import { LinkTab } from "../Nav Tabs/LinkTab";
 import { TabPanel } from "../Nav Tabs/TabPanel";
-import { Edit, ImageOutlined, NavigateNext } from "@material-ui/icons";
+import {
+  Edit,
+  ImageOutlined,
+  NavigateNext,
+  PhotoCamera,
+} from "@material-ui/icons";
 import BusinessDataBank from "./BusinessDataBank";
 import BusinessData from "./BusinessData";
 import Image from "../assets/images/Vector.svg";
@@ -23,7 +28,7 @@ class BusinessProfile extends Component {
     super(props);
     this.state = {
       value: 0,
-      edit: false,
+      edit: true,
       modal: false,
       message: "",
       forceRedirect: false,
@@ -53,7 +58,8 @@ class BusinessProfile extends Component {
       if (ext === "jpg" || ext === "png" || ext === "jpeg") {
         const sizeFile = file.size;
         if (sizeFile < 1048576) {
-          console.log(file);
+          console.log(file, "logo");
+          this.handleUploadLogoBusiness(file);
         } else {
           this.setState({
             modal: true,
@@ -80,7 +86,8 @@ class BusinessProfile extends Component {
       if (ext === "jpg" || ext === "png" || ext === "jpeg") {
         const sizeFile = file.size;
         if (sizeFile < 1048576) {
-          console.log(file);
+          // console.log(file, "banner");
+          this.handleUploadBannerBusiness(file);
         } else {
           this.setState({
             modal: true,
@@ -172,9 +179,9 @@ class BusinessProfile extends Component {
   handleUploadLogoBusiness = async (logo) => {
     let data = new FormData();
     data.append("file", logo);
-    for (var key of data.entries()) {
-      console.log(key[0] + ", " + key[1]);
-    }
+    // for (var key of data.entries()) {
+    //   console.log(key[0] + ", " + key[1]);
+    // }
     const tk = sessionStorage.getItem("tk");
     var headers = {
       "Content-Type": "application/json",
@@ -192,7 +199,54 @@ class BusinessProfile extends Component {
         console.log(response.data.response);
 
         if (response.data.response === "true") {
-          this.handleGetData();
+          this.props.history.go();
+        }
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 401) {
+          this.setState({
+            modal: true,
+            unableText: "Su sesión ha expirado. Vuelva a intentarlo.",
+            forceRedirect: true,
+          });
+        } else {
+          this.setState({
+            modal: true,
+            message:
+              "Ha ocurrido un error, porfavor refresque la página o intentelo más tarde",
+            isLoading: false,
+          });
+        }
+      });
+
+    return rspApi;
+  };
+  handleUploadBannerBusiness = async (banner) => {
+    let data = new FormData();
+    data.append("file", banner);
+    // for (var key of data.entries()) {
+    //   console.log(key[0] + ", " + key[1]);
+    // }
+    const tk = sessionStorage.getItem("tk");
+    var headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tk}`,
+    };
+    let linkEditApi =
+      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/uploadBannerBusiness?file";
+
+    const rspApi = axios
+      .post(linkEditApi, data, {
+        headers: headers,
+      })
+      .then((response) => {
+        console.log(response);
+
+        if (response.data.response === "true") {
+          this.props.history.go();
         }
         return response;
       })
@@ -289,26 +343,28 @@ class BusinessProfile extends Component {
         <div className="profile-container">
           <div className="form-profile">
             <h1>Datos de negocio</h1>
-            <Button
-              variant="contained"
-              color="secondary"
-              className="btn-primary"
-              startIcon={<Edit />}
-              onClick={this.handleEdit}
-            >
-              Editar datos
-            </Button>
           </div>
           <hr />
           <div className="business-profile-container">
-            {/* <div className="picture-container">
+            <div className="picture-container">
               <div
                 className="banner-container-profile"
-                style={{
-                  backgroundImage: `url(${this.state.banner})`,
-                }}
+                onClick={this.handleAttachBannerClick}
+                // style={{ backgroundImage: `url(${this.state.banner})` }}
               >
-                 <img src={this.state.banner} /> 
+                <input
+                  id="banner"
+                  type="file"
+                  name="foto"
+                  style={{ display: "none" }}
+                  onChange={this.handleAttachBanner}
+                />
+                <img
+                  src={this.state.banner}
+                  alt="banner"
+                  title="banner"
+                  style={{ height: "300px" }}
+                />
                 <div className="banner-background-hover" />
                 <div className="banner-hover">
                   <ImageOutlined
@@ -318,10 +374,31 @@ class BusinessProfile extends Component {
                   <p>Subir imagen de banner</p>
                 </div>
               </div>
-              <div className="logo-container-profile">
+              <p>
+                *Tamaño recomendado para las imágenes: Logotipo: 300 x 250px.
+                Banner 1024 x 580px.
+                <br />
+                *Formato en JPG o PNG.
+              </p>
+              <div
+                className="logo-container-profile"
+                onClick={this.handleAttachClick}
+              >
+                <input
+                  id="foto"
+                  type="file"
+                  name="foto"
+                  style={{ display: "none" }}
+                  onChange={this.handleAttach}
+                />
                 <img src={this.state.logo} alt="logo" title="logo" />
+                <div className="logo-background-hover" />
+                <div className="logo-hover">
+                  <PhotoCamera fontSize="large" style={{ fontSize: "40px" }} />
+                  <p>Subir logo</p>
+                </div>
               </div>
-            </div> */}
+            </div>
             <AppBar
               position="static"
               style={{

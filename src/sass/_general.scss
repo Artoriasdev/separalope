@@ -568,6 +568,7 @@ button {
     .button {
       position: relative !important;
     }
+    width: 100%;
     flex-direction: column;
     justify-content: center;
   }
@@ -1342,22 +1343,41 @@ button {
 
 .picture-container {
   width: 100%;
-  height: 300px;
+  height: 350px;
+  @include mobile {
+    height: 450px;
+  }
+}
+.picture-container > p {
+  margin: 0;
+  padding: 0;
+  margin-left: 20vw;
+  margin-top: 5px;
+  color: rgba(0, 0, 0, 0.5);
+  @include tablet {
+    margin-left: 25vw;
+  }
+  @include mobile {
+    margin-left: 40vw;
+  }
 }
 .banner-container-profile {
   cursor: pointer;
-  z-index: 1;
   height: 80%;
+  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: 0.5s ease;
   opacity: 1;
-  background-size: auto;
-  background-position: center;
-  background-repeat: no-repeat;
-  @include mobile {
-    background-size: 90%;
+  img {
+    max-height: 250px;
+    max-width: 1400px;
+    width: 80%;
+    position: absolute;
+    @include mobile {
+      width: 80%;
+    }
   }
 }
 .banner-hover {
@@ -1378,7 +1398,7 @@ button {
   opacity: 0;
   width: 100%;
   height: 100%;
-  z-index: 2;
+  z-index: 3;
   background: rgba(0, 0, 0, 0.6);
 }
 
@@ -1387,6 +1407,69 @@ button {
 }
 
 .banner-container-profile:hover .banner-hover {
+  opacity: 1;
+}
+
+.logo-container-profile {
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  z-index: 4;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s ease;
+  opacity: 1;
+  margin-left: 8vw;
+  margin-top: -90px;
+  border-radius: 50%;
+  border: white 5px solid;
+  img {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  @include tablet {
+    margin-top: -100px;
+  }
+  @include mobile {
+    margin-top: -120px;
+    width: 90px;
+    height: 90px;
+  }
+}
+.logo-background-hover {
+  border-radius: 50%;
+  transition: 0.5s ease;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.6);
+}
+.logo-hover {
+  z-index: 6;
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  color: white;
+  transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  text-align: center;
+  font-size: 14px;
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.logo-container-profile:hover .logo-background-hover {
+  opacity: 1;
+}
+
+.logo-container-profile:hover .logo-hover {
   opacity: 1;
 }
 

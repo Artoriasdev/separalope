@@ -694,11 +694,7 @@ class BusinessData extends Component {
                     <div className="txt-mid-content"></div>
                     <div className="txt-right-content"></div>
                   </div>
-                  <p>
-                    *Tamaño recomendado para las imágenes: Logotipo: 300 x
-                    250px. Banner 1024 x 580px.
-                    <br />* Formato en JPG o PNG.
-                  </p>
+                  
                 </div> */}
               </div>
               <div className="files">
@@ -860,7 +856,7 @@ class BusinessData extends Component {
             </form>
           )}
         </Formik>
-        <div className="files" style={{ float: "right" }}>
+        <div className="files" style={{ float: "left" }}>
           <Button
             fullWidth
             variant="contained"
