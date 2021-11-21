@@ -137,6 +137,8 @@ class BusinessProfile extends Component {
               banner: data[0].imageBig,
               logo: data[0].logo,
             });
+
+            console.log(this.state.banner, this.state.logo);
           } else {
             this.setState({
               modal: true,
@@ -350,7 +352,10 @@ class BusinessProfile extends Component {
               <div
                 className="banner-container-profile"
                 onClick={this.handleAttachBannerClick}
-                // style={{ backgroundImage: `url(${this.state.banner})` }}
+                style={{
+                  backgroundColor:
+                    this.state.banner === undefined ? "gray" : "",
+                }}
               >
                 <input
                   id="banner"
@@ -359,12 +364,15 @@ class BusinessProfile extends Component {
                   style={{ display: "none" }}
                   onChange={this.handleAttachBanner}
                 />
-                <img
-                  src={this.state.banner}
-                  alt="banner"
-                  title="banner"
-                  style={{ height: "300px" }}
-                />
+                {this.state.banner !== undefined ? (
+                  <img
+                    src={this.state.banner}
+                    alt="banner"
+                    title="banner"
+                    style={{ height: "300px" }}
+                  />
+                ) : null}
+
                 <div className="banner-background-hover" />
                 <div className="banner-hover">
                   <ImageOutlined
@@ -383,6 +391,9 @@ class BusinessProfile extends Component {
               <div
                 className="logo-container-profile"
                 onClick={this.handleAttachClick}
+                style={{
+                  backgroundColor: this.state.logo === undefined ? "gray" : "",
+                }}
               >
                 <input
                   id="foto"
@@ -391,7 +402,9 @@ class BusinessProfile extends Component {
                   style={{ display: "none" }}
                   onChange={this.handleAttach}
                 />
-                <img src={this.state.logo} alt="logo" title="logo" />
+                {this.state.logo !== undefined ? (
+                  <img src={this.state.logo} alt="logo" title="logo" />
+                ) : null}
                 <div className="logo-background-hover" />
                 <div className="logo-hover">
                   <PhotoCamera fontSize="large" style={{ fontSize: "40px" }} />
