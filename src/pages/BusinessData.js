@@ -399,6 +399,10 @@ class BusinessData extends Component {
     }
   };
 
+  handleBack = () => {
+    this.props.history.push("/business/category");
+  };
+
   render() {
     return (
       <>
@@ -863,6 +867,7 @@ class BusinessData extends Component {
             color="secondary"
             className="btn-primary"
             style={{ marginTop: "10px" }}
+            onClick={this.handleBack}
           >
             Regresar
           </Button>
