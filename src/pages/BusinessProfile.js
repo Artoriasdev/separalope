@@ -22,7 +22,6 @@ import BusinessData from "./BusinessData";
 import Image from "../assets/images/Vector.svg";
 import Upload from "../assets/images/Upload.svg";
 import axios from "axios";
-import FullPageLoader from "../components/FullPageLoader";
 
 class BusinessProfile extends Component {
   constructor(props) {
@@ -35,7 +34,6 @@ class BusinessProfile extends Component {
       forceRedirect: false,
       banner: "",
       logo: "",
-      loading: false,
     };
   }
 
@@ -62,9 +60,6 @@ class BusinessProfile extends Component {
         if (sizeFile < 1048576) {
           console.log(file, "logo");
           this.handleUploadLogoBusiness(file);
-          this.setState({
-            loading: true,
-          });
         } else {
           this.setState({
             modal: true,
@@ -93,9 +88,6 @@ class BusinessProfile extends Component {
         if (sizeFile < 1048576) {
           // console.log(file, "banner");
           this.handleUploadBannerBusiness(file);
-          this.setState({
-            loading: true,
-          });
         } else {
           this.setState({
             modal: true,
@@ -297,7 +289,6 @@ class BusinessProfile extends Component {
   render() {
     return (
       <div className="page-container" style={{ padding: "0", width: "100%" }}>
-        <FullPageLoader isLoading={this.state.loading} />
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
