@@ -512,8 +512,7 @@ class BusinessDataBank extends Component {
             errors,
             touched,
           }) => (
-            <form name="formBank" onSubmit={handleSubmit}>
-              <h2 style={{ marginTop: "17.43px" }}>Datos bancarios</h2>
+            <form name="formBank" onSubmit={handleSubmit} style={{ marginTop: "50px" }}>
 
               {this.state.formModel === undefined ? (
                 <div className="animate__animated animate__headShake">
