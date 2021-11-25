@@ -22,8 +22,7 @@ export class Form extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkRegisterApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/registerPreCategory";
+    let linkRegisterApi = `${process.env.REACT_APP_PATH_SERVICE}/category/registerPreCategory`;
 
     const rspApi = axios
       .post(linkRegisterApi, formModel, {

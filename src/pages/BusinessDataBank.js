@@ -210,8 +210,7 @@ class BusinessDataBank extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getBanks";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getBanks`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -245,7 +244,7 @@ class BusinessDataBank extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/generic/getBanksAccountType/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/getBanksAccountType/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -327,8 +326,7 @@ class BusinessDataBank extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/updateBusinessBankData";
+    let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/business/updateBusinessBankData`;
 
     const rspApi = axios
       .put(linkEditApi, bankModel, {

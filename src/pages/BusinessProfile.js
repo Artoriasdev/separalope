@@ -190,8 +190,7 @@ class BusinessProfile extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/uploadLogoBusiness";
+    let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/business/uploadLogoBusiness`;
 
     const rspApi = axios
       .post(linkEditApi, data, {
@@ -237,8 +236,7 @@ class BusinessProfile extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/uploadBannerBusiness?file";
+    let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/business/uploadBannerBusiness?file`;
 
     const rspApi = axios
       .post(linkEditApi, data, {

@@ -45,7 +45,7 @@ class FutureAppointments extends Component {
       Authorization: `Bearer ${tk}`,
     };
 
-    let linkDocumentsApi = `http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/reservation/getReservationConfirmByBusiness/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/reservation/getReservationConfirmByBusiness/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {

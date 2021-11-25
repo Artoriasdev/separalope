@@ -139,8 +139,7 @@ class Login extends Component {
         Authorization: `Bearer ${tk}`,
       };
 
-      let linkDocumentsApi =
-        "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/customer/getCustomer";
+      let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/customer/getCustomer`;
 
       const rspApi = Axios.get(linkDocumentsApi, {
         headers: headers,
