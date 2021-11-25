@@ -437,13 +437,21 @@ class BusinessProfile extends Component {
                   label="Datos de la empresa"
                   href="/data"
                   className="font-p"
-                  style={{ textTransform: "none", fontWeight: "bold" }}
+                  style={{
+                    textTransform: "none",
+                    fontWeight: "bold",
+                    fontSize: "1.4rem",
+                  }}
                 />
                 <LinkTab
                   label="Datos bancarios"
                   href="/bank"
                   className="font-p"
-                  style={{ textTransform: "none", fontWeight: "bold" }}
+                  style={{
+                    textTransform: "none",
+                    fontWeight: "bold",
+                    fontSize: "1.4rem",
+                  }}
                 />
               </Tabs>
             </AppBar>
