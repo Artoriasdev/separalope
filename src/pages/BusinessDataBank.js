@@ -244,7 +244,7 @@ class BusinessDataBank extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/getBanksAccountType/${id}`;
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/generic/getBanksAccountType/${id}`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
