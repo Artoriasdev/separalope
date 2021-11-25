@@ -391,9 +391,7 @@ class BusinessProfile extends Component {
               </div>
               <p>
                 *Tamaño recomendado para las imágenes: Logotipo: 300 x 250px.
-                Banner 1024 x 580px.
-                <br />
-                *Formato en JPG o PNG.
+                Banner 1024 x 580px. *Formato en JPG o PNG.
               </p>
               <div
                 className="logo-container-profile"
