@@ -43,6 +43,7 @@ class Banner extends Component {
         style={{
           backgroundImage: `url(${this.props.imagen})`,
           backgroundSize: "100% 100%",
+          marginBottom: "40px",
         }}
       >
         <div className="carousel-background-business">
@@ -57,6 +58,9 @@ class Banner extends Component {
           >
             <Project negocio={this.props.negocio} />;
           </Carousel>
+        </div>
+        <div className="logo-container-services">
+          <img src={this.props.logo} alt="logo" />
         </div>
       </div>
     );

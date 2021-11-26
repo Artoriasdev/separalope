@@ -1447,6 +1447,46 @@ button {
     }
   }
 }
+.logo-container-services {
+  width: 180px;
+  height: 180px;
+  z-index: 4;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s ease;
+  opacity: 1;
+  margin-left: 8vw;
+  margin-top: -120px;
+  border-radius: 50%;
+
+  @include tablet {
+    margin-top: -100px;
+    width: 140px;
+    height: 140px;
+  }
+  @include mobile {
+    margin-top: -30px;
+    width: 90px;
+    height: 90px;
+  }
+  img {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: #fedd00 5px solid !important;
+    @include tablet {
+      width: 140px;
+      height: 140px;
+    }
+    @include mobile {
+      width: 120px;
+      height: 120px;
+    }
+  }
+}
 .logo-background-hover {
   border-radius: 50%;
   transition: 0.5s ease;
@@ -1537,6 +1577,13 @@ button {
     color: #5829dd;
     font-size: 2.25rem;
     padding: 8px 15px;
+  }
+}
+
+.service-description {
+  display: flex;
+  @include mobile {
+    display: inline-block;
   }
 }
 .correo {
@@ -1736,7 +1783,7 @@ button {
 }
 .flex {
   display: flex;
-  margin-top: 5px;
+  align-items: center;
 }
 .cursor-pointer {
   cursor: pointer;
