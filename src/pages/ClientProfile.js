@@ -417,12 +417,13 @@ class ClientProfile extends Component {
                         className="TxtField"
                         variant="outlined"
                         placeholder="Nombres"
+                        label="Nombres"
                         fullWidth
                         value={values.nombre}
                         error={errors.nombre && touched.nombre}
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        disabled={!this.state.edit}
+                        disabled={true}
                         autoComplete="off"
                         required
                         // inputProps={{
@@ -438,6 +439,7 @@ class ClientProfile extends Component {
                         className="TxtField"
                         variant="outlined"
                         placeholder="Apellidos"
+                        label="Apellidos"
                         fullWidth
                         value={values.apellido}
                         error={errors.apellido && touched.apellido}
@@ -445,7 +447,7 @@ class ClientProfile extends Component {
                         onChange={handleChange}
                         autoComplete="off"
                         required
-                        disabled={!this.state.edit}
+                        disabled={true}
                         onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                       />
                     </div>
@@ -458,7 +460,7 @@ class ClientProfile extends Component {
                         name="tipoDocumento"
                         onChange={this.handleDocumentChange}
                         onBlur={handleBlur}
-                        disabled={!this.state.edit}
+                        disabled={true}
                         required
                         variant="outlined"
                         fullWidth
@@ -483,6 +485,7 @@ class ClientProfile extends Component {
                         className="TxtField"
                         variant="outlined"
                         placeholder="Número de documento"
+                        label="Número de documento"
                         fullWidth
                         value={values.numeroDocumento}
                         error={
@@ -490,7 +493,7 @@ class ClientProfile extends Component {
                         }
                         onBlur={handleBlur}
                         onChange={this.handleDocumentChange}
-                        disabled={!this.state.edit}
+                        disabled={true}
                         autoComplete="off"
                         inputProps={{
                           minLength: values.minLengthValue,
@@ -513,6 +516,7 @@ class ClientProfile extends Component {
                         className="TxtField"
                         variant="outlined"
                         placeholder="Número de celular"
+                        label="Número de celular"
                         fullWidth
                         value={values.celular}
                         error={errors.celular && touched.celular}
@@ -535,6 +539,7 @@ class ClientProfile extends Component {
                         className="TxtField"
                         variant="outlined"
                         placeholder="Correo"
+                        label="Correo"
                         fullWidth
                         value={values.correo}
                         error={errors.correo && touched.correo}

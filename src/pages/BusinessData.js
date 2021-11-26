@@ -543,7 +543,7 @@ class BusinessData extends Component {
                     error={errors.nombreCompañia && touched.nombreCompañia}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    disabled={!this.state.edit}
+                    disabled={true}
                     required
                     style={{ margin: "5px 0" }}
                     // inputProps={{
@@ -583,7 +583,7 @@ class BusinessData extends Component {
                     error={errors.numeroDocumento && touched.numeroDocumento}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    disabled={!this.state.edit}
+                    disabled={true}
                     required
                     style={{ margin: "5px 0" }}
                     inputProps={{
