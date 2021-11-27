@@ -128,12 +128,12 @@ class MenuServicesBusiness extends Component {
         >
           <div style={{ width: "100%", marginBottom: "30px" }}>
             <div className="service-description">
-              <h2 style={{ marginRight: "5px" }}>
+              <h1 style={{ marginRight: "30px", color: "black" }}>
                 {this.state.typeCategorys[0] &&
                   this.state.typeCategorys[0].tradenameBusiness}
-              </h2>
-              <RatingService rate={5} />
-              <h3 style={{ marginLeft: "5px" }}>
+              </h1>
+              <RatingService rate={5} style={{ marginTop: "5px" }} />
+              <h3>
                 {this.state.typeCategorys[0] &&
                   this.state.typeCategorys[0].businessAddress}
               </h3>

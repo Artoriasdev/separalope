@@ -290,7 +290,7 @@ class MenuBusinessCategory extends Component {
                           alt="logo"
                           style={{ height: "240px", width: "300px" }}
                         />
-                        <p>{tradename} </p>
+                        <h2>{tradename}</h2>
                       </div>
                       <Button
                         size="large"
@@ -315,9 +315,11 @@ class MenuBusinessCategory extends Component {
                           height: "92%",
                         }}
                       >
-                        <h3>{tradename}</h3>
+                        <h2>{tradename}</h2>
                         <RatingService rate={5} />
-                        <p>{cardDescription}</p>
+                        <p style={{ textAlign: "justify" }}>
+                          {cardDescription}
+                        </p>
                       </div>
                       <Button
                         size="large"
