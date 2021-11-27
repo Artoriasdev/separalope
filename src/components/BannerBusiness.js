@@ -14,9 +14,7 @@ function Project(props) {
       elevation={10}
     >
       <div className="content">
-        <div className="title">
-          <h2>{props.negocio}</h2>
-        </div>
+        <div className="title"></div>
       </div>
     </Paper>
   );
@@ -39,14 +37,14 @@ class Banner extends Component {
   render() {
     return (
       <div
-        className="banner-container-business"
+        className="banner-container"
         style={{
           backgroundImage: `url(${this.props.imagen})`,
           backgroundSize: "100% 100%",
           marginBottom: "40px",
         }}
       >
-        <div className="carousel-background-business">
+        <div className="carousel-background" style={{ background: "none" }}>
           <Carousel
             className="SecondExample"
             autoPlay={this.state.autoPlay}
