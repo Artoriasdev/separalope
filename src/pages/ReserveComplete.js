@@ -41,10 +41,10 @@ export const ReserveComplete = () => {
           <h1>¡Gracias por reservar tu cita!</h1>
           <p
             style={{
-              width: "62%",
+              width: "100%",
               margin: "auto",
               paddingBottom: "1rem",
-              textAlign: "justify",
+              textAlign: "center",
             }}
           >
             Con el siguiente código{" "}

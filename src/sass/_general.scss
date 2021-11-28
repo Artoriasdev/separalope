@@ -1473,13 +1473,13 @@ button {
   }
   img {
     position: absolute;
-    width: 180px;
-    height: 180px;
+    width: 250px;
+    height: 235px;
     border-radius: 50%;
     border: #fedd00 5px solid !important;
     @include tablet {
-      width: 140px;
-      height: 140px;
+      width: 200px;
+      height: 190px;
     }
     @include mobile {
       width: 120px;
@@ -1604,7 +1604,6 @@ button {
   -webkit-text-decoration: none;
   text-decoration: none;
   color: #232323;
-  max-width: 500px;
   font-size: 0.8rem;
   margin-top: 1rem;
   display: inline-block;
