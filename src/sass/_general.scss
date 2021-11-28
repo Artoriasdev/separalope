@@ -2048,3 +2048,17 @@ button {
     padding: 0 !important;
   }
 }
+
+.reserve-complete-address {
+  display: flex;
+  justify-content: space-between;
+  p {
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 0;
+    padding: 0;
+  }
+  @include mobile {
+    display: unset;
+  }
+}

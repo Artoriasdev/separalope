@@ -16,6 +16,8 @@ export const ReserveComplete = () => {
 
   const { message } = JSON.parse(localStorage.getItem("data"));
   const { data } = JSON.parse(localStorage.getItem("data"));
+  const lugar = localStorage.getItem("lugar");
+  const address = localStorage.getItem("direccion");
 
   const handleRedirect = () => {
     if (
@@ -121,6 +123,10 @@ export const ReserveComplete = () => {
             >
               Información de tu cita:
             </p>
+            <div className="reserve-complete-address">
+              <p>Lugar : {lugar}</p>
+              <p>Dirección : {address}</p>
+            </div>
             <div
               style={{
                 display: "flex",
