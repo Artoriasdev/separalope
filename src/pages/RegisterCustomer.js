@@ -20,6 +20,8 @@ import {
   DialogContent,
   DialogActions,
   withStyles,
+  FormControl,
+  InputLabel,
 } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { Button } from "@material-ui/core";
@@ -609,6 +611,7 @@ class RegisterCustomer extends Component {
                         className="TxtField"
                         variant="outlined"
                         placeholder="Nombres"
+                        label="Nombres"
                         required
                         fullWidth
                         value={values.nombre}
@@ -625,6 +628,7 @@ class RegisterCustomer extends Component {
                         className="TxtField"
                         variant="outlined"
                         placeholder="Apellidos"
+                        label="Apellidos"
                         required
                         fullWidth
                         value={values.apellido}
@@ -674,6 +678,7 @@ class RegisterCustomer extends Component {
                         className="TxtField"
                         variant="outlined"
                         placeholder="Número de documento"
+                        label="Número de documento"
                         required
                         fullWidth
                         value={values.nroDocumento}
@@ -702,6 +707,7 @@ class RegisterCustomer extends Component {
                         className="TxtField"
                         variant="outlined"
                         placeholder="Número de celular"
+                        label="Número de celular"
                         fullWidth
                         value={values.celular}
                         error={errors.celular && touched.celular}
@@ -725,6 +731,7 @@ class RegisterCustomer extends Component {
                         className="TxtField"
                         variant="outlined"
                         placeholder="Correo electrónico"
+                        label="Correo electrónico"
                         required
                         fullWidth
                         value={values.correo}
@@ -743,33 +750,47 @@ class RegisterCustomer extends Component {
 
                   <div className="files">
                     <div className="txt-left-nomid">
-                      <OutlinedInput
-                        name="contraseña"
-                        fullWidth
-                        required
-                        autoComplete="off"
-                        type={this.state.show ? "text" : "password"}
-                        value={values.contraseña}
-                        error={errors.contraseña && touched.contraseña}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={() => this.handleShowPassword(1)}
-                              edge="end"
-                            >
-                              {this.state.show ? (
-                                <Visibility />
-                              ) : (
-                                <VisibilityOff />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        placeholder="Contraseña"
-                      />
+                      <FormControl
+                        variant="outlined"
+                        className="txt-left-nomid"
+                        style={{ width: "100%", margin: "0" }}
+                      >
+                        <InputLabel
+                          htmlFor="password"
+                          error={errors.contraseña && touched.contraseña}
+                        >
+                          Contraseña
+                        </InputLabel>
+
+                        <OutlinedInput
+                          name="contraseña"
+                          fullWidth
+                          required
+                          autoComplete="off"
+                          type={this.state.show ? "text" : "password"}
+                          value={values.contraseña}
+                          error={errors.contraseña && touched.contraseña}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => this.handleShowPassword(1)}
+                                edge="end"
+                              >
+                                {this.state.show ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          placeholder="Contraseña"
+                          label="Contraseña"
+                        />
+                      </FormControl>
                       <ErrorMessage
                         className="error"
                         name="contraseña"
@@ -777,33 +798,47 @@ class RegisterCustomer extends Component {
                       />
                     </div>
                     <div className="txt-right-nomid">
-                      <OutlinedInput
-                        name="repContraseña"
-                        fullWidth
-                        required
-                        autoComplete="off"
-                        type={this.state.show2 ? "text" : "password"}
-                        value={values.repContraseña}
-                        error={errors.repContraseña && touched.repContraseña}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={() => this.handleShowPassword(2)}
-                              edge="end"
-                            >
-                              {this.state.show2 ? (
-                                <Visibility />
-                              ) : (
-                                <VisibilityOff />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        placeholder="Repetir contraseña"
-                      />
+                      <FormControl
+                        variant="outlined"
+                        className="txt-left-nomid"
+                        style={{ width: "100%", margin: "0" }}
+                      >
+                        <InputLabel
+                          htmlFor="password"
+                          error={errors.repContraseña && touched.repContraseña}
+                        >
+                          Repetir contraseña
+                        </InputLabel>
+                        <OutlinedInput
+                          id="password"
+                          name="repContraseña"
+                          fullWidth
+                          required
+                          autoComplete="off"
+                          type={this.state.show2 ? "text" : "password"}
+                          value={values.repContraseña}
+                          error={errors.repContraseña && touched.repContraseña}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => this.handleShowPassword(2)}
+                                edge="end"
+                              >
+                                {this.state.show2 ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          placeholder="Repetir contraseña"
+                          label="Repetir contraseña"
+                        />
+                      </FormControl>
                       <ErrorMessage
                         className="error"
                         name="repContraseña"
