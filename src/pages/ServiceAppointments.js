@@ -170,32 +170,16 @@ class ServiceAppointment extends Component {
           </Link>
           <Link color="textSecondary">{this.state.title}</Link>
         </Breadcrumbs>
-        <div className="header-profile-container">
-          <div className="header-profile">
-            <div className="button-container">
-              <div>
-                <button
-                  onClick={this.handleRedirectService}
-                  className="button_ref"
-                  style={{ textDecoration: "none" }}
-                >
-                  Detalles servicios
-                </button>
-              </div>
-              <div className="button">
-                <button
-                  onClick={this.handleRedirectAppointment}
-                  className="button_ref"
-                  style={{ textDecoration: "none" }}
-                >
-                  Citas agendadas
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+
         <div className="appointment-service-container">
-          <AppBar position="static" style={{ backgroundColor: "transparent" }}>
+          <AppBar
+            position="static"
+            style={{
+              backgroundColor: "transparent",
+              borderBottom: "1px solid gray",
+            }}
+            elevation={0}
+          >
             <Tabs
               variant="fullWidth"
               value={this.state.value}
@@ -203,18 +187,28 @@ class ServiceAppointment extends Component {
               aria-label="nav tabs example"
               indicatorColor="primary"
               style={{ color: "black" }}
+              TabIndicatorProps={{ style: { background: "black" } }}
+              style={{ color: "black" }}
             >
               <LinkTab
                 label="Citas confirmadas"
                 href="/appointments"
                 className="font-p"
-                style={{ textTransform: "none", fontWeight: "bold" }}
+                style={{
+                  textTransform: "none",
+                  fontWeight: "bold",
+                  fontSize: "1.4rem",
+                }}
               />
               <LinkTab
                 label="Historial de citas"
                 href="past"
                 className="font-p"
-                style={{ textTransform: "none", fontWeight: "bold" }}
+                style={{
+                  textTransform: "none",
+                  fontWeight: "bold",
+                  fontSize: "1.4rem",
+                }}
               />
             </Tabs>
           </AppBar>

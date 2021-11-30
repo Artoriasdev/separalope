@@ -438,7 +438,7 @@ button {
   width: 100%;
   height: 100%;
   z-index: 995;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(35, 35, 35, 0.56);
 }
 
 .mdal .mdal_content {
@@ -448,54 +448,14 @@ button {
   left: 50%;
   transform: translate(-50%, -50%);
   max-height: 90%;
-  overflow: auto;
-  background: #fff;
-  box-sizing: border-box;
-  // padding: 50px;
-  padding: 25px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
-  border-radius: 4px;
-  // width: auto;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
-  // width: 70%;
-  width: 20%;
-  text-align: center;
 
   /* This just a default width */
   @include mobile {
     padding: 30px;
     width: 80%;
-  }
-}
-
-.mdal .mdal_content > div {
-  margin: 20px 0 20px;
-  text-align: center;
-  display: inline-block;
-
-  color: rgba(0, 0, 0, 0.65);
-
-  strong {
-    font-size: 24px;
-  }
-
-  u {
-    font-size: 24px;
-    color: $red;
-    font-weight: bold;
-  }
-
-  @include mobile {
-    font-size: 18px;
-  }
-
-  p {
-    font-size: 18px;
-  }
-
-  li {
-    font-size: 18px;
   }
 }
 
@@ -1042,10 +1002,11 @@ button {
   }
   .table {
     width: 100% !important;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
-      rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px !important;
+    border: 0.5px solid #c4c4c4;
+    background: #ffffff;
+    box-sizing: border-box;
     .table-head {
-      background: #f3f3f3;
+      background: #e5e5e5;
     }
   }
   .home-text {
@@ -1736,7 +1697,7 @@ button {
   border-radius: 10px 10px !important;
   margin: 30px auto !important;
   .table-head {
-    background: #f3f3f3 !important;
+    background: #e5e5e5 !important;
   }
   button {
     background: none;
@@ -1993,7 +1954,7 @@ button {
 }
 
 .appointment-service-container {
-  width: 50%;
+  width: 90%;
   margin: 3% auto;
   @include mobile {
     width: 90%;

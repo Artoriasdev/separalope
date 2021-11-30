@@ -197,12 +197,19 @@ class BusinessServices extends Component {
               Mis servicios
             </Link>
           </Breadcrumbs>
-          <h1>Mis servicios</h1>
+          <div
+            className="form-profile"
+            style={{ width: "100%", marginLeft: "0" }}
+          >
+            <h1>Mis servicios</h1>
 
-          <Container
-            triggerText={this.state.triggerText}
-            history={this.props.history}
-          />
+            <Container
+              triggerText={this.state.triggerText}
+              history={this.props.history}
+            />
+          </div>
+
+          <hr />
 
           <h3>Estos son los servicios que han sido registrados</h3>
           <TableContainer className="table">
