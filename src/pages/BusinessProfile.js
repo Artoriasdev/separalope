@@ -69,7 +69,7 @@ class BusinessProfile extends Component {
       } else {
         this.setState({
           modal: true,
-          message: "El archivo debe ser formato .jpg ,jpeg o .png",
+          message: "El archivo debe ser formato .jpg o .png",
         });
       }
     } catch (error) {
@@ -363,12 +363,7 @@ class BusinessProfile extends Component {
                   onChange={this.handleAttachBanner}
                 />
                 {this.state.banner !== undefined ? (
-                  <img
-                    src={this.state.banner}
-                    alt="banner"
-                    title="banner"
-                    style={{ height: "300px" }}
-                  />
+                  <img src={this.state.banner} alt="banner" title="banner" />
                 ) : null}
 
                 <div className="banner-background-hover" />
@@ -377,12 +372,17 @@ class BusinessProfile extends Component {
                     fontSize="large"
                     style={{ fontSize: "40px" }}
                   />
-                  <p>Subir imagen de banner</p>
+                  {this.state.banner !== undefined ? (
+                    <p>Editar imagen de banner</p>
+                  ) : (
+                    <p>Subir imagen de banner</p>
+                  )}
                 </div>
               </div>
               <p>
                 *Tamaño recomendado para las imágenes: Logotipo: 300 x 250px.
-                Banner 1024 x 580px. *Formato en JPG o PNG.
+                Banner 1024 x 580px. *Formato en JPG o PNG. *Debe pesar menos de
+                1mb
               </p>
               <div
                 className="logo-container-profile"
@@ -404,7 +404,11 @@ class BusinessProfile extends Component {
                 <div className="logo-background-hover" />
                 <div className="logo-hover">
                   <PhotoCamera fontSize="large" style={{ fontSize: "40px" }} />
-                  <p>Subir logo</p>
+                  {this.state.banner !== undefined ? (
+                    <p>Subir logo</p>
+                  ) : (
+                    <p>Subir logo</p>
+                  )}
                 </div>
               </div>
             </div>

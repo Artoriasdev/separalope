@@ -455,10 +455,27 @@ class BusinessData extends Component {
             minLengthValue: 8,
           }}
           validate={(values) => {
-            const { numeroDocumento, correo, numDocumento, minLengthValue } =
-              values;
+            const {
+              numeroDocumento,
+              correo,
+              numDocumento,
+              minLengthValue,
+              tarjeta,
+              descripcion,
+            } = values;
 
             let errors = {};
+
+            if (tarjeta.length === 0) {
+              errors.tarjeta = "Este campo es requerido";
+            } else if (tarjeta.trim().length <= 1) {
+              errors.tarjeta = "Este campo es requerido";
+            }
+            if (descripcion.length === 0) {
+              errors.descripcion = "Este campo es requerido";
+            } else if (descripcion.trim().length <= 1) {
+              errors.descripcion = "Este campo es requerido";
+            }
 
             if (numeroDocumento.length < 11) {
               errors.numeroDocumento =
@@ -544,7 +561,6 @@ class BusinessData extends Component {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     disabled={true}
-                    required
                     style={{ margin: "5px 0" }}
                     // inputProps={{
                     //   maxLength: 9,
@@ -584,7 +600,6 @@ class BusinessData extends Component {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     disabled={true}
-                    required
                     style={{ margin: "5px 0" }}
                     inputProps={{
                       maxLength: 11,
@@ -693,13 +708,6 @@ class BusinessData extends Component {
                   </Select>
                 </div>
                 <div className="txt-right"></div>
-                {/* <div className="logos">
-                  <div className="content">
-                    <div className="txt-mid-content"></div>
-                    <div className="txt-right-content"></div>
-                  </div>
-                  
-                </div> */}
               </div>
               <div className="files">
                 <div className="txt-left-nomid">
@@ -710,7 +718,6 @@ class BusinessData extends Component {
                     label="Descripción de la tarjeta"
                     placeholder="Max. 200 caracteres"
                     multiline
-                    required
                     minRows={4}
                     fullWidth
                     value={values.tarjeta}
@@ -723,6 +730,11 @@ class BusinessData extends Component {
                     }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
+                  <ErrorMessage
+                    className="error"
+                    name="tarjeta"
+                    component="div"
+                  />
                 </div>
                 <div className="txt-right-nomid">
                   <TextField
@@ -732,7 +744,6 @@ class BusinessData extends Component {
                     label="Descripción del negocio"
                     placeholder="Max. 500 caracteres"
                     multiline
-                    required
                     minRows={4}
                     fullWidth
                     value={values.descripcion}
@@ -744,6 +755,11 @@ class BusinessData extends Component {
                       maxLength: 500,
                     }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="descripcion"
+                    component="div"
                   />
                 </div>
               </div>
@@ -829,7 +845,6 @@ class BusinessData extends Component {
                     onChange={this.handleDocumentChange}
                     inputProps={{
                       maxLength: values.maxLengthValue,
-                      minLength: values.minLengthValue,
                     }}
                     autoComplete="off"
                     onInput={handleRegexDisable(values.ingreso)} // TODO haz el manejo correcto con NUMBER_REGEXP
