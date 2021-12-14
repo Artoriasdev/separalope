@@ -459,10 +459,6 @@ class BusinessDataBank extends Component {
     }
   };
 
-  handleBack = () => {
-    this.props.history.push("/business/category");
-  };
-
   render() {
     return (
       <>
@@ -972,19 +968,6 @@ class BusinessDataBank extends Component {
             )}
           </Formik>
         )}
-
-        <div className="files" style={{ float: "left" }}>
-          <Button
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className="btn-primary data "
-            style={{ marginTop: "10px" }}
-            onClick={this.handleBack}
-          >
-            Regresar
-          </Button>
-        </div>
       </>
     );
   }

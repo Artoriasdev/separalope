@@ -1307,11 +1307,11 @@ button {
   height: 580px;
   margin-bottom: 100px;
   @include mobile {
-    height: 450px;
-    margin-bottom: 120px;
+    height: 250px;
+    margin-bottom: 180px;
   }
 }
-.picture-container > p {
+.picture-container > .picture-format {
   margin: 0;
   padding: 0;
   margin-left: 25vw;
@@ -1322,6 +1322,21 @@ button {
   }
   @include mobile {
     margin-left: 45vw;
+  }
+}
+.picture-format {
+  @include mobile {
+    display: none;
+  }
+}
+
+.picture-format-mobile {
+  @media (min-width: 769px) {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    margin-top: 100px;
+    color: rgba(0, 0, 0, 0.5);
   }
 }
 .banner-container-profile {
@@ -1343,7 +1358,7 @@ button {
       width: 85%;
     }
     @include mobile {
-      height: 450px;
+      height: 250px;
     }
   }
 }
@@ -1398,7 +1413,7 @@ button {
     height: 140px;
   }
   @include mobile {
-    margin-top: -160px;
+    margin-top: -60px;
     width: 140px;
     height: 140px;
     margin-left: 2vw;

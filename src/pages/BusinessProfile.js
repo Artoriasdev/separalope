@@ -288,7 +288,10 @@ class BusinessProfile extends Component {
   };
   render() {
     return (
-      <div className="page-container" style={{ padding: "0", width: "100%" }}>
+      <div
+        className="page-container"
+        style={{ padding: "0", width: "100%", margin: "20px auto" }}
+      >
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -320,7 +323,7 @@ class BusinessProfile extends Component {
           separator={<NavigateNext fontSize="medium" />}
           aria-label="breadcrumb"
           className="font"
-          style={{ margin: "30px" }}
+          style={{ margin: "0 30px" }}
         >
           <Link href="/" color="textPrimary">
             Inicio
@@ -379,7 +382,7 @@ class BusinessProfile extends Component {
                   )}
                 </div>
               </div>
-              <p>
+              <p className="picture-format">
                 *Tamaño recomendado para las imágenes: Logotipo: 300 x 250px.
                 Banner 1024 x 580px. *Formato en JPG o PNG. *Debe pesar menos de
                 1mb
@@ -411,6 +414,11 @@ class BusinessProfile extends Component {
                   )}
                 </div>
               </div>
+              <p className="picture-format-mobile">
+                *Tamaño recomendado para las imágenes: Logotipo: 300 x 250px.
+                Banner 1024 x 580px. *Formato en JPG o PNG. *Debe pesar menos de
+                1mb
+              </p>
             </div>
             <AppBar
               position="static"

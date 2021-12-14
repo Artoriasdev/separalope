@@ -107,15 +107,18 @@ class BusinessData extends Component {
                 this.state.typeData[0].province
               );
             }
-
-            Formik.setFieldValue(
-              "tarjeta",
-              this.state.typeData[0].cardDescription
-            );
-            Formik.setFieldValue(
-              "descripcion",
-              this.state.typeData[0].businessDescription
-            );
+            if (this.state.typeData[0].cardDescription !== undefined) {
+              Formik.setFieldValue(
+                "tarjeta",
+                this.state.typeData[0].cardDescription
+              );
+            }
+            if (this.state.typeData[0].businessDescription !== undefined) {
+              Formik.setFieldValue(
+                "descripcion",
+                this.state.typeData[0].businessDescription
+              );
+            }
             Formik.setFieldValue(
               "nombres",
               this.state.typeData[0].legalRepresentativeName
@@ -124,10 +127,15 @@ class BusinessData extends Component {
               "apellidos",
               this.state.typeData[0].legalRepresentativeLastName
             );
-            Formik.setFieldValue(
-              "documentos",
-              this.state.typeData[0].legalRepresentativeDocumentType
-            );
+            if (
+              this.state.typeData[0].legalRepresentativeDocumentType !==
+              undefined
+            ) {
+              Formik.setFieldValue(
+                "documentos",
+                this.state.typeData[0].legalRepresentativeDocumentType
+              );
+            }
             Formik.setFieldValue(
               "numDocumento",
               this.state.typeData[0].legalRepresentativeDocumentNumber
@@ -397,10 +405,6 @@ class BusinessData extends Component {
     } else if (this.state.response === true) {
       this.props.history.go();
     }
-  };
-
-  handleBack = () => {
-    this.props.history.push("/business/category");
   };
 
   render() {
@@ -875,18 +879,6 @@ class BusinessData extends Component {
             </form>
           )}
         </Formik>
-        <div className="files" style={{ float: "left" }}>
-          <Button
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className="btn-primary"
-            style={{ marginTop: "10px" }}
-            onClick={this.handleBack}
-          >
-            Regresar
-          </Button>
-        </div>
       </>
     );
   }
