@@ -97,7 +97,7 @@ class BusinessProfile extends Component {
       } else {
         this.setState({
           modal: true,
-          message: "El archivo debe ser formato .jpg ,jpeg o .png",
+          message: "El archivo debe ser formato .jpg o .png",
         });
       }
     } catch (error) {
@@ -319,32 +319,32 @@ class BusinessProfile extends Component {
             </div>
           </Fade>
         </Modal>
-        <Breadcrumbs
-          separator={<NavigateNext fontSize="medium" />}
-          aria-label="breadcrumb"
-          className="font"
-          style={{ margin: "0 30px" }}
-        >
-          <Link href="/" color="textPrimary">
-            Inicio
-          </Link>
-          <Link
-            color="textPrimary"
-            href="/business/profile"
-            // onClick={handleClick}
-          >
-            Mi Perfil
-          </Link>
-          <Link
-            color="textSecondary"
-            href="/business/profile"
-            // onClick={handleClick}
-          >
-            Datos de negocio
-          </Link>
-        </Breadcrumbs>
         <div className="profile-container">
           <div className="form-profile">
+            <Breadcrumbs
+              separator={<NavigateNext fontSize="medium" />}
+              aria-label="breadcrumb"
+              className="font"
+              style={{ margin: "0" }}
+            >
+              <Link href="/" color="textPrimary">
+                Inicio
+              </Link>
+              <Link
+                color="textPrimary"
+                href="/business/profile"
+                // onClick={handleClick}
+              >
+                Mi Perfil
+              </Link>
+              <Link
+                color="textSecondary"
+                href="/business/profile"
+                // onClick={handleClick}
+              >
+                Datos de negocio
+              </Link>
+            </Breadcrumbs>
             <h1>Datos de negocio</h1>
           </div>
           <hr />
@@ -408,7 +408,7 @@ class BusinessProfile extends Component {
                 <div className="logo-hover">
                   <PhotoCamera fontSize="large" style={{ fontSize: "40px" }} />
                   {this.state.banner !== undefined ? (
-                    <p>Subir logo</p>
+                    <p>Editar logo</p>
                   ) : (
                     <p>Subir logo</p>
                   )}

@@ -456,7 +456,7 @@ class BusinessData extends Component {
             numDocumento: "",
 
             maxLengthValue: 8,
-            minLengthValue: 8,
+            minLengthValue: 5,
           }}
           validate={(values) => {
             const {
@@ -722,7 +722,9 @@ class BusinessData extends Component {
                     label="Descripción de la tarjeta"
                     placeholder="Max. 200 caracteres"
                     multiline
+                    required
                     minRows={4}
+                    maxRows={4}
                     fullWidth
                     value={values.tarjeta}
                     error={errors.tarjeta && touched.tarjeta}
@@ -748,6 +750,8 @@ class BusinessData extends Component {
                     label="Descripción del negocio"
                     placeholder="Max. 500 caracteres"
                     multiline
+                    required
+                    maxRows={4}
                     minRows={4}
                     fullWidth
                     value={values.descripcion}
@@ -860,7 +864,9 @@ class BusinessData extends Component {
                   />
                 </div>
               </div>
-              {/* <div className="files"></div> */}
+              <div style={{ float: "left" }}>
+                <p style={{ color: "#23232366" }}>*Datos obligatorios</p>
+              </div>
               {this.state.edit ? (
                 <div className="files" style={{ float: "right" }}>
                   <Button

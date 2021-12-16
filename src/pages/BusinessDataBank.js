@@ -493,7 +493,12 @@ class BusinessDataBank extends Component {
 
         {this.state.formModel === undefined ? (
           <div>
-            <h2>Registra tus datos bancarios</h2>
+            <h2
+              style={{ color: "black", textAlign: "center", marginTop: "20px" }}
+            >
+              No cuentas con ningun dato bancario registrado, por favor registra
+              tus datos aquí
+            </h2>
             <Formik
               ref={(ref) => (this.form = ref)}
               initialValues={{
@@ -583,36 +588,34 @@ class BusinessDataBank extends Component {
                 touched,
               }) => (
                 <form name="formBank" onSubmit={handleSubmit}>
-                  <div className="files">
-                    <Select
-                      value={values.bancoId}
-                      error={errors.bancoId && touched.bancoId}
-                      name="bancoId"
-                      onChange={this.handleDocumentChange}
-                      onBlur={handleBlur}
-                      required
-                      variant="outlined"
-                      fullWidth
-                      style={{
-                        marginTop: "10px",
-                        textAlign: "center",
-                        marginBottom: "5px",
-                      }}
-                      displayEmpty
-                    >
-                      <MenuItem disabled value={""}>
-                        Nombre de banco
-                      </MenuItem>
-                      {this.state.typeBank &&
-                        this.state.typeBank.map(({ id, name }) => (
-                          <MenuItem key={id} value={id}>
-                            {name}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                  </div>
-                  <div className="files">
-                    <div className="txt-left-nomid">
+                  <div
+                    className="files"
+                    style={{ marginBottom: "10px", marginTop: "10px" }}
+                  >
+                    <div className="txt-left">
+                      <Select
+                        value={values.bancoId}
+                        error={errors.bancoId && touched.bancoId}
+                        name="bancoId"
+                        onChange={this.handleDocumentChange}
+                        onBlur={handleBlur}
+                        required
+                        variant="outlined"
+                        fullWidth
+                        displayEmpty
+                      >
+                        <MenuItem disabled value={""}>
+                          Nombre de banco
+                        </MenuItem>
+                        {this.state.typeBank &&
+                          this.state.typeBank.map(({ id, name }) => (
+                            <MenuItem key={id} value={id}>
+                              {name}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </div>
+                    <div className="txt-mid">
                       <Select
                         value={values.tipoId}
                         error={errors.tipoId && touched.tipoId}
@@ -635,7 +638,7 @@ class BusinessDataBank extends Component {
                           ))}
                       </Select>
                     </div>
-                    <div className="txt-right-nomid">
+                    <div className="txt-right">
                       <TextField
                         name="numeroCuenta"
                         className="TxtField"
@@ -660,8 +663,9 @@ class BusinessDataBank extends Component {
                       />
                     </div>
                   </div>
+
                   <div className="files">
-                    <div className="txt-left-nomid">
+                    <div className="txt-left">
                       <TextField
                         name="numeroInterbancario"
                         className="TxtField"
@@ -689,7 +693,7 @@ class BusinessDataBank extends Component {
                       />
                     </div>
 
-                    <div className="txt-right-nomid">
+                    <div className="txt-right-nomid-bank">
                       <TextField
                         name="correoBancario"
                         className="TxtField"
@@ -882,7 +886,6 @@ class BusinessDataBank extends Component {
                       autoComplete="off"
                       inputProps={{
                         maxLength: values.maxLengthValue,
-                        minLength: values.minLengthValue,
                       }}
                       onInput={handleRegexDisable("[0-9]")} // TODO haz el manejo correcto con NUMBER_REGEXP
                     />

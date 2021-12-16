@@ -1687,6 +1687,7 @@ button {
   width: 85%;
   margin: auto;
   justify-content: space-between;
+  flex-direction: column;
   @include tablet {
     margin-left: 6vw;
     width: 90%;
