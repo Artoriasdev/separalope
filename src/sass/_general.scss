@@ -1236,7 +1236,7 @@ button {
   border-bottom: solid 4px #232323;
   .carousel-background {
     background: rgba(0, 0, 0, 0.3);
-    height: 580px;
+    height: 370px;
     @include mobile {
       height: 200px;
     }
@@ -1244,13 +1244,10 @@ button {
   .content {
     height: 100%;
     width: 25%;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 5%;
   }
   .title {
-    padding-top: 5vh;
-    padding-left: 50px;
+    padding-top: 0;
+    padding-left: 11%;
     @include mobile {
       padding-top: 0;
       padding-left: 8px;
