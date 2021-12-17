@@ -17,7 +17,7 @@ import axios from "axios";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import { AccountCircle } from "@material-ui/icons";
-import LogoSVG from "../assets/images/logo01.svg";
+import LogoSVG from "../assets/images/Separalo_Logo_navbar.svg";
 // import { LogoSVG } from "../assets/images/svg";
 
 const useStyles = makeStyles((theme) => ({

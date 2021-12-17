@@ -19,10 +19,10 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Facebook from "../assets/images/icon-fb.png";
-import Instagram from "../assets/images/icon-ig.png";
-import Twitter from "../assets/images/icon-tw.png";
-import LinkedIn from "../assets/images/icon-in.png";
+import Facebook from "../assets/images/Facebook_1.png";
+import Instagram from "../assets/images/Instagram_1.png";
+import Twitter from "../assets/images/Twitter_1.png";
+import LinkedIn from "../assets/images/LinkedIn_1.png";
 
 const tema = createTheme({
   breakpoints: {
@@ -171,7 +171,11 @@ export const Footer = () => {
             href="https://www.facebook.com/Separalo-pe-114080404377277"
             target="_blank"
           >
-            <img src={Facebook} alt="Facebook" />
+            <img
+              src={Facebook}
+              alt="Facebook"
+              style={{ width: "20px", height: "20px" }}
+            />
           </IconButton>
           <IconButton
             aria-label="instagram"
@@ -180,7 +184,11 @@ export const Footer = () => {
             href="https://www.instagram.com/separalope/"
             target="_blank"
           >
-            <img src={Instagram} alt="Instagram" />
+            <img
+              src={Instagram}
+              alt="Instagram"
+              style={{ width: "20px", height: "20px" }}
+            />
           </IconButton>
           <IconButton
             aria-label="twitter"
@@ -189,7 +197,11 @@ export const Footer = () => {
             href="https://www.instagram.com/separalope/"
             target="_blank"
           >
-            <img src={Twitter} alt="Twitter" />
+            <img
+              src={Twitter}
+              alt="Twitter"
+              style={{ width: "20px", height: "20px" }}
+            />
           </IconButton>
           <IconButton
             size="small"
@@ -198,7 +210,11 @@ export const Footer = () => {
             href="https://www.linkedin.com/company/separalo-pe/?viewAsMember=true"
             target="_blank"
           >
-            <img src={LinkedIn} alt="LinkedIn" />
+            <img
+              src={LinkedIn}
+              alt="LinkedIn"
+              style={{ width: "20px", height: "20px" }}
+            />
           </IconButton>
         </span>
       </Grid>
@@ -267,7 +283,11 @@ export const Footer = () => {
                     href="https://www.facebook.com/Separalo-pe-114080404377277"
                     target="_blank"
                   >
-                    <img src={Facebook} alt="Facebook" />
+                    <img
+                      src={Facebook}
+                      alt="Facebook"
+                      style={{ width: "20px", height: "20px" }}
+                    />
                   </IconButton>
                   <IconButton
                     size="small"
@@ -277,7 +297,11 @@ export const Footer = () => {
                     href="https://www.instagram.com/separalope/"
                     target="_blank"
                   >
-                    <img src={Instagram} alt="Instagram" />
+                    <img
+                      src={Instagram}
+                      alt="Instagram"
+                      style={{ width: "20px", height: "20px" }}
+                    />
                   </IconButton>
                   <IconButton
                     size="small"
@@ -287,7 +311,11 @@ export const Footer = () => {
                     href="https://twitter.com/SeparaloPe"
                     target="_blank"
                   >
-                    <img src={Twitter} alt="Twitter" />
+                    <img
+                      src={Twitter}
+                      alt="Twitter"
+                      style={{ width: "20px", height: "20px" }}
+                    />
                   </IconButton>
                   <IconButton
                     size="small"
@@ -296,7 +324,11 @@ export const Footer = () => {
                     href="https://www.linkedin.com/company/separalo-pe/?viewAsMember=true"
                     target="_blank"
                   >
-                    <img src={LinkedIn} alt="LinkedIn" />
+                    <img
+                      src={LinkedIn}
+                      alt="LinkedIn"
+                      style={{ width: "20px", height: "20px" }}
+                    />
                   </IconButton>
                 </span>
               </Grid>

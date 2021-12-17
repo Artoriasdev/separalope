@@ -24,7 +24,7 @@ function RatingIcon(props) {
   const { index, rating } = props;
   const fill = React.useMemo(() => {
     if (rating >= index) {
-      return "yellow";
+      return "#FEDD00";
     }
     return "gray";
   }, [rating, index]);
