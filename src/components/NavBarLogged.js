@@ -17,7 +17,7 @@ import { useHistory } from "react-router-dom";
 // import { LogoSVG } from "../assets/images/svg";
 import axios from "axios";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import LogoSVG from "../assets/images/logo01.svg";
+import LogoSVG from "../assets/images/Separalo_Logo_navbar.svg";
 const useStyles = makeStyles((theme) => ({
   tab: {
     minHeight: "2.75rem",

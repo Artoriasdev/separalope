@@ -19,10 +19,10 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Facebook from "../assets/images/Facebook_1.png";
-import Instagram from "../assets/images/Instagram_1.png";
-import Twitter from "../assets/images/Twitter_1.png";
-import LinkedIn from "../assets/images/LinkedIn_1.png";
+import Facebook from "../assets/images/facebook.svg";
+import Instagram from "../assets/images/instagram.svg";
+import Twitter from "../assets/images/Twitter.svg";
+import LinkedIn from "../assets/images/LikedIn.svg";
 
 const tema = createTheme({
   breakpoints: {
