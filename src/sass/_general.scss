@@ -4,7 +4,7 @@ body {
   font-family: VarelaRound-Regular, MavenPro-Regular, -apple-system,
     BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
+  // -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
 }
@@ -438,7 +438,7 @@ button {
   width: 100%;
   height: 100%;
   z-index: 995;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(35, 35, 35, 0.56);
 }
 
 .mdal .mdal_content {
@@ -448,54 +448,14 @@ button {
   left: 50%;
   transform: translate(-50%, -50%);
   max-height: 90%;
-  overflow: auto;
-  background: #fff;
-  box-sizing: border-box;
-  // padding: 50px;
-  padding: 25px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
-  border-radius: 4px;
-  // width: auto;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
-  // width: 70%;
-  width: 20%;
-  text-align: center;
 
   /* This just a default width */
   @include mobile {
     padding: 30px;
     width: 80%;
-  }
-}
-
-.mdal .mdal_content > div {
-  margin: 20px 0 20px;
-  text-align: center;
-  display: inline-block;
-
-  color: rgba(0, 0, 0, 0.65);
-
-  strong {
-    font-size: 24px;
-  }
-
-  u {
-    font-size: 24px;
-    color: $red;
-    font-weight: bold;
-  }
-
-  @include mobile {
-    font-size: 18px;
-  }
-
-  p {
-    font-size: 18px;
-  }
-
-  li {
-    font-size: 18px;
   }
 }
 
@@ -887,6 +847,7 @@ button {
   margin: auto;
   .flip-card {
     min-width: 300px;
+    max-width: 350px;
     height: 350px;
     display: inline-block;
     margin: 0 30px 30px 0;
@@ -1042,10 +1003,11 @@ button {
   }
   .table {
     width: 100% !important;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
-      rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px !important;
+    border: 0.5px solid #c4c4c4;
+    background: #ffffff;
+    box-sizing: border-box;
     .table-head {
-      background: #f3f3f3;
+      background: #e5e5e5;
     }
   }
   .home-text {
@@ -1274,7 +1236,7 @@ button {
   border-bottom: solid 4px #232323;
   .carousel-background {
     background: rgba(0, 0, 0, 0.3);
-    height: 580px;
+    height: 370px;
     @include mobile {
       height: 200px;
     }
@@ -1282,13 +1244,10 @@ button {
   .content {
     height: 100%;
     width: 25%;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 5%;
   }
   .title {
-    padding-top: 5vh;
-    padding-left: 50px;
+    padding-top: 0;
+    padding-left: 11%;
     @include mobile {
       padding-top: 0;
       padding-left: 8px;
@@ -1343,27 +1302,44 @@ button {
 
 .picture-container {
   width: 100%;
-  height: 350px;
+  height: 580px;
+  margin-bottom: 100px;
   @include mobile {
-    height: 450px;
+    height: 250px;
+    margin-bottom: 180px;
   }
 }
-.picture-container > p {
+.picture-container > .picture-format {
   margin: 0;
   padding: 0;
-  margin-left: 20vw;
+  margin-left: 25vw;
   margin-top: 5px;
   color: rgba(0, 0, 0, 0.5);
   @include tablet {
-    margin-left: 25vw;
+    margin-left: 28vw;
   }
   @include mobile {
-    margin-left: 40vw;
+    margin-left: 45vw;
+  }
+}
+.picture-format {
+  @include mobile {
+    display: none;
+  }
+}
+
+.picture-format-mobile {
+  @media (min-width: 769px) {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    margin-top: 100px;
+    color: rgba(0, 0, 0, 0.5);
   }
 }
 .banner-container-profile {
   cursor: pointer;
-  height: 80%;
+  height: 100%;
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -1371,12 +1347,16 @@ button {
   transition: 0.5s ease;
   opacity: 1;
   img {
-    max-height: 250px;
-    max-width: 1400px;
+    max-height: 580px;
+    max-width: 1316px;
+    height: 100%;
     width: 80%;
     position: absolute;
+    @media (max-width: 1550px) {
+      width: 85%;
+    }
     @include mobile {
-      width: 80%;
+      height: 250px;
     }
   }
 }
@@ -1412,8 +1392,44 @@ button {
 
 .logo-container-profile {
   cursor: pointer;
-  width: 100px;
-  height: 100px;
+  width: 180px;
+  height: 170px;
+  z-index: 4;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s ease;
+  opacity: 1;
+  margin-left: 4vw;
+  margin-top: -150px;
+  border-radius: 50%;
+  border: white 5px solid;
+  @include tablet {
+    margin-top: -140px;
+    width: 140px;
+    height: 140px;
+  }
+  @include mobile {
+    margin-top: -60px;
+    width: 140px;
+    height: 140px;
+    margin-left: 2vw;
+  }
+  img {
+    position: absolute;
+    width: 180px;
+    height: 170px;
+    border-radius: 50%;
+    @include tablet {
+      width: 140px;
+      height: 140px;
+    }
+  }
+}
+.logo-container-services {
+  width: 180px;
+  height: 180px;
   z-index: 4;
   position: absolute;
   display: flex;
@@ -1422,22 +1438,33 @@ button {
   transition: 0.5s ease;
   opacity: 1;
   margin-left: 8vw;
-  margin-top: -90px;
+  margin-top: -120px;
   border-radius: 50%;
-  border: white 5px solid;
-  img {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-  }
+
   @include tablet {
     margin-top: -100px;
+    width: 140px;
+    height: 140px;
   }
   @include mobile {
-    margin-top: -120px;
+    margin-top: -30px;
     width: 90px;
     height: 90px;
+  }
+  img {
+    position: absolute;
+    width: 250px;
+    height: 235px;
+    border-radius: 50%;
+    border: #fedd00 5px solid !important;
+    @include tablet {
+      width: 200px;
+      height: 190px;
+    }
+    @include mobile {
+      width: 120px;
+      height: 120px;
+    }
   }
 }
 .logo-background-hover {
@@ -1532,6 +1559,20 @@ button {
     padding: 8px 15px;
   }
 }
+
+.service-description {
+  display: flex;
+  align-items: center;
+  @include mobile {
+    display: inline-block;
+  }
+  h3 {
+    margin-left: 30px;
+    @include mobile {
+      margin-left: 0;
+    }
+  }
+}
 .correo {
   color: #5829dd;
   font-size: 1.2rem;
@@ -1543,7 +1584,6 @@ button {
   -webkit-text-decoration: none;
   text-decoration: none;
   color: #232323;
-  max-width: 500px;
   font-size: 0.8rem;
   margin-top: 1rem;
   display: inline-block;
@@ -1644,6 +1684,7 @@ button {
   width: 85%;
   margin: auto;
   justify-content: space-between;
+  flex-direction: column;
   @include tablet {
     margin-left: 6vw;
     width: 90%;
@@ -1676,7 +1717,7 @@ button {
   border-radius: 10px 10px !important;
   margin: 30px auto !important;
   .table-head {
-    background: #f3f3f3 !important;
+    background: #e5e5e5 !important;
   }
   button {
     background: none;
@@ -1729,7 +1770,7 @@ button {
 }
 .flex {
   display: flex;
-  margin-top: 5px;
+  align-items: center;
 }
 .cursor-pointer {
   cursor: pointer;
@@ -1933,7 +1974,7 @@ button {
 }
 
 .appointment-service-container {
-  width: 50%;
+  width: 90%;
   margin: 3% auto;
   @include mobile {
     width: 90%;
@@ -1985,5 +2026,19 @@ button {
 .list {
   ul {
     padding: 0 !important;
+  }
+}
+
+.reserve-complete-address {
+  display: flex;
+  justify-content: space-between;
+  p {
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 0;
+    padding: 0;
+  }
+  @include mobile {
+    display: unset;
   }
 }

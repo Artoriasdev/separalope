@@ -69,7 +69,7 @@ class BusinessProfile extends Component {
       } else {
         this.setState({
           modal: true,
-          message: "El archivo debe ser formato .jpg ,jpeg o .png",
+          message: "El archivo debe ser formato .jpg o .png",
         });
       }
     } catch (error) {
@@ -97,7 +97,7 @@ class BusinessProfile extends Component {
       } else {
         this.setState({
           modal: true,
-          message: "El archivo debe ser formato .jpg ,jpeg o .png",
+          message: "El archivo debe ser formato .jpg o .png",
         });
       }
     } catch (error) {
@@ -190,8 +190,7 @@ class BusinessProfile extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/uploadLogoBusiness";
+    let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/business/uploadLogoBusiness`;
 
     const rspApi = axios
       .post(linkEditApi, data, {
@@ -237,8 +236,7 @@ class BusinessProfile extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkEditApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/business/uploadBannerBusiness?file";
+    let linkEditApi = `${process.env.REACT_APP_PATH_SERVICE}/business/uploadBannerBusiness?file`;
 
     const rspApi = axios
       .post(linkEditApi, data, {
@@ -290,7 +288,10 @@ class BusinessProfile extends Component {
   };
   render() {
     return (
-      <div className="page-container" style={{ padding: "0", width: "100%" }}>
+      <div
+        className="page-container"
+        style={{ padding: "0", width: "100%", margin: "20px auto" }}
+      >
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -318,32 +319,32 @@ class BusinessProfile extends Component {
             </div>
           </Fade>
         </Modal>
-        <Breadcrumbs
-          separator={<NavigateNext fontSize="medium" />}
-          aria-label="breadcrumb"
-          className="font"
-          style={{ margin: "30px" }}
-        >
-          <Link href="/" color="textPrimary">
-            Inicio
-          </Link>
-          <Link
-            color="textPrimary"
-            href="/business/profile"
-            // onClick={handleClick}
-          >
-            Mi Perfil
-          </Link>
-          <Link
-            color="textSecondary"
-            href="/business/profile"
-            // onClick={handleClick}
-          >
-            Datos de negocio
-          </Link>
-        </Breadcrumbs>
         <div className="profile-container">
           <div className="form-profile">
+            <Breadcrumbs
+              separator={<NavigateNext fontSize="medium" />}
+              aria-label="breadcrumb"
+              className="font"
+              style={{ margin: "0" }}
+            >
+              <Link href="/" color="textPrimary">
+                Inicio
+              </Link>
+              <Link
+                color="textPrimary"
+                href="/business/profile"
+                // onClick={handleClick}
+              >
+                Mi Perfil
+              </Link>
+              <Link
+                color="textSecondary"
+                href="/business/profile"
+                // onClick={handleClick}
+              >
+                Datos de negocio
+              </Link>
+            </Breadcrumbs>
             <h1>Datos de negocio</h1>
           </div>
           <hr />
@@ -365,12 +366,7 @@ class BusinessProfile extends Component {
                   onChange={this.handleAttachBanner}
                 />
                 {this.state.banner !== undefined ? (
-                  <img
-                    src={this.state.banner}
-                    alt="banner"
-                    title="banner"
-                    style={{ height: "300px" }}
-                  />
+                  <img src={this.state.banner} alt="banner" title="banner" />
                 ) : null}
 
                 <div className="banner-background-hover" />
@@ -379,14 +375,17 @@ class BusinessProfile extends Component {
                     fontSize="large"
                     style={{ fontSize: "40px" }}
                   />
-                  <p>Subir imagen de banner</p>
+                  {this.state.banner !== undefined ? (
+                    <p>Editar imagen de banner</p>
+                  ) : (
+                    <p>Subir imagen de banner</p>
+                  )}
                 </div>
               </div>
-              <p>
+              <p className="picture-format">
                 *Tamaño recomendado para las imágenes: Logotipo: 300 x 250px.
-                Banner 1024 x 580px.
-                <br />
-                *Formato en JPG o PNG.
+                Banner 1024 x 580px. *Formato en JPG o PNG. *Debe pesar menos de
+                1mb
               </p>
               <div
                 className="logo-container-profile"
@@ -408,9 +407,18 @@ class BusinessProfile extends Component {
                 <div className="logo-background-hover" />
                 <div className="logo-hover">
                   <PhotoCamera fontSize="large" style={{ fontSize: "40px" }} />
-                  <p>Subir logo</p>
+                  {this.state.banner !== undefined ? (
+                    <p>Editar logo</p>
+                  ) : (
+                    <p>Subir logo</p>
+                  )}
                 </div>
               </div>
+              <p className="picture-format-mobile">
+                *Tamaño recomendado para las imágenes: Logotipo: 300 x 250px.
+                Banner 1024 x 580px. *Formato en JPG o PNG. *Debe pesar menos de
+                1mb
+              </p>
             </div>
             <AppBar
               position="static"
@@ -432,13 +440,21 @@ class BusinessProfile extends Component {
                   label="Datos de la empresa"
                   href="/data"
                   className="font-p"
-                  style={{ textTransform: "none", fontWeight: "bold" }}
+                  style={{
+                    textTransform: "none",
+                    fontWeight: "bold",
+                    fontSize: "1.4rem",
+                  }}
                 />
                 <LinkTab
                   label="Datos bancarios"
                   href="/bank"
                   className="font-p"
-                  style={{ textTransform: "none", fontWeight: "bold" }}
+                  style={{
+                    textTransform: "none",
+                    fontWeight: "bold",
+                    fontSize: "1.4rem",
+                  }}
                 />
               </Tabs>
             </AppBar>

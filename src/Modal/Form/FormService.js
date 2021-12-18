@@ -67,8 +67,7 @@ export class FormService extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/category/getCategories";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/category/getCategories`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -93,8 +92,7 @@ export class FormService extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getHoursDurationService";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/service/getHoursDurationService`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -118,8 +116,7 @@ export class FormService extends Component {
       Authorization: "",
     };
 
-    let linkDocumentsApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/getHoursAttentionService";
+    let linkDocumentsApi = `${process.env.REACT_APP_PATH_SERVICE}/service/getHoursAttentionService`;
 
     const rspApi = axios
       .get(linkDocumentsApi, {
@@ -145,8 +142,7 @@ export class FormService extends Component {
       Accept: "application/json",
       Authorization: `Bearer ${tk}`,
     };
-    let linkRegisterApi =
-      "http://separalo-core.us-east-2.elasticbeanstalk.com/api/separalo-core/service/registerService";
+    let linkRegisterApi = `${process.env.REACT_APP_PATH_SERVICE}/service/registerService`;
 
     const rspApi = axios
       .post(linkRegisterApi, formModel, {

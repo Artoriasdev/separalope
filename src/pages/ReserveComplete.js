@@ -41,10 +41,10 @@ export const ReserveComplete = () => {
           <h1>¡Gracias por reservar tu cita!</h1>
           <p
             style={{
-              width: "62%",
+              width: "100%",
               margin: "auto",
               paddingBottom: "1rem",
-              textAlign: "justify",
+              textAlign: "center",
             }}
           >
             Con el siguiente código{" "}
@@ -121,6 +121,10 @@ export const ReserveComplete = () => {
             >
               Información de tu cita:
             </p>
+            <div className="reserve-complete-address">
+              <p>Lugar : {data[0].tradeName}</p>
+              <p>Dirección : {data[0].addressBusiness}</p>
+            </div>
             <div
               style={{
                 display: "flex",

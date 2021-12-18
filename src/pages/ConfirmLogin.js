@@ -1,5 +1,6 @@
 import { Button } from "@material-ui/core";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class ConfirmLogin extends Component {
   componentDidMount() {
@@ -35,9 +36,9 @@ class ConfirmLogin extends Component {
             Regístrate
           </Button>
           <div style={{ marginTop: "10px" }}>
-            <a href={`/reserve/invited/${this.props.match.params.id}`}>
+            <Link to={`/reserve/invited/${this.props.match.params.id}`}>
               Continuar como invitado
-            </a>
+            </Link>
           </div>
         </div>
       </div>

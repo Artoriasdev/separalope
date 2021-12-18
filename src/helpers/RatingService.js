@@ -24,7 +24,7 @@ function RatingIcon(props) {
   const { index, rating } = props;
   const fill = React.useMemo(() => {
     if (rating >= index) {
-      return "yellow";
+      return "#FEDD00";
     }
     return "gray";
   }, [rating, index]);
@@ -37,10 +37,10 @@ function RatingIcon(props) {
 
 // They don't necessarily need to take props
 // This one also has an explicit return
-export const RatingService = ({ rate }) => {
+export const RatingService = ({ rate, style }) => {
   const [rating, setRating] = React.useState(rate);
   return (
-    <div className="flex">
+    <div className="flex" style={style}>
       {[1, 2, 3, 4, 5].map((index) => {
         return <RatingIcon index={index} rating={rating} />;
       })}

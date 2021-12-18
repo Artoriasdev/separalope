@@ -77,6 +77,7 @@ class ReserveAppointmentInvited extends Component {
       })
       .then((response) => {
         const { data } = response.data;
+        // console.log(data);
 
         this.setState({
           serviceData: data,
@@ -199,6 +200,7 @@ class ReserveAppointmentInvited extends Component {
       .then((response) => {
         const { data } = response;
         localStorage.setItem("data", JSON.stringify(data));
+
         this.setState({ isLoading: true });
 
         if (data.response === "true") {

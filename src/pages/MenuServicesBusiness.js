@@ -15,6 +15,7 @@ class MenuServicesBusiness extends Component {
       image: "",
       modal: false,
       message: "",
+      logo: "",
     };
   }
 
@@ -53,6 +54,7 @@ class MenuServicesBusiness extends Component {
           typeCategorys: data,
           business: data[0].tradenameBusiness,
           image: data[0].imageBig,
+          logo: data[0].logoBusiness,
         });
 
         return response;
@@ -114,12 +116,35 @@ class MenuServicesBusiness extends Component {
             </div>
           </Fade>
         </Modal>
-        <Banner negocio={this.state.business} imagen={this.state.image} />
+        <Banner
+          negocio={this.state.business}
+          imagen={JSON.stringify(this.state.image)}
+          logo={this.state.logo}
+        />
 
         <div
           className="page-container"
           style={{ padding: "50px 0 0 0 ", width: "90%", margin: " auto" }}
         >
+          <div style={{ width: "100%", marginBottom: "30px" }}>
+            <div className="service-description">
+              <h1 style={{ marginRight: "30px", color: "black" }}>
+                {this.state.typeCategorys[0] &&
+                  this.state.typeCategorys[0].tradenameBusiness}
+              </h1>
+              <RatingService rate={5} style={{ marginTop: "5px" }} />
+              <h3>
+                {this.state.typeCategorys[0] &&
+                  this.state.typeCategorys[0].businessAddress}
+              </h3>
+            </div>
+            <div>
+              <p style={{ opacity: "0.8", margin: "0", padding: "0" }}>
+                {this.state.typeCategorys[0] &&
+                  this.state.typeCategorys[0].businessDescription}
+              </p>
+            </div>
+          </div>
           <div className="flip-container">
             {this.state.typeCategorys.map(
               ({ id, title, description, currencySymbol, price, duration }) => (
@@ -138,7 +163,7 @@ class MenuServicesBusiness extends Component {
                       }}
                     >
                       <h3>{title}</h3>
-                      <RatingService rate={5} />
+                      <RatingService rate={5} style={{ marginTop: "5px" }} />
                       <span>
                         <br></br>
                       </span>

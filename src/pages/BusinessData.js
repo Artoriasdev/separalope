@@ -107,15 +107,18 @@ class BusinessData extends Component {
                 this.state.typeData[0].province
               );
             }
-
-            Formik.setFieldValue(
-              "tarjeta",
-              this.state.typeData[0].cardDescription
-            );
-            Formik.setFieldValue(
-              "descripcion",
-              this.state.typeData[0].businessDescription
-            );
+            if (this.state.typeData[0].cardDescription !== undefined) {
+              Formik.setFieldValue(
+                "tarjeta",
+                this.state.typeData[0].cardDescription
+              );
+            }
+            if (this.state.typeData[0].businessDescription !== undefined) {
+              Formik.setFieldValue(
+                "descripcion",
+                this.state.typeData[0].businessDescription
+              );
+            }
             Formik.setFieldValue(
               "nombres",
               this.state.typeData[0].legalRepresentativeName
@@ -124,10 +127,15 @@ class BusinessData extends Component {
               "apellidos",
               this.state.typeData[0].legalRepresentativeLastName
             );
-            Formik.setFieldValue(
-              "documentos",
-              this.state.typeData[0].legalRepresentativeDocumentType
-            );
+            if (
+              this.state.typeData[0].legalRepresentativeDocumentType !==
+              undefined
+            ) {
+              Formik.setFieldValue(
+                "documentos",
+                this.state.typeData[0].legalRepresentativeDocumentType
+              );
+            }
             Formik.setFieldValue(
               "numDocumento",
               this.state.typeData[0].legalRepresentativeDocumentNumber
@@ -399,10 +407,6 @@ class BusinessData extends Component {
     }
   };
 
-  handleBack = () => {
-    this.props.history.push("/business/category");
-  };
-
   render() {
     return (
       <>
@@ -452,13 +456,30 @@ class BusinessData extends Component {
             numDocumento: "",
 
             maxLengthValue: 8,
-            minLengthValue: 8,
+            minLengthValue: 5,
           }}
           validate={(values) => {
-            const { numeroDocumento, correo, numDocumento, minLengthValue } =
-              values;
+            const {
+              numeroDocumento,
+              correo,
+              numDocumento,
+              minLengthValue,
+              tarjeta,
+              descripcion,
+            } = values;
 
             let errors = {};
+
+            if (tarjeta.length === 0) {
+              errors.tarjeta = "Este campo es requerido";
+            } else if (tarjeta.trim().length <= 1) {
+              errors.tarjeta = "Este campo es requerido";
+            }
+            if (descripcion.length === 0) {
+              errors.descripcion = "Este campo es requerido";
+            } else if (descripcion.trim().length <= 1) {
+              errors.descripcion = "Este campo es requerido";
+            }
 
             if (numeroDocumento.length < 11) {
               errors.numeroDocumento =
@@ -543,8 +564,7 @@ class BusinessData extends Component {
                     error={errors.nombreCompañia && touched.nombreCompañia}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    disabled={!this.state.edit}
-                    required
+                    disabled={true}
                     style={{ margin: "5px 0" }}
                     // inputProps={{
                     //   maxLength: 9,
@@ -583,8 +603,7 @@ class BusinessData extends Component {
                     error={errors.numeroDocumento && touched.numeroDocumento}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    disabled={!this.state.edit}
-                    required
+                    disabled={true}
                     style={{ margin: "5px 0" }}
                     inputProps={{
                       maxLength: 11,
@@ -693,13 +712,6 @@ class BusinessData extends Component {
                   </Select>
                 </div>
                 <div className="txt-right"></div>
-                {/* <div className="logos">
-                  <div className="content">
-                    <div className="txt-mid-content"></div>
-                    <div className="txt-right-content"></div>
-                  </div>
-                  
-                </div> */}
               </div>
               <div className="files">
                 <div className="txt-left-nomid">
@@ -712,6 +724,7 @@ class BusinessData extends Component {
                     multiline
                     required
                     minRows={4}
+                    maxRows={4}
                     fullWidth
                     value={values.tarjeta}
                     error={errors.tarjeta && touched.tarjeta}
@@ -723,6 +736,11 @@ class BusinessData extends Component {
                     }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
                   />
+                  <ErrorMessage
+                    className="error"
+                    name="tarjeta"
+                    component="div"
+                  />
                 </div>
                 <div className="txt-right-nomid">
                   <TextField
@@ -733,6 +751,7 @@ class BusinessData extends Component {
                     placeholder="Max. 500 caracteres"
                     multiline
                     required
+                    maxRows={4}
                     minRows={4}
                     fullWidth
                     value={values.descripcion}
@@ -744,6 +763,11 @@ class BusinessData extends Component {
                       maxLength: 500,
                     }}
                     onInput={handleRegexDisable("")} // TODO haz el manejo correcto con NUMBER_REGEXP
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="descripcion"
+                    component="div"
                   />
                 </div>
               </div>
@@ -829,7 +853,6 @@ class BusinessData extends Component {
                     onChange={this.handleDocumentChange}
                     inputProps={{
                       maxLength: values.maxLengthValue,
-                      minLength: values.minLengthValue,
                     }}
                     autoComplete="off"
                     onInput={handleRegexDisable(values.ingreso)} // TODO haz el manejo correcto con NUMBER_REGEXP
@@ -841,7 +864,9 @@ class BusinessData extends Component {
                   />
                 </div>
               </div>
-              {/* <div className="files"></div> */}
+              <div style={{ float: "left" }}>
+                <p style={{ color: "#23232366" }}>*Datos obligatorios</p>
+              </div>
               {this.state.edit ? (
                 <div className="files" style={{ float: "right" }}>
                   <Button
@@ -860,18 +885,6 @@ class BusinessData extends Component {
             </form>
           )}
         </Formik>
-        <div className="files" style={{ float: "left" }}>
-          <Button
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className="btn-primary"
-            style={{ marginTop: "10px" }}
-            onClick={this.handleBack}
-          >
-            Regresar
-          </Button>
-        </div>
       </>
     );
   }

@@ -1,8 +1,4 @@
 import React, { Component } from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 import {
   Backdrop,
@@ -17,7 +13,12 @@ import {
 import Banner from "../components/BannerCategory";
 import { Search } from "@material-ui/icons";
 import "animate.css";
-
+import { Flippy, FrontSide, BackSide } from "react-flippy";
+import { RatingService } from "../helpers/RatingService";
+// import Card from "@material-ui/core/Card";
+// import CardContent from "@material-ui/core/CardContent";
+// import CardMedia from "@material-ui/core/CardMedia";
+// import Typography from "@material-ui/core/Typography";
 class MenuBusinessCategory extends Component {
   constructor(props) {
     super(props);
@@ -268,36 +269,106 @@ class MenuBusinessCategory extends Component {
 
           <div className="flip-container">
             {this.state.typeBusiness &&
-              this.state.typeBusiness.map(({ id, tradename, logo }) => (
-                <Card className="card-container" key={id}>
-                  <CardMedia
-                    image={logo}
-                    title={tradename}
-                    className="card-media"
-                  />
-
-                  <CardContent className="card-content">
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {tradename}
-                    </Typography>
-                  </CardContent>
-
-                  <Button
-                    size="large"
-                    color="primary"
-                    variant="contained"
-                    className="btn_card"
-                    style={{
-                      margin: "0.5px 0",
-                      textTransform: "none",
-                    }}
-                    fullWidth
-                    onClick={() => this.handleRedirect(id)}
+              this.state.typeBusiness.map(
+                ({ id, tradename, logo, cardDescription }) => (
+                  <Flippy
+                    flipOnHover={true} // default false
+                    flipOnClick={false} // default false
+                    flipDirection="horizontal" // horizontal or vertical
+                    className="flip-card"
+                    key={id}
                   >
-                    Ver servicios
-                  </Button>
-                </Card>
-              ))}
+                    <FrontSide className="flip-card-background">
+                      <div
+                        className="flip-card-service"
+                        style={{
+                          height: "92%",
+                        }}
+                      >
+                        <img
+                          src={logo}
+                          alt="logo"
+                          style={{ height: "240px", width: "300px" }}
+                        />
+                        <h2>{tradename}</h2>
+                      </div>
+                      <Button
+                        size="large"
+                        color="primary"
+                        variant="contained"
+                        className="btn_card"
+                        style={{
+                          margin: "0.5px 0",
+                          textTransform: "none",
+                          maxWidth: "349px",
+                        }}
+                        fullWidth
+                        onClick={() => this.handleRedirect(id)}
+                      >
+                        Ver servicios
+                      </Button>
+                    </FrontSide>
+                    <BackSide className="flip-card-background">
+                      <div
+                        className="flip-card-service"
+                        style={{
+                          height: "92%",
+                        }}
+                      >
+                        <h2>{tradename}</h2>
+                        <RatingService rate={5} />
+                        <p style={{ textAlign: "justify" }}>
+                          {cardDescription}
+                        </p>
+                      </div>
+                      <Button
+                        size="large"
+                        color="primary"
+                        variant="contained"
+                        className="btn_card"
+                        style={{
+                          margin: "0.5px 0",
+                          textTransform: "none",
+                          maxWidth: "349px",
+                        }}
+                        fullWidth
+                        onClick={() => this.handleRedirect(id)}
+                      >
+                        Ver servicios
+                      </Button>
+                    </BackSide>
+                  </Flippy>
+                )
+              )}
+            {/* <Card className="card-container" key={id}>
+              <CardMedia
+                image={logo}
+                title={tradename}
+                className="card-media"
+              />
+
+              <CardContent className="card-content">
+                <Typography gutterBottom variant="h5" component="h2">
+                  {tradename}
+                </Typography>
+              </CardContent>
+
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                className="btn_card"
+                style={{
+                  margin: "0.5px 0",
+                  textTransform: "none",
+                }}
+                fullWidth
+                onClick={() => this.handleRedirect(id)}
+              >
+                Ver servicios
+              </Button>
+            </Card>
+            ))} */}
           </div>
         </div>
       </>

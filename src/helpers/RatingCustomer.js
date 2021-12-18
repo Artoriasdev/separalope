@@ -31,9 +31,9 @@ function RatingIcon(props) {
   } = props;
   const fill = React.useMemo(() => {
     if (hoverRating >= index) {
-      return "yellow";
+      return "#FEDD00";
     } else if (!hoverRating && rating >= index) {
-      return "yellow";
+      return "#FEDD00";
     }
     return "none";
   }, [rating, hoverRating, index]);
