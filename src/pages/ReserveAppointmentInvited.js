@@ -208,7 +208,7 @@ class ReserveAppointmentInvited extends Component {
             this.setState({
               isLoading: false,
               modal: true,
-              message: "¡Registro grabado satisfactoriamente!",
+              message: "¡Su reserva ha sido registrada de manera exitosa!",
               response: true,
             });
           }, 500);
