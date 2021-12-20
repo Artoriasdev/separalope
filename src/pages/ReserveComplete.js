@@ -84,7 +84,7 @@ export const ReserveComplete = () => {
                 </TableRow>
                 <TableRow>
                   <TableCell className="font">
-                    Código interbancario (CCI): 002 194 105 36 48 37 026 98
+                    Código interbancario (CCI): 00219410536483702698
                   </TableCell>
                 </TableRow>
               </TableBody>
