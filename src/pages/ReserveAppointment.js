@@ -311,7 +311,7 @@ class ReserveAppointment extends Component {
           setTimeout(() => {
             this.setState({
               modal: true,
-              message: "¡Registro grabado satisfactoriamente!",
+              message: "¡Su reserva ha sido registrada de manera exitosa!",
               response: true,
               isLoading: false,
             });
